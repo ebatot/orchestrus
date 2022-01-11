@@ -1,0 +1,25 @@
+
+
+Dependency Solving Is Still Hard, but We Are Getting Better at It
+https://ieeexplore.ieee.org/document/9054837
+* No access *
+
+Saini 2021
+Automated Traceability for Domain Modelling Decisions Empowered by Artificial Intelligence
+https://ieeexplore.ieee.org/document/9604719
+
+Saini 2022
+Automated, interactive, and traceable domain modelling empowered by artificial intelligence
+https://link.springer.com/article/10.1007/s10270-021-00942-6
+
+Saini 2020
+Towards Queryable and Traceable Domain Models
+https://ieeexplore.ieee.org/abstract/document/9218176
+
+Maro 2021
+TracIMo: a traceability introduction methodology and its evaluation in an Agile development team
+https://link.springer.com/article/10.1007/s00766-021-00361-5
+
+Zaheri 2021 (Famelis, Syrinai)
+Towards Checking Consistency-Breaking Updates between Models and Generated Artifacts
+
