@@ -20,6 +20,26 @@ Maro 2021
 TracIMo: a traceability introduction methodology and its evaluation in an Agile development team
 https://link.springer.com/article/10.1007/s00766-021-00361-5
 
+
 Zaheri 2021 (Famelis, Syrinai)
 Towards Checking Consistency-Breaking Updates between Models and Generated Artifacts
+https://ieeexplore.ieee.org/document/9643802
 
+Steghofer 2021
+Design Decisions in the Construction of Traceability Information Models for Safe Automotive Systems
+https://ieeexplore.ieee.org/document/9604669
+
+Holtmann 2020
+Cutting through the Jungle: Disambiguating Model-based Traceability Terminology
+https://ieeexplore.ieee.org/document/9218192
+
+
+
+
+Ducasse 2006
+Using Smalltalk as a Reflective Executable Meta-Language
+https://link.springer.com/chapter/10.1007%2F11880240_42
+
+Tudor 2020 - Blog
+One rendering tree - A peek behind the graphical stack of Glamorous Toolkit
+https://medium.com/feenk/one-rendering-tree-918eae49bcff

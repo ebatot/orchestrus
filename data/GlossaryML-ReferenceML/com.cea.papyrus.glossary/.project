@@ -3,6 +3,7 @@
 	<name>com.cea.papyrus.glossary</name>
 	<comment></comment>
 	<projects>
+		<project>com.cea.papyrus.referencemanagement</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
