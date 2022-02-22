@@ -3,21 +3,24 @@ package edu.uoc.som.tracemodel.typing;
 import java.util.HashSet;
 import java.util.Random;
 
-public class ArtefactType {
+import edu.uoc.som.tracemodel.TracingElement;
+import edu.uoc.som.tracemodel.Utils;
+
+public class ArtefactType extends TracingElement {
 	String name;
 	
 	public ArtefactType(String name) {
-		this.name = name;
-		this.typeUID = new Random().nextInt();
-		while(typesIds.contains(typeUID))
-			this.typeUID = new Random().nextInt();
-		typesIds.add(this.typeUID);
+		super(name);
 	}
-	
-	int typeUID;
-	public int getTypeUID() {
-		return typeUID;
+
+	public String getJSon() {
+		String res = "{";
+		res += "\"id\": \""+getID()+"\",";
+		res += "\"name\": \""+getName()+"\"";
+//		res += "\"sources\": "+Utils.getElementsIDsAsJsonCollection(sources)+",";
+//		res += "\"targets\": "+Utils.getElementsIDsAsJsonCollection(targets)+",";
+//		res += "\"type\": \""+getTypeUID()+"\"";
+		return res +"}";
 	}
-	
-	static HashSet<Integer> typesIds = new HashSet<>();
+
 }

@@ -22,8 +22,8 @@ public abstract class TypedLink extends TracingElement {
 		this.type = type;
 	}
 	
-	public int getTypeUID() {
-		return getType().getTypeUID();
+	public String getTypeUID() {
+		return getType().getID();
 	}
 	
 }

@@ -11,10 +11,14 @@ public class TestingTracemodel {
 
 	public static void main(String[] args) {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
+		System.out.println("    --                            --");
 		System.out.println("    -- -- ---- Orchestrus ---- -- --");
+		System.out.println("    --                            --");
 		System.out.println("    --------------------------------\n");
 		
 		testClosure();
+		
+		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 	
 	public static void testClosure() {
@@ -104,6 +108,8 @@ public class TestingTracemodel {
 		t.addTraceLink(l3);
 		System.out.println("Closure of l1: (" +  l1.getClosure().size() + "/3) " + l1.getClosure());
 		System.out.println("Closure of t: (" +  t.getAllTraceLinks().size() + "/8) " + t.getAllTraceLinks());
+		
+		System.out.println(t.printJSon());
 	}
 	
 	public void testTrace_1() {

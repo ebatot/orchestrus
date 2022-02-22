@@ -18,8 +18,8 @@ public abstract class TypedArtefact extends TracingElement {
 		this.type = type;
 	}
 	
-	public int getTypeUID() {
-		return getType().getTypeUID();
+	public String getTypeUID() {
+		return getType().getID();
 	}
 
 }

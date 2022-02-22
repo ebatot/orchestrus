@@ -128,4 +128,14 @@ public class TraceLink extends TypedLink {
 		return res;
 	}
 	
+	public String getJSon() {
+		String res = "{";
+		res += "\"id\": \""+getID()+"\",";
+		res += "\"name\": \""+getName()+"\",";
+		res += "\"sources\": "+Utils.getElementsIDsAsJsonCollection(sources)+",";
+		res += "\"targets\": "+Utils.getElementsIDsAsJsonCollection(targets)+",";
+		res += "\"type\": \""+getTypeUID()+"\"";
+		return res +"}";
+	}
 }
+

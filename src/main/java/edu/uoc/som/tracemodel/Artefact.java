@@ -19,4 +19,17 @@ public class Artefact extends TypedArtefact {
 		fragments.put(label, af);
 		af.setArtefact(this);
 	}
+	
+	public HashMap<String, ArtefactFragment> getFragments() {
+		return fragments;
+	}
+
+	public String getJSon() {
+		String res = "{";
+		res += "\"id\": \""+getID()+"\",";
+		res += "\"name\": \""+getName()+"\",";
+		res += "\"fragments\": "+Utils.getElementsIDsAsJsonCollection(fragments.values())+",";
+		res += "\"type\": \""+getTypeUID()+"\"";
+		return res +"}";
+	}
 }

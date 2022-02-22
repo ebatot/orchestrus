@@ -69,4 +69,13 @@ public class ArtefactFragment extends TracingElement {
 	public String getDefinition() {
 		return definition;
 	}
+
+	public String getJSon() {
+		String res = "{";
+		res += "\"id\": \""+getID()+"\",";
+		res += "\"name\": \""+getName()+"\",";
+		res += "\"artefact\": \""+getArtefact().getID()+"\",";
+		res += "\"definition\": "+definition+"";
+		return res +"}";
+	}
 }
