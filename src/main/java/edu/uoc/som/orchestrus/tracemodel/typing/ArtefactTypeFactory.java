@@ -18,4 +18,9 @@ public class ArtefactTypeFactory {
 		types.put(typeName, add);
 		return add;
 	}
+	
+	public ArtefactType getType(String typeName) {
+		return types.get(typeName);
+	}
+	
 }

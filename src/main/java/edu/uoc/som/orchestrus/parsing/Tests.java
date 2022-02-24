@@ -1,13 +1,32 @@
 package edu.uoc.som.orchestrus.parsing;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
@@ -21,7 +40,7 @@ public class Tests {
 
 	 
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParserConfigurationException {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
 		System.out.println("    --                            --");
 		System.out.println("    -- --      Orchestrus      -- --");
@@ -33,7 +52,7 @@ public class Tests {
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 	
-	public static void testDesignTypesExtraction() {
+	public static void testDesignTypesExtraction() throws ParserConfigurationException {
 		LOGGER.info("");
 
 		//Factories
@@ -45,42 +64,53 @@ public class Tests {
 		
 		
 		//Config
-		String mainName = "GlossaryML";
-		
-		ArtefactType xmiFile    = atFactory.addType("xmiFile");
-		ArtefactType xmlElt  = atFactory.addType("xmlElt");
-		ArtefactType label = atFactory.addType("label");
+		Config config = new Config();
 		
 		
-		/*
-		 * Artefacts  
-		 */
-		Artefact notationFile 	= new Artefact("notationFile", xmiFile);
-		Artefact umlFile		= new Artefact("umlFile", xmiFile);
-		Artefact diFile 		= new Artefact("diFile", xmiFile);
+		DocumentBuilderFactory factory =
+		DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		FileInputStream input;
+		try {
+			File umlProfile = new File(config.getDomainModelFiles().get("uml"));
+			LOGGER.info("UML Domain model file: "+umlProfile.getAbsolutePath());
+			input = new FileInputStream(umlProfile);
+
+			
+			input = new FileInputStream(new File(config.getDomainModelFiles().get("di")));
+			
+			Document doc = builder.parse(input);
+			
+			
+			System.out.println(doc.toString());
+			
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			
+			String expression = "/uml:Model";	       
+			System.out.println("Tests.testDesignTypesExtraction() +++");
+			try {
+				NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(  doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					   Node nNode = nodeList.item(i);
+					   System.out.println(nNode);
+					}
+			} catch (XPathExpressionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		HashMap<String, Artefact> xmlElts = new HashMap<>();
-		Artefact eltXmiType = new Artefact("xmiType", xmlElt);
-		
-		HashMap<String, Artefact> labels = new HashMap<>();
-		Artefact labelHref = new Artefact("labelHref", label);
-		
-		/*
-		 * Fragment simulation ( 1 fragment for each artefact)
-		 * TODO Name vs Definition vs Label. Attention !
-		 */
-//		ArtefactFragment[] afs = new ArtefactFragment[9];
-//		for (int i = 0; i < as.length; i++) {
-//			afs[i] = new ArtefactFragment(as[i]);
-//			afs[i].setName(as[i].getName()+"_frag");
-//			as[i].addFragment(as[i].getName()+"_frag", afs[i]);
-//		}
-//		
-//		
-//		DocumentBuilderFactory factory =
-//		DocumentBuilderFactory.newInstance();
-//		DocumentBuilder builder = factory.newDocumentBuilder();
-//		
 //		/*
 //		 * Link types from design to code and palette and EltTypeConfig + internal c2c: code to code.
 //		 */
