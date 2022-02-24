@@ -52,7 +52,7 @@ public class XMLParser {
                         String elementName = startElement.getName().getLocalPart();
                         
                         switch (elementName) {
-                        case ITEM:
+                        case type:
 //                            item = new Item();
 //                            // We read the attributes from this tag and add the date
 //                            // attribute to our object
@@ -85,7 +85,7 @@ public class XMLParser {
                     // If we reach the end of an item element, we add it to the list
                     if (event.isEndElement()) {
                         EndElement endElement = event.asEndElement();
-                        if (endElement.getName().getLocalPart().equals(ITEM)) {
+                        if (endElement.getName().getLocalPart().equals(type)) {
                             items.add(item);
                         }
                     }

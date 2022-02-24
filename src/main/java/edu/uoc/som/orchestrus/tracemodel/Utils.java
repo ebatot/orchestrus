@@ -15,7 +15,7 @@ public class Utils {
 		String res = "[";
 		for (TracingElement te : tes) 
 			res += "\""+te.getID()+"\"," ;
-		return res.substring(0,res.length()-1)+"]";
+		return (res.length()>1?res.substring(0,res.length()-1):res)+"]";
 	}
 
 }

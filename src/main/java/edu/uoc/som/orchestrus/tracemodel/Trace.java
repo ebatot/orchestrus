@@ -37,7 +37,7 @@ public class Trace extends TracingElement {
 		
 		String fragments = "\"fragments\": [" ;
 		for (Artefact a : getAllArtefacts()) {
-			for (ArtefactFragment af : a.getFragments().values()) {
+			for (Artefact af : a.getFragments().values()) {
 				fragments += af.getJSon()+",\n";
 			}
 		}

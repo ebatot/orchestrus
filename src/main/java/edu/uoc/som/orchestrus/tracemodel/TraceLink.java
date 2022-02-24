@@ -24,49 +24,49 @@ public class TraceLink extends TypedLink {
 		setType(type);
 	}
 	
-	ArrayList<ArtefactFragment> sources = new ArrayList<>();
-	ArrayList<ArtefactFragment> targets = new ArrayList<>();
+	ArrayList<Artefact> sources = new ArrayList<>();
+	ArrayList<Artefact> targets = new ArrayList<>();
 	
-	public ArrayList<ArtefactFragment> getSources() {
+	public ArrayList<Artefact> getSources() {
 		return sources;
 	}
 	
-	public ArrayList<ArtefactFragment> getTargets() {
+	public ArrayList<Artefact> getTargets() {
 		return targets;
 	}
 	
 	public Collection<Artefact> getSourceArtefacts() {
 		HashSet<Artefact> res = new HashSet<>(sources.size());
-		for (ArtefactFragment af : sources) 
-			res.add(af.getArtefact());
+		for (Artefact af : sources) 
+			res.add(af.getParent());
 		return res;
 	}
 	
 	public Collection<Artefact> getTargetArtefacts() {
 		HashSet<Artefact> res = new HashSet<>(targets.size());
-		for (ArtefactFragment af : targets) 
-			res.add(af.getArtefact());
+		for (Artefact af : targets) 
+			res.add(af.getParent());
 		return res;
 	}
 	
 	public Collection<TraceLink> getSuccessors() {
 		HashSet<TraceLink> res = new HashSet<>();
-		for (ArtefactFragment af : targets) 
+		for (Artefact af : targets) 
 			res.addAll(af.getSourceOf());
 		return res;
 	}
 	
 	public Collection<TraceLink> getPredecessors() {
 		HashSet<TraceLink> res = new HashSet<>();
-		for (ArtefactFragment af : sources) 
+		for (Artefact af : sources) 
 			res.addAll(af.getTargetOf());
 		return res;
 	}
 	
-	public void addSourceArtefact(ArtefactFragment af) {
+	public void addSourceArtefact(Artefact af) {
 		sources.add(af);
 	}
-	public void addTargetArtefact(ArtefactFragment af) {
+	public void addTargetArtefact(Artefact af) {
 		targets.add(af);
 	}
 	
@@ -79,13 +79,13 @@ public class TraceLink extends TypedLink {
 		return tls;
 	}
 	
-	public void setEnds(List<ArtefactFragment> sources, List<ArtefactFragment> targets) {
+	public void setEnds(List<Artefact> sources, List<Artefact> targets) {
 		this.sources = new ArrayList<>(sources.size());
 		this.targets = new ArrayList<>(targets.size());
 		addEnds(sources, targets);
 	}
 	
-	public void addEnds(List<ArtefactFragment> sources, List<ArtefactFragment> targets) {
+	public void addEnds(List<Artefact> sources, List<Artefact> targets) {
 		this.sources.addAll(sources);
 		this.targets.addAll(targets);
 	}
@@ -95,11 +95,11 @@ public class TraceLink extends TypedLink {
 	 * @param sources
 	 * @param targets
 	 */
-	public void setEnds(ArtefactFragment sources, ArtefactFragment targets) {
+	public void setEnds(Artefact sources, Artefact targets) {
 		
-		for (ArtefactFragment af : this.sources) 
+		for (Artefact af : this.sources) 
 			af.removeSourceOf(this);
-		for (ArtefactFragment af : this.targets) 
+		for (Artefact af : this.targets) 
 			af.removeTargetOf(this);
 		
 		this.sources = new ArrayList<>(1);
@@ -107,21 +107,21 @@ public class TraceLink extends TypedLink {
 		addEnds(sources, targets);
 	}
 	
-	public void addEnds(ArtefactFragment source, ArtefactFragment target) {
+	public void addEnds(Artefact source, Artefact target) {
 		this.sources.add(source);
 		source.addSourceOf(this);
 		this.targets.add(target);
 		target.addTargetOf(this);
 	}
 	
-	public boolean addSource(ArtefactFragment newSource) {
+	public boolean addSource(Artefact newSource) {
 		boolean res = this.sources.add(newSource);
 		if(res)
 			newSource.addSourceOf(this);
 		return res;
 	}
 	
-	public boolean addTarget(ArtefactFragment newTarget) {
+	public boolean addTarget(Artefact newTarget) {
 		boolean res = this.sources.add(newTarget);
 		if(res)
 			newTarget.addTargetOf(this);
