@@ -108,6 +108,10 @@ public class TestingTracemodel {
 		System.out.println("Closure of t: (" +  t.getAllTraceLinks().size() + "/8) " + t.getAllTraceLinks());
 		
 		System.out.println(t.printJSon());
+		
+		
+		//TODO load from json and assert elements count.
+		
 	}
 	
 	public void testTrace_1() {

@@ -2,16 +2,24 @@ package edu.uoc.som.orchestrus.parsing;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
+import edu.uoc.som.orchestrus.utils.BasicFormatter;
 
 public class Tests {
+	
+	public final static Logger LOGGER = Logger.getLogger(Tests.class.getName());
+
+	 
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
@@ -26,7 +34,7 @@ public class Tests {
 	}
 	
 	public static void testDesignTypesExtraction() {
-		System.out.println("TestingTracemodel.testDesignTypesExtraction()");
+		LOGGER.info("");
 
 		//Factories
 		ArtefactTypeFactory atFactory = ArtefactTypeFactory.getInstance();

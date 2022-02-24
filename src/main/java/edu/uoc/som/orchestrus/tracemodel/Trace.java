@@ -24,35 +24,30 @@ public class Trace extends TracingElement {
 		trace = trace.substring(0, trace.length()-1)+"]}";
 		
 		String links = "\"links\": [" ;
-		for (TraceLink tl : getAllTraceLinks()) {
+		for (TraceLink tl : getAllTraceLinks()) 
 			links += tl.getJSon()+",\n";
-		}
 		links = links.substring(0, links.length()-2)+ "]";
 		
+		// TODO check that ancestry is completly rebuilt - if necessary
 		String artefacts = "\"artefacts\": [" ;
-		for (Artefact a : getAllArtefacts()) {
+		for (Artefact a : getAllArtefacts()) 
 			artefacts += a.getJSon()+",\n";
-		}
 		artefacts = artefacts.substring(0, artefacts.length()-2)+ "]";
 		
 		String fragments = "\"fragments\": [" ;
-		for (Artefact a : getAllArtefacts()) {
-			for (Artefact af : a.getFragments().values()) {
+		for (Artefact a : getAllArtefacts()) 
+			for (Artefact af : a.getFragments().values()) 
 				fragments += af.getJSon()+",\n";
-			}
-		}
 		fragments = fragments.substring(0, fragments.length()-2)+ "]";
 		
 		String artefactTypes = "\"artefactTypes\": [" ;
-		for (ArtefactType at : getAllArtefactTypes()) {
+		for (ArtefactType at : getAllArtefactTypes()) 
 			artefactTypes += at.getJSon()+",\n";
-		}
 		artefactTypes = artefactTypes.substring(0, artefactTypes.length()-2)+ "]";
 		
 		String tracelinkTypes = "\"tracelinkTypes\": [" ;
-		for (LinkType lt : getAllTraceLinkTypes()) {
+		for (LinkType lt : getAllTraceLinkTypes()) 
 			tracelinkTypes += lt.getJSon()+",\n";
-		}
 		tracelinkTypes = tracelinkTypes.substring(0, tracelinkTypes.length()-2)+ "]";
 		
 		
