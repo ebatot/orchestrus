@@ -1,4 +1,4 @@
-package edu.uoc.som.tracemodel.typing;
+package edu.uoc.som.orchestrus.tracemodel.typing;
 
 import java.util.HashMap;
 

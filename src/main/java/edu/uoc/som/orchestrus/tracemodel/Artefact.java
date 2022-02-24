@@ -1,10 +1,10 @@
-package edu.uoc.som.tracemodel;
+package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.HashMap;
 
-import edu.uoc.som.tracemodel.typing.ArtefactType;
-import edu.uoc.som.tracemodel.typing.LinkType;
-import edu.uoc.som.tracemodel.typing.TypedArtefact;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
+import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
 public class Artefact extends TypedArtefact {
 	

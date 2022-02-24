@@ -1,4 +1,4 @@
-package edu.uoc.som.tracemodel;
+package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.HashSet;
 import java.util.Random;

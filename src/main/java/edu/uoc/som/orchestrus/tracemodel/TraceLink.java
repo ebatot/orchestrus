@@ -1,13 +1,13 @@
-package edu.uoc.som.tracemodel;
+package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import edu.uoc.som.tracemodel.typing.LinkType;
-import edu.uoc.som.tracemodel.typing.LinkTypeFactory;
-import edu.uoc.som.tracemodel.typing.TypedLink;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
+import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
 public class TraceLink extends TypedLink {
 	

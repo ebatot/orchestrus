@@ -1,6 +1,6 @@
-package edu.uoc.som.tracemodel.typing;
+package edu.uoc.som.orchestrus.tracemodel.typing;
 
-import edu.uoc.som.tracemodel.TracingElement;
+import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public abstract class TypedLink extends TracingElement {
 	

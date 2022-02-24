@@ -1,10 +1,10 @@
-package edu.uoc.som.tracemodel;
+package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.uoc.som.tracemodel.typing.ArtefactType;
-import edu.uoc.som.tracemodel.typing.LinkType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class Trace extends TracingElement {
 	ArrayList<TraceLink> traceLinks = new ArrayList<TraceLink>();
