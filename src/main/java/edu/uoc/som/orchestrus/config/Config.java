@@ -7,28 +7,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import edu.uoc.som.orchestrus.parsing.Tests;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
 public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
-	static String specificationModelsFolder 	= "specification-models";
-	static String umlProfilesFolder 				= "uml-profiles";
+	static String architectureFramework 	= "architecture-framework";
+	static String elementTypeConfiguration 	= "element-type-configurations";
 	static String paletteConfigurationsFolder 	= "palette-configurations";
-	static List<String> subFolders = Arrays.asList(
-			specificationModelsFolder, 
-			umlProfilesFolder, 
-			paletteConfigurationsFolder);
-
+	static String propertiesEditorConfiguration 	= "properties-editor-configurations";
+	static String specificationModelsFolder 	= "specification-models";
+	static String tabularEditorConfiguration 	= "tabular-editors-configurations";
+	static String umlProfilesFolder 				= "uml-profiles";
+	
+	
+	List<String> contentFolders = Arrays.asList(
+			architectureFramework, 
+			elementTypeConfiguration,
+			paletteConfigurationsFolder, 
+			propertiesEditorConfiguration, 
+			specificationModelsFolder,
+			tabularEditorConfiguration, 
+			umlProfilesFolder);
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";
 	static String DOMAIN_MODEL_SUFFIX = ".domainmodel";
 	static String LANGUAGE_REQ_SUFFIX = ".LanguageReqModel";
 	
 	
-	
+	static Config instance;
+	public static Config getInstance() {
+		if(instance == null)
+			instance = new Config();
+		return instance;
+	}
 	
 	ArtefactTypeFactory atFactory;
 	
@@ -42,33 +55,68 @@ public class Config {
 	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
 
 	
-	public Config() {
+	private Config() {
+
 		atFactory = ArtefactTypeFactory.getInstance();
+		
+		
+		
 		
 		values.put("projectRoot", projectRoot);
 		values.put("project", project);
 		values.put("projectDependencies", projectDependencies.toString());
 		values.put("projectName", projectName);
+
+		
+		LOGGER.info(""
+				+ projectName +"\n"
+				+ "  - project     : " + project + "\n"
+	  		  	+ "  - dependencies: "+ projectDependencies.toString());
 		
 		boolean check = checkFolderNames();
 		if(!check) {
 			LOGGER.severe("Some folders were not found. Please check configuration.\nExit with errors.");
 			System.exit(1);
 		} else {
-			LOGGER.info("Folders correct.");
+			LOGGER.fine("Folders correct.");
 		}
 		
 		initArtefactTypes();
 
+		/*
+		 * Artefacts typing
+		 */
 		artefacts.put("notationFile", new Artefact("notationFile", atFactory.getType("xmiFile")));
 		artefacts.put("umlFile", new Artefact("umlFile", atFactory.getType("xmiFile")));
 		artefacts.put("diFile", new Artefact("diFile", atFactory.getType("xmiFile")));
 		
+		/*
+		 * Fragments bags: elements (nodes), labels (leafs)
+		 */
 		HashMap<String, Artefact> xmlElts = new HashMap<>();
-		Artefact eltXmiType = new Artefact("xmiType", atFactory.getType("xmlElt"));
-		
 		HashMap<String, Artefact> labels = new HashMap<>();
+		
+		
+		/*
+		 * 
+		 * BELOW - MOVE - To ArtefactFactory and LinkFactory ?!
+		 * 
+		 */
+		
+		
+		// Fragments instanciation 
+		//  -> rebuild from XPath patterns
+		//  -> contextualizes with file/artefact location
+		Artefact eltXmiType = new Artefact("xmiType", atFactory.getType("xmlElt"));
 		Artefact labelHref = new Artefact("labelHref", atFactory.getType("label"));
+		
+		// Fragments connexion (Links instanciation)
+		//  - Which fragment connects -directly- with who, and -derively- with who
+		/*
+		 *   F1 - F2 - F3 
+		 *    -> F1 connects directly to F2
+		 *    -> F1 connects derively to F3 (derived attribute, transitive closure with sub fragments)
+		 */
 	}
 
 	private boolean checkFolderNames() {
@@ -83,8 +131,9 @@ public class Config {
 			res &= checkExistsAndDirectory(pd);
 		
 		//sub folders
-		for (String sf : subFolders) 
+		for (String sf : contentFolders) 
 			res &= checkExistsAndDirectory(getProjectFull() + File.separator + sf);
+		
 		
 		return res;
 	}
@@ -108,6 +157,19 @@ public class Config {
 	public String getValue(String key) {
 		return values.get(key);
 	}
+	
+	public List<String> getContentFoldersName() {
+		return contentFolders;
+	}
+	
+	public List<String> getContentFoldersFull() {
+		ArrayList<String> res = new ArrayList<>(getContentFoldersName().size());
+		for (String s : getContentFoldersName()) {
+			res.add(getProjectFull() + File.separator + s);
+		}
+		return res;
+	}
+	
 	
 	public HashMap<String, Artefact> getArtefacts(){
 		return artefacts;
@@ -133,25 +195,46 @@ public class Config {
 	public List<String> getProjectDependencies() {
 		return projectDependencies;
 	}
-	
+
 	public List<String> getProjectDependenciesFull() {
 		List<String> res = new ArrayList<>(projectDependencies.size());
 		for (String pd : projectDependencies) {
-			res.add( projectRoot+ File.separator+ pd);
+			res.add(projectRoot + File.separator + pd);
 		}
 		return res;
 	}
-	
+
+	public String getPropertiesEditorConfiguration() {
+		return propertiesEditorConfiguration;
+	}
+	public String getPropertiesEditorConfigurationContext() {
+		return getProjectFull() + File.separator + propertiesEditorConfiguration + File.separator + getProjectName()+".ctx";
+	}
+
 	public String getSpecificationModelsFolderFull() {
-		return getProjectFull()+ File.separator+specificationModelsFolder;
+		return getProjectFull() + File.separator + specificationModelsFolder;
 	}
 	
+	public String getSpecificationModelsFolder() {
+		return specificationModelsFolder;
+	}
+
 	public String getUmlProfilesFolderFull() {
-		return getProjectFull()+ File.separator+umlProfilesFolder;
+		return getProjectFull() + File.separator + umlProfilesFolder;
 	}
-	
+
 	public String getPaletteConfigurationsFolderFull() {
-		return getProjectFull()+ File.separator+paletteConfigurationsFolder;
+		return getProjectFull() + File.separator + paletteConfigurationsFolder;
+	}
+
+	public HashMap<String, String> getUmlProfileFiles() {
+		HashMap<String, String> res = new HashMap<>(3);
+		res.put("uml", getUmlProfilesFolderFull() + File.separator + getProjectName() + ".profile.uml");
+		res.put("di", getUmlProfilesFolderFull() + File.separator + getProjectName() + ".profile.di");
+		res.put("notation", getUmlProfilesFolderFull() + File.separator + getProjectName() +  ".profile.notation");
+		res.put("ecore", getUmlProfilesFolderFull() + File.separator + getProjectName() + ".ecore");
+		res.put("genmodel", getUmlProfilesFolderFull() + File.separator + getProjectName().toLowerCase() + ".genmodel");
+		return res;
 	}
 	
 	public HashMap<String, String> getToolReqModelFiles(){

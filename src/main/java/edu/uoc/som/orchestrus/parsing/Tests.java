@@ -1,18 +1,12 @@
 package edu.uoc.som.orchestrus.parsing;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.LogManager;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,25 +15,26 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.uoc.som.orchestrus.config.Config;
-import edu.uoc.som.orchestrus.tracemodel.Artefact;
+import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
+import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
-import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
-import edu.uoc.som.orchestrus.utils.BasicFormatter;
 
 public class Tests {
 	
 	public final static Logger LOGGER = Logger.getLogger(Tests.class.getName());
 
-	 
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
 		System.out.println("    --                            --");
@@ -47,11 +42,52 @@ public class Tests {
 		System.out.println("    --       Parsing  tests       --");
 		System.out.println("    --------------------------------\n");
 		
-		testDesignTypesExtraction();
+//		testDesignTypesExtraction();
+		
+		//Config
+		StaticExplorer ppse = new StaticExplorer();
+		
+		String interArtDependencies_JSON = ppse.getInterArtefactDependencies_JSON();
+		Set<Reference> references = Reference.buildReferences(interArtDependencies_JSON);
+
+		FileUtils.write(new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSample.json"), interArtDependencies_JSON);
+		
+		/*
+		 * Check which files are left
+		 *  - Javas
+		 *  - Manifest & Pom
+		 *  - Class path & .properties
+		 *  - plugin.xml
+		 */
+		
+		// Create artefacts
+		//   - Each file, with location (relative to project root vs absolute, urls??)
+		
+		// - Find which one are internal and which ones are external
+		//   - Group destinations
+		//   - Check protocol (ppe, platform, pathmap, relative path, ...)
+		
+		// - Classify elements
+		//   - Check element types involved (widget, references, importedPackage, importedElement, ...)
+		//   - Cross with destination group (in/ext, SysML,UML,ECore, dependent library, ...)
+		
+		// - Refine artefacts 
+		//   - High level Design/Code/Profile/...
+		//   - Fragment for leaves (last XPath element) and group with "grouping"
+		
+		/* 
+		 * The 'grouping idea' is interesting. 
+		 * Like drawing a vertical map of the contingency of the artefacts
+		 */
+		
+		// - Creat links
+		//   - Explicit: Typed from source and target types (Engineering)
+		//   - Implicit: Derived (and typed) from group provenance
+		
 		
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
-	
+
 	public static void testDesignTypesExtraction() throws ParserConfigurationException {
 		LOGGER.info("");
 
@@ -64,37 +100,49 @@ public class Tests {
 		
 		
 		//Config
-		Config config = new Config();
+		Config config = Config.getInstance();
 		
 		
-		DocumentBuilderFactory factory =
-		DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
+		factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-		FileInputStream input;
+
 		try {
 			File umlProfile = new File(config.getDomainModelFiles().get("uml"));
 			LOGGER.info("UML Domain model file: "+umlProfile.getAbsolutePath());
-			input = new FileInputStream(umlProfile);
+			Document doc = builder.parse(umlProfile);
 
 			
-			input = new FileInputStream(new File(config.getDomainModelFiles().get("di")));
+			System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+			NodeList nodeList = doc.getElementsByTagName("importedPackage");
+			for (int temp = 0; temp < nodeList.getLength(); temp++) {
+			    org.w3c.dom.Node node = nodeList.item(temp);
+			    System.out.println("\nCurrent element: " + node.getNodeName());
+			    if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+			        Element element = (Element) node;
+			        System.out.println("xmi:type: " + element.getAttribute("xmi:type"));
+			        System.out.println("href: " + element.getAttribute("href"));
+			    }
+			}
 			
-			Document doc = builder.parse(input);
+
 			
-			
-			System.out.println(doc.toString());
 			
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			
-			String expression = "/uml:Model";	       
-			System.out.println("Tests.testDesignTypesExtraction() +++");
+			String expression = "//*[@href]";
+			
+			System.out.println("\n\nTests.testDesignTypesExtraction() ...");
 			try {
-				NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(  doc, XPathConstants.NODESET);
-				for (int i = 0; i < nodeList.getLength(); i++) {
-					   Node nNode = nodeList.item(i);
-					   System.out.println(nNode);
-					}
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(  doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList2.getLength(); i++) {
+					   Node nNode = nodeList2.item(i);
+					   System.out.println(nNode.getAttributes().getNamedItem("href"));
+					   System.out.println(nNode.getParentNode().getNodeName()+"->"+nNode.getNodeName());
+					   ;
+					   System.out.println(DomUtil.getAbsolutePath((Element)nNode));
+				}
 			} catch (XPathExpressionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
