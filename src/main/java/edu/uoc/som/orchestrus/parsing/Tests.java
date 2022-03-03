@@ -29,9 +29,8 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
 
 public class Tests {
-	
-	public final static Logger LOGGER = Logger.getLogger(Tests.class.getName());
 
+	public final static Logger LOGGER = Logger.getLogger(Tests.class.getName());
 
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
@@ -40,32 +39,36 @@ public class Tests {
 		System.out.println("    -- --      Orchestrus      -- --");
 		System.out.println("    --       Parsing  tests       --");
 		System.out.println("    --------------------------------\n");
-		
+
 		Config config = Config.getInstance();
 
 		StaticExplorer ppse = new StaticExplorer();
-		
+
 		String interArtDependencies_JSON = ppse.getInterArtefactDependencies_JSON();
 //		Set<Reference> references = ReferenceFactory.buildReferences(interArtDependencies_JSON);
-		
+
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
-		
+		aFactory.printArtefactsByType();
+
+		// TODO connect artefacts with links.
+
+		// TODO Decompose artefacts with XPath patterns.
+
+		// TODO Connect fragments.
+
 		System.out.println();
 		System.out.println();
-		
-		System.out.println("Artefacts built: "+aFactory.getArtefacts().size());
-		
-		
-		
-		
+
+		System.out.println("Artefacts built: " + aFactory.getArtefacts().size());
+
 //		ReferenceFactory.getReferences();
 //		for (Reference r : ReferenceFactory.getReferences()) {
 //			System.out.println(r);
 //		}
 //		
 //		System.out.println(ReferenceFactory.getReferences().size());
-		
+
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
 		try {
 			FileUtils.write(f, interArtDependencies_JSON);
@@ -73,104 +76,94 @@ public class Tests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		/*
-		 * Check which files are left
-		 *  - Javas
-		 *  - Manifest & Pom
-		 *  - Class path & .properties
-		 *  - plugin.xml
+		 * Check which files are left - Javas - Manifest & Pom - Class path &
+		 * .properties - plugin.xml
 		 */
-		
+
 		// Create artefacts
-		//   - Each file, with location (relative to project root vs absolute, urls??)
-		
+		// - Each file, with location (relative to project root vs absolute, urls??)
+
 		// - Find which one are internal and which ones are external
-		//   - Group destinations
-		//   - Check protocol (ppe, platform, pathmap, relative path, ...)
-		
+		// - Group destinations
+		// - Check protocol (ppe, platform, pathmap, relative path, ...)
+
 		// - Classify elements
-		//   - Check element types involved (widget, references, importedPackage, importedElement, ...)
-		//   - Cross with destination group (in/ext, SysML,UML,ECore, dependent library, ...)
-		
-		// - Refine artefacts 
-		//   - High level Design/Code/Profile/...
-		//   - Fragment for leaves (last XPath element) and group with "grouping"
-		
-		/* 
-		 * The 'grouping idea' is interesting. 
-		 * Like drawing a vertical map of the contingency of the artefacts
+		// - Check element types involved (widget, references, importedPackage,
+		// importedElement, ...)
+		// - Cross with destination group (in/ext, SysML,UML,ECore, dependent library,
+		// ...)
+
+		// - Refine artefacts
+		// - High level Design/Code/Profile/...
+		// - Fragment for leaves (last XPath element) and group with "grouping"
+
+		/*
+		 * The 'grouping idea' is interesting. Like drawing a vertical map of the
+		 * contingency of the artefacts
 		 */
-		
+
 		// - Creat links
-		//   - Explicit: Typed from source and target types (Engineering)
-		//   - Implicit: Derived (and typed) from group provenance
-		
-		
+		// - Explicit: Typed from source and target types (Engineering)
+		// - Implicit: Derived (and typed) from group provenance
+
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 
 	public static void testDesignTypesExtraction() throws ParserConfigurationException {
 		LOGGER.info("");
 
-		//Factories
+		// Factories
 		ArtefactTypeFactory atFactory = ArtefactTypeFactory.getInstance();
 		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
 
-		//Trace
+		// Trace
 		Trace t = new Trace("testDesignTypesExtraction");
-		
-		
-		//Config
+
+		// Config
 		Config config = Config.getInstance();
-		
-		
+
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-
 		try {
 			File umlProfile = new File(config.getDomainModelFiles().get("uml"));
-			LOGGER.info("UML Domain model file: "+umlProfile.getAbsolutePath());
+			LOGGER.info("UML Domain model file: " + umlProfile.getAbsolutePath());
 			Document doc = builder.parse(umlProfile);
 
-			
 			System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
 			NodeList nodeList = doc.getElementsByTagName("importedPackage");
 			for (int temp = 0; temp < nodeList.getLength(); temp++) {
-			    org.w3c.dom.Node node = nodeList.item(temp);
-			    System.out.println("\nCurrent element: " + node.getNodeName());
-			    if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
-			        Element element = (Element) node;
-			        System.out.println("xmi:type: " + element.getAttribute("xmi:type"));
-			        System.out.println("href: " + element.getAttribute("href"));
-			    }
+				org.w3c.dom.Node node = nodeList.item(temp);
+				System.out.println("\nCurrent element: " + node.getNodeName());
+				if (node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					System.out.println("xmi:type: " + element.getAttribute("xmi:type"));
+					System.out.println("href: " + element.getAttribute("href"));
+				}
 			}
-			
 
-			
-			
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			
+
 			String expression = "//*[@href]";
-			
+
 			System.out.println("\n\nTests.testDesignTypesExtraction() ...");
 			try {
-				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(  doc, XPathConstants.NODESET);
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 				for (int i = 0; i < nodeList2.getLength(); i++) {
-					   Node nNode = nodeList2.item(i);
-					   System.out.println(nNode.getAttributes().getNamedItem("href"));
-					   System.out.println(nNode.getParentNode().getNodeName()+"->"+nNode.getNodeName());
-					   ;
-					   System.out.println(DomUtil.getAbsolutePath((Element)nNode));
+					Node nNode = nodeList2.item(i);
+					System.out.println(nNode.getAttributes().getNamedItem("href"));
+					System.out.println(nNode.getParentNode().getNodeName() + "->" + nNode.getNodeName());
+					;
+					System.out.println(DomUtil.getAbsolutePath((Element) nNode));
 				}
 			} catch (XPathExpressionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -181,7 +174,7 @@ public class Tests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 //		/*
 //		 * Link types from design to code and palette and EltTypeConfig + internal c2c: code to code.
 //		 */
@@ -235,7 +228,5 @@ public class Tests {
 //		
 //		System.out.println(t.printJSon());
 	}
-	
-
 
 }

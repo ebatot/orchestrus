@@ -86,21 +86,10 @@ public class ArtefactFactory {
 
 		buildExternalFilesArtefacts();
 
-		Artefact[] artsSource = sortArtefactsByLocation(subsetsArtefactsByTypeName("SourceFileArtefact"));
-		Artefact[] artsLocal = sortArtefactsByLocation(subsetsArtefactsByTypeName("LocalFileArtefact"));
-		Artefact[] artsExternal = sortArtefactsByLocation(subsetsArtefactsByTypeName("ExternalFileArtefact"));
-
-		System.out.println();
-		System.out.println(getArtefacts().size() + " artefacts built.");
-		System.out.println("Sources:");
-		for (Artefact a : artsSource)
-			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
-		System.out.println("Locals:");
-		for (Artefact a : artsLocal)
-			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
-		System.out.println("Externals:");
-		for (Artefact a : artsExternal)
-			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
+//		for (Reference r : ReferenceFactory.getReferences().values()) {
+//			
+//		
+//		}
 
 	}
 
@@ -230,6 +219,23 @@ public class ArtefactFactory {
 		int size = artefacts.size();
 		artefacts.put(a.getLocation() + a.getName(), a);
 		return size == artefacts.size() - 1;
+	}
+
+	public void printArtefactsByType() {
+		Artefact[] artsSource = sortArtefactsByLocation(subsetsArtefactsByTypeName("SourceFileArtefact"));
+		Artefact[] artsLocal = sortArtefactsByLocation(subsetsArtefactsByTypeName("LocalFileArtefact"));
+		Artefact[] artsExternal = sortArtefactsByLocation(subsetsArtefactsByTypeName("ExternalFileArtefact"));
+		System.out.println();
+		System.out.println(getArtefacts().size() + " artefacts built.");
+		System.out.println("Sources:");
+		for (Artefact a : artsSource)
+			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
+		System.out.println("Locals:");
+		for (Artefact a : artsLocal)
+			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
+		System.out.println("Externals:");
+		for (Artefact a : artsExternal)
+			System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
 	}
 
 }

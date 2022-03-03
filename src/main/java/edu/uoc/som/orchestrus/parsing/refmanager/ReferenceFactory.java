@@ -17,39 +17,38 @@ import net.minidev.json.JSONArray;
 
 public class ReferenceFactory {
 	public final static Logger LOGGER = Logger.getLogger(ReferenceFactory.class.getName());
-	
+
 	/*
 	 * INFO - regex pattern for urls :
 	 * ^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]
 	 * 
 	 */
-	
-	
+
 	/**
 	 * HREF -> Reference
 	 */
 	private static HashMap<String, Reference> references = new HashMap<>();
-	
+
 	/**
 	 * Where did the references where found
 	 */
 	private static HashMap<Reference, ArrayList<String>> referencesSources = new HashMap<>();
-	
+
 	/**
 	 * Source to reference
 	 */
 	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
-	
+
 	/**
 	 * Locations on this computer. (No protocol, resolved or not)
 	 */
 	private static HashSet<String> locationsLocal = new HashSet<>();
-	
+
 	/**
 	 * Locations external to this computer. (Protocol)
 	 */
 	private static HashSet<String> locationsExternal = new HashSet<>();
-	
+
 	public static String extractInnerPath(String rawReference) {
 		String res = "";
 		if (rawReference.contains("#"))
@@ -103,10 +102,11 @@ public class ReferenceFactory {
 			}
 		}
 	}
-	
+
 	/**
-	 * Resolve the location of a reference (if it is "no_protocol").
-	 * Direction uses '/' instead of '\' for JSon compatibility.
+	 * Resolve the location of a reference (if it is "no_protocol"). Direction uses
+	 * '/' instead of '\' for JSon compatibility.
+	 * 
 	 * @param sourceFile
 	 * @param r
 	 * @return
@@ -142,8 +142,6 @@ public class ReferenceFactory {
 		return false;
 	}
 
-	
-	
 	public static Reference getReference(String href) {
 		return references.get(href);
 	}
@@ -154,114 +152,113 @@ public class ReferenceFactory {
 		ReferenceFactory.resolveLocation(sourceFile, rr);
 
 		Reference r = references.get(rr.getHREF());
-		if (r == null) {
+		boolean exists = r != null;
+		if (!exists) {// R is new
 			references.put(rr.getHREF(), rr);
-			LOGGER.finest("New ref: " + rr.getHREF());
+			LOGGER.finest("Add: " + rr.getHREF());
 		} else {
-			LOGGER.finest("again: " + rr.getHREF());
+			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
 
-		// Use resolved locations to register references
-		if (r.hasProtocol()) {
-			locationsExternal.add(r.protocol + "://" + r.getTargetFileArtefact());
-		} else {
-			locationsLocal.add(r.getTargetFileArtefact());
+		if (!exists) {
+			// Use resolved locations to register references
+			if (r.hasProtocol()) {
+				locationsExternal.add(r.protocol + "://" + r.getTargetFileArtefact());
+			} else {
+				locationsLocal.add(r.getTargetFileArtefact());
+			}
+
+			if (!referencesSources.keySet().contains(r))
+				referencesSources.put(r, new ArrayList<String>());
+			referencesSources.get(r).add(sourceFile);
+
+			if (!referencesSourcesReversed.keySet().contains(sourceFile))
+				referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
+			referencesSourcesReversed.get(sourceFile).add(r);
 		}
-
-		if (!referencesSources.keySet().contains(r))
-			referencesSources.put(r, new ArrayList<String>());
-		referencesSources.get(r).add(sourceFile);
-
-		if (!referencesSourcesReversed.keySet().contains(sourceFile))
-			referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
-		referencesSourcesReversed.get(sourceFile).add(r);
-
 		return r;
 	}
-	
+
 	public static Collection<Reference> getReferencesValues() {
 		return references.values();
 	}
+
 	public static HashMap<String, Reference> getReferences() {
 		return references;
 	}
-	
+
 	public static List<Reference> getLocalReferences() {
 		return references.values().stream().filter(r -> r.isLocal()).collect(Collectors.toList());
 	}
+
 	public static List<Reference> getExternalReferences() {
 		return references.values().stream().filter(r -> !r.isLocal()).collect(Collectors.toList());
 	}
-	
+
 	public static Collection<String> getSourceFiles() {
 		return referencesSourcesReversed.keySet();
 	}
-	
+
 	public static boolean isLocal(Reference r) {
 		return locationsLocal.contains(r.getTargetFileArtefact());
 	}
-	
+
 	/**
 	 * 
 	 * @return Locations on this computer. (No protocol, resolved or not)
 	 */
-	public static HashSet<String> getLocationsLocal() {
+	private static HashSet<String> getLocationsLocal() {
 		return locationsLocal;
 	}
-	
+
 	/**
 	 * 
 	 * @return Locations external to this computer (Protocol)
 	 */
-	public static HashSet<String> getLocationsExternal() {
+	private static HashSet<String> getLocationsExternal() {
 		return locationsExternal;
 	}
-	
-	public static HashMap<Reference, ArrayList<String>> getReferencesSources() {
+
+	private static HashMap<Reference, ArrayList<String>> getReferencesSources() {
 		return referencesSources;
 	}
-	
-	public static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
+
+	private static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
 		return referencesSourcesReversed;
 	}
-	
+
 	/**
 	 * @deprecated
 	 * @param interArtDependencies_JSON
 	 * @return
 	 */
 	public static Set<Reference> buildReferences(String interArtDependencies_JSON) {
-		JSONArray eltsRef = (JSONArray)JsonPath.read(
-				interArtDependencies_JSON, 
-				"$..[?(@.href)]");
-		
+		JSONArray eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.href)]");
+
 		Set<Reference> hrefReferences = new HashSet<>(eltsRef.size());
 		for (Object eltRef : eltsRef) {
 			@SuppressWarnings("unchecked")
-			String href = ((HashMap<String, String>)eltRef).get("href");
+			String href = ((HashMap<String, String>) eltRef).get("href");
 			Reference r = new Reference(href);
 			hrefReferences.add(r);
 			LOGGER.finest(r.toString());
 		}
 		LOGGER.fine(hrefReferences.size() + " href references found");
-		
-		eltsRef = (JSONArray)JsonPath.read(
-				interArtDependencies_JSON, 
-				"$..[?(@.value && @.key)]");
-		
+
+		eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.value && @.key)]");
+
 		Set<Reference> ctxReferences = new HashSet<>(eltsRef.size());
 		for (Object eltRef : eltsRef) {
 			@SuppressWarnings("unchecked")
-			String href = ((HashMap<String, String>)eltRef).get("value");
+			String href = ((HashMap<String, String>) eltRef).get("value");
 			Reference r = new Reference(href);
 			ctxReferences.add(r);
 			LOGGER.finest(r.toString());
 		}
 		LOGGER.fine(ctxReferences.size() + " ctx references found");
-	
+
 		return hrefReferences;
 	}
-	
 
 }
