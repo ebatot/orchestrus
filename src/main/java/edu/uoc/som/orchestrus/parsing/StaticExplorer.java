@@ -31,12 +31,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.uoc.som.orchestrus.config.Config;
+import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
+import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.parsing.utils.XmlException;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class StaticExplorer {
 	public final static Logger LOGGER = Logger.getLogger(StaticExplorer.class.getName());
+	private static final String XMI_SOURCE_PATH = "refSource";
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;
 	private Config config;
@@ -55,6 +58,8 @@ public class StaticExplorer {
 	
 	/**
 	 * Get XMI elements with an HREF attribute, and other elements with interdependencies (ctx.values)
+	 * 
+	 * Collects on the fly references for later processing.
 	 * 
 	 * (Note: ctx values are added in properties-editor-configurations under suffixed file name "Project.ctx-value")
 	 * @return JSON
@@ -80,15 +85,12 @@ public class StaticExplorer {
 	
 	public String getImportHrefs() {
 		String res ="{";
-
 		int isf = 0;
 		for (String sf : Config.getInstance().getContentFoldersFull()) {
 			File f = new File(sf);
 			res += "\"" + f.getName() + "\": \n";
 			
 			File[] files = f.listFiles(XMILikeFileFilter.getFilter());
-			
-
 			String domainModelHrefs = "";
 			try {
 				if (files != null)
@@ -109,42 +111,7 @@ public class StaticExplorer {
 	}
 	
 	
-	// 1 Get the href from imported elements in Design
-	public String getImportHrefsFromSpecificationModels() {
-		String res = "{";
 
-		try {
-			res += "\"specification-models\": {\n";
-			String domainModelHrefs = getHrefJsonsFromFileNames(config.getDomainModelFiles().values());
-			res += "\"domainModel\": "+domainModelHrefs + ",\n";
-			String lggModelHrefs = getHrefJsonsFromFileNames(config.getLanguageReqModelFiles().values());
-			res += "\"languageModel\": "+lggModelHrefs + ",\n";
-			String toolModelHrefs = getHrefJsonsFromFileNames(config.getToolReqModelFiles().values());
-			res += "\"toolModel\": "+toolModelHrefs + "\n";
-			res += "}";
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		res += ",\n";
-		
-		try {
-			String json = getHrefJsonsFromFileNames(config.getUmlProfileFiles().values());
-			res += "\"uml-profile\": "+json + "\n";
-			res += "\n";
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		res += "}";
-		
-		res = Utils.cleanJSon(res);
-		return res;
-	}
 	
 	public String getCtxValues_Json() {
 		String res = "";
@@ -180,20 +147,6 @@ public class StaticExplorer {
 		return res;
 	}
 
-	
-	private String getHrefJsonsFromFileNames(Collection<String> files) throws SAXException, IOException {
-		String res = "{";
-		int i = 0;
-		for (String fName : files) {
-			File f = new File(fName);
-			List<Element> elts = getHREFElementsFromFile(builder, f);
-			String hrefs = getJSonForHrefs(elts) ;
-			res += "\n\""+f.getName()+"\": "+hrefs + (++i < files.size()?",":"");
-		}
-		res += "}";
-		return res;
-	}
-
 	/**
 	 * For each element found with a "href" attribute, extract the following information (JSON syntax)
 	 * [ elt1: { XPath-to-Elt ; XPath neamed ; xmi:type ; href }
@@ -206,9 +159,18 @@ public class StaticExplorer {
 		sb.append("[");
 		int i = 0;
 		for (Element element : elts) {
+			String sourceFile = element.getAttributes().getNamedItem(XMI_SOURCE_PATH).getTextContent();
 			String cleanhref = element.getAttributes().getNamedItem("href").getTextContent();
-			cleanhref = cleanhref.replaceAll("'", "\\\\'");
+			
+			/*
+			 * Build and resolve references
+			 */
+			Reference r = ReferenceFactory.getReference(cleanhref, sourceFile);
+			
+			cleanhref = r.getHREF().replaceAll("'", "\\\\'");
 			cleanhref = cleanhref.replaceAll("\"", "\\\\\"");
+			
+			cleanhref = cleanhref.replace("\\", "/");
 			
 			Node elt = element.getAttributes().getNamedItem("xmi:type");
 			String xmitype = elt != null ? "\n \"xmi:type\": \""+elt.getTextContent()+"\", ":"";
@@ -229,6 +191,10 @@ public class StaticExplorer {
 	/**
 	 * For each element, extract the following information (JSON syntax)
 	 * [ elt1: {XPath, Xpath with @names, [id,] key, value }]
+	 * <br/>
+	 * 
+	 * Location are put with '/' in Json.
+	 * 
 	 * @param elts
 	 * @return JSON
 	 */
@@ -237,9 +203,15 @@ public class StaticExplorer {
 		sb.append("[");
 		int i = 0;
 		for (Element element : elts) {
+			String sourceFile = element.getAttributes().getNamedItem(XMI_SOURCE_PATH).getTextContent();
 			String cleanvalue = element.getAttributes().getNamedItem("value").getTextContent();
-			cleanvalue = cleanvalue.replaceAll("'", "\\\\'");
+			
+			Reference r = ReferenceFactory.getReference(cleanvalue, sourceFile);
+			cleanvalue = r.getHREF().replaceAll("'", "\\\\'");
 			cleanvalue = cleanvalue.replaceAll("\"", "\\\\\"");
+			
+			cleanvalue = cleanvalue.replace("\\", "/");
+			
 			String key = element.getAttributes().getNamedItem("key").getTextContent();
 			
 			Node elt = element.getAttributes().getNamedItem("xmi:id");
@@ -272,6 +244,9 @@ public class StaticExplorer {
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 			   Node nNode = nodeList2.item(i);
 			   elts.add((Element)nNode);
+			   ((Element)nNode).setAttribute(XMI_SOURCE_PATH, xmlFile.getAbsolutePath());
+			   LOGGER.finest(" ->  "+((Element)nNode).getAttribute("href"));
+			   
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
@@ -291,6 +266,8 @@ public class StaticExplorer {
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 			   Node nNode = nodeList2.item(i);
 			   elts.add((Element)nNode);
+			   ((Element)nNode).setAttribute(XMI_SOURCE_PATH, xmlFile.getAbsolutePath());
+			   LOGGER.finest(" ->  "+((Element)nNode).getAttribute("value"));
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();

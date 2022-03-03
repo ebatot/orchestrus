@@ -1,10 +1,12 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Random;
 
 public abstract class TracingElement {
 	static String UNNAMED = "UNNAMED";
+	
+	public static HashMap<String, TracingElement> elements = new HashMap<>();
 	
 	String ID;
 	public String getID() {
@@ -19,10 +21,16 @@ public abstract class TracingElement {
 	public TracingElement() {
 		this(UNNAMED);
 	}
+
+	public static TracingElement getElement(String ID) {
+		return elements.get(ID);
+	}
 	
 	public TracingElement(String name) {
 		this.name = name;
 		this.ID = ""+new Random().nextLong();
+		
+		elements.put(ID, this);
 		/* Comment for exclusive IDing. No need for prototyping.*/
 //		this.typeUID = new Random().nextInt();
 //		while(typesIds.contains(typeUID))

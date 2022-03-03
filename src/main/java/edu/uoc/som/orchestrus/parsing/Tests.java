@@ -3,7 +3,6 @@ package edu.uoc.som.orchestrus.parsing;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
@@ -23,8 +22,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import edu.uoc.som.orchestrus.config.Config;
-import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
+import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
@@ -42,15 +41,39 @@ public class Tests {
 		System.out.println("    --       Parsing  tests       --");
 		System.out.println("    --------------------------------\n");
 		
-//		testDesignTypesExtraction();
-		
-		//Config
+		Config config = Config.getInstance();
+
 		StaticExplorer ppse = new StaticExplorer();
 		
 		String interArtDependencies_JSON = ppse.getInterArtefactDependencies_JSON();
-		Set<Reference> references = Reference.buildReferences(interArtDependencies_JSON);
-
-		FileUtils.write(new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSample.json"), interArtDependencies_JSON);
+//		Set<Reference> references = ReferenceFactory.buildReferences(interArtDependencies_JSON);
+		
+		ArtefactFactory aFactory = ArtefactFactory.getInstance();
+		aFactory.buildArtefacts();
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("Artefacts built: "+aFactory.getArtefacts().size());
+		
+		
+		
+		
+//		ReferenceFactory.getReferences();
+//		for (Reference r : ReferenceFactory.getReferences()) {
+//			System.out.println(r);
+//		}
+//		
+//		System.out.println(ReferenceFactory.getReferences().size());
+		
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
+		try {
+			FileUtils.write(f, interArtDependencies_JSON);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		/*
 		 * Check which files are left

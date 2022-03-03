@@ -1,8 +1,5 @@
 package edu.uoc.som.orchestrus.tracemodel.typing;
 
-import java.util.HashSet;
-import java.util.Random;
-
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public class LinkType extends TracingElement {

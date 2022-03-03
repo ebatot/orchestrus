@@ -13,13 +13,19 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
+	
+	
+	/*
+	 * Hard coded build.properties-like
+	 */
 	static String architectureFramework 	= "architecture-framework";
-	static String elementTypeConfiguration 	= "element-type-configurations";
+	static String elementTypeConfiguration 		= "element-type-configurations";
 	static String paletteConfigurationsFolder 	= "palette-configurations";
-	static String propertiesEditorConfiguration 	= "properties-editor-configurations";
+	static String propertiesEditorConfiguration = "properties-editor-configurations";
 	static String specificationModelsFolder 	= "specification-models";
 	static String tabularEditorConfiguration 	= "tabular-editors-configurations";
-	static String umlProfilesFolder 				= "uml-profiles";
+	static String umlProfilesFolder 			= "uml-profiles";
+	static String rootFolder 					= ".";
 	
 	
 	List<String> contentFolders = Arrays.asList(
@@ -29,7 +35,8 @@ public class Config {
 			propertiesEditorConfiguration, 
 			specificationModelsFolder,
 			tabularEditorConfiguration, 
-			umlProfilesFolder);
+			umlProfilesFolder,
+			rootFolder);
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";
 	static String DOMAIN_MODEL_SUFFIX = ".domainmodel";
@@ -56,11 +63,7 @@ public class Config {
 
 	
 	private Config() {
-
 		atFactory = ArtefactTypeFactory.getInstance();
-		
-		
-		
 		
 		values.put("projectRoot", projectRoot);
 		values.put("project", project);
@@ -152,6 +155,7 @@ public class Config {
 		atFactory.addType("xmiFile");
 		atFactory.addType("xmlElt");
 		atFactory.addType("label");
+		LOGGER.fine(""+atFactory.getTypesValues());
 	}
 	
 	public String getValue(String key) {

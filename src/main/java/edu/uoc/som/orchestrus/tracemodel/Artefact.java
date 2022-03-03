@@ -8,38 +8,53 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
 public class Artefact extends TypedArtefact {
-	private static final String FRAG_SUFIX = "_frag";
+	
+	String location; 
 	Artefact parent;
 	String definition;
-	HashMap<String,Artefact> fragments = new HashMap<>();
 	
+	boolean resolves;
+	
+	HashMap<String,Artefact> fragments = new HashMap<>();
 	ArrayList<TraceLink> sourceOf;
 	ArrayList<TraceLink> targetOf;
 
-	public Artefact(Artefact parent, String name) {
-		this(name, parent.getType());
-		setParent(parent);
-	}
 	
-	/**
-	 * Automated naming parentname+"_frag"
-	 * @param parent
-	 */
-	public Artefact(Artefact parent) {
-		this(parent.getName()+FRAG_SUFIX, parent.getType());
-		parent.addFragment(this);
-	}
-	public Artefact(String name, ArtefactType type) {
+	public Artefact(String name, ArtefactType type, String location, Artefact parent, boolean resolved) {
 		super(name, type);
-		setType(type);
+		this.parent = parent;
+		this.location = location;		
 		sourceOf = new ArrayList<>();
 		targetOf = new ArrayList<>();
 	}
 	
+	public Artefact(String name, ArtefactType type, String location, Artefact parent) {
+		this(name, type, location, parent, false);
+	}
 	
+	public Artefact(String name, ArtefactType type) {
+		this(name, type, null, null, false);
+	}
+	
+	public boolean isResolves() {
+		return resolves;
+	}
+	
+//	public Artefact(String name, ArtefactType type, String location) {
+//		this(name, type, location, null);
+//	}
+	
+	
+	public boolean hasParent() {
+		return parent != null;
+	}
 	public void addFragment(Artefact af) {
 		fragments.put(af.getID(), af);
 		af.setParent(this);
+	}
+	
+	public String getLocation() {
+		return location;
 	}
 	
 	public HashMap<String, Artefact> getFragments() {
@@ -101,5 +116,12 @@ public class Artefact extends TypedArtefact {
 		res += "\"fragments\": "+Utils.getElementsIDsAsJsonCollection(fragments.values())+",";
 		res += "\"type\": \""+getTypeUID()+"\"";
 		return res +"}";
+	}
+
+	public boolean isOfType(ArtefactType at) {
+		return getType().getName().equals(at.getName());
+	}
+	public boolean isOfType(String typeName) {
+		return getType().getName().equals(typeName);
 	}
 }

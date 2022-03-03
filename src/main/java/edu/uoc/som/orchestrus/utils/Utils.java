@@ -1,8 +1,11 @@
 package edu.uoc.som.orchestrus.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,6 +26,19 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
 
+	@SuppressWarnings("deprecation")
+	public static File writeTmpJson(String json) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\tmp.json");
+		try {
+			FileUtils.write(f, json);
+			return f;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static String cleanJSon(String res) {
 		JsonParser parser = new JsonParser();

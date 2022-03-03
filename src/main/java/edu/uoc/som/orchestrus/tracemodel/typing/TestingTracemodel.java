@@ -52,7 +52,7 @@ public class TestingTracemodel {
 		 */
 		Artefact[] afs = new Artefact[9];
 		for (int i = 0; i < as.length; i++) {
-			afs[i] = new Artefact(as[i]);
+			afs[i] = new Artefact( as[i].getName()+"_FRAG", as[i].getType(), null, as[i]);
 		}
 		
 		
@@ -126,10 +126,10 @@ public class TestingTracemodel {
 		Artefact artCode2 = new Artefact("artCode2", atCode);
 		Artefact artDesg1 = new Artefact("artDesg1", atDesign);
 		
-		Artefact afCode1_1 = new Artefact(artCode1);
-		Artefact afCode1_2 = new Artefact(artCode1);
-		Artefact afCode2_1 = new Artefact(artCode2);
-		Artefact afDesg1_1 = new Artefact(artDesg1);
+		Artefact afCode1_1 = new Artefact("afCode1_1", atCode,   null, artCode1);
+		Artefact afCode1_2 = new Artefact("afCode1_2", atCode,   null, artCode1);
+		Artefact afCode2_1 = new Artefact("afCode2_1", atCode,   null, artCode2);
+		Artefact afDesg1_1 = new Artefact("afDesg1_1", atDesign, null, artDesg1);
 		
 		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
 		LinkType ltD2C = ltFactory.addType("Design2Code");

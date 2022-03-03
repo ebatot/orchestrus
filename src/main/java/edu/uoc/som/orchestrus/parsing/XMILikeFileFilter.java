@@ -13,6 +13,8 @@ class XMILikeFileFilter implements FilenameFilter
   public boolean accept(File dir, String fileName) 
   {
     return (
+    		//custom generation
+    		fileName.endsWith(".xmi") || 
     		//specificatiion-models and profiles
     		fileName.endsWith(".uml") || 
     		fileName.endsWith(".notation") || 
