@@ -33,13 +33,7 @@ public class TraceFactory {
 
 	Set<TraceLink> links;
 	
-	public void buildLinks() {
-		fragmentSourcesAndFolders();
-		linkReferencesSourceToTargets();
-
-	}
-
-	private void fragmentSourcesAndFolders() {
+	public void fragmentSourcesAndFolders() {
 		Collection<Artefact> sourceArts = ArtefactFactory.getInstance()
 				.subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact sArt : sourceArts) {
@@ -48,9 +42,10 @@ public class TraceFactory {
 			Artefact parentArt = ArtefactFactory.getInstance().getArtefact(location + f.getName());
 			parentArt.addFragment(sArt);
 		}
+		LOGGER.fine("Done: Each file has its parent folder as parent.");
 	}
 
-	private void linkReferencesSourceToTargets() {
+	public Trace buildBaseTrace() {
 		Trace t = new Trace();
 		for (Reference r : ReferenceFactory.getReferences().values()) {
 			TraceLink tl = new TraceLink();
@@ -61,7 +56,7 @@ public class TraceFactory {
 					// l'ajouter au lien
 					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource));
 					if(a == null) {
-						throw new IllegalAccessError("Should not get there. Artefact not recognized");
+						throw new IllegalAccessError("Should not get there. Artefact not recognized.");
 					}
 					tl.addSource(a);
 				} 
@@ -69,88 +64,14 @@ public class TraceFactory {
 			
 			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
 			if(target == null) {
-				throw new IllegalAccessError("Should not get there. Artefact not recognized");
+				throw new IllegalAccessError("Should not get there. Artefact not recognized.");
 			}
 			tl.addTarget(target);
+			LOGGER.finer("Link added:" + tl + " sources:"+tl.getSources().size()+ " targets:"+tl.getTargets().size());
 			t.addTraceLink(tl);
-//			System.out.println("tl:\n  "+tl.getSources()+"\n  "+tl.getTargets());
 		}
-		
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\traceSample.json");
-		try {
-			FileUtils.write(f, t.printJSon());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// Pour chaque reference, chercher les href qui 
-		
-		
-		
-//		Collection<Artefact> artefacts = ArtefactFactory.getInstance().getArtefacts().values();
-//		
-//		Trace t = new Trace();
-//		HashMap<String, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
-//		for (String sSource : sourcesToRef.keySet()) {
-//			ArrayList<Reference> refs = sourcesToRef.get(sSource);
-//			System.out.println(refs);
-//		}
-//		
-//		
-//		
-//		
-//		for (String sSource : sourcesToRef.keySet()) {
-//			File fSource = new File(sSource);
-//			String location = fSource.getParent();
-//			String name = fSource.getName();
-//			ArrayList<Reference> refs = sourcesToRef.get(sSource);
-//			System.out.println("TraceFactory.linkReferencesSourceToTargets("+sSource+")");
-//			List<Artefact> targets = new ArrayList<Artefact>(refs.size());
-//			for (Reference r : refs) {
-////				Artefact ar = ArtefactFactory.getInstance().getArtefact(r.getTargetFileArtefact()+r.getTargetFileArtefact());
-//				
-//				for (String ss : r.getSources()) {
-//					Artefact ssArt = ArtefactFactory.getInstance().getArtefact(new File(ss));
-//				}
-//				
-//				Artefact ar = ArtefactFactory.getInstance().getArtefact(r);
-//				System.out.println("   "+ar);
-//				targets.add(ar);
-//			}
-//			
-//			Artefact source = ArtefactFactory.getInstance().getArtefact(fSource);
-//			System.out.println(source);
-//			if(source == null)
-//				System.exit(1);
-//			for (Artefact a : targets) {
-//				System.out.println("  - "+a);
-//				if(a == null)
-//					System.exit(1);
-//				
-//			}
-//			TraceLink tl2 = new TraceLink();
-//			tl2.addEnds(Arrays.asList(new Artefact[] {source}), targets);
-//			t.addTraceLink(tl2);
-//		}
-//
-//		
-//		System.out.println(t.printJSon());
-//		
-//		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\traceSAmple.json");
-//		try {
-//			FileUtils.write(f, t.printJSon());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-//		for (Reference r : references) {
-//			System.out.println(r.getTargetFileArtefact());
-//			if(r.isLocal()) {
-//				System.out.println("local");
-//			}
-//		}
+		LOGGER.fine(t.getTraceLinks().size()+" trace link added.");
+		return t;
 	}
 
 

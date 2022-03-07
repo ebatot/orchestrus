@@ -46,43 +46,27 @@ public class Tests {
 		
 		StaticExplorer ppse = new StaticExplorer();
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
+		storeDependencies_HC(interArtDependencies_JSON);
 
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
-		
 		aFactory.buildArtefacts();
-		aFactory.printArtefactsByType();
+		
+//		aFactory.printArtefactsByType();
 
 		
 		TraceFactory tFactory = TraceFactory.getInstance();
+		tFactory.fragmentSourcesAndFolders();
+		Trace t = tFactory.buildBaseTrace();
 		
 		
-		tFactory.buildLinks();
-		
-		// TODO connect artefacts with links.
+		storeTrace_HC(t);
+		// TODONE connect artefacts with links.
 
 		// TODO Decompose artefacts with XPath patterns.
 
 		// TODO Connect fragments.
 
-		System.out.println();
-		System.out.println();
 
-		System.out.println("Artefacts built: " + aFactory.getArtefacts().size());
-
-//		ReferenceFactory.getReferences();
-//		for (Reference r : ReferenceFactory.getReferences()) {
-//			System.out.println(r);
-//		}
-//		
-//		System.out.println(ReferenceFactory.getReferences().size());
-
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
-		try {
-			FileUtils.write(f, interArtDependencies_JSON);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		/*
 		 * Check which files are left - Javas - Manifest & Pom - Class path &
@@ -116,6 +100,27 @@ public class Tests {
 		// - Implicit: Derived (and typed) from group provenance
 
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
+	}
+
+	private static void storeTrace_HC(Trace t) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\traceSample.json");
+		try {
+			FileUtils.write(f, t.printJSon());
+			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void storeDependencies_HC(String interArtDependencies_JSON) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
+		try {
+			FileUtils.write(f, interArtDependencies_JSON);
+			LOGGER.info("Inter-files references stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
