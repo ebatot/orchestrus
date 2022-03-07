@@ -1,6 +1,8 @@
 package edu.uoc.som.orchestrus.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,11 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
 
+	public static void main(String[] args) {
+		 printLOC();
+		 System.exit(1);
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static File writeTmpJson(String json) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\tmp.json");
@@ -94,5 +101,42 @@ public class Utils {
 		return outText;
 	}
 	
+
+	public static void printLOC(){
+		int[] i;
+		try {
+			i = countLOC(new File("./src"));
+			System.out.println("Main.main(src:"+i[0]+") ("+i[1]+" classes)");
+//			i = countLOC(new File("./test"));
+//			System.out.println("Main.main(test:"+i[0]+")");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static int[] countLOC(File f) throws IOException {
+		int[] res = new int[] {0, 0};
+		if(f.getName().endsWith(".java"))
+			res[1]++;
+		if(f.getName().startsWith("result"))
+			return res;
+		if(f.isDirectory()){
+			for (File f2 : f.listFiles()) {
+				res[0] += countLOC(f2)[0];
+				res[1] += countLOC(f2)[1];
+			}
+//			System.out.println("Dir:"+f.getCanonicalPath()+" : "+res);
+		} else {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line = "";
+			while((line = br.readLine()) != null){
+				if(!line.isEmpty())
+					res[0]++;
+			}
+			br.close();
+//			System.out.println(f.getCanonicalPath()+" : "+res);
+		}
+		return res;
+	}
 
 }
