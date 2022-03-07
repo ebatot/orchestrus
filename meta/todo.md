@@ -5,7 +5,7 @@
 ### Run
 
 - [-]  Extract References (hrefs)
-  - [x]  List folders (Config.sourceFiles)
+  - [x]  List folders (`Config.sourceFiles`)
   - [x]  Separate source/local/external (protocol?!)
   - [x]  Resolve source/local that can be solved
   - [ ]  Sort out unresolvable -> UX for typing alternative ? (Storage ?)
@@ -27,4 +27,17 @@
   - [ ]  WOT ELSE broo ?!!?
 
 - [ ]  Load trace
-  - [ ]  Types
+  - [ ] Types for artefacts and links (basically "names")
+  - [ ] Artefacts & Fragments
+  - [ ] Links
+
+### Setup
+
+- Config file
+  - project = `com.cea.papyrus.glossary`
+  - projectRoot = `R:\Coding\Git\orchestrus\data\GlossaryML-ReferenceML`
+  - projectName = `GlossaryML`
+  - projectDependencies = `com.cea.papyrus.referencemanagement`
+- File extensions ?
+  - Resolved conflictual FileArtefact paths
+  - Link type "translations"
