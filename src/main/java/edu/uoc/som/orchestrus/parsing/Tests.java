@@ -42,8 +42,8 @@ public class Tests {
 
 //		Config config = Config.getInstance();
 
+		
 		StaticExplorer ppse = new StaticExplorer();
-
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
