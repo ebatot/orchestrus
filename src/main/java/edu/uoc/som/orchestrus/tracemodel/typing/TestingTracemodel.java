@@ -133,10 +133,10 @@ public class TestingTracemodel {
 		LinkType ltD2C = ltFactory.addType("Design2Code");
 		
 		TraceLink tl1 = new TraceLink("Link1", ltD2C);
-		tl1.addSourceArtefact(afCode1_1);
-		tl1.addSourceArtefact(afCode1_2);
-		tl1.addSourceArtefact(afCode2_1);
-			tl1.addTargetArtefact(afDesg1_1);
+		tl1.addSource(afCode1_1);
+		tl1.addSource(afCode1_2);
+		tl1.addSource(afCode2_1);
+			tl1.addSource(afDesg1_1);
 		
 		System.out.println(t.printJSon());
 

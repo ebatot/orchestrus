@@ -1,7 +1,8 @@
 package edu.uoc.som.orchestrus.parsing.refmanager;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
@@ -16,14 +17,15 @@ public class Reference extends TracingElement {
 	private Protocol protocol;
 	private String location;
 	private String innerLocation;
-	private List<String> sources = new ArrayList<>();
+	private Set<String> sources = new HashSet<String>();
 	
-	public Reference(String strRef) {
+	public Reference(String strRef, String source) {
 		this.raw = strRef;
 		this.protocol = ReferenceFactory.extractProtocol(this.raw);
 		this.location = ReferenceFactory.extractLocation(this.raw);
 		this.innerLocation = ReferenceFactory.extractInnerPath(this.raw);
 		newName();
+		sources.add(source);
 	}
 	
 	public boolean isLocal() {
@@ -48,6 +50,10 @@ public class Reference extends TracingElement {
 		return res;
 	}
 
+	public Set<String> getSources() {
+		return sources;
+	}
+	
 	public void setLocation(String newLocation) {
 		this.location = newLocation;
 		
@@ -101,5 +107,13 @@ public class Reference extends TracingElement {
 
 	public void setResolved(boolean resolved) {
 		this.resolved = resolved;
+	}
+
+	public boolean containsSource(String sSource) {
+		return sources.contains(sSource);
+	}
+
+	public boolean addSource(String sourceFile) {
+		return this.sources.add(sourceFile);
 	}
 }

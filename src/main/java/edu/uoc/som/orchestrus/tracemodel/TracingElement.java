@@ -3,6 +3,8 @@ package edu.uoc.som.orchestrus.tracemodel;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
+
 public abstract class TracingElement {
 	static String UNNAMED = "UNNAMED";
 
@@ -74,5 +76,9 @@ public abstract class TracingElement {
 
 	public String toString() {
 		return this.getClass().getName() + ":" + name;
+	}
+
+	public static void removeElement(Reference rr) {
+		elements.remove(rr.getID());
 	};
 }

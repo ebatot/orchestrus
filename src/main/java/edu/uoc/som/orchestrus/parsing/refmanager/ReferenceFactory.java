@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.jayway.jsonpath.JsonPath;
 
+import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 import net.minidev.json.JSONArray;
 
 public class ReferenceFactory {
@@ -133,7 +134,9 @@ public class ReferenceFactory {
 	 * @return
 	 */
 	public static Reference getReference(String href, String sourceFile) {
-		Reference rr = new Reference(href);
+
+		// GHOST Create a ghost reference for resolution (not optimal, but working)
+		Reference rr = new Reference(href, sourceFile);
 		ReferenceFactory.resolveLocation(sourceFile, rr);
 
 		Reference r = references.get(rr.getHREF());
@@ -141,6 +144,10 @@ public class ReferenceFactory {
 			references.put(rr.getHREF(), rr);
 			LOGGER.finest("Add: " + rr.getHREF());
 		} else {
+			// GHOST Clean the stack of elements (ghost erase, because TracingElement.class
+			// contains a map of {id:element})
+			TracingElement.removeElement(rr);
+			r.addSource(sourceFile);
 			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
@@ -163,38 +170,38 @@ public class ReferenceFactory {
 		return references.values().stream().filter(r -> !r.isLocal()).collect(Collectors.toList());
 	}
 
-	/**
-	 * @deprecated
-	 * @param interArtDependencies_JSON
-	 * @return
-	 */
-	public static Set<Reference> buildReferences(String interArtDependencies_JSON) {
-		JSONArray eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.href)]");
-
-		Set<Reference> hrefReferences = new HashSet<>(eltsRef.size());
-		for (Object eltRef : eltsRef) {
-			@SuppressWarnings("unchecked")
-			String href = ((HashMap<String, String>) eltRef).get("href");
-			Reference r = new Reference(href);
-			hrefReferences.add(r);
-			LOGGER.finest(r.toString());
-		}
-		LOGGER.fine(hrefReferences.size() + " href references found");
-
-		eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.value && @.key)]");
-
-		Set<Reference> ctxReferences = new HashSet<>(eltsRef.size());
-		for (Object eltRef : eltsRef) {
-			@SuppressWarnings("unchecked")
-			String href = ((HashMap<String, String>) eltRef).get("value");
-			Reference r = new Reference(href);
-			ctxReferences.add(r);
-			LOGGER.finest(r.toString());
-		}
-		LOGGER.fine(ctxReferences.size() + " ctx references found");
-
-		return hrefReferences;
-	}
+//	/**
+//	 * @deprecated
+//	 * @param interArtDependencies_JSON
+//	 * @return
+//	 */
+//	public static Set<Reference> buildReferences(String interArtDependencies_JSON) {
+//		JSONArray eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.href)]");
+//
+//		Set<Reference> hrefReferences = new HashSet<>(eltsRef.size());
+//		for (Object eltRef : eltsRef) {
+//			@SuppressWarnings("unchecked")
+//			String href = ((HashMap<String, String>) eltRef).get("href");
+//			Reference r = new Reference(href);
+//			hrefReferences.add(r);
+//			LOGGER.finest(r.toString());
+//		}
+//		LOGGER.fine(hrefReferences.size() + " href references found");
+//
+//		eltsRef = (JSONArray) JsonPath.read(interArtDependencies_JSON, "$..[?(@.value && @.key)]");
+//
+//		Set<Reference> ctxReferences = new HashSet<>(eltsRef.size());
+//		for (Object eltRef : eltsRef) {
+//			@SuppressWarnings("unchecked")
+//			String href = ((HashMap<String, String>) eltRef).get("value");
+//			Reference r = new Reference(href);
+//			ctxReferences.add(r);
+//			LOGGER.finest(r.toString());
+//		}
+//		LOGGER.fine(ctxReferences.size() + " ctx references found");
+//
+//		return hrefReferences;
+//	}
 
 }
 

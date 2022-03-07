@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -37,9 +38,18 @@ public class ArtefactFactory {
 		artefacts = new HashMap<>();
 	}
 
-	public Map<String, Artefact> getArtefacts() {
-		return artefacts;
+	public static Map<String, Artefact> getArtefacts() {
+		return getInstance().artefacts;
 	}
+	
+	public static HashSet<ArtefactType> getAllArtefactTypes() {	
+		HashSet<ArtefactType> ats = new HashSet<>();
+		for (Artefact a : ArtefactFactory.getArtefacts().values()) {
+			ats.add(a.getType());
+		}
+		return ats;
+	}
+
 
 	public List<Artefact> subsetsArtefactsByType(ArtefactType type) {
 		return artefacts.values().stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
@@ -51,19 +61,31 @@ public class ArtefactFactory {
 	
 	public Artefact getArtefact(File f) {
 		String locationName = f.getParent() + f.getName();
-		System.out.println("ArtefactFactory.getArtefactF(" + locationName + ")");
 		return getArtefact(locationName);
 	}
 
+	/**
+	 * See <ul><li>{@link #newSourceFileArtefact(File)}</li><li>{@link #newLocalFileArtefact(Reference)}</li><li>{@link #newExternalFileArtefact(Reference)}</li></ul> 
+	 * 
+	 * for precions/cohesion on keys of the artefacts map.
+	 * @param r
+	 * @return
+	 */
 	public Artefact getArtefact(Reference r) {
-		File f = new File(r.getTargetFileArtefact());
-		String locationName = f.getParent() + f.getName();
-		System.out.println("ArtefactFactory.getArtefactR(" + locationName + ")");
+		String locationName = "";
+		if (r.isLocal()) {
+			File f = new File(r.getTargetFileArtefact());
+			if(r.isResolved())
+				locationName = f.getParent() + f.getName();
+			else
+				locationName = r.getTargetFileArtefact() + f.getName();
+		} else {
+			locationName = r.getTargetFileArtefact() + r.getTargetFileArtefact();
+		}
 		return getArtefact(locationName);
 	}
 
 	public Artefact getArtefact(String locationName) {
-		System.out.println("ArtefactFactory.getArtefact(" + locationName + ")");
 		return artefacts.get(locationName);
 	}
 
@@ -193,16 +215,16 @@ public class ArtefactFactory {
 	private Artefact newSourceFileArtefact(File f) {
 		ArtefactType atSource = ArtefactTypeFactory.SOURCE_FILE_ARTEFACT;
 
-		String location = "-location-";
+		String parentLocation = "-location-";
 		try {
-			location = f.getParentFile().getCanonicalPath();
+			parentLocation = f.getParentFile().getCanonicalPath();
 		} catch (IOException e) {
 			e.printStackTrace();// NO REASON we get there, sources were got from same env.
 		}
 
-		Artefact res = getArtefact(f.getName() + location);
+		Artefact res = getArtefact(f.getName() + parentLocation);
 		if (res == null) {
-			res = new Artefact(f.getName(), atSource, location, null, true);
+			res = new Artefact(f.getName(), atSource, parentLocation, null, true);
 			LOGGER.finer("new " + res);
 		} else
 			LOGGER.finest("Artefact '" + res + "' already exists.");
@@ -234,15 +256,15 @@ public class ArtefactFactory {
 		if (r.isResolved()) {
 			// Resolved means that the ancestry of the file exists, we can use the parent to
 			// precise the location
-			String location = f.getParentFile().getAbsolutePath();
-			res = getArtefact(location + name);
+			String parentLocation = f.getParentFile().getAbsolutePath();
+			res = getArtefact(parentLocation + name);
 			if (res == null) {
-				res = new Artefact(name + "", atLocals, location, null, true);
+				res = new Artefact(name + "", atLocals, parentLocation, null, true);
 				LOGGER.finest("newR " + res);
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
 			}
-		} else {
+		} else { // R is not resolved
 			String location = r.getTargetFileArtefact(); // Location is the target - we keep it full.
 
 			res = getArtefact(location + name);

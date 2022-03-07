@@ -18,30 +18,28 @@ public class Trace extends TracingElement {
 
 	public String printJSon() {
 		
-		String trace = "\"trace\": { \"init\":[";
+		String trace = "";
 		for (TraceLink traceLink : traceLinks) 
 			trace += " \""+traceLink.getID()+ "\",";
-		trace = trace.substring(0, trace.length()-1)+"]}";
+		if(!trace.isBlank())
+			trace = trace.substring(0, trace.length()-1);
+		trace = "\"trace\": { \"init\":[" + trace+"]}";
 		
-		String links = "\"links\": [" ;
+		String links = "" ;
 		for (TraceLink tl : getAllTraceLinks()) 
 			links += tl.getJSon()+",\n";
-		links = links.substring(0, links.length()-2)+ "]";
+		if(!links.isBlank())
+			links = links.substring(0, links.length()-2);
+		links = "\"links\": [" + links + "]";
 		
-		// TODO check that ancestry is completly rebuilt - if necessary
+		// print ALL artefacts, IN THE UNIVERSE !
 		String artefacts = "\"artefacts\": [" ;
-		for (Artefact a : getAllArtefacts()) 
-			artefacts += a.getJSon()+",\n";
+		for (Artefact a : ArtefactFactory.getArtefacts().values()) 
+			artefacts += a.getJSon()+",\n"; 
 		artefacts = artefacts.substring(0, artefacts.length()-2)+ "]";
 		
-		String fragments = "\"fragments\": [" ;
-		for (Artefact a : getAllArtefacts()) 
-			for (Artefact af : a.getFragments().values()) 
-				fragments += af.getJSon()+",\n";
-		fragments = fragments.substring(0, fragments.length()-2)+ "]";
-		
 		String artefactTypes = "\"artefactTypes\": [" ;
-		for (ArtefactType at : getAllArtefactTypes()) 
+		for (ArtefactType at : ArtefactFactory.getAllArtefactTypes()) 
 			artefactTypes += at.getJSon()+",\n";
 		artefactTypes = artefactTypes.substring(0, artefactTypes.length()-2)+ "]";
 		
@@ -55,7 +53,6 @@ public class Trace extends TracingElement {
 			trace+",\n"+
 			links+",\n"+
 			artefacts+",\n"+
-			fragments+",\n"+
 			artefactTypes+",\n"+
 			tracelinkTypes+"\n"+
 			"}";
@@ -82,21 +79,17 @@ public class Trace extends TracingElement {
 		return tls;
 	}
 	
-	public HashSet<Artefact> getAllArtefacts() {
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public HashSet<Artefact> getAllArtefactsConnected() {
 		HashSet<Artefact> as = new HashSet<>();
 		for (TraceLink tl : getAllTraceLinks()) {
-			as.addAll(tl.getSourceArtefacts());
-			as.addAll(tl.getTargetArtefacts());
+			as.addAll(tl.getSources());
+			as.addAll(tl.getTargets());
 		}
 		return as;
-	}
-	
-	private HashSet<ArtefactType> getAllArtefactTypes() {	
-		HashSet<ArtefactType> ats = new HashSet<>();
-		for (Artefact a : getAllArtefacts()) {
-			ats.add(a.getType());
-		}
-		return ats;
 	}
 	
 	private HashSet<LinkType> getAllTraceLinkTypes() {	
