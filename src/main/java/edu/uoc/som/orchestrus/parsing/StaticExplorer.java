@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
@@ -147,7 +149,23 @@ public class StaticExplorer {
 		LOGGER.fine(countElts + " elements found in " + files.size() +" files");
 		return res;
 	}
-
+	
+	/**
+	 * Source to reference
+	 */
+	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
+	
+	/**
+	 * Adds a source-reference to the stock.
+	 * @param sourceFile
+	 * @param r
+	 */
+	private static void addReferenceSourceReversed(String sourceFile, Reference r) {
+		if (!referencesSourcesReversed.keySet().contains(sourceFile))
+			referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
+		referencesSourcesReversed.get(sourceFile).add(r);
+	}
+	
 	/**
 	 * For each element found with a "href" attribute, extract the following information (JSON syntax)
 	 * [ elt1: { XPath-to-Elt ; XPath neamed ; xmi:type ; href }
@@ -167,6 +185,7 @@ public class StaticExplorer {
 			 * Build and resolve references
 			 */
 			Reference r = ReferenceFactory.getReference(cleanhref, sourceFile);
+			addReferenceSourceReversed(sourceFile, r);
 			
 			cleanhref = r.getHREF().replaceAll("'", "\\\\'");
 			cleanhref = cleanhref.replaceAll("\"", "\\\\\"");
@@ -188,6 +207,8 @@ public class StaticExplorer {
 		sb.append("]");
 		return sb.toString();
 	}
+
+
 	
 	/**
 	 * For each element, extract the following information (JSON syntax)
@@ -208,6 +229,8 @@ public class StaticExplorer {
 			String cleanvalue = element.getAttributes().getNamedItem("value").getTextContent();
 			
 			Reference r = ReferenceFactory.getReference(cleanvalue, sourceFile);
+			addReferenceSourceReversed(sourceFile, r);
+
 			cleanvalue = r.getHREF().replaceAll("'", "\\\\'");
 			cleanvalue = cleanvalue.replaceAll("\"", "\\\\\"");
 			
@@ -275,5 +298,10 @@ public class StaticExplorer {
 		}
 		
 		return elts;
+	}
+
+
+	public static Set<String> getSourceFiles() {
+		return referencesSourcesReversed.keySet();
 	}
 }

@@ -2,14 +2,7 @@ package edu.uoc.som.orchestrus.tracemodel;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
@@ -17,53 +10,9 @@ import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
-public class ArtefactFactory {
-	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
+public class ArtefactFactoryImpl extends ArtefactFactory {
 
-	static ArtefactFactory instance;
-
-	public static ArtefactFactory getInstance() {
-		if (instance == null)
-			instance = new ArtefactFactory();
-		return instance;
-	}
-
-	/**
-	 * (location+name) -> artefact
-	 */
-	Map<String, Artefact> artefacts;
-
-	public ArtefactFactory() {
-		artefacts = new HashMap<>();
-	}
-
-	public Map<String, Artefact> getArtefacts() {
-		return artefacts;
-	}
-
-	public List<Artefact> subsetsArtefactsByType(ArtefactType type) {
-		return artefacts.values().stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
-	}
-
-	public List<Artefact> subsetsArtefactsByTypeName(String typeName) {
-		return artefacts.values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
-	}
-
-	public Artefact getArtefact(String locationName) {
-		return artefacts.get(locationName);
-	}
-
-	public Artefact getArtefactWithID(String ID) {
-		for (Artefact a : artefacts.values()) {
-			if (a.getID().equals(ID))
-				return a;
-		}
-		return null;
-	}
-
-	/**
-	 * Builds artefacts from an instanciated static explorer (see {@link StaticExplorer}) 
-	 */
+	
 	public void buildArtefacts() {
 
 		/* build Artefact from source files found in project folder */
@@ -269,44 +218,4 @@ public class ArtefactFactory {
 		}
 		return res;
 	}
-
-	public Artefact[] sortArtefactsByType(Collection<Artefact> artefacts) {
-		Artefact[] arts = (Artefact[]) artefacts.toArray(new Artefact[artefacts.size()]);
-		Arrays.sort(arts, new Comparator<Artefact>() {
-			@Override
-			public int compare(Artefact o1, Artefact o2) {
-				return o1.getType().getName().compareTo(o2.getType().getName());
-			}
-		});
-		return arts;
-	}
-
-	public Artefact[] sortArtefactsByLocation(Collection<Artefact> artefacts) {
-		Artefact[] arts = (Artefact[]) artefacts.toArray(new Artefact[artefacts.size()]);
-		Arrays.sort(arts, new Comparator<Artefact>() {
-			@Override
-			public int compare(Artefact o1, Artefact o2) {
-				return o1.getLocation().compareTo(o2.getLocation());
-			}
-		});
-		return arts;
-	}
-
-	public boolean addArtefact(Artefact a) {
-		int size = artefacts.size();
-		artefacts.put(a.getLocation() + a.getName(), a);
-		return size == artefacts.size() - 1;
-	}
-
-	public void printArtefactsByType() {
-		System.out.println();
-		System.out.println(getArtefacts().size() + " artefacts built.");
-		for (ArtefactType aType : ArtefactTypeFactory.getInstance().getTypesValues()) {
-			Artefact[] arts = sortArtefactsByLocation(subsetsArtefactsByType(aType));
-			System.out.println(aType.getName());
-			for (Artefact a : arts)
-				System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
-		}
-	}
-
 }

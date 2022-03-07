@@ -4,8 +4,15 @@ public class Orchestrus {
 	/*
 	 *  Arguments:
 	 *  - Config file
+	 *    - project = com.cea.papyrus.glossary
+	 * 	  - projectRoot = R:\Coding\Git\orchestrus\data\GlossaryML-ReferenceML
+	 * 	  - projectName = GlossaryML
+	 * 	  - projectDependencies = com.cea.papyrus.referencemanagement
+	 *    - File extensions ?
+
 	 *  - Resolved conflictual FileArtefact paths
 	 *  - Link type "translations"
+	 *  
 	 */
 	
 	/*

@@ -84,34 +84,31 @@ public class Config {
 			LOGGER.fine("Folders correct.");
 		}
 		
-		initArtefactTypes();
 
 		/*
 		 * Artefacts typing
 		 */
-		artefacts.put("notationFile", new Artefact("notationFile", atFactory.getType("xmiFile")));
-		artefacts.put("umlFile", new Artefact("umlFile", atFactory.getType("xmiFile")));
-		artefacts.put("diFile", new Artefact("diFile", atFactory.getType("xmiFile")));
+//		initArtefactTypes();
+
+		/*
+		 * Link typing
+		 */
+//		initLinkTypes();
 		
 		/*
 		 * Fragments bags: elements (nodes), labels (leafs)
 		 */
-		HashMap<String, Artefact> xmlElts = new HashMap<>();
-		HashMap<String, Artefact> labels = new HashMap<>();
+//		HashMap<String, Artefact> xmlElts = new HashMap<>();
+//		HashMap<String, Artefact> labels = new HashMap<>();
 		
 		
-		/*
-		 * 
-		 * BELOW - MOVE - To ArtefactFactory and LinkFactory ?!
-		 * 
-		 */
 		
 		
 		// Fragments instanciation 
 		//  -> rebuild from XPath patterns
 		//  -> contextualizes with file/artefact location
-		Artefact eltXmiType = new Artefact("xmiType", atFactory.getType("xmlElt"));
-		Artefact labelHref = new Artefact("labelHref", atFactory.getType("label"));
+//		Artefact eltXmiType = new Artefact("xmiType", atFactory.getType("xmlElt"));
+//		Artefact labelHref = new Artefact("labelHref", atFactory.getType("label"));
 		
 		// Fragments connexion (Links instanciation)
 		//  - Which fragment connects -directly- with who, and -derively- with who
@@ -151,12 +148,12 @@ public class Config {
 		return res;
 	}
 
-	private void initArtefactTypes() {
-		atFactory.addType("xmiFile");
-		atFactory.addType("xmlElt");
-		atFactory.addType("label");
-		LOGGER.fine(""+atFactory.getTypesValues());
-	}
+//	private void initArtefactTypes() {
+//		atFactory.addType("xmiFile");
+//		atFactory.addType("xmlElt");
+//		atFactory.addType("label");
+//		LOGGER.fine(""+atFactory.getTypesValues());
+//	}
 	
 	public String getValue(String key) {
 		return values.get(key);

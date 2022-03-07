@@ -20,16 +20,15 @@ public class TestingTracemodel {
 	
 	public static void testClosure() {
 		System.out.println("TestingTracemodel.testClosure()");
-		ArtefactTypeFactory atFactory = ArtefactTypeFactory.getInstance();
 		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
 		
 		
 		Trace t = new Trace("TestClosure");
 		
-		ArtefactType typeCode    = atFactory.addType("CodeType");
-		ArtefactType typeDesign  = atFactory.addType("DesignType");
-		ArtefactType typePalette = atFactory.addType("PaletteType");
-		ArtefactType typeEltType = atFactory.addType("ETCType");
+		ArtefactType typeCode    = ArtefactTypeFactory.addType("CodeType");
+		ArtefactType typeDesign  = ArtefactTypeFactory.addType("DesignType");
+		ArtefactType typePalette = ArtefactTypeFactory.addType("PaletteType");
+		ArtefactType typeEltType = ArtefactTypeFactory.addType("ETCType");
 		
 		
 		/*
@@ -117,9 +116,8 @@ public class TestingTracemodel {
 	public void testTrace_1() {
 		Trace t = new Trace("TestTrace");
 		
-		ArtefactTypeFactory atFactory = ArtefactTypeFactory.getInstance();
-		ArtefactType atCode = atFactory.addType("Code");
-		ArtefactType atDesign = atFactory.addType("Design");
+		ArtefactType atCode = ArtefactTypeFactory.addType("Code");
+		ArtefactType atDesign = ArtefactTypeFactory.addType("Design");
 		
 		
 		Artefact artCode1 = new Artefact("artCode1", atCode);

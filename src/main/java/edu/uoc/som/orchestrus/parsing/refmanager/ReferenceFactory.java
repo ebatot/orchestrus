@@ -2,7 +2,6 @@ package edu.uoc.som.orchestrus.parsing.refmanager;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,25 +28,6 @@ public class ReferenceFactory {
 	 */
 	private static HashMap<String, Reference> references = new HashMap<>();
 
-	/**
-	 * Where did the references where found
-	 */
-	private static HashMap<Reference, ArrayList<String>> referencesSources = new HashMap<>();
-
-	/**
-	 * Source to reference
-	 */
-	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
-
-	/**
-	 * Locations on this computer. (No protocol, resolved or not)
-	 */
-	private static HashSet<String> locationsLocal = new HashSet<>();
-
-	/**
-	 * Locations external to this computer. (Protocol)
-	 */
-	private static HashSet<String> locationsExternal = new HashSet<>();
 
 	public static String extractInnerPath(String rawReference) {
 		String res = "";
@@ -146,37 +126,24 @@ public class ReferenceFactory {
 		return references.get(href);
 	}
 
+	/**
+	 * Builds a {@link Reference} from a href link (String) and a source file path.
+	 * @param href
+	 * @param sourceFile
+	 * @return
+	 */
 	public static Reference getReference(String href, String sourceFile) {
-
 		Reference rr = new Reference(href);
 		ReferenceFactory.resolveLocation(sourceFile, rr);
 
 		Reference r = references.get(rr.getHREF());
-		boolean exists = r != null;
-		if (!exists) {// R is new
+		if (r == null) {// R is new
 			references.put(rr.getHREF(), rr);
 			LOGGER.finest("Add: " + rr.getHREF());
 		} else {
 			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
-
-		if (!exists) {
-			// Use resolved locations to register references
-			if (r.hasProtocol()) {
-				locationsExternal.add(r.protocol + "://" + r.getTargetFileArtefact());
-			} else {
-				locationsLocal.add(r.getTargetFileArtefact());
-			}
-
-			if (!referencesSources.keySet().contains(r))
-				referencesSources.put(r, new ArrayList<String>());
-			referencesSources.get(r).add(sourceFile);
-
-			if (!referencesSourcesReversed.keySet().contains(sourceFile))
-				referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
-			referencesSourcesReversed.get(sourceFile).add(r);
-		}
 		return r;
 	}
 
@@ -194,38 +161,6 @@ public class ReferenceFactory {
 
 	public static List<Reference> getExternalReferences() {
 		return references.values().stream().filter(r -> !r.isLocal()).collect(Collectors.toList());
-	}
-
-	public static Collection<String> getSourceFiles() {
-		return referencesSourcesReversed.keySet();
-	}
-
-	public static boolean isLocal(Reference r) {
-		return locationsLocal.contains(r.getTargetFileArtefact());
-	}
-
-	/**
-	 * 
-	 * @return Locations on this computer. (No protocol, resolved or not)
-	 */
-	private static HashSet<String> getLocationsLocal() {
-		return locationsLocal;
-	}
-
-	/**
-	 * 
-	 * @return Locations external to this computer (Protocol)
-	 */
-	private static HashSet<String> getLocationsExternal() {
-		return locationsExternal;
-	}
-
-	private static HashMap<Reference, ArrayList<String>> getReferencesSources() {
-		return referencesSources;
-	}
-
-	private static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
-		return referencesSourcesReversed;
 	}
 
 	/**
@@ -262,3 +197,24 @@ public class ReferenceFactory {
 	}
 
 }
+
+//
+///**
+// * Where did the references where found
+// */
+//private static HashMap<Reference, ArrayList<String>> referencesSources = new HashMap<>();
+//
+///**
+// * Source to reference
+// */
+//private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
+//
+///**
+// * Locations on this computer. (No protocol, resolved or not)
+// */
+//private static HashSet<String> locationsLocal = new HashSet<>();
+//
+///**
+// * Locations external to this computer. (With protocol)
+// */
+//private static HashSet<String> locationsExternal = new HashSet<>();
