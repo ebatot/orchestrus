@@ -40,12 +40,11 @@ public class Tests {
 		System.out.println("    --       Parsing  tests       --");
 		System.out.println("    --------------------------------\n");
 
-		Config config = Config.getInstance();
+//		Config config = Config.getInstance();
 
 		StaticExplorer ppse = new StaticExplorer();
 
-		String interArtDependencies_JSON = ppse.getInterArtefactDependencies_JSON();
-//		Set<Reference> references = ReferenceFactory.buildReferences(interArtDependencies_JSON);
+		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
@@ -111,6 +110,11 @@ public class Tests {
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 
+	/**
+	 * 
+	 * @throws ParserConfigurationException
+	 */
+	@SuppressWarnings("unused")
 	public static void testDesignTypesExtraction() throws ParserConfigurationException {
 		LOGGER.info("");
 
@@ -129,6 +133,7 @@ public class Tests {
 		factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
 		try {
+			@SuppressWarnings("deprecation")
 			File umlProfile = new File(config.getDomainModelFiles().get("uml"));
 			LOGGER.info("UML Domain model file: " + umlProfile.getAbsolutePath());
 			Document doc = builder.parse(umlProfile);

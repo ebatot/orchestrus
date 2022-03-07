@@ -57,7 +57,8 @@ public class StaticExplorer {
 	
 	
 	/**
-	 * Get XMI elements with an HREF attribute, and other elements with interdependencies (ctx.values)
+	 * Get XMI elements with an HREF attribute (see {@link #getImportHrefs_Json()}) <br/>
+	 * and other elements with interdependencies (ctx.values) (see {@link #getCtxValues_Json()}
 	 * 
 	 * Collects on the fly references for later processing.
 	 * 
@@ -65,9 +66,9 @@ public class StaticExplorer {
 	 * @return JSON
 	 */
 	@SuppressWarnings("deprecation")
-	public String getInterArtefactDependencies_JSON() {
+	public String getInterArtefactReferences_Json() {
 		
-		String hrefs = getImportHrefs();
+		String hrefs = getImportHrefs_Json();
 		String ctxValues = getCtxValues_Json();
 
 		JsonParser parser = new JsonParser();
@@ -83,7 +84,7 @@ public class StaticExplorer {
 	}
 	
 	
-	public String getImportHrefs() {
+	public String getImportHrefs_Json() {
 		String res ="{";
 		int isf = 0;
 		for (String sf : Config.getInstance().getContentFoldersFull()) {

@@ -5,11 +5,13 @@ import java.util.HashMap;
 
 public class ArtefactTypeFactory {
 
-	public static final String EXTERNAL_FILE_ARTEFACT = "ExternalFileArtefact";
-	public static final String LOCAL_FILE_ARTEFACT = "LocalFileArtefact";
-	public static final String SOURCE_FILE_ARTEFACT = "SourceFileArtefact";
+	public static final ArtefactType EXTERNAL_FILE_ARTEFACT = addType("ExternalFileArtefact");
+	public static final ArtefactType LOCAL_FILE_ARTEFACT 	= addType("LocalFileArtefact");
+	public static final ArtefactType SOURCE_FILE_ARTEFACT 	= addType("SourceFileArtefact");
+	public static final ArtefactType SOURCE_FOLDER_ARTEFACT = addType("SourceFolderArtefact");
 	
 
+	
 	static ArtefactTypeFactory instance;
 
 	public static ArtefactTypeFactory getInstance() {
@@ -20,20 +22,23 @@ public class ArtefactTypeFactory {
 
 	HashMap<String, ArtefactType> types = new HashMap<>();
 
-	public ArtefactType addType(String typeName) {
+	public static ArtefactType addType(String typeName) {
 		ArtefactType add = new ArtefactType(typeName);
-		types.put(typeName, add);
+		getInstance().getTypes().put(typeName, add);
 		return add;
 	}
 
-	public ArtefactType getType(String typeName) {
-		if (types.get(typeName) == null)
+	public static ArtefactType getType(String typeName) {
+		if (getInstance().getTypes().get(typeName) == null)
 			addType(typeName);
-		return types.get(typeName);
+		return getInstance().getTypes().get(typeName);
 	}
 
 	public Collection<ArtefactType> getTypesValues() {
 		return types.values();
 	}
-
+	
+	public HashMap<String, ArtefactType> getTypes() {
+		return types;
+	}
 }

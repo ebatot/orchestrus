@@ -231,6 +231,10 @@ public class Config {
 		return getProjectFull() + File.separator + paletteConfigurationsFolder;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public HashMap<String, String> getUmlProfileFiles() {
 		HashMap<String, String> res = new HashMap<>(3);
 		res.put("uml", getUmlProfilesFolderFull() + File.separator + getProjectName() + ".profile.uml");
@@ -241,6 +245,10 @@ public class Config {
 		return res;
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public HashMap<String, String> getToolReqModelFiles(){
 		HashMap<String, String> res = new HashMap<>(3);
 		res.put("uml", getSpecificationModelsFolderFull() + File.separator + getProjectName() + TOOL_REQ_MODEL_SUFFIX + ".uml");
@@ -249,6 +257,10 @@ public class Config {
 		return res;
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public HashMap<String, String> getDomainModelFiles(){
 		HashMap<String, String> res = new HashMap<>(3);
 		res.put("uml", getSpecificationModelsFolderFull() + File.separator + getProjectName() + DOMAIN_MODEL_SUFFIX + ".uml");
@@ -257,6 +269,10 @@ public class Config {
 		return res;
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public HashMap<String, String> getLanguageReqModelFiles(){
 		HashMap<String, String> res = new HashMap<>(3);
 		res.put("uml", getSpecificationModelsFolderFull() + File.separator + getProjectName() + LANGUAGE_REQ_SUFFIX + ".uml");
