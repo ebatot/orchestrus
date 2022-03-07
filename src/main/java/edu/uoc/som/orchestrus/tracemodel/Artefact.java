@@ -3,11 +3,14 @@ package edu.uoc.som.orchestrus.tracemodel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
 public class Artefact extends TypedArtefact {
+	
+	public final static Logger LOGGER = Logger.getLogger(Artefact.class.getName());
 
 	private String location;
 	private Artefact parent;
@@ -44,6 +47,11 @@ public class Artefact extends TypedArtefact {
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
 	}
+	
+	@Override
+	public String toString() {
+		return this.getType().getName()+"["+this.getName()+"]";
+	}
 
 
 	public boolean isResolves() {
@@ -57,6 +65,7 @@ public class Artefact extends TypedArtefact {
 	public void addFragment(Artefact af) {
 		fragments.put(af.getID(), af);
 		af.setParent(this);
+		LOGGER.finest("Fragment: " + af + " ADDED to: " + this);
 	}
 
 	public String getLocation() {

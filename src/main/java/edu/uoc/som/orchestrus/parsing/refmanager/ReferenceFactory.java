@@ -47,7 +47,7 @@ public class ReferenceFactory {
 		return Protocol.getProtocol(rawReference);
 	}
 
-	enum Protocol {
+	public enum Protocol {
 		http, pathmap, platform, ppe, bundleclass, no_protocol;
 
 		static Protocol getProtocol(String raw) {

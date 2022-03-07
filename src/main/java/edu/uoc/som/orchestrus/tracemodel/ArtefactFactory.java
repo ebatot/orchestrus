@@ -31,7 +31,7 @@ public class ArtefactFactory {
 	/**
 	 * (location+name) -> artefact
 	 */
-	Map<String, Artefact> artefacts;
+	private Map<String, Artefact> artefacts;
 
 	public ArtefactFactory() {
 		artefacts = new HashMap<>();
@@ -48,8 +48,22 @@ public class ArtefactFactory {
 	public List<Artefact> subsetsArtefactsByTypeName(String typeName) {
 		return artefacts.values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
 	}
+	
+	public Artefact getArtefact(File f) {
+		String locationName = f.getParent() + f.getName();
+		System.out.println("ArtefactFactory.getArtefactF(" + locationName + ")");
+		return getArtefact(locationName);
+	}
+
+	public Artefact getArtefact(Reference r) {
+		File f = new File(r.getTargetFileArtefact());
+		String locationName = f.getParent() + f.getName();
+		System.out.println("ArtefactFactory.getArtefactR(" + locationName + ")");
+		return getArtefact(locationName);
+	}
 
 	public Artefact getArtefact(String locationName) {
+		System.out.println("ArtefactFactory.getArtefact(" + locationName + ")");
 		return artefacts.get(locationName);
 	}
 

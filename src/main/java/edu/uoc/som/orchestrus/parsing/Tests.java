@@ -25,6 +25,7 @@ import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
+import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
 
@@ -47,9 +48,16 @@ public class Tests {
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
+		
 		aFactory.buildArtefacts();
 		aFactory.printArtefactsByType();
 
+		
+		TraceFactory tFactory = TraceFactory.getInstance();
+		
+		
+		tFactory.buildLinks();
+		
 		// TODO connect artefacts with links.
 
 		// TODO Decompose artefacts with XPath patterns.

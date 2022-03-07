@@ -304,4 +304,12 @@ public class StaticExplorer {
 	public static Set<String> getSourceFiles() {
 		return referencesSourcesReversed.keySet();
 	}
+	
+	/**
+	 * 
+	 * @return For each source file, its references.
+	 */
+	public static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
+		return referencesSourcesReversed;
+	}
 }

@@ -1,5 +1,7 @@
 package edu.uoc.som.orchestrus.parsing.refmanager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
@@ -8,14 +10,14 @@ import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 public class Reference extends TracingElement {
 	public final static Logger LOGGER = Logger.getLogger(Reference.class.getName());
 
-	public boolean resolved = false;
+	private boolean resolved = false;
 	
-	String raw;
-	Protocol protocol;
-	String location;
-	String innerLocation;
+	private String raw;
+	private Protocol protocol;
+	private String location;
+	private String innerLocation;
+	private List<String> sources = new ArrayList<>();
 	
-	static int counter = 0;
 	public Reference(String strRef) {
 		this.raw = strRef;
 		this.protocol = ReferenceFactory.extractProtocol(this.raw);
@@ -32,6 +34,7 @@ public class Reference extends TracingElement {
 		return resolved;
 	}
 	
+	private static int counter = 0;
 	private void newName() {
 		setName("Ref_"+counter++);
 	}

@@ -51,8 +51,10 @@ public class TraceLink extends TypedLink {
 	
 	public Collection<TraceLink> getSuccessors() {
 		HashSet<TraceLink> res = new HashSet<>();
-		for (Artefact af : targets) 
-			res.addAll(af.getSourceOf());
+		for (Artefact af : targets) {
+			if(af != null)
+				res.addAll(af.getSourceOf());
+		}
 		return res;
 	}
 	
