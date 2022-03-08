@@ -21,19 +21,20 @@
   - [ ] Sort out unresolvable -> UX for typing alternative ? (Storage ?)
 - [ ] Extract Trace
   - [x] Extract Source/Local/External File artefact
-    - [x] Hardcoded typing ?
-  - [ ] Build (multiended) links between Source/Local/External artefact
+    - [ ] Hardcoded typing "translation" in Config ?
+  - [x] Build (multiended) links between Source/Local/External artefact
     - [ ] Source and Local: solve and use Xpath to  recover specific elements path
     - [ ] What about externals ? UX alternative ?
   - [ ] Solve specific elements path
   - [ ] Directly where possible: source, resolvable File artefact.
     - [ ] With UX for external ?
-- [ ] Store Trace in JSon
-  - [ ] Trace init links (IDs)
-  - [ ] Artefacts
-  - [ ] Links
-  - [ ] Typing: artefacts & links -> EngineeringDomain !! ("Translations" to  ApplicationDomain ?!)
-  - [ ] Fragmentation: cluster Paths to shows dependency nestso  like common ancestor in the tree (X)path.
+- [x] Store Trace in JSon
+  - [x] Trace init links (IDs)
+  - [x] Artefacts
+  - [x] Links
+  - [x] Typing: artefacts & links -> EngineeringDomain !! 
+    - ("Translations" to  ApplicationDomain ?!)
+  - [ ] Fragmentation: cluster Paths to shows dependency nests, like common ancestor in the tree (X)path.
   - [ ] WOT ELSE broo ?!!?
 
 - [ ] Load trace
@@ -50,4 +51,4 @@
   - projectDependencies = `com.cea.papyrus.referencemanagement`
 - File extensions ?
   - Resolved conflictual FileArtefact paths
-  - Link type "translations"
+  - Link type "translations" btw EngTypes and AppTypes

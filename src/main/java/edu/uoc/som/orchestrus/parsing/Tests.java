@@ -33,7 +33,6 @@ public class Tests {
 
 	public final static Logger LOGGER = Logger.getLogger(Tests.class.getName());
 
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
 		System.out.println("    --                            --");
@@ -81,14 +80,14 @@ public class Tests {
 		// - Check protocol (ppe, platform, pathmap, relative path, ...)
 
 		// - Classify elements
-		// - Check element types involved (widget, references, importedPackage,
+		//   - Check element types involved (widget, references, importedPackage,
 		// importedElement, ...)
-		// - Cross with destination group (in/ext, SysML,UML,ECore, dependent library,
+		//   - Cross with destination group (in/ext, SysML,UML,ECore, dependent library,
 		// ...)
 
 		// - Refine artefacts
-		// - High level Design/Code/Profile/...
-		// - Fragment for leaves (last XPath element) and group with "grouping"
+		//   - High level Design/Code/Profile/...
+		//   - Fragment for leaves (last XPath element) and group with "grouping"
 
 		/*
 		 * The 'grouping idea' is interesting. Like drawing a vertical map of the
@@ -96,12 +95,13 @@ public class Tests {
 		 */
 
 		// - Creat links
-		// - Explicit: Typed from source and target types (Engineering)
-		// - Implicit: Derived (and typed) from group provenance
-
+		//   - Explicit: Typed from source and target types (Engineering)
+		//   - Implicit: Derived (and typed) from group provenance
+		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void storeTrace_HC(Trace t) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\traceSample.json");
 		try {
@@ -113,6 +113,7 @@ public class Tests {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void storeDependencies_HC(String interArtDependencies_JSON) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
 		try {
