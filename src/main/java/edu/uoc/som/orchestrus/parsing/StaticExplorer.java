@@ -41,6 +41,7 @@ import edu.uoc.som.orchestrus.utils.Utils;
 
 public class StaticExplorer {
 	public final static Logger LOGGER = Logger.getLogger(StaticExplorer.class.getName());
+	public final static Logger LOGGER2 = Logger.getLogger(StaticExplorer.class.getName()+2);
 	private static final String XMI_SOURCE_PATH = "refSource";
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;
@@ -59,7 +60,7 @@ public class StaticExplorer {
 	
 	
 	/**
-	 * Get XMI elements with an HREF attribute (see {@link #getImportHrefs_Json()}) <br/>
+	 * Get XMI elements with an HREF attribute (see {@link #getHrefs_Json()}) <br/>
 	 * and other elements with interdependencies (ctx.values) (see {@link #getCtxValues_Json()}
 	 * 
 	 * Collects on the fly references for later processing.
@@ -70,7 +71,10 @@ public class StaticExplorer {
 	@SuppressWarnings("deprecation")
 	public String getInterArtefactReferences_Json() {
 		
-		String hrefs = getImportHrefs_Json();
+		String hrefs = getHrefs_Json();
+		
+		String configFilesRefs = getReferencesFromConfigFiles_Json(builder);
+		
 		String ctxValues = getCtxValues_Json();
 
 		JsonParser parser = new JsonParser();
@@ -86,7 +90,7 @@ public class StaticExplorer {
 	}
 	
 	
-	public String getImportHrefs_Json() {
+	private String getHrefs_Json() {
 		String res ="{";
 		int isf = 0;
 		for (String sf : Config.getInstance().getContentFoldersFull()) {
@@ -97,7 +101,7 @@ public class StaticExplorer {
 			String domainModelHrefs = "";
 			try {
 				if (files != null)
-					domainModelHrefs = getHrefs_Json(Arrays.asList(files));
+					domainModelHrefs = getHrefsFromFiles_Json(Arrays.asList(files));
 				res += domainModelHrefs;
 			} catch (SAXException e) {
 				// TODO Auto-generated catch block
@@ -113,10 +117,22 @@ public class StaticExplorer {
 		return res + "}";
 	}
 	
+	private String getHrefsFromFiles_Json(Collection<File> files) throws SAXException, IOException {
+		String res = "{";
+		int i = 0;
+		int countElts  = 0;
+		for (File f : files) {
+			List<Element> elts = getHREFElementsFromFile(builder, f);
+			countElts += elts.size();
+			String hrefs = getJSonForHrefs(elts) ;
+			res += "\n\""+f.getName()+"\": "+hrefs + (++i < files.size()?",":"");
+		}
+		res += "}";
+		LOGGER.fine(countElts + " references found in " + files.size() +" files");
+		return res;
+	}
 	
-
-	
-	public String getCtxValues_Json() {
+	private String getCtxValues_Json() {
 		String res = "";
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
 		List<Element> elts = Collections.emptyList();
@@ -131,22 +147,7 @@ public class StaticExplorer {
 		}
 		
 		res = Utils.cleanJSon(res);
-		LOGGER.fine(elts.size() + " elements found in '" + fContext +"'");
-		return res;
-	}
-
-	private String getHrefs_Json(Collection<File> files) throws SAXException, IOException {
-		String res = "{";
-		int i = 0;
-		int countElts  = 0;
-		for (File f : files) {
-			List<Element> elts = getHREFElementsFromFile(builder, f);
-			countElts += elts.size();
-			String hrefs = getJSonForHrefs(elts) ;
-			res += "\n\""+f.getName()+"\": "+hrefs + (++i < files.size()?",":"");
-		}
-		res += "}";
-		LOGGER.fine(countElts + " elements found in " + files.size() +" files");
+		LOGGER.fine(elts.size() + " references found in '" + fContext +"'");
 		return res;
 	}
 	
@@ -268,6 +269,7 @@ public class StaticExplorer {
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 			   Node nNode = nodeList2.item(i);
 			   elts.add((Element)nNode);
+			   //Injects sourceFile in Element.
 			   ((Element)nNode).setAttribute(XMI_SOURCE_PATH, xmlFile.getAbsolutePath());
 			   LOGGER.finest(" ->  "+((Element)nNode).getAttribute("href"));
 			   
@@ -277,6 +279,64 @@ public class StaticExplorer {
 		}
 		return elts;
 	}
+	
+	public  String getReferencesFromConfigFiles_Json(DocumentBuilder builder) {
+		String res = "";
+
+		res += extractPluginXMLRefs();
+		res += extractProjectRefs();
+		
+		
+		
+		
+		return res;
+	}
+	
+	
+	private  String extractProjectRefs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return JSON containing references found in /plugin.xml file
+	 */
+	private  String extractPluginXMLRefs() {
+		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
+		
+		
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			//		String expression = "//*[@href]";
+			String expression = "/plugin/extension/profile";
+			List<Element> elts = new ArrayList<>();
+			try {
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList2.getLength(); i++) {
+					Node nNode = nodeList2.item(i);
+					elts.add((Element)nNode);
+					//Injects sourceFile in Element.
+					((Element)nNode).setAttribute(XMI_SOURCE_PATH, f.getAbsolutePath());
+					LOGGER.finest(" ->  "+((Element)nNode).getAttribute("href"));
+					
+				}
+			} catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return null;
+	}
+
+
 	private static List<Element> getContextValuElementsFromFile(DocumentBuilder builder, File xmlFile)
 			throws SAXException, IOException {
 		LOGGER.finest("XMI file: "+xmlFile.getAbsolutePath());

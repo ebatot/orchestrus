@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import edu.uoc.som.orchestrus.tracemodel.Trace;
 import net.thisptr.jackson.jq.BuiltinFunctionLoader;
 import net.thisptr.jackson.jq.JsonQuery;
 import net.thisptr.jackson.jq.Scope;
@@ -27,6 +28,7 @@ import net.thisptr.jackson.jq.exception.JsonQueryException;
 import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
+	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
 
 	public static void main(String[] args) {
 		 printLOC();
@@ -34,13 +36,36 @@ public class Utils {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static File writeTmpJson(String json) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\tmp.json");
+	public static void storeTrace_HC(Trace t) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\traceSample.json");
+		try {
+			FileUtils.write(f, t.printJSon());
+			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void storeDependencies_HC(String interArtDependencies_JSON) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\refSample.json");
+		try {
+			FileUtils.write(f, interArtDependencies_JSON);
+			LOGGER.info("Inter-files references stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	@SuppressWarnings("deprecation")
+	public static File writeTmpJson_HC(String json) {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\tmp.json");
 		try {
 			FileUtils.write(f, json);
+			LOGGER.info("JSon stored in '"+f.getAbsolutePath()+"'");
 			return f;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

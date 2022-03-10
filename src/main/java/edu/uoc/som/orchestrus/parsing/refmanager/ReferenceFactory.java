@@ -123,15 +123,25 @@ public class ReferenceFactory {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param href
+	 * @return null is href do not exists in the stack of references.
+	 */
 	public static Reference getReference(String href) {
 		return references.get(href);
 	}
 
 	/**
-	 * Builds a {@link Reference} from a href link (String) and a source file path.
+	 * Builds a new {@link Reference} from a href link (String) and a source file
+	 * path if "href" does not match an existing reference. <br/>
+	 * Href are compared <i>resolved</i> (See {@link Reference#isResolved()} and
+	 * {@link #resolveLocation(String, Reference)})
+	 * 
 	 * @param href
-	 * @param sourceFile
-	 * @return
+	 * @param sourceFile Path to source file where the href was found.
+	 * @return A new reference is "href" does not match an existing reference. <br/>
+	 *         Href are compared <i>resolved</i>
 	 */
 	public static Reference getReference(String href, String sourceFile) {
 

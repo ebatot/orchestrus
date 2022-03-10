@@ -28,6 +28,7 @@ import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
+import edu.uoc.som.orchestrus.utils.Utils;
 
 public class Tests {
 
@@ -45,7 +46,7 @@ public class Tests {
 		
 		StaticExplorer ppse = new StaticExplorer();
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
-		storeDependencies_HC(interArtDependencies_JSON);
+		Utils.storeDependencies_HC(interArtDependencies_JSON);
 
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
@@ -54,16 +55,17 @@ public class Tests {
 
 		
 		TraceFactory tFactory = TraceFactory.getInstance();
+
+		// TODONE Connect fragments.
 		tFactory.fragmentSourcesAndFolders();
+		// TODONE connect artefacts with links.
 		Trace t = tFactory.buildBaseTrace();
 		
 		
-		storeTrace_HC(t);
-		// TODONE connect artefacts with links.
+		Utils.storeTrace_HC(t);
 
 		// TODO Decompose artefacts with XPath patterns.
 
-		// TODO Connect fragments.
 
 
 
@@ -101,28 +103,6 @@ public class Tests {
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}
 
-	@SuppressWarnings("deprecation")
-	private static void storeTrace_HC(Trace t) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\traceSample.json");
-		try {
-			FileUtils.write(f, t.printJSon());
-			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	private static void storeDependencies_HC(String interArtDependencies_JSON) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML\\refSAmple.json");
-		try {
-			FileUtils.write(f, interArtDependencies_JSON);
-			LOGGER.info("Inter-files references stored in '"+f.getAbsolutePath()+"'");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * 
