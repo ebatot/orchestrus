@@ -6,10 +6,16 @@
 
 - [x] XMI standards
 - [ ] Project config
-  - .properties
-  - .MF
-  - plugin.x
-  - ...
+  - build.properties 
+  - plugin.xml 
+    - --> profile description (name + path) to `"GlossaryML"`
+  - .project
+    - --> subprojects references
+  - MANIFEST.MF
+  - .classpath
+    - --> src entries (gen, custom, and referenced !)
+  - build.properties
+    - --> bin, src, out entries.
 - [ ] Java files
 
 ### Run
@@ -45,10 +51,11 @@
 ### Setup
 
 - Config file
-  - project = `com.cea.papyrus.glossary`
+  - project = `com.cea.papyrus.glossary` --> plugin.xml
   - projectRoot = `R:\Coding\Git\orchestrus\data\GlossaryML-ReferenceML`
-  - projectName = `GlossaryML`
-  - projectDependencies = `com.cea.papyrus.referencemanagement`
+  - projectName = `GlossaryML` --> plugin.xml
+  - projectDependencies = `com.cea.papyrus.referencemanagement` --> .project
+
 - File extensions ?
   - Resolved conflictual FileArtefact paths
   - Link type "translations" btw EngTypes and AppTypes
