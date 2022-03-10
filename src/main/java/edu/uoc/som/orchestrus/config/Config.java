@@ -14,20 +14,40 @@ public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
 	
-	
+	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+	String project = "com.cea.papyrus.glossary";
+	String projectName = "GlossaryML";
+	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
+
+
+
 	/*
-	 * Hard coded build.properties-like
+	 * Hard coded config files (in project root folder)
 	 */
-	static String architectureFramework 	= "architecture-framework";
-	static String elementTypeConfiguration 		= "element-type-configurations";
-	static String paletteConfigurationsFolder 	= "palette-configurations";
-	static String propertiesEditorConfiguration = "properties-editor-configurations";
-	static String specificationModelsFolder 	= "specification-models";
-	static String tabularEditorConfiguration 	= "tabular-editors-configurations";
-	static String umlProfilesFolder 			= "uml-profiles";
-	static String rootFolder 					= ".";
-	
-	
+	public static final String PLUGIN_XML_FILENAME = "plugin.xml";
+	public static final String PROJECT_FILENAME = ".project";
+	public static final String CLASSPATH_FILENAME = ".classpath";
+	public static final String MANIFEST_FILENAME = "META-INF"+File.separator+"MANIFEST.MF";
+	public static final String BUILD_PROPERTIES_FILENAME = "build.properties";
+	List<String> configFiles = Arrays.asList(
+			PLUGIN_XML_FILENAME, 
+			PROJECT_FILENAME,
+			CLASSPATH_FILENAME, 
+			MANIFEST_FILENAME, 
+			BUILD_PROPERTIES_FILENAME
+		);
+
+	/*
+	 * Hard coded folders names
+	 */
+	static final String architectureFramework = "architecture-framework";
+	static final String elementTypeConfiguration = "element-type-configurations";
+	static final String paletteConfigurationsFolder = "palette-configurations";
+	static final String propertiesEditorConfiguration = "properties-editor-configurations";
+	static final String specificationModelsFolder = "specification-models";
+	static final String tabularEditorConfiguration = "tabular-editors-configurations";
+	static final String umlProfilesFolder = "uml-profiles";
+	static final String rootFolder = ".";
 	List<String> contentFolders = Arrays.asList(
 			architectureFramework, 
 			elementTypeConfiguration,
@@ -36,7 +56,8 @@ public class Config {
 			specificationModelsFolder,
 			tabularEditorConfiguration, 
 			umlProfilesFolder,
-			rootFolder);
+			rootFolder
+		);
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";
 	static String DOMAIN_MODEL_SUFFIX = ".domainmodel";
@@ -55,12 +76,6 @@ public class Config {
 	HashMap<String, String> values = new HashMap<>();
 	/** Name -> Artefact */
 	HashMap<String, Artefact> artefacts = new HashMap<>();
-	
-	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-	String project = "com.cea.papyrus.glossary";
-	String projectName = "GlossaryML";
-	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
-
 	
 	private Config() {
 		atFactory = ArtefactTypeFactory.getInstance();
@@ -85,6 +100,13 @@ public class Config {
 		}
 		
 
+		check = checkConfigFilesNames();
+		if(!check) {
+			LOGGER.severe("Some config files were not found. Please check configuration.\nExit with errors.");
+			System.exit(1);
+		} else {
+			LOGGER.fine("Config files correct.");
+		}
 		/*
 		 * Artefacts typing
 		 */
@@ -119,6 +141,18 @@ public class Config {
 		 */
 	}
 
+	private boolean checkConfigFilesNames() {
+		boolean res = true;
+		
+		for (String sf : configFiles) {
+			boolean tmp = getConfigFile(sf).exists();
+			if(!tmp)
+				LOGGER.warning("Could not find file: "+getConfigFile(sf).getAbsolutePath());
+			res &= tmp;
+		}
+		return res;
+	}
+
 	private boolean checkFolderNames() {
 		boolean res = true;
 		//Main /
@@ -148,13 +182,6 @@ public class Config {
 		return res;
 	}
 
-//	private void initArtefactTypes() {
-//		atFactory.addType("xmiFile");
-//		atFactory.addType("xmlElt");
-//		atFactory.addType("label");
-//		LOGGER.fine(""+atFactory.getTypesValues());
-//	}
-	
 	public String getValue(String key) {
 		return values.get(key);
 	}
@@ -276,6 +303,10 @@ public class Config {
 		res.put("di", getSpecificationModelsFolderFull() + File.separator + getProjectName() + LANGUAGE_REQ_SUFFIX + ".di");
 		res.put("notation", getSpecificationModelsFolderFull() + File.separator + getProjectName() + LANGUAGE_REQ_SUFFIX + ".notation");
 		return res;
-		
+	}
+
+	public File getConfigFile(String fileName) {
+		File f = new File(projectRoot + File.separator+project+File.separator + fileName);
+		return f;
 	}
 }
