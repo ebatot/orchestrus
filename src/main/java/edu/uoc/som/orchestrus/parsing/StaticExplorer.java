@@ -151,6 +151,103 @@ public class StaticExplorer {
 		return res;
 	}
 	
+	public  String getReferencesFromConfigFiles_Json(DocumentBuilder builder) {
+		String res = "";
+	
+		res += extractPluginXMLRefs();
+		res += extractProjectRefs();
+		
+		
+		
+		
+		return res;
+	}
+
+	private  String extractProjectRefs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	/**
+	 * 
+	 * @return JSON containing references found in /plugin.xml file
+	 */
+	private  String extractPluginXMLRefs() {
+		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
+		String pluginXmlFileJson = "\"plugin.xml\": {";
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			
+			pluginXmlFileJson += getProfileExtension(doc, xPath, f);
+			pluginXmlFileJson += ",\n"+getProfileExtensionPoints(doc, xPath, f);
+			
+			
+			String expression = "//*[@path or model or class]";
+			
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return pluginXmlFileJson + "}";
+	}
+	
+	private String getProfileExtensionPoints(Document doc, XPath xPath, File f) {
+		String res = "\"extension-profile\":";
+			String expression = "//*[@ ]";
+			/*
+			 * 
+			 * 
+			 * 
+			 * 
+			 * TODO Aqui !
+			 * 
+			 * get extensioni point path model .....
+			 * 
+			 * 
+			 * 
+			 * 
+			 */
+			try {
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList2.getLength(); i++) {
+					if ( i > 1 ) {
+						throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
+					}
+					Node nNode = nodeList2.item(i);
+					LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
+					res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
+				}
+			} catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+		return res;
+	}
+
+	private String getProfileExtension(Document doc, XPath xPath, File f) {
+		String res = "\"extension-profile\":";
+			String expression = "/plugin/extension/profile";
+			try {
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList2.getLength(); i++) {
+					if ( i > 1 ) {
+						throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
+					}
+					Node nNode = nodeList2.item(i);
+					LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
+					res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
+				}
+			} catch (XPathExpressionException e) {
+				e.printStackTrace();
+			}
+		return res;
+	}
+
 	/**
 	 * Source to reference
 	 */
@@ -280,63 +377,6 @@ public class StaticExplorer {
 		return elts;
 	}
 	
-	public  String getReferencesFromConfigFiles_Json(DocumentBuilder builder) {
-		String res = "";
-
-		res += extractPluginXMLRefs();
-		res += extractProjectRefs();
-		
-		
-		
-		
-		return res;
-	}
-	
-	
-	private  String extractProjectRefs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return JSON containing references found in /plugin.xml file
-	 */
-	private  String extractPluginXMLRefs() {
-		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
-		
-		
-		try {
-			Document doc = builder.parse(f);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			//		String expression = "//*[@href]";
-			String expression = "/plugin/extension/profile";
-			List<Element> elts = new ArrayList<>();
-			try {
-				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-				for (int i = 0; i < nodeList2.getLength(); i++) {
-					Node nNode = nodeList2.item(i);
-					elts.add((Element)nNode);
-					//Injects sourceFile in Element.
-					((Element)nNode).setAttribute(XMI_SOURCE_PATH, f.getAbsolutePath());
-					LOGGER.finest(" ->  "+((Element)nNode).getAttribute("href"));
-					
-				}
-			} catch (XPathExpressionException e) {
-				e.printStackTrace();
-			}
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		return null;
-	}
-
-
 	private static List<Element> getContextValuElementsFromFile(DocumentBuilder builder, File xmlFile)
 			throws SAXException, IOException {
 		LOGGER.finest("XMI file: "+xmlFile.getAbsolutePath());

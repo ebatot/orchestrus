@@ -1,6 +1,55 @@
 package edu.uoc.som.orchestrus;
 
+import edu.uoc.som.orchestrus.parsing.StaticExplorer;
+import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
+import edu.uoc.som.orchestrus.tracemodel.Trace;
+import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
+import edu.uoc.som.orchestrus.utils.Utils;
+
 public class Orchestrus {
+	
+	
+	public static void main(String[] args) {
+		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
+		System.out.println("    --                            --");
+		System.out.println("    -- --      Orchestrus      -- --");
+		System.out.println("    --                            --");
+		System.out.println("    --------------------------------\n");
+
+//		Config config = Config.getInstance();
+
+		
+		StaticExplorer ppse = new StaticExplorer();
+		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
+		Utils.storeDependencies_HC(interArtDependencies_JSON);
+
+		// Build artefacts from Sources and References
+		ArtefactFactory aFactory = ArtefactFactory.getInstance();
+		aFactory.buildArtefacts();
+		
+		
+		TraceFactory tFactory = TraceFactory.getInstance();
+		// TODONE Connect fragments.
+		tFactory.fragmentSourcesAndFolders();
+		// TODONE connect artefacts with links.
+		Trace t = tFactory.buildBaseTrace();
+		
+		
+		Utils.storeTrace_HC(t);
+
+		// TODO Decompose artefacts with XPath patterns.
+
+
+
+
+		/*
+		 * Check which files are left - Javas - Manifest & Pom - Class path &
+		 * .properties - plugin.xml
+		 */
+
+		System.err.flush();
+		System.out.println("\n\n-- Safe Exit o·~ !¡");
+	}
 	/*
 	 *  Arguments:
 	 *  - Config file

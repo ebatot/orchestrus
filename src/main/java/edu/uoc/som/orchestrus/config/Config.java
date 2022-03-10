@@ -20,7 +20,6 @@ public class Config {
 	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
 
 
-
 	/*
 	 * Hard coded config files (in project root folder)
 	 */

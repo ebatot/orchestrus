@@ -4,16 +4,11 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.jayway.jsonpath.JsonPath;
-
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
-import net.minidev.json.JSONArray;
 
 public class ReferenceFactory {
 	public final static Logger LOGGER = Logger.getLogger(ReferenceFactory.class.getName());
