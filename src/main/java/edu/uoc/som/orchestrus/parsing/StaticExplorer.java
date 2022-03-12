@@ -70,23 +70,34 @@ public class StaticExplorer {
 	 */
 	@SuppressWarnings("deprecation")
 	public String getInterArtefactReferences_Json() {
-		
-		String hrefs = getHrefs_Json();
-		
-		String configFilesRefs = getReferencesFromConfigFiles_Json(builder);
-		
-		String ctxValues = getCtxValues_Json();
-
 		JsonParser parser = new JsonParser();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-		JsonElement el = parser.parse(hrefs);
-		JsonElement el2 = parser.parse(ctxValues);
-		JsonObject ob = el.getAsJsonObject();
+		
+		// Root created with HREFS references
+		String hrefs = getHrefs_Json();
+		JsonElement elHrefs = parser.parse(hrefs);
+		
+		// TODO Check uml-profile/*.ecore, *.genmodel
+		//TODO
+		
+		
+		// Added extra context references
+		String ctxValues = getCtxValues_Json();
+		JsonElement elCtx = parser.parse(ctxValues);
+		JsonObject ob = elHrefs.getAsJsonObject();
 		String contextFileName = config.getProjectName() + ".ctx";
 		JsonObject obEditorProperties = ob.getAsJsonObject(config.getPropertiesEditorConfiguration());
-		obEditorProperties.add(contextFileName+"-values", el2);
-		return gson.toJson(el);
+		obEditorProperties.add(contextFileName+"-values", elCtx);
+		
+		// Plugin.xml references
+		String pluginXmlRefs = extractPluginXMLRefs();
+		JsonElement elPlugin = parser.parse(pluginXmlRefs);
+		ob.add(Config.PLUGIN_XML_FILENAME, elPlugin);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		
+		
+		return gson.toJson(elHrefs);
 	}
 	
 	
@@ -104,10 +115,8 @@ public class StaticExplorer {
 					domainModelHrefs = getHrefsFromFiles_Json(Arrays.asList(files));
 				res += domainModelHrefs;
 			} catch (SAXException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (++isf < Config.getInstance().getContentFoldersName().size())
@@ -151,23 +160,6 @@ public class StaticExplorer {
 		return res;
 	}
 	
-	public  String getReferencesFromConfigFiles_Json(DocumentBuilder builder) {
-		String res = "";
-	
-		res += extractPluginXMLRefs();
-		res += extractProjectRefs();
-		
-		
-		
-		
-		return res;
-	}
-
-	private  String extractProjectRefs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	/**
 	 * 
@@ -175,76 +167,117 @@ public class StaticExplorer {
 	 */
 	private  String extractPluginXMLRefs() {
 		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
-		String pluginXmlFileJson = "\"plugin.xml\": {";
 		try {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			
-			pluginXmlFileJson += getProfileExtension(doc, xPath, f);
-			pluginXmlFileJson += ",\n"+getProfileExtensionPoints(doc, xPath, f);
-			
-			
-			String expression = "//*[@path or model or class]";
+			return getProfileExtensionPoints(doc, xPath, f);
 			
 		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
 		}
-		
-		return pluginXmlFileJson + "}";
+		return "";
 	}
 	
-	private String getProfileExtensionPoints(Document doc, XPath xPath, File f) {
-		String res = "\"extension-profile\":";
-			String expression = "//*[@ ]";
+	private String getProfileExtensionPoints(Document doc, XPath xPath, File f) throws XPathExpressionException {
+		String resElt = "{";
+
+		String expression = "//extension[@point]";
+		NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+		int i = 0;
+		for (i = 0; i < nodeList2.getLength(); i++) {
+			Node nNode = nodeList2.item(i);
+
 			/*
 			 * 
 			 * 
 			 * 
-			 * 
-			 * TODO Aqui !
-			 * 
-			 * get extensioni point path model .....
-			 * 
-			 * 
-			 * 
+			 * TODO
+			 * Here we are. One case for each extension point type.
+			 *  -> references "profile-extension-points"
+			 *     - element name, attributes path, model, etc.
 			 * 
 			 */
-			try {
-				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-				for (int i = 0; i < nodeList2.getLength(); i++) {
-					if ( i > 1 ) {
-						throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
-					}
-					Node nNode = nodeList2.item(i);
-					LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
-					res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
-				}
-			} catch (XPathExpressionException e) {
-				e.printStackTrace();
+
+			
+			String point = ((Element)nNode).getAttribute("point");
+			String value = "";
+			String name = ((Element)nNode).getAttribute("name");
+			String path = ((Element)nNode).getAttribute("path");
+			
+			
+			value = nNode.toString();
+			
+			switch (ExtensionPoint.getExtensionPointFromName(point)) {
+			case profile:
+				value = getProfileExtension(doc, xPath, f);
+				break;
+			case generated_package:
+			case architecture:
+			case infra:
+			case conetxt:
+			case factory:
+				value = "{\"TODO\": \"TODO\"}";
+				//TODO
+				break;
+			default:
+				throw new IllegalArgumentException("Should never get there, unrecognized extension point: "+point);
 			}
-		return res;
+			
+			
+			LOGGER2.finest("\""+point+"\": "+value+"");
+			resElt += "\""+point+"\": "+value+",\n";
+		}
+		if(i>0) 
+			resElt = resElt.substring(0, resElt.trim().length()-1);
+		return resElt + "}";
+	}
+	static enum ExtensionPoint {
+		profile("org.eclipse.papyrus.uml.extensionpoints.UMLProfile"),
+		generated_package("org.eclipse.emf.ecore.generated_package"),
+		architecture("org.eclipse.papyrus.infra.architecture.models"),
+		infra("org.eclipse.papyrus.infra.newchild"),
+		conetxt("org.eclipse.papyrus.infra.properties.contexts"),
+		factory("org.eclipse.emf.ecore.factory_override");
+
+		ExtensionPoint(String name) {
+			this.name = name;
+		}
+		
+		static ExtensionPoint getExtensionPointFromName(String name) {
+			for (ExtensionPoint ep : ExtensionPoint.values()) {
+				if(ep.getName().equals(name))
+					return ep;
+			}
+			return null;
+		}
+		
+		
+		String name;
+		public String getName() {
+			return name;
+		}
 	}
 
 	private String getProfileExtension(Document doc, XPath xPath, File f) {
-		String res = "\"extension-profile\":";
-			String expression = "/plugin/extension/profile";
-			try {
-				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-				for (int i = 0; i < nodeList2.getLength(); i++) {
-					if ( i > 1 ) {
-						throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
-					}
-					Node nNode = nodeList2.item(i);
-					LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
-					res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
+		String res = "";
+		String expression = "/plugin/extension/profile";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
 				}
-			} catch (XPathExpressionException e) {
-				e.printStackTrace();
+				Node nNode = nodeList2.item(i);
+				LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
+				res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
 			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 

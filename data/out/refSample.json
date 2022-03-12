@@ -1,0 +1,1886 @@
+{
+  "architecture-framework": {
+    "glossary-ml.architecture": [
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[1]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/uml.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[2]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[3]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.infra.emf/model/infra-emf.elementtypesconfigurations#_rWI4YHPzEeSnGJwaJWHCSg"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[4]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.infra.gmfdiag.common/model/notation.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[5]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/uml-containments.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[6]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types.ui/model/uml-advice.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[7]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.infra.types.rulebased/model/rulebased.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[8]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.diagram.stereotype.edition/model/stereotype-edit.elementtypesconfigurations#_ScP1oFYCEeS0WsAAtVmToA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[9]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.infra.gmfdiag.common/model/gmfdiag-common.elementtypesconfigurations#_rWI4YHPzEeSnGJwaJWHCSg"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[10]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.diagram.interactionoverview/model/interactionOverviewDiagram.elementtypesconfigurations#_x8G0YGaNEeSyJIsxLao1Pw"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[11]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "pathmap:///PAPYRUS_VIEWPOINTS_POLICY/representations/advice#_A5utQL5PEeuDXfdzV8a7zA"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[12]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.referencemanagement/element-type-configurations/ReferencesML.elementtypesconfigurations#com.cea.papyrus.referenceML.elementTypes"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[13]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml16.service.types/model/SysML16.elementtypesconfigurations#org.eclipse.papyrus.sysml16.service.types.elementTypeSet"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[14]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml16.diagram.common/resources/SysML16DiUML.elementtypesconfigurations#org.eclipse.papyrus.sysml16di.elementTypes"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[15]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_glossarystructurediagram.elementtypesconfigurations#_8gaucW14Eey1C9EStxUthQ"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/elementTypes[16]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/elementTypes",
+        "xmi:type": "elementtypesconfigurations:ElementTypeSetConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.elementTypes"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[1]/modelRules[1]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Tree Table]/modelRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Package"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[1]/modelRules[2]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Tree Table]/modelRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[1]/owningRules[1]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Tree Table]/owningRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Package"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[1]/owningRules[2]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Tree Table]/owningRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[1]/configuration",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Tree Table]/configuration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/tabular-editors-configurations/glossary_tree_table.nattableconfiguration#PapyrusUMLGenericTreeTable_XMI_ID"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[2]/modelRules[1]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Structure Diagram]/modelRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Package"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[2]/modelRules[2]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Structure Diagram]/modelRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[2]/owningRules[1]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Structure Diagram]/owningRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Package"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[2]/owningRules[2]/element",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Structure Diagram]/owningRules/element",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/representationKinds[2]/palettes",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/representationKinds[Glossary Structure Diagram]/palettes",
+        "xmi:type": "paletteconfiguration:PaletteConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/palette-configurations/GlossaryML.paletteconfiguration#/"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/metamodel",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/metamodel",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#/"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/profiles[1]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/profiles",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///com.cea.papyrus.glossaryml#/"
+      },
+      {
+        "xpath": "/architecture:ArchitectureDomain/contexts/profiles[2]",
+        "xpathNamed": "/architecture:ArchitectureDomain[Glossary-Domain]/contexts[GlossaryML]/profiles",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///com.cea.papyrus.referenceml#/"
+      }
+    ]
+  },
+  "element-type-configurations": {
+    "GlossaryML.creationmenumodel": [
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[1]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/element-type-configurations/ReferencesML.elementtypesconfigurations#com.cea.papyrus.referenceML.Collection"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[2]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.Definition"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[3]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "../../../plugin/org.eclipse.papyrus.sysml16.service.types/model/SysML16.elementtypesconfigurations#org.eclipse.papyrus.SysML16.ElementGroup"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[4]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.Glossary"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[5]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/element-type-configurations/ReferencesML.elementtypesconfigurations#com.cea.papyrus.referenceML.Reference"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[6]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/element-type-configurations/ReferencesML.elementtypesconfigurations#com.cea.papyrus.referenceML.ReferenceLibrary"
+      },
+      {
+        "xpath": "/ElementCreationMenuModel:Folder/menu[7]/elementType",
+        "xpathNamed": "/ElementCreationMenuModel:Folder/menu/elementType",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.Term"
+      }
+    ],
+    "GlossaryML_glossarystructurediagram.elementtypesconfigurations": [
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[1]/specializedTypes[1]",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.glossarystructurediagram.elementTypes]/elementTypeConfigurations[Glossary (Model)]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.Glossary"
+      },
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[1]/specializedTypes[2]",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.glossarystructurediagram.elementTypes]/elementTypeConfigurations[Glossary (Model)]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Model_Shape"
+      },
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[2]/specializedTypes[1]",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.glossarystructurediagram.elementTypes]/elementTypeConfigurations[Glossary (Model)]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_Semantic.elementtypesconfigurations#com.example.glossaryML.Glossary"
+      },
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[2]/specializedTypes[2]",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.glossarystructurediagram.elementTypes]/elementTypeConfigurations[Glossary (Model)]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Model_Shape_CN"
+      }
+    ],
+    "GlossaryML_Semantic.elementtypesconfigurations": [
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[1]/specializedTypes",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.metamodel.elementTypes]/elementTypeConfigurations[Definition]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:MetamodelTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/uml.elementtypesconfigurations#org.eclipse.papyrus.uml.Comment"
+      },
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[2]/specializedTypes",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.metamodel.elementTypes]/elementTypeConfigurations[Glossary]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:MetamodelTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/uml.elementtypesconfigurations#org.eclipse.papyrus.uml.Model"
+      },
+      {
+        "xpath": "/elementtypesconfigurations:ElementTypeSetConfiguration/elementTypeConfigurations[3]/specializedTypes",
+        "xpathNamed": "/elementtypesconfigurations:ElementTypeSetConfiguration[com.example.glossaryML.metamodel.elementTypes]/elementTypeConfigurations[Term]/specializedTypes",
+        "xmi:type": "elementtypesconfigurations:MetamodelTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/uml.elementtypesconfigurations#org.eclipse.papyrus.uml.Class"
+      }
+    ]
+  },
+  "palette-configurations": {
+    "GlossaryML.paletteconfiguration": [
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[1]/elementDescriptors[1]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_glossarystructurediagram.elementtypesconfigurations#_wz8DwW15Eey1C9EStxUthQ"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[1]/elementDescriptors[2]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/com.cea.papyrus.glossary/element-type-configurations/GlossaryML_glossarystructurediagram.elementtypesconfigurations#_wz8Dwm15Eey1C9EStxUthQ"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[2]/elementDescriptors[1]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml16.diagram.common/resources/SysML16DiUML.elementtypesconfigurations#org.eclipse.papyrus.sysml16di.ElementGroup_Comment_Shape"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[2]/elementDescriptors[2]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml16.diagram.common/resources/SysML16DiUML.elementtypesconfigurations#org.eclipse.papyrus.sysml16di.ElementGroup_Comment_Shape_CN"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[3]/ownedConfigurations[1]/elementDescriptors[1]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Comment_Shape_CN"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[3]/ownedConfigurations[1]/elementDescriptors[2]/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Comment_Shape"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[3]/ownedConfigurations[2]/elementDescriptors/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Comment_AnnotatedElementEdge"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[4]/ownedConfigurations[1]/elementDescriptors/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Dependency_Edge"
+      },
+      {
+        "xpath": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations[4]/ownedConfigurations[2]/elementDescriptors/elementType",
+        "xpathNamed": "/paletteconfiguration:PaletteConfiguration/drawerConfigurations/ownedConfigurations/ownedConfigurations/elementDescriptors/elementType",
+        "xmi:type": "elementtypesconfigurations:SpecializationTypeConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.service.types/model/umldi.elementtypesconfigurations#org.eclipse.papyrus.umldi.Dependency_BranchEdge"
+      }
+    ]
+  },
+  "properties-editor-configurations": {
+    "GlossaryML.ctx": [
+      {
+        "xpath": "/contexts:Context/dependencies",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dependencies",
+        "href": "ppe://context/org.eclipse.papyrus.uml.properties/Model/UML/UML.ctx#_69QJkKDJEeSZxfCXzZz3-w"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[1]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Definition]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/SingleDefinition.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[2]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Definition]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/MultipleDefinition.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[3]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Glossary]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/SingleGlossary.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[4]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Glossary]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/MultipleGlossary.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[5]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Term]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/SingleTerm.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[6]/widget",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Term]/widget",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/properties-editor-configurations/ui/MultipleTerm.xwt#/"
+      },
+      {
+        "xpath": "/contexts:Context/views[1]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Definition]/constraints[isSingleDefinition]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/views[2]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Definition]/constraints[isMultipleDefinition]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/views[3]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Glossary]/constraints[isSingleGlossary]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/views[4]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Glossary]/constraints[isMultipleGlossary]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/views[5]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Term]/constraints[isSingleTerm]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/views[6]/constraints/constraintType",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Term]/constraints[isMultipleTerm]/constraintType",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@constraintTypes.1"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[1]/supertypes",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Definition]/supertypes",
+        "href": "ppe://context/org.eclipse.papyrus.uml.properties/Model/UML/UML.ctx#_690xgqDJEeSZxfCXzZz3-w"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/supertypes",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/supertypes",
+        "href": "ppe://context/org.eclipse.papyrus.uml.properties/Model/UML/UML.ctx#_690yXqDJEeSZxfCXzZz3-w"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[3]/supertypes",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/supertypes",
+        "href": "ppe://context/org.eclipse.papyrus.uml.properties/Model/UML/UML.ctx#_690y0aDJEeSZxfCXzZz3-w"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/modelElementFactory",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/modelElementFactory",
+        "href": "ppe://environment/org.eclipse.papyrus.uml.properties/Model/Environment.xmi#//@modelElementFactories.2"
+      }
+    ],
+    "GlossaryML.ctx-values": [
+      {
+        "xpath": "/contexts:Context/tabs/allSections[1]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Definition]/annotations/details",
+        "xmi:id": "_6F6vklzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[2]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Definition]/annotations/details",
+        "xmi:id": "_6F6vlVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[3]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Glossary]/annotations/details",
+        "xmi:id": "_6F7WolzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[4]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Glossary]/annotations/details",
+        "xmi:id": "_6F7WpVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[5]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Term]/annotations/details",
+        "xmi:id": "_6F79slzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/tabs/allSections[6]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Term]/annotations/details",
+        "xmi:id": "_6F79tVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[1]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Definition]/annotations/details",
+        "xmi:id": "_52biFVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[2]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Definition]/annotations/details",
+        "xmi:id": "_52biGlzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[3]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Glossary]/annotations/details",
+        "xmi:id": "_52biH1zdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[4]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Glossary]/annotations/details",
+        "xmi:id": "_52biJFzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[5]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Term]/annotations/details",
+        "xmi:id": "_52biKVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/views[6]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Term]/annotations/details",
+        "xmi:id": "_52biLlzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/annotations/details[1]",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/annotations/details",
+        "xmi:id": "_52biMVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_saqecET2EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/annotations/details[2]",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/annotations/details",
+        "xmi:id": "_6Fza0FzdEeyo7IKkYihL2w",
+        "key": "layoutGenerator",
+        "value": "bundleclass:///org.eclipse.papyrus.uml.properties.generation/org.eclipse.papyrus.customization.properties.generation.layout.StandardLayoutGenerator#"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[1]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Definition]/annotations/details",
+        "xmi:id": "_52biNFzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[1]/properties/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Definition]/properties[isCommon]/annotations/details",
+        "xmi:id": "_52biN1zdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_Wv5CUMYtEeesNIEaKYOnjA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/annotations/details",
+        "xmi:id": "_52biOlzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[1]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[acronym]/annotations/details",
+        "xmi:id": "_52biPVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XQ4TUC3KEeykYdacufooTg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[2]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[meanings]/annotations/details",
+        "xmi:id": "_52biQFzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_-3Bb8BnWEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[3]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[commonMeaning]/annotations/details",
+        "xmi:id": "_52biQ1zdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_SsYJZLnTEeehsM9KGeEXUQ"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[4]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[hyponyms]/annotations/details",
+        "xmi:id": "_52biRlzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_Wwe6EhpIEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[5]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[hypernyms]/annotations/details",
+        "xmi:id": "_52biSVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_WwfhIBpIEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[6]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[synonyms]/annotations/details",
+        "xmi:id": "_52biTFzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XIxwMRpGEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[2]/properties[7]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[reference]/annotations/details",
+        "xmi:id": "_52biT1zdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_tU4LoFngEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[3]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/annotations/details",
+        "xmi:id": "_52biUlzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[3]/properties[1]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[knowledgeDomainName]/annotations/details",
+        "xmi:id": "_52biVVzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_JPaMcBohEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[3]/properties[2]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[knowledgeDomainDescription]/annotations/details",
+        "xmi:id": "_52biWFzdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_DaiooET5EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/contexts:Context/dataContexts/elements[3]/properties[3]/annotations/details",
+        "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[subGlossaries]/annotations/details",
+        "xmi:id": "_52biW1zdEeyo7IKkYihL2w",
+        "key": "model",
+        "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_K7z20sPpEeeSJfWHTbkb_A"
+      }
+    ]
+  },
+  "specification-models": {
+    "GlossaryML.domainmodel.di": [],
+    "GlossaryML.domainmodel.notation": [
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[1]/children[3]/children[1]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_hqxc8LlzEeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[1]/children[3]/children[2]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_DW7V5LlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[1]/children[3]/children[3]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_MKCxVrlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[1]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/element",
+        "xmi:type": "uml:Class",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_-ZiO0LlwEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[2]/children[3]/children/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_u5gvILlzEeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[2]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/element",
+        "xmi:type": "uml:Class",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_NChRcLlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[3]/children[3]/children[1]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_kK4CMLlzEeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[3]/children[3]/children[2]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_XcpcELlzEeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/children/children[2]/children[3]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/children/children/element",
+        "xmi:type": "uml:Class",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_PRax8LlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/children/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/children/element",
+        "xmi:type": "uml:Model",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_7gzrALlsEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/styles[3]/owner",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/styles/owner",
+        "xmi:type": "uml:Model",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_7gzrALlsEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/element",
+        "xmi:type": "uml:Model",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_7gzrALlsEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[1]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_MKL7R7lxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[2]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_MKL7ULlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[3]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_oFIjMLlxEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[4]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_SqF2kLl0EeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[5]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_hGJfkLm4EeeS4sXvbiIsmA"
+      },
+      {
+        "xpath": "/notation:Diagram/edges[6]/element",
+        "xpathNamed": "/notation:Diagram[Detailled description of the domain model of the glossary modeling language.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.domainmodel.uml#_jaenwLm6EeeS4sXvbiIsmA"
+      }
+    ],
+    "GlossaryML.domainmodel.uml": [
+      {
+        "xpath": "/uml:Model/packageImport/importedPackage",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[1]/ownedAttribute[1]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Glossary]/ownedAttribute[name]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[1]/ownedAttribute[2]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Glossary]/ownedAttribute[knowledgeDomainName]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[1]/ownedAttribute[3]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Glossary]/ownedAttribute[knowledgeDomaindescription]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[2]/ownedAttribute[1]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Term]/ownedAttribute[name]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[3]/ownedAttribute[1]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Definition]/ownedAttribute[name]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[3]/ownedAttribute[2]/type",
+        "xpathNamed": "/uml:Model[GlossaryML Domain Model]/packagedElement[Definition]/ownedAttribute[body]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      }
+    ],
+    "GlossaryML.LanguageReqModel.di": [],
+    "GlossaryML.LanguageReqModel.notation": [
+      {
+        "xpath": "/nattable:Table/context",
+        "xpathNamed": "/nattable:Table[GenericTable0]/context",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.LanguageReqModel.uml#_3ne68LlqEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/nattable:Table/owner",
+        "xpathNamed": "/nattable:Table[GenericTable0]/owner",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML.LanguageReqModel.uml#_3ne68LlqEee0EqF61rGppw"
+      },
+      {
+        "xpath": "/nattable:Table/tableConfiguration",
+        "xpathNamed": "/nattable:Table[GenericTable0]/tableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable.generic.config/configs/generic.nattableconfiguration#PapyrusGenericTable_XMI_ID"
+      }
+    ],
+    "GlossaryML.LanguageReqModel.uml": [
+      {
+        "xpath": "/xmi:XMI/uml:Model/packageImport/importedPackage",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[1]/eAnnotations/references",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.6/SysML#/"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[1]/appliedProfile",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML16_PROFILES/SysML.profile.uml#SysML"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[2]/eAnnotations/references",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.6/SysML#//requirements"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[2]/appliedProfile",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML16_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Requirements"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[3]/eAnnotations/references",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.6/SysML#//modelelements"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Model/profileApplication[3]/appliedProfile",
+        "xpathNamed": "/xmi:XMI/uml:Model[GlossaryML Requirements Model]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML16_PROFILES/SysML.profile.uml#SysML.package_packagedElement_ModelElements"
+      }
+    ],
+    "GlossaryML_ToolReqModel.di": [],
+    "GlossaryML_ToolReqModel.notation": [
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/context",
+        "xmi:type": "uml:Model",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_AtF7oMlxEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/owner",
+        "xmi:type": "uml:Model",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_AtF7oMlxEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#PapyrusUMLGenericTreeTable_XMI_ID"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/columnAxisProvidersHistory/axis/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/columnAxisProvidersHistory[UML Feature axis provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#_Wa4BBDzQEei_1txcmoHe_A"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/columnAxisProvidersHistory/axis/element",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/columnAxisProvidersHistory[UML Feature axis provider]/axis/element",
+        "xmi:type": "ecore:EReference",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Element/ownedComment"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/localRowHeaderAxisConfiguration/ownedAxisConfigurations/axisUsedAsAxisProvider/element",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/localRowHeaderAxisConfiguration/ownedAxisConfigurations/axisUsedAsAxisProvider/element",
+        "xmi:type": "ecore:EReference",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Element/ownedElement"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/localRowHeaderAxisConfiguration/ownedAxisConfigurations/labelProvider",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/localRowHeaderAxisConfiguration/ownedAxisConfigurations/labelProvider",
+        "xmi:type": "nattablelabelprovider:FeatureLabelProviderConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#_Wa3Z9jzQEei_1txcmoHe_A"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/localRowHeaderAxisConfiguration/axisManagerConfigurations/axisManager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/localRowHeaderAxisConfiguration/axisManagerConfigurations/axisManager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#_Wa4BADzQEei_1txcmoHe_A"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/localColumnHeaderAxisConfiguration/axisManagerConfigurations[1]/axisManager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/localColumnHeaderAxisConfiguration/axisManagerConfigurations/axisManager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#_Wa4BBDzQEei_1txcmoHe_A"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[1]/localColumnHeaderAxisConfiguration/axisManagerConfigurations[2]/axisManager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryML Glossary Table.]/localColumnHeaderAxisConfiguration/axisManagerConfigurations/axisManager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.uml.nattable/configs/genericTreeTable.nattableconfiguration#_Wa4BBTzQEei_1txcmoHe_A"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[2]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZvp4MmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[2]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZvp4MmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[2]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[2]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[2]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[3]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZ5a5cmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[3]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZ5a5cmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[3]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[3]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[3]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[4]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZ5a4MmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[4]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_gZ5a4MmNEee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[4]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[4]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[4]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[5]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_MuNFUMrrEeeuBaORAfsSYA"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[5]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_MuNFUMrrEeeuBaORAfsSYA"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[5]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[5]/columnAxisProvidersHistory/axis/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[6]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384YQdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[6]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384YQdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[6]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[6]/columnAxisProvidersHistory/axis/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[GlossaryTableEditor CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[7]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384aAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[7]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384aAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[7]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[7]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[7]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Glossary CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[8]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384bAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[8]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384bAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[8]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[8]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[8]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Term CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[9]/context",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/context",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384cAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[9]/owner",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/owner",
+        "xmi:type": "uml:Package",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/specification-models/GlossaryML_ToolReqModel.uml#_a384cAdeEei416VAQCBulg"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[9]/tableConfiguration",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/tableConfiguration",
+        "xmi:type": "nattableconfiguration:TableConfiguration",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#/"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[9]/columnAxisProvidersHistory/axis[1]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      },
+      {
+        "xpath": "/xmi:XMI/nattable:Table[9]/columnAxisProvidersHistory/axis[2]/manager",
+        "xpathNamed": "/xmi:XMI/nattable:Table[Definition CRUD Requirements Table.]/columnAxisProvidersHistory[Requirements Feature Columns Provider]/axis/manager",
+        "xmi:type": "nattableaxisconfiguration:AxisManagerRepresentation",
+        "href": "platform://plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/requirementTree.nattableconfiguration#//@columnHeaderAxisConfiguration/@axisManagers.1"
+      }
+    ],
+    "GlossaryML_ToolReqModel.uml": [
+      {
+        "xpath": "/uml:Model/packageImport[1]/importedPackage",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"
+      },
+      {
+        "xpath": "/uml:Model/packageImport[2]/importedPackage",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/packageImport/importedPackage",
+        "xmi:type": "uml:Package",
+        "href": "pathmap:///SysML14_LIBRARIES/SysML-Standard-Library.uml#SysML.package_packagedElement_Libraries"
+      },
+      {
+        "xpath": "/uml:Model/packageImport[3]/importedPackage",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "PapyrusGlossary.uml#_4nAlAMrTEeewiLdROuv7ZQ"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[3]/profileApplication/eAnnotations[2]/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/packagedElement[GlossaryML Glossary]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "GlossaryML.profile.uml#_3Bd1cMrREee8B9kRSNhRUg"
+      },
+      {
+        "xpath": "/uml:Model/packagedElement[3]/profileApplication/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/packagedElement[GlossaryML Glossary]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "GlossaryML.profile.uml#_saqecET2EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[1]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#/"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[1]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[2]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//activities"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[2]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Activities"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[3]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//allocations"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[3]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Allocations"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[4]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//blocks"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[4]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Blocks"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[5]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//constraintblocks"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[5]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_ConstraintBlocks"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[6]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//deprecatedelements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[6]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_DeprecatedElements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[7]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//modelelements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[7]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_ModelElements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[8]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//portsandflows"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[8]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Ports_u0026Flows"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[9]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/papyrus/sysml/1.4/SysML#//requirements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[9]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///SysML14_PROFILES/SysML.profile.uml#SysML.package_packagedElement_Requirements"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[10]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[10]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///UML_PROFILES/Standard.profile.uml#_0"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[11]/eAnnotations/references",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-MFnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/uml:Model/profileApplication[11]/appliedProfile",
+        "xpathNamed": "/uml:Model[GlossaryML_ToolsmithReq]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_K_P-sEadEeeubeo5VXVdIw"
+      }
+    ]
+  },
+  "tabular-editors-configurations": {
+    "glossary_flat_table.nattableconfiguration": [],
+    "glossary_tree_table.nattableconfiguration": [
+      {
+        "xpath": "/nattableconfiguration:TableConfiguration/rowHeaderAxisConfiguration/ownedAxisConfigurations[1]/axisUsedAsAxisProvider/element",
+        "xpathNamed": "/nattableconfiguration:TableConfiguration[Glossary Tree Table]/rowHeaderAxisConfiguration/ownedAxisConfigurations/axisUsedAsAxisProvider/element",
+        "xmi:type": "ecore:EReference",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Package/packagedElement"
+      },
+      {
+        "xpath": "/nattableconfiguration:TableConfiguration/rowHeaderAxisConfiguration/ownedAxisConfigurations[2]/axisUsedAsAxisProvider/element",
+        "xpathNamed": "/nattableconfiguration:TableConfiguration[Glossary Tree Table]/rowHeaderAxisConfiguration/ownedAxisConfigurations/axisUsedAsAxisProvider/element",
+        "xmi:type": "ecore:EReference",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Element/ownedElement"
+      },
+      {
+        "xpath": "/nattableconfiguration:TableConfiguration/rowHeaderAxisConfiguration/ownedAxisConfigurations[3]/axisUsedAsAxisProvider/element",
+        "xpathNamed": "/nattableconfiguration:TableConfiguration[Glossary Tree Table]/rowHeaderAxisConfiguration/ownedAxisConfigurations/axisUsedAsAxisProvider/element",
+        "xmi:type": "ecore:EReference",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Element/ownedElement"
+      }
+    ]
+  },
+  "uml-profiles": {
+    "GlossaryML.ecore": [],
+    "glossaryml.genmodel": [],
+    "GlossaryML.profile.di": [],
+    "GlossaryML.profile.notation": [
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[1]/children[2]/children[1]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_JPaMcBohEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[1]/children[2]/children[2]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_DaiooET5EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[1]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Stereotype",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[2]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Model"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[3]/children[2]/children/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XQ4TUC3KEeykYdacufooTg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[3]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Stereotype",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[4]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Class"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[5]/children[2]/children/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_Wv5CUMYtEeesNIEaKYOnjA"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[5]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Stereotype",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[6]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[7]/children[2]/children[1]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "platform://resource/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_0nGuQB1DEeiVs8WXySOZ4Q"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[7]/children[2]/children[2]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "platform://resource/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_epe4MEaeEeeubeo5VXVdIw"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[7]/children[2]/children[3]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/children/children/element",
+        "xmi:type": "uml:Property",
+        "href": "platform://resource/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_7Npy0GiiEei658bIAVUBJQ"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[7]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/element",
+        "xmi:type": "uml:Stereotype",
+        "href": "platform://resource/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_V0hCoEaeEeeubeo5VXVdIw"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[8]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Model"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[9]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Class"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/children[10]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/children/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/styles[3]/owner",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/styles/owner",
+        "xmi:type": "uml:Profile",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_saqecET2EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/element",
+        "xmi:type": "uml:Profile",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_saqecET2EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[1]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Extension",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_itBfAUT3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[2]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Extension",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_7d1GMET3EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[3]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Extension",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_wl0lYET4EeS25e5tbYLtxg"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[4]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_-22c0BnWEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[5]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XIwiEBpGEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[6]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_WwZagBpIEee85eN49tGVcA"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[7]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_SsYJYLnTEeehsM9KGeEXUQ"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[8]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_K7qF0MPpEeeSJfWHTbkb_A"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[9]/element",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/element",
+        "xmi:type": "uml:Association",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_tU0hQFngEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[10]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Model"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[11]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Class"
+      },
+      {
+        "xpath": "/xmi:XMI/notation:Diagram/edges[12]/styles[2]/eObjectValue",
+        "xpathNamed": "/xmi:XMI/notation:Diagram[Detail description of the UML profile for glossary modeling.]/edges/styles[BASE_ELEMENT]/eObjectValue",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Comment"
+      }
+    ],
+    "GlossaryML.profile.uml": [
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eAnnotations[1]/references",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-MFnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[1]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[1]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainName]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[1]/eStructuralFeatures[3]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainDescription]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[2]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[2]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[2]/eStructuralFeatures[8]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[reference]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-QVnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[3]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[1]/eClassifiers[3]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[isCommon]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eAnnotations[1]/references",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-MFnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[1]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[1]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainName]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[1]/eStructuralFeatures[3]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainDescription]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[2]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[2]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[2]/eStructuralFeatures[8]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[reference]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-QVnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[3]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[2]/eClassifiers[3]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[isCommon]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eAnnotations[1]/references",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-MFnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[1]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[1]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomainname]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[1]/eStructuralFeatures[3]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomaindescription]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[2]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[2]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[2]/eStructuralFeatures[8]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[reference]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_M5i-QVnfEeyFfo7P2D8rIQ"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[3]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[3]/eClassifiers[3]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[iscommon]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[1]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[1]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomainname]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[1]/eStructuralFeatures[3]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomaindescription]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[2]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[2]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[3]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[4]/eClassifiers[3]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[iscommon]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[1]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[1]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomainname]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[1]/eStructuralFeatures[3]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgedomaindescription]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[2]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[2]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[3]/eStructuralFeatures[1]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]/eType",
+        "xmi:type": "ecore:EClass",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/UML#//Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/eAnnotations/contents[5]/eClassifiers[3]/eStructuralFeatures[2]/eType",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/eAnnotations/contents[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[iscommon]/eType",
+        "xmi:type": "ecore:EDataType",
+        "href": "http:///www.eclipse.org/uml2/5.0.0/Types#//Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/elementImport[1]/importedElement",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/elementImport/importedElement",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/elementImport[2]/importedElement",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/elementImport/importedElement",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/elementImport[3]/importedElement",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/elementImport/importedElement",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Package"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/elementImport[4]/importedElement",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/elementImport/importedElement",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/elementImport[5]/importedElement",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/elementImport/importedElement",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#OpaqueExpression"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packageImport[1]/importedPackage",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#_0"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packageImport[2]/importedPackage",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packageImport/importedPackage",
+        "xmi:type": "uml:Model",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packageImport[3]/importedPackage",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packageImport/importedPackage",
+        "xmi:type": "uml:Profile",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_K_P-sEadEeeubeo5VXVdIw"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[1]/ownedAttribute[1]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Glossary]/ownedAttribute[base_Model]/type",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Model"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[1]/ownedAttribute[2]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Glossary]/ownedAttribute[knowledgeDomainName]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[1]/ownedAttribute[3]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Glossary]/ownedAttribute[knowledgeDomainDescription]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[2]/ownedAttribute[1]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Term]/ownedAttribute[base_Class]/type",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Class"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[2]/ownedAttribute[2]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Term]/ownedAttribute[acronym]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[2]/ownedAttribute[3]/subsettedProperty",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Term]/ownedAttribute[meanings]/subsettedProperty",
+        "xmi:type": "uml:Property",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Element-ownedElement"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[2]/ownedAttribute[8]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Term]/ownedAttribute[reference]/type",
+        "xmi:type": "uml:Stereotype",
+        "href": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml#_V0hCoEaeEeeubeo5VXVdIw"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[3]/ownedAttribute[1]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Definition]/ownedAttribute[base_Comment]/type",
+        "xmi:type": "uml:Class",
+        "href": "pathmap:///UML_METAMODELS/UML.metamodel.uml#Comment"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/packagedElement[3]/ownedAttribute[2]/type",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/packagedElement[Definition]/ownedAttribute[isCommon]/type",
+        "xmi:type": "uml:PrimitiveType",
+        "href": "pathmap:///UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/profileApplication/eAnnotations/references",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/profileApplication/eAnnotations/references",
+        "xmi:type": "ecore:EPackage",
+        "href": "pathmap:///UML_PROFILES/Ecore.profile.uml#_z1OFcHjqEdy8S4Cr8Rc_NA"
+      },
+      {
+        "xpath": "/xmi:XMI/uml:Profile/profileApplication/appliedProfile",
+        "xpathNamed": "/xmi:XMI/uml:Profile[GlossaryML]/profileApplication/appliedProfile",
+        "xmi:type": "uml:Profile",
+        "href": "pathmap:///UML_PROFILES/Ecore.profile.uml#_0"
+      }
+    ]
+  },
+  ".": {
+    "customizationConfiguration.xmi": []
+  },
+  "plugin.xml": {
+    "org.eclipse.papyrus.uml.extensionpoints.UMLProfile": {
+      "name": "GlossaryML",
+      "path": "platform:/plugin/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml"
+    },
+    "org.eclipse.emf.ecore.generated_package": {
+      "TODO": "TODO"
+    },
+    "org.eclipse.papyrus.infra.architecture.models": {
+      "TODO": "TODO"
+    },
+    "org.eclipse.papyrus.infra.newchild": {
+      "TODO": "TODO"
+    },
+    "org.eclipse.papyrus.infra.properties.contexts": {
+      "TODO": "TODO"
+    },
+    "org.eclipse.emf.ecore.factory_override": {
+      "TODO": "TODO"
+    }
+  }
+}
