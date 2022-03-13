@@ -5,10 +5,13 @@
 ### Parse
 
 - [x] XMI standards
+  - Ecore specific
+  - Genmodel specific
 - [ ] Project config
-  - build.properties 
-  - plugin.xml 
+  - build.properties
+  - plugin.xml
     - --> profile description (name + path) to `"GlossaryML"`
+    - --> Extension points
   - .project
     - --> subprojects references
   - MANIFEST.MF
@@ -17,6 +20,7 @@
   - build.properties
     - --> bin, src, out entries.
 - [ ] Java files
+  - get and resolve imports ?
 
 ### Run
 
@@ -31,6 +35,7 @@
   - [x] Build (multiended) links between Source/Local/External artefact
     - [ ] Source and Local: solve and use Xpath to  recover specific elements path
     - [ ] What about externals ? UX alternative ?
+    --> solve grouping ?? Use plugin ID to convert plugin:// cases
   - [ ] Solve specific elements path
   - [ ] Directly where possible: source, resolvable File artefact.
     - [ ] With UX for external ?
@@ -38,7 +43,7 @@
   - [x] Trace init links (IDs)
   - [x] Artefacts
   - [x] Links
-  - [x] Typing: artefacts & links -> EngineeringDomain !! 
+  - [x] Typing: artefacts & links -> EngineeringDomain !!
     - ("Translations" to  ApplicationDomain ?!)
   - [ ] Fragmentation: cluster Paths to shows dependency nests, like common ancestor in the tree (X)path.
   - [ ] WOT ELSE broo ?!!?
@@ -59,3 +64,4 @@
 - File extensions ?
   - Resolved conflictual FileArtefact paths
   - Link type "translations" btw EngTypes and AppTypes
+  

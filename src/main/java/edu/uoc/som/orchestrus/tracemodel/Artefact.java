@@ -42,6 +42,7 @@ public class Artefact extends TypedArtefact {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + getName() + "\",";
+		res += "\"location\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "\",";
 		res += getParent() == null ? "" : "\"parent\": \"" + getParent().getID() + "\",";
 		res += "\"fragments\": " + Utils.getElementsIDsAsJsonCollection(fragments.values()) + ",";
 		res += "\"type\": \"" + getTypeUID() + "\"";

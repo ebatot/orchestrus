@@ -51,12 +51,12 @@ public class ArtefactFactory {
 	}
 
 
-	public List<Artefact> subsetsArtefactsByType(ArtefactType type) {
-		return artefacts.values().stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
+	public static List<Artefact> subsetsArtefactsByType(ArtefactType type) {
+		return getArtefacts().values().stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
 	}
 
-	public List<Artefact> subsetsArtefactsByTypeName(String typeName) {
-		return artefacts.values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
+	public static List<Artefact> subsetsArtefactsByTypeName(String typeName) {
+		return getArtefacts().values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
 	}
 	
 	public Artefact getArtefact(File f) {
@@ -106,7 +106,7 @@ public class ArtefactFactory {
 		buildSourceFileArtefacts();
 
 		/* build Artefact from source files' parent folders */
-		buildSourceFolderArtefacts();
+		//buildSourceFolderArtefacts();
 
 		/* build Artefact from source files found in project folder */
 		buildLocalFilesArtefacts();
@@ -127,9 +127,44 @@ public class ArtefactFactory {
 			File f = new File(sFile);
 			Artefact a = newSourceFileArtefact(f);
 			addArtefact(a);
+			Artefact aParent = getParentArtefact(a);
 		}
 		LOGGER.fine(getArtefacts().size() + " SourceFile artefacts found in " + StaticExplorer.getSourceFiles().size()
 				+ " files.");
+	}
+
+	/**
+	 * Allocate its parent folder
+	 * ({@link ArtefactTypeFactory#SOURCE_FOLDER_ARTEFACT}) to a Source/Local File
+	 * artefact. <br/>
+	 * 
+	 * Warning. If parent does not resolve, the system will send an exception
+	 * and stop.
+	 * 
+	 * @param a
+	 * @param r  (null when calling for a SourceFile artefact)
+	 * @return
+	 */
+	private Artefact getParentArtefact(Artefact a) {
+		Artefact res;
+		String location = "-location-";
+		File f = new File(a.getLocation());
+		try {
+			location = f.getParentFile().getCanonicalPath();
+		} catch (Exception e) {
+			e.printStackTrace();// NO REASON we get there, sources were got from same env.
+			LOGGER.severe("Location (of parent folder) not found: " + f.getAbsolutePath());
+			System.out.println(f.getAbsolutePath());
+			System.exit(1);
+		}
+
+		String locationname = location + f.getName();
+		res = getArtefact(locationname);
+		if (res == null) {
+			res = new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FOLDER_ARTEFACT, location, null, true);
+			addArtefact(res);
+		}
+		return res;
 	}
 
 	/**
@@ -198,6 +233,10 @@ public class ArtefactFactory {
 			boolean success = addArtefact(a);
 			if (success)
 				artefactsAdded++;
+			if(r.isResolved()) {
+				Artefact aParent = getParentArtefact(a);
+				aParent.addFragment(a);
+			}
 		}
 		LOGGER.fine(artefactsAdded + " LocalFile artefacts found in " + ReferenceFactory.getReferences().size()
 				+ " references.");
@@ -317,7 +356,7 @@ public class ArtefactFactory {
 		return arts;
 	}
 
-	public Artefact[] sortArtefactsByLocation(Collection<Artefact> artefacts) {
+	public static Artefact[] sortArtefactsByLocation(Collection<Artefact> artefacts) {
 		Artefact[] arts = (Artefact[]) artefacts.toArray(new Artefact[artefacts.size()]);
 		Arrays.sort(arts, new Comparator<Artefact>() {
 			@Override
@@ -334,14 +373,14 @@ public class ArtefactFactory {
 		return size == artefacts.size() - 1;
 	}
 
-	public void printArtefactsByType() {
+	public static void printArtefactsByType() {
 		System.out.println();
 		System.out.println(getArtefacts().size() + " artefacts built.");
 		for (ArtefactType aType : ArtefactTypeFactory.getInstance().getTypesValues()) {
 			Artefact[] arts = sortArtefactsByLocation(subsetsArtefactsByType(aType));
 			System.out.println(aType.getName());
 			for (Artefact a : arts)
-				System.out.println(" - " + a);// a.getLocation() + " " + a.getJSon());
+				System.out.println(" - " + a.getJSon());// a.getLocation() + " " + a.getJSon());
 		}
 	}
 
