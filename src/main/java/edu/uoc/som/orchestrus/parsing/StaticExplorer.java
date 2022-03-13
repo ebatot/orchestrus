@@ -42,9 +42,13 @@ import edu.uoc.som.orchestrus.utils.Utils;
 public class StaticExplorer {
 	public final static Logger LOGGER = Logger.getLogger(StaticExplorer.class.getName());
 	public final static Logger LOGGER2 = Logger.getLogger(StaticExplorer.class.getName()+2);
+	
+	/** Internal temporary name for source file path of references */
 	private static final String XMI_SOURCE_PATH = "refSource";
+	
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;
+	
 	private Config config;
 
 	public StaticExplorer() {
@@ -76,9 +80,12 @@ public class StaticExplorer {
 		String hrefs = getHrefs_Json();
 		JsonElement elHrefs = parser.parse(hrefs);
 		
-		// TODO Check uml-profile/*.ecore, *.genmodel
-		//TODO
+		// TODO Check uml-profile/*.ecore
+		// [element|package]Import elements 
 		
+		// TODO Check uml-profile/*.gencode
+		// gemodel[usedGenPackages] -> ref extern
+		// foreignModel & genPackages
 		
 		// Added extra context references
 		String ctxValues = getCtxValues_Json();
@@ -318,10 +325,7 @@ public class StaticExplorer {
 			Reference r = ReferenceFactory.getReference(cleanhref, sourceFile);
 			addReferenceSourceReversed(sourceFile, r);
 			
-			cleanhref = r.getHREF().replaceAll("'", "\\\\'");
-			cleanhref = cleanhref.replaceAll("\"", "\\\\\"");
-			
-			cleanhref = cleanhref.replace("\\", "/");
+			cleanhref = Utils.cleanUrlsForJson(r.getHREF());
 			
 			Node elt = element.getAttributes().getNamedItem("xmi:type");
 			String xmitype = elt != null ? "\n \"xmi:type\": \""+elt.getTextContent()+"\", ":"";
@@ -359,13 +363,13 @@ public class StaticExplorer {
 			String sourceFile = element.getAttributes().getNamedItem(XMI_SOURCE_PATH).getTextContent();
 			String cleanvalue = element.getAttributes().getNamedItem("value").getTextContent();
 			
+			/*
+			 * Build and resolve references
+			 */
 			Reference r = ReferenceFactory.getReference(cleanvalue, sourceFile);
 			addReferenceSourceReversed(sourceFile, r);
 
-			cleanvalue = r.getHREF().replaceAll("'", "\\\\'");
-			cleanvalue = cleanvalue.replaceAll("\"", "\\\\\"");
-			
-			cleanvalue = cleanvalue.replace("\\", "/");
+			cleanvalue = Utils.cleanUrlsForJson(r.getHREF());
 			
 			String key = element.getAttributes().getNamedItem("key").getTextContent();
 			

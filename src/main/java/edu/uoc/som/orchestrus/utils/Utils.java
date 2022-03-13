@@ -164,4 +164,13 @@ public class Utils {
 		return res;
 	}
 
+	public static String cleanUrlsForJson(String backSlashedlocation) {
+		backSlashedlocation = backSlashedlocation.replaceAll("'", "\\\\'");
+		backSlashedlocation = backSlashedlocation.replaceAll("\"", "\\\\\"");
+		
+		backSlashedlocation = backSlashedlocation.replace("\\", "/");
+	
+		return backSlashedlocation;
+	}
+
 }

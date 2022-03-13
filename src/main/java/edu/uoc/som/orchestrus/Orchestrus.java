@@ -41,7 +41,7 @@ public class Orchestrus {
 
 
 
-
+		ArtefactFactory.printArtefactsByType();
 		/*
 		 * Check which files are left - Javas - Manifest & Pom - Class path &
 		 * .properties - plugin.xml
