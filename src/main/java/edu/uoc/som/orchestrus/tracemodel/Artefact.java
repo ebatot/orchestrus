@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
@@ -15,6 +16,10 @@ public class Artefact extends TypedArtefact {
 	private String location;
 	private Artefact parent;
 	private String definition;
+	/**
+	 * Default is NO PROTOCOL.
+	 */
+	private Protocol protocol = Protocol.no_protocol;
 
 	private boolean resolves;
 
@@ -25,6 +30,8 @@ public class Artefact extends TypedArtefact {
 	public Artefact(String name, ArtefactType type, String location, Artefact parent, boolean resolved) {
 		super(name, type);
 		this.parent = parent;
+//		if(parent != null)
+//			addFragment(parent);
 		this.location = location;
 		sourceOf = new ArrayList<>();
 		targetOf = new ArrayList<>();
@@ -49,11 +56,44 @@ public class Artefact extends TypedArtefact {
 		return res + "}";
 	}
 	
+	public String getD3JSon() {
+		String res = "{";
+		res += "\"id\": \"" + getID() + "\",";
+		res += "\"name\": \"" + getName() + "\",";
+		res += "\"type\": \"" + getType().getName() + "\",";
+		res += "\"size\": " + 100 + ",";
+		res += "\"group\": \"" + getType().getNumber() + "\"";
+		return res + "}";
+	}
+
+	
 	@Override
 	public String toString() {
 		return this.getType().getName()+"["+this.getName()+"]";
 	}
 
+	public void setProtocol(Protocol protocol) {
+		this.protocol = protocol;
+	}
+	
+	public Protocol getProtocol() {
+		return protocol;
+	}
+
+	public Protocol getAncestorProtocol() {
+		return getAncestor().getProtocol();
+	}
+	
+	public ArtefactType getAncestorType() {
+		return getAncestor().getType();
+	}
+
+	
+	public Artefact getAncestor() {
+		if(parent == null)
+			return this;
+		return parent.getAncestor();
+	}
 
 	public boolean isResolves() {
 		return resolves;
@@ -72,7 +112,7 @@ public class Artefact extends TypedArtefact {
 	public String getLocation() {
 		return location;
 	}
-
+	
 	public HashMap<String, Artefact> getFragments() {
 		return fragments;
 	}
@@ -81,7 +121,7 @@ public class Artefact extends TypedArtefact {
 		return parent;
 	}
 
-	public void setParent(Artefact artefact) {
+	private void setParent(Artefact artefact) {
 		this.parent = artefact;
 	}
 

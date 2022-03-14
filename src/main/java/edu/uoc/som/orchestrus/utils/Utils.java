@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import net.thisptr.jackson.jq.BuiltinFunctionLoader;
 import net.thisptr.jackson.jq.JsonQuery;
@@ -40,6 +41,17 @@ public class Utils {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\traceSample.json");
 		try {
 			FileUtils.write(f, t.printJSon());
+			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void storeD3Fragmentation_HC() {
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\fragmentD3Sample.json");
+		try {
+			FileUtils.write(f, ArtefactFactory.printFragmentD3Json());
 			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
 		} catch (IOException e) {
 			e.printStackTrace();

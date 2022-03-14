@@ -44,7 +44,7 @@ public class Trace extends TracingElement {
 		artefactTypes = artefactTypes.substring(0, artefactTypes.length()-2)+ "]";
 		
 		String tracelinkTypes = "\"tracelinkTypes\": [" ;
-		for (LinkType lt : getAllTraceLinkTypes()) 
+		for (LinkType lt : LinkType.getTypes().values()) 
 			tracelinkTypes += lt.getJSon()+",\n";
 		tracelinkTypes = tracelinkTypes.substring(0, tracelinkTypes.length()-2)+ "]";
 		

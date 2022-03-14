@@ -5,10 +5,13 @@ import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 public class ArtefactType extends TracingElement {
 	public static final ArtefactType UNDEFINED_TYPE = new ArtefactType("Undefined");
 	
-	String name;
-	
+	private String name;
+	private static int counter = 0;
+	private int number;
+
 	public ArtefactType(String name) {
 		super(name);
+		this.number = counter++;
 	}
 
 	public String getJSon() {
@@ -18,4 +21,7 @@ public class ArtefactType extends TracingElement {
 		return res +"}";
 	}
 	
+	public int getNumber() {
+		return number;
+	}
 }

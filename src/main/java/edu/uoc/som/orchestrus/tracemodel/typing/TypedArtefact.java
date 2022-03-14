@@ -5,7 +5,6 @@ import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 public abstract class TypedArtefact extends TracingElement {
 	
 	private ArtefactType type;
-	
 	public TypedArtefact(String name, ArtefactType type) {
 		super(name);
 		setType(type);

@@ -1,7 +1,6 @@
 package edu.uoc.som.orchestrus.parsing.refmanager;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -28,6 +27,10 @@ public class Reference extends TracingElement {
 		sources.add(source);
 	}
 	
+	/**
+	 * A reference is considered "local" if it has no protocol {@link Protocol}
+	 * @return
+	 */
 	public boolean isLocal() {
 		return protocol == Protocol.no_protocol;
 	}

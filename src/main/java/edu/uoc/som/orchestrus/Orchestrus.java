@@ -1,6 +1,8 @@
 package edu.uoc.som.orchestrus;
 
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
+import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
+import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
@@ -39,14 +41,18 @@ public class Orchestrus {
 
 		// TODO Decompose artefacts with XPath patterns.
 
+		Utils.storeD3Fragmentation_HC();
 
-
-		ArtefactFactory.printArtefactsByType();
-		/*
-		 * Check which files are left - Javas - Manifest & Pom - Class path &
-		 * .properties - plugin.xml
-		 */
-
+//		ArtefactFactory.printArtefactsByType();
+		
+//		System.out.println("\nmain - Protocols");
+//		for (Protocol p : Protocol.values()) {
+//			System.out.println(" - "+p);
+//			for (Artefact a : ArtefactFactory.sortArtefactsByLocation(ArtefactFactory.subsetsArtefactsByProtocol(p))) {
+//				System.out.println("     "+":"+a.getLocation()+"#"+a.getName()+" -- "+a.getAncestorProtocol());
+//			}	
+//		}
+		
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 	}

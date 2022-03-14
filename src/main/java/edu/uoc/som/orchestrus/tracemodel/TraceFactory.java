@@ -34,12 +34,11 @@ public class TraceFactory {
 	Set<TraceLink> links;
 	
 	public void fragmentSourcesAndFolders() {
-		Collection<Artefact> sourceArts = ArtefactFactory.getInstance()
-				.subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
+		Collection<Artefact> sourceArts = ArtefactFactory.subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact sArt : sourceArts) {
 			File f = new File(sArt.getLocation());
 			String location = f.getParent();
-			Artefact parentArt = ArtefactFactory.getInstance().getArtefact(location + f.getName());
+			Artefact parentArt = ArtefactFactory.getInstance().getArtefact(f);
 			parentArt.addFragment(sArt);
 		}
 		LOGGER.fine("Done: Each file has its parent folder as parent.");
@@ -64,7 +63,7 @@ public class TraceFactory {
 			
 			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
 			if(target == null) {
-				throw new IllegalAccessError("Should not get there. Artefact not recognized.");
+				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: "+r.getHREF());
 			}
 			tl.addTarget(target);
 			LOGGER.finer("Link added:" + tl + " sources:"+tl.getSources().size()+ " targets:"+tl.getTargets().size());

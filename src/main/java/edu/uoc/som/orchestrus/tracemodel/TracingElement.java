@@ -80,5 +80,14 @@ public abstract class TracingElement {
 
 	public static void removeElement(Reference rr) {
 		elements.remove(rr.getID());
-	};
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(!obj.getClass().equals(this.getClass())) return false;
+		TracingElement rObj = (TracingElement)obj;
+		return (!rObj.getID().equals(this.getID()));
+	}
+
 }

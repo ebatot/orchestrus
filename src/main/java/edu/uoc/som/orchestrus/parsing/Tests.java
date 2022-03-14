@@ -14,7 +14,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,7 +26,6 @@ import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
-import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class Tests {
@@ -114,7 +112,6 @@ public class Tests {
 
 		// Factories
 		ArtefactTypeFactory atFactory = ArtefactTypeFactory.getInstance();
-		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
 
 		// Trace
 		Trace t = new Trace("testDesignTypesExtraction");

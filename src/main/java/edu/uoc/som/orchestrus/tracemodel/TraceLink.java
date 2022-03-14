@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
-import edu.uoc.som.orchestrus.tracemodel.typing.LinkTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
 public class TraceLink extends TypedLink {
@@ -17,11 +16,16 @@ public class TraceLink extends TypedLink {
 	}
 
 	public TraceLink() {
-		this(newName(), LinkTypeFactory.getUntyped());
+		this(newName(), LinkType.getUntyped());
 	}
 
 	public TraceLink(LinkType type) {
 		this(newName(), type);
+	}
+
+	public TraceLink(Artefact a, Artefact aa) {
+		this(LinkType.getType(a, aa));
+		setEnds(a, aa);
 	}
 
 	private static int counter = 0;
@@ -137,6 +141,26 @@ public class TraceLink extends TypedLink {
 		res += "\"sources\": " + Utils.getElementsIDsAsJsonCollection(sources) + ",";
 		res += "\"targets\": " + Utils.getElementsIDsAsJsonCollection(targets) + ",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
+		return res + "}";
+	}
+
+	/**
+	 * ONLY MONO ENDED !! Only first source and first target considered ! WARNING !
+	 * @return
+	 */
+	public String getD3Json() {
+		String res = "{";
+		res += "\"id\": \"" + getID() + "\",";
+		res += "\"name\": \"" + getName() + "\",";
+		res += "\"source_id\": \"" + sources.get(0).getID() + "\",";
+		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
+		res += "\"type\": \"" + getType().getName() + "\",";
+		res += "\"group\": " + getType().getNumber() + ",";
+		
+		res += "\"confidence\": 100,";
+		res += "\"energy\": 100";
+		
+		
 		return res + "}";
 	}
 }

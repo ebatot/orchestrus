@@ -20,7 +20,7 @@ public class TestingTracemodel {
 	
 	public static void testClosure() {
 		System.out.println("TestingTracemodel.testClosure()");
-		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
+//		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
 		
 		
 		Trace t = new Trace("TestClosure");
@@ -58,13 +58,13 @@ public class TestingTracemodel {
 		/*
 		 * Link types from design to code and palette and EltTypeConfig + internal c2c: code to code.
 		 */
-		LinkType d2c = ltFactory.addType("Design2Code");
-		LinkType d2p = ltFactory.addType("Design2Palette");
-		LinkType p2c = ltFactory.addType("Palette2Code");
-		LinkType c2et = ltFactory.addType("Code2EltType");
-		LinkType c2c = ltFactory.addType("Code2");
-		LinkType p2p = ltFactory.addType("Palette2");
-		LinkType et2et = ltFactory.addType("EltType2");
+		LinkType d2c = LinkType.getType("Design2Code");
+		LinkType d2p = LinkType.getType("Design2Palette");
+		LinkType p2c = LinkType.getType("Palette2Code");
+		LinkType c2et = LinkType.getType("Code2EltType");
+		LinkType c2c = LinkType.getType("Code2");
+		LinkType p2p = LinkType.getType("Palette2");
+		LinkType et2et = LinkType.getType("EltType2");
 		
 		/*
 		 * Actual trace : 
@@ -129,8 +129,7 @@ public class TestingTracemodel {
 		Artefact afCode2_1 = new Artefact("afCode2_1", atCode,   null, artCode2);
 		Artefact afDesg1_1 = new Artefact("afDesg1_1", atDesign, null, artDesg1);
 		
-		LinkTypeFactory ltFactory = LinkTypeFactory.getInstance();
-		LinkType ltD2C = ltFactory.addType("Design2Code");
+		LinkType ltD2C = LinkType.getType("Design2Code");
 		
 		TraceLink tl1 = new TraceLink("Link1", ltD2C);
 		tl1.addSource(afCode1_1);
