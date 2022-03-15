@@ -1,7 +1,6 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +13,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import edu.uoc.som.orchestrus.Orchestrus;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
@@ -170,9 +168,10 @@ public class ArtefactFactory {
 			if (added)
 				iFolder++;
 			
-			if(a.getParent() != null)
-			
-			projectRoot.addFragment(a.getParent());
+			Artefact parent = affectsParentIfExists(a);
+
+			if(parent != null)
+				projectRoot.addFragment(a.getParent());
 		}
 		LOGGER.fine(iFile + " SourceFile and " + iFolder + " LocalFolder found in "
 				+ StaticExplorer.getSourceFiles().size() + " files.");
@@ -204,11 +203,36 @@ public class ArtefactFactory {
 		res = getArtefact(f);
 		if (res == null) {
 			res = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT, f.getParent(), null, true);
-			res.addFragment(a);
 			addArtefact(res);
+			
+			// If the parent artefact exists, affects it.
+			affectsParentIfExists(res);
+
 			return true;
 		}
+		res.addFragment(a);
 		return false;
+	}
+
+	private Artefact affectsParentIfExists(Artefact res) {
+		Artefact parent = null;
+		if(res.isResolves()) {
+			parent = getArtefact(new File(res.getLocation()));
+		} else {
+			String location = res.getLocation();
+			if(location.endsWith("/"))
+				location = location.substring(0, location.length() - 1);
+			String name = location.substring(location.lastIndexOf("/") + 1);
+			location = location.substring(0, location.length() - name.length());
+			
+			System.out.println(location + "      " + name);
+			parent = getArtefact(res.getProtocol(), location, name);
+			if(parent != null)
+				System.out.println("---------------------------> FOUND !");
+		}
+		if(parent != null)
+			parent.addFragment(res);
+		return parent;
 	}
 
 //	/**
@@ -258,6 +282,7 @@ public class ArtefactFactory {
 			boolean success = addArtefact(a);
 			if (success)
 				artefactsAdded++;
+			Artefact parent = affectsParentIfExists(a);
 //			LOGGER.finer("new: " + a);
 		}
 		LOGGER.fine(artefactsAdded + " ExternalFile artefacts found in " + ReferenceFactory.getReferences().size()
@@ -281,11 +306,10 @@ public class ArtefactFactory {
 				artefactsAdded++;
 			if(r.isResolved()) {
 				boolean added = addLocalFolderArtefact(a);
-				if(added) {
+				if(added) 
 					folderAdded++;
-					LOGGER.finer("added:" + a.getParent().getLocation()+a.getParent().getName());
-				}
 			}
+			affectsParentIfExists(a);
 		}
 		LOGGER.fine(artefactsAdded + " LocalFile and "+folderAdded+" LocalFolder found in " + ReferenceFactory.getReferences().size()
 				+ " references.");
@@ -396,6 +420,7 @@ public class ArtefactFactory {
 		if(resParent == null) {
 			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
 			addArtefact(resParent);
+			Artefact parent = affectsParentIfExists(resParent);
 		}
 		return resParent;
 	}
