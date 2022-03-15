@@ -1,15 +1,12 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.apache.commons.io.FileUtils;
 
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
@@ -37,7 +34,6 @@ public class TraceFactory {
 		Collection<Artefact> sourceArts = ArtefactFactory.subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact sArt : sourceArts) {
 			File f = new File(sArt.getLocation());
-			String location = f.getParent();
 			Artefact parentArt = ArtefactFactory.getInstance().getArtefact(f);
 			parentArt.addFragment(sArt);
 		}

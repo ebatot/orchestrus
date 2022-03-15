@@ -92,7 +92,7 @@ public class Trace extends TracingElement {
 		return as;
 	}
 	
-	private HashSet<LinkType> getAllTraceLinkTypes() {	
+	public HashSet<LinkType> getAllTraceLinkTypes() {	
 		HashSet<LinkType> lts = new HashSet<>();
 		for (TraceLink tl : getAllTraceLinks()) {
 			lts.add(tl.getType());

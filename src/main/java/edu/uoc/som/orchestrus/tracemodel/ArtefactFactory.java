@@ -24,6 +24,8 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 public class ArtefactFactory {
 	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
 
+	private static final String ROOT_LOCATION_NAME = "ROOT";
+
 	static ArtefactFactory instance;
 
 	public static ArtefactFactory getInstance() {
@@ -61,7 +63,7 @@ public class ArtefactFactory {
 
 	public Artefact getArtefact(File f) {
 		String locationName = f.getParent() + f.getName();
-		return getArtefact(locationName);
+		return getArtefact(Protocol.no_protocol + locationName);
 	}
 
 	/**
@@ -87,8 +89,15 @@ public class ArtefactFactory {
 			location = location.substring(0, location.length() - name.length());
 			locationName = location + name;
 		}
-		return getArtefact(locationName);
+		return getArtefact(r.getProtocol() + locationName);
 	}
+	
+	public Artefact getArtefact(Protocol p, String location, String name) {
+		
+		return getArtefact(p + location + name);
+	}
+
+
 
 	private Artefact getArtefact(String locationName) {
 		return artefacts.get(locationName);
@@ -132,7 +141,7 @@ public class ArtefactFactory {
 			File f = new File(sFile);
 			Artefact a = newSourceFileArtefact(f);
 			addArtefact(a);
-			Artefact aParent = addLocalParentArtefact(a);
+			addLocalParentArtefact(a);
 		}
 		LOGGER.fine(getArtefacts().size() + " SourceFile artefacts found in " + StaticExplorer.getSourceFiles().size()
 				+ " files.");
@@ -152,21 +161,18 @@ public class ArtefactFactory {
 	 */
 	private Artefact addLocalParentArtefact(Artefact a) {
 		Artefact res;
-		String location = "-location-";
 		File f = new File(a.getLocation());
 		try {
-			location = f.getParentFile().getCanonicalPath();
+			f.getParentFile().getCanonicalPath();
 		} catch (Exception e) {
 			e.printStackTrace();// NO REASON we get there, sources were got from same env.
 			LOGGER.severe("Location (of parent folder) not found: " + f.getAbsolutePath());
-			System.out.println(f.getAbsolutePath());
 			System.exit(1);
 		}
 
-		String locationname = location + f.getName();
-		res = getArtefact(locationname);
+		res = getArtefact(f.getParentFile());
 		if (res == null) {
-			res = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true);
+			res = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, f.getParent(), null, true);
 			addArtefact(res);
 		}
 		return res;
@@ -179,6 +185,7 @@ public class ArtefactFactory {
 	 * Warning. If one parent does not resolve, the system will send an exception
 	 * and stop.
 	 */
+	@SuppressWarnings("unused")
 	private void buildLocalLocationArtefacts() {
 		List<Artefact> sourceArts = subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact a : sourceArts) {
@@ -192,8 +199,7 @@ public class ArtefactFactory {
 				System.exit(1);
 			}
 
-			String locationname = location + f.getName();
-			Artefact res = getArtefact(locationname);
+			Artefact res = getArtefact(f.getParentFile());
 			if (res == null) {
 				addArtefact(
 						new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true));
@@ -257,16 +263,9 @@ public class ArtefactFactory {
 	 *         {@link ArtefactTypeFactory#SOURCE_FILE_ARTEFACT}
 	 */
 	private Artefact newSourceFileArtefact(File f) {
-		String parentLocation = "-location-";
-		try {
-			parentLocation = f.getParentFile().getCanonicalPath();
-		} catch (IOException e) {
-			e.printStackTrace();// NO REASON we get there, sources were got from same env.
-		}
-
-		Artefact res = getArtefact(f.getName() + parentLocation);
+		Artefact res = getArtefact(f);
 		if (res == null) {
-			res = new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FILE_ARTEFACT, parentLocation, null, true);
+			res = new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FILE_ARTEFACT, f.getParent(), null, true);
 			LOGGER.finer("newR " + res);
 		} else
 			LOGGER.finest("Artefact '" + res + "' already exists.");
@@ -298,10 +297,9 @@ public class ArtefactFactory {
 		if (r.isResolved()) {
 			// Resolved means that the ancestry of the file exists, we can use the parent to
 			// precise the location
-			String parentLocation = f.getParentFile().getAbsolutePath();
-			res = getArtefact(parentLocation + name);
+			res = getArtefact(f);
 			if (res == null) {
-				res = new Artefact(name + "", atLocals, parentLocation, null, true);
+				res = new Artefact(name + "", atLocals, f.getParent(), null, true);
 				LOGGER.finest("newR " + res);
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
@@ -309,7 +307,7 @@ public class ArtefactFactory {
 		} else { // R is not resolved
 			String location = r.getTargetFileArtefact(); // Location is the target - we keep it full.
 
-			res = getArtefact(location + name);
+			res = getArtefact(r.getProtocol(), location, name);
 			if (res == null) {
 				// location and name are redundant -> because there is a quack (no resolution)!
 				res = new Artefact(name + "", atLocals, location, null, false);
@@ -336,10 +334,10 @@ public class ArtefactFactory {
 		String name = location.substring(location.lastIndexOf("/") + 1);
 		location = location.substring(0, location.length() - name.length());
 
-		String artKey = location + name;
-		Artefact res = getArtefact(artKey);
+		Artefact res = getArtefact(r.getProtocol(), location, name);
 		if (res == null) {
 			res = new Artefact(name, ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, location, null, false);
+			res.setProtocol(r.getProtocol());//
 			addArtefact(res);
 			LOGGER.finest("new " + res);
 		}
@@ -356,7 +354,7 @@ public class ArtefactFactory {
 	 * @param res fragment 
 	 */
 	private Artefact getExternalLocation(String location, Protocol p, Artefact res) {
-		Artefact resParent = getArtefact(location);
+		Artefact resParent = getArtefact(p, location, ROOT_LOCATION_NAME);
 		if(resParent == null) {
 			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
 			addArtefact(resParent);
@@ -408,9 +406,9 @@ public class ArtefactFactory {
 
 	public boolean addArtefact(Artefact a) {
 		int size = artefacts.size();
-		artefacts.put(a.getLocation() + a.getName(), a);
+		artefacts.put(a.getProtocol() + a.getLocation() + a.getName(), a);
 		if(size != artefacts.size() - 1) {
-			System.out.println(a + " was not added.");
+			LOGGER.finest(a + " was not added.");
 		}
 		return size == artefacts.size() - 1;
 	}
