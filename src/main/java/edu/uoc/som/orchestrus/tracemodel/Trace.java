@@ -43,11 +43,12 @@ public class Trace extends TracingElement {
 			artefactTypes += at.getJSon()+",\n";
 		artefactTypes = artefactTypes.substring(0, artefactTypes.length()-2)+ "]";
 		
-		String tracelinkTypes = "\"tracelinkTypes\": [" ;
+		String tracelinkTypes = "" ;
 		for (LinkType lt : LinkType.getTypes().values()) 
 			tracelinkTypes += lt.getJSon()+",\n";
-		tracelinkTypes = tracelinkTypes.substring(0, tracelinkTypes.length()-2)+ "]";
-		
+		if(!tracelinkTypes.isBlank())
+			tracelinkTypes = tracelinkTypes.substring(0, tracelinkTypes.length()-2);
+		tracelinkTypes = "\"tracelinkTypes\": [" + tracelinkTypes + "]";
 		
 		return "{\n"+
 			trace+",\n"+

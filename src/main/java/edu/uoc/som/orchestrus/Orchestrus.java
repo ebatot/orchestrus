@@ -31,6 +31,9 @@ public class Orchestrus {
 		// Build artefacts from Sources and References
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
+		
+		
+		System.out.println(ArtefactFactory.getAncestors());
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 //		printArtefactSignatures();
 		

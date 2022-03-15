@@ -2,9 +2,10 @@ package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
@@ -15,15 +16,15 @@ public class Artefact extends TypedArtefact {
 
 	private String location;
 	private Artefact parent;
-	private String definition;
+	private boolean resolves;
 	/**
 	 * Default is NO PROTOCOL.
 	 */
 	private Protocol protocol = Protocol.no_protocol;
 
-	private boolean resolves;
 
-	private HashMap<String, Artefact> fragments = new HashMap<>();
+//	private HashMap<String, Artefact> fragments = new HashMap<>();
+	private HashSet<Artefact> fragments = new HashSet<>();
 	private ArrayList<TraceLink> sourceOf;
 	private ArrayList<TraceLink> targetOf;
 
@@ -38,6 +39,29 @@ public class Artefact extends TypedArtefact {
 		this.resolves = resolved;
 		if(resolves)
 			protocol = Protocol.local;
+		
+		hashCode = (getProtocol()+getLocation()+getName()).hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (!obj.getClass().equals(this.getClass()))
+			return false;
+		Artefact rObj = (Artefact) obj;
+		if (!rObj.getProtocol().toString().equals(this.getProtocol().toString()))
+			return false;
+		if (!rObj.getLocation().equals(this.getLocation()))
+			return false;
+		if (!rObj.getName().equals(this.getName()))
+			return false;
+		return true;
+	}
+	int hashCode;
+	@Override
+	public int hashCode() {
+		return hashCode;
 	}
 
 	/**
@@ -66,7 +90,7 @@ public class Artefact extends TypedArtefact {
 		res += "\"name\": \"" + getName() + "\",";
 		res += "\"location\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "\",";
 		res += getParent() == null ? "" : "\"parent\": \"" + getParent().getID() + "\",";
-		res += "\"fragments\": " + Utils.getElementsIDsAsJsonCollection(fragments.values()) + ",";
+		res += "\"fragments\": " + Utils.getElementsIDsAsJsonCollection(fragments) + ",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
 	}
@@ -119,16 +143,23 @@ public class Artefact extends TypedArtefact {
 	}
 	
 	public void addFragment(Artefact af) {
-		fragments.put(af.getID(), af);
-		af.setParent(this);
-		LOGGER.finest("Fragment: " + af + " ADDED to: " + this);
+//		System.out.println("Artefact.addFragment() "+fragments.size()+"---" + this);
+		if(!fragments.contains(af)) {
+			fragments.add(af);
+			af.setParent(this);
+//			System.out.println("    - : "+af.getProtocol());
+//			System.out.println("    - : "+af.getLocation());
+//			System.out.println("    - : "+af.getName());
+			
+			LOGGER.finest("Fragment: " + af + " ADDED to: " + this);
+		}
 	}
 
 	public String getLocation() {
 		return location;
 	}
 	
-	public HashMap<String, Artefact> getFragments() {
+	public HashSet<Artefact> getFragments() {
 		return fragments;
 	}
 
@@ -170,14 +201,6 @@ public class Artefact extends TypedArtefact {
 
 	public boolean addSourceOf(TraceLink tl) {
 		return sourceOf.add(tl);
-	}
-
-	public void setDefinition(String definition) {
-		this.definition = definition;
-	}
-
-	public String getDefinition() {
-		return definition;
 	}
 
 	public boolean isOfType(ArtefactType at) {

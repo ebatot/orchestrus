@@ -33,19 +33,20 @@ public abstract class TracingElement {
 
 	static Set<Long> ids = new HashSet<>();
 	
+	static Random rnd = new Random(0);
+	
 	public TracingElement(String name) {
 		this.name = name;
 		
 		/* Exclusive IDing. */
-		long lID = new Random().nextLong();
+		long lID = rnd.nextLong();
 		while(ids.contains(lID))
-			lID = new Random().nextLong();
+			lID = rnd.nextLong();
 		
 		this.ID = "" + lID;
 
 		elements.put(ID, this);
 	}
-//	static HashSet<Integer> typesIds = new HashSet<>();
 
 	public void setName(String name) {
 		this.name = name;

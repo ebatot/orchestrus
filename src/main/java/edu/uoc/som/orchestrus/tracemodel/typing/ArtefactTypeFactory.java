@@ -9,7 +9,7 @@ public class ArtefactTypeFactory {
 	public static final ArtefactType EXTERNAL_LOCATION_ARTEFACT = addType("ExternalLocationArtefact");
 	public static final ArtefactType LOCAL_FILE_ARTEFACT = addType("LocalFileArtefact");
 	public static final ArtefactType SOURCE_FILE_ARTEFACT = addType("SourceFileArtefact");
-	public static final ArtefactType LOCAL_LOCATION_ARTEFACT = addType("LocalLocationArtefact");
+	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = addType("LocalFolderArtefact");
 	public static final ArtefactType LOCAL_ROOT_ARTEFACT = addType("LocalRootArtefact");
 
 	static ArtefactTypeFactory instance;

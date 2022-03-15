@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -190,7 +191,7 @@ public class Utils {
 	}
 
 	public static String printFragmentD3Json() {
-			System.out.println("ArtefactFactory.printFragmentD3Json()");
+			System.out.println("Utils.printFragmentD3Json()");
 			ArrayList<TraceLink> allFragment = new ArrayList<>();
 			
 			for (Artefact a : ArtefactFactory.getAncestors()) {
@@ -204,8 +205,14 @@ public class Utils {
 				artCollect.addAll(tl.getTargets());
 			}
 			
-			for (Artefact a : ArtefactFactory.getArtefacts().values()) {
+			for (Artefact a : ArtefactFactory.sortArtefactsByLocation(ArtefactFactory.getArtefacts().values())) {
 				if(!artCollect.contains(a)) {
+					System.out.println("missing: "+a + ": " + a.isResolves() + "    "+a.getName()+":"+a.getLocation());
+				}
+			}
+			System.out.println("\n");
+			for (Artefact a : ArtefactFactory.sortArtefactsByLocation(artCollect)) {
+				if(!ArtefactFactory.getArtefacts().values().contains(a)) {
 					System.out.println("missing: "+a + ": " + a.isResolves() + "    "+a.getName()+":"+a.getLocation());
 				}
 			}
@@ -224,6 +231,7 @@ public class Utils {
 			// print ALL artefacts, IN THE UNIVERSE !
 			String nodes = "";
 	//		for (Artefact a : ArtefactFactory.getArtefacts().values()) 
+			artCollect.addAll(ArtefactFactory.getArtefacts().values());
 			for (Artefact a : artCollect) 
 				nodes += a.getD3JSon()+",\n";
 			if(!nodes.isBlank())

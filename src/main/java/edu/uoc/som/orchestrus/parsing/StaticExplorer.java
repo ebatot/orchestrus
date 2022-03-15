@@ -196,7 +196,7 @@ public class StaticExplorer {
 					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
 					+ "\"nsURI\": \""+((Element)nNode).getAttribute("nsURI")+"\", "
 					+ "\"nsPrefix\": \""+((Element)nNode).getAttribute("nsPrefix")+"\"},";
-				LOGGER2.info(res);
+				LOGGER2.finer(res);
 			}
 			
 			expression = "//eStructuralFeatures";
@@ -220,7 +220,7 @@ public class StaticExplorer {
 					+ "\"xsi:type\": \""+((Element)nNode).getAttribute("xsi:type")+"\", "
 					+ "\"eTypePath\": \""+eTypePath+"\", "
 					+ "\"eTypeType\": \""+eTypeType+"\"},";
-				LOGGER2.info(res);
+				LOGGER2.finer(res);
 			}
 			
 			if(!res.isBlank())
