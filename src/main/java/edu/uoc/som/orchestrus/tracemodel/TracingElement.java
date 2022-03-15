@@ -1,7 +1,9 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 
@@ -29,16 +31,19 @@ public abstract class TracingElement {
 		return elements.get(ID);
 	}
 
+	static Set<Long> ids = new HashSet<>();
+	
 	public TracingElement(String name) {
 		this.name = name;
-		this.ID = "" + new Random().nextLong();
+		
+		/* Exclusive IDing. */
+		long lID = new Random().nextLong();
+		while(ids.contains(lID))
+			lID = new Random().nextLong();
+		
+		this.ID = "" + lID;
 
 		elements.put(ID, this);
-		/* Comment for exclusive IDing. No need for prototyping. */
-//		this.typeUID = new Random().nextInt();
-//		while(typesIds.contains(typeUID))
-//			this.typeUID = new Random().nextInt();
-//		typesIds.add(this.typeUID);
 	}
 //	static HashSet<Integer> typesIds = new HashSet<>();
 
