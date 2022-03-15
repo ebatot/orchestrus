@@ -111,8 +111,6 @@ public class StaticExplorer {
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-		
-		
 		return gson.toJson(elHrefs);
 	}
 	

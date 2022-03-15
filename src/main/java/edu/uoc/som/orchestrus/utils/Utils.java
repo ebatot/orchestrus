@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 
@@ -19,8 +21,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
+import edu.uoc.som.orchestrus.tracemodel.TraceLink;
 import net.thisptr.jackson.jq.BuiltinFunctionLoader;
 import net.thisptr.jackson.jq.JsonQuery;
 import net.thisptr.jackson.jq.Scope;
@@ -30,11 +34,11 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
-
-	public static void main(String[] args) {
-		 printLOC();
-		 System.exit(1);
-	}
+//
+//	public static void main(String[] args) {
+//		 printLOC();
+//		 System.exit(1);
+//	}
 	
 	@SuppressWarnings("deprecation")
 	public static void storeTrace_HC(Trace t) {
@@ -51,7 +55,7 @@ public class Utils {
 	public static void storeD3Fragmentation_HC() {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\fragmentD3Sample.json");
 		try {
-			FileUtils.write(f, ArtefactFactory.printFragmentD3Json());
+			FileUtils.write(f, Utils.printFragmentD3Json());
 			LOGGER.info("Trace stored in '"+f.getAbsolutePath()+"'");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -184,5 +188,55 @@ public class Utils {
 	
 		return backSlashedlocation;
 	}
+
+	public static String printFragmentD3Json() {
+			System.out.println("ArtefactFactory.printFragmentD3Json()");
+			ArrayList<TraceLink> allFragment = new ArrayList<>();
+			
+			for (Artefact a : ArtefactFactory.getAncestors()) {
+				List<TraceLink> aFragments = ArtefactFactory.getFragmentLinks(a);
+				allFragment.addAll(aFragments);
+			}
+			
+			Set<Artefact> artCollect = new HashSet<>();
+			for (TraceLink tl : allFragment) {
+				artCollect.addAll(tl.getSources());
+				artCollect.addAll(tl.getTargets());
+			}
+			
+			for (Artefact a : ArtefactFactory.getArtefacts().values()) {
+				if(!artCollect.contains(a)) {
+					System.out.println("missing: "+a + ": " + a.isResolves() + "    "+a.getName()+":"+a.getLocation());
+				}
+			}
+			
+			System.out.println(ArtefactFactory.getArtefacts().values().size());
+			System.out.println(artCollect.size());
+			System.out.println(ArtefactFactory.arts.size());
+			
+			String links = "" ;
+			for (TraceLink tl : allFragment) 
+				links += tl.getD3Json()+",\n";
+			if(!links.isBlank())
+				links = links.substring(0, links.length()-2);
+			links = "\"links\": [" + links + "]";
+			
+			// print ALL artefacts, IN THE UNIVERSE !
+			String nodes = "";
+	//		for (Artefact a : ArtefactFactory.getArtefacts().values()) 
+			for (Artefact a : artCollect) 
+				nodes += a.getD3JSon()+",\n";
+			if(!nodes.isBlank())
+				nodes = nodes.substring(0, nodes.length()-2);
+			nodes = "\"nodes\": [" + nodes + "]";
+			
+			return "{\n"+
+	//			trace+",\n"+
+				links+",\n"+
+				nodes+"\n"+
+	//			artefactTypes+",\n"+
+	//			tracelinkTypes+"\n"+
+				"}";
+		}
 
 }

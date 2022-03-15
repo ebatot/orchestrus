@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import edu.uoc.som.orchestrus.Orchestrus;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
@@ -121,21 +122,33 @@ public class ArtefactFactory {
 	 */
 	public void buildArtefacts() {
 		
-		localRoot = new Artefact("LocalRoot", ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, "/", null, true);
-		addArtefact(localRoot);
-
+		createLocalRootArtefact();
+		Orchestrus.printArtefactSignatures();
+		
 		/* build Artefact from source files found in project folder */
 		buildSourceFileArtefacts();
+		System.out.println("\n");
+		Orchestrus.printArtefactSignatures();
 
 		/* build Artefact from source files' parent folders */
 		//buildSourceFolderArtefacts();
 
 		/* build Artefact from source files found in project folder */
 		buildLocalFilesArtefacts();
+		System.out.println("\n");
+		Orchestrus.printArtefactSignatures();
 
 		/* build Artefact from source files found in project folder */
 		buildExternalFilesArtefacts();
+		System.out.println("\n");
+		Orchestrus.printArtefactSignatures();
 
+	}
+
+	private void createLocalRootArtefact() {
+		localRoot = new Artefact("LocalRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, ROOT_LOCATION_NAME, null, true);
+		localRoot.setProtocol(Protocol.local);
+		addArtefact(localRoot);
 	}
 
 	/**
@@ -150,7 +163,8 @@ public class ArtefactFactory {
 			Artefact a = newSourceFileArtefact(f);
 			addArtefact(a);
 			Artefact parent = addLocalParentArtefact(a);
-			localRoot.addFragment(parent);
+			if(!localRoot.getFragments().containsValue(a))	
+				localRoot.addFragment(parent);
 		}
 		LOGGER.fine(getArtefacts().size() + " SourceFile artefacts found in " + StaticExplorer.getSourceFiles().size()
 				+ " files.");
@@ -210,8 +224,9 @@ public class ArtefactFactory {
 
 			Artefact res = getArtefact(f.getParentFile());
 			if (res == null) {
-				addArtefact(
-						new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true));
+				Artefact parent = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true);
+				addArtefact(parent);
+				parent.addFragment(a);
 			}
 		}
 	}
@@ -251,6 +266,7 @@ public class ArtefactFactory {
 		for (Reference r : ReferenceFactory.getLocalReferences()) {
 			Artefact a = newLocalFileArtefact(r);
 			boolean success = addArtefact(a);
+			
 			if (success)
 				artefactsAdded++;
 			if(r.isResolved()) {
@@ -301,6 +317,8 @@ public class ArtefactFactory {
 
 		File f = new File(r.getTargetFileArtefact());
 		String name = f.getName();
+		
+		
 		if (r.isResolved()) {
 			// Resolved means that the ancestry of the file exists, we can use the parent to
 			// precise the location
@@ -317,7 +335,7 @@ public class ArtefactFactory {
 
 			res = getArtefact(r.getProtocol(), location, name);
 			if (res == null) {
-				res = new Artefact(name + "", ArtefactTypeFactory.LOCAL_FILE_ARTEFACT, location, null, false);
+				res = new Artefact(name, ArtefactTypeFactory.LOCAL_FILE_ARTEFACT, location, null, false);
 				LOGGER.finest("new " + res);
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
@@ -411,9 +429,13 @@ public class ArtefactFactory {
 		return res;
 	}
 
+	
+	static public Set<Artefact> arts = new HashSet<>();
+	
 	public boolean addArtefact(Artefact a) {
 		int size = artefacts.size();
 		artefacts.put(a.getProtocol() + a.getLocation() + a.getName(), a);
+		arts.add(a);
 		if(size != artefacts.size() - 1) {
 			LOGGER.finest(a + " was not added.");
 		}
@@ -431,58 +453,9 @@ public class ArtefactFactory {
 		}
 	}
 
-	
-	 
-	public static String printFragmentD3Json() {
-		System.out.println("ArtefactFactory.printFragmentD3Json()");
-		ArrayList<TraceLink> allFragment = new ArrayList<>();
-		
-		for (Artefact a : getAncestors()) {
-			List<TraceLink> aFragments = getFragmentLinks(a);
-			allFragment.addAll(aFragments);
-		}
-		
-		Set<Artefact> artCollect = new HashSet<>();
-		for (TraceLink tl : allFragment) {
-			artCollect.addAll(tl.getSources());
-			artCollect.addAll(tl.getTargets());
-		}
-		
-		for (Artefact a : ArtefactFactory.getArtefacts().values()) {
-			if(!artCollect.contains(a))
-				System.out.println("missing: "+a + ": " + a.isResolves());
-		}
-		
-		System.out.println(ArtefactFactory.getArtefacts().values().size());
-		System.out.println(artCollect.size());
-		
-		String links = "" ;
-		for (TraceLink tl : allFragment) 
-			links += tl.getD3Json()+",\n";
-		if(!links.isBlank())
-			links = links.substring(0, links.length()-2);
-		links = "\"links\": [" + links + "]";
-		
-		// print ALL artefacts, IN THE UNIVERSE !
-		String nodes = "";
-//		for (Artefact a : ArtefactFactory.getArtefacts().values()) 
-		for (Artefact a : artCollect) 
-			nodes += a.getD3JSon()+",\n";
-		if(!nodes.isBlank())
-			nodes = nodes.substring(0, nodes.length()-2);
-		nodes = "\"nodes\": [" + nodes + "]";
-		
-		return "{\n"+
-//			trace+",\n"+
-			links+",\n"+
-			nodes+"\n"+
-//			artefactTypes+",\n"+
-//			tracelinkTypes+"\n"+
-			"}";
-	}
-	
-	private static List<TraceLink> getFragmentLinks(Artefact a) {
+	public static List<TraceLink> getFragmentLinks(Artefact a) {
 		ArrayList<TraceLink> tls = new ArrayList<>(a.getFragments().size());
+		System.out.println(a.getFragments().size()+"\t- "+a);
 		for (Artefact aa : a.getFragments().values()) {
 			TraceLink tl = new TraceLink(a, aa);
 			tls.add(tl);

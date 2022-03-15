@@ -117,7 +117,7 @@ public class Artefact extends TypedArtefact {
 	public boolean hasParent() {
 		return parent != null;
 	}
-
+	
 	public void addFragment(Artefact af) {
 		fragments.put(af.getID(), af);
 		af.setParent(this);
