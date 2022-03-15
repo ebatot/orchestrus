@@ -32,7 +32,7 @@ public class Orchestrus {
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
-		printArtefactSignatures();
+//		printArtefactSignatures();
 		
 		TraceFactory tFactory = TraceFactory.getInstance();
 		// TODONE Connect fragments.

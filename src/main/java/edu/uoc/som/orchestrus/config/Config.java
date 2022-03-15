@@ -231,7 +231,7 @@ public class Config {
 		return res;
 	}
 
-	public String getPropertiesEditorConfiguration() {
+	public static String getPropertiesEditorConfiguration() {
 		return propertiesEditorConfiguration;
 	}
 	public String getPropertiesEditorConfigurationContext() {
@@ -250,8 +250,17 @@ public class Config {
 		return getProjectFull() + File.separator + umlProfilesFolder;
 	}
 
+	public static String getUmlprofilesfolder() {
+		return umlProfilesFolder;
+	}
+	
 	public String getPaletteConfigurationsFolderFull() {
 		return getProjectFull() + File.separator + paletteConfigurationsFolder;
+	}
+	
+	public String getEcoreFilePath() {
+		File fEcore = new File(getUmlProfilesFolderFull()+File.separator+projectName+".ecore");
+		return fEcore.getAbsolutePath();
 	}
 
 	/**

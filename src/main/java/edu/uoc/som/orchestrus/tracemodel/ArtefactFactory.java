@@ -275,7 +275,7 @@ public class ArtefactFactory {
 		Artefact res = getArtefact(f);
 		if (res == null) {
 			res = new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FILE_ARTEFACT, f.getParent(), null, true);
-			LOGGER.finer("newR " + res);
+			LOGGER.finest("newR " + res);
 		} else
 			LOGGER.finest("Artefact '" + res + "' already exists.");
 		return res;

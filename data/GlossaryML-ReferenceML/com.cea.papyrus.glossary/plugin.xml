@@ -4,7 +4,11 @@
    
    <extension point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
             
-      <profile description="This DSML supports users managing her/his specific glossaries." iconpath="uml-profiles/res/GlossaryShape.png" name="GlossaryML" path="platform:/plugin/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml" provider="CEA List"/>
+      <profile description="This DSML supports users managing her/his specific glossaries." 
+            iconpath="uml-profiles/res/GlossaryShape.png" 
+            name="GlossaryML" 
+            path="platform:/plugin/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml" 
+            provider="CEA List"/>
          
    </extension>
 

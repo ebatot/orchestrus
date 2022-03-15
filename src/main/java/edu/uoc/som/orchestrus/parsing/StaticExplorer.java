@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -76,12 +77,27 @@ public class StaticExplorer {
 	public String getInterArtefactReferences_Json() {
 		JsonParser parser = new JsonParser();
 		
+		String contextFileName = config.getProjectName() + ".ctx";
+		String ecoreFileName = config.getProjectName() + ".ecore";
+		// TODO To lower ?! always ? or only for GlossaryML project..
+		String genmodelFileName = config.getProjectName().toLowerCase() + ".genmodel";
+		
 		// Root created with HREFS references
 		String hrefs = getHrefs_Json();
 		JsonElement elHrefs = parser.parse(hrefs);
+		JsonObject obRoot = elHrefs.getAsJsonObject();
 		
-		// TODO Check uml-profile/*.ecore
-		// [element|package]Import elements 
+		
+		// Plugin.xml references
+		String pluginXmlRefs = extractPluginXMLRefs();
+		JsonElement elPlugin = parser.parse(pluginXmlRefs);
+		obRoot.add(Config.PLUGIN_XML_FILENAME, elPlugin);
+		
+		// uml-profile/*.ecore definition and references
+		String ecoreRefs = extractEcoreRefs();
+		JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
+		JsonElement elEcore = parser.parse(ecoreRefs);
+		obEcore.add(elEcore);
 		
 		// TODO Check uml-profile/*.gencode
 		// gemodel[usedGenPackages] -> ref extern
@@ -90,15 +106,8 @@ public class StaticExplorer {
 		// Added extra context references
 		String ctxValues = getCtxValues_Json();
 		JsonElement elCtx = parser.parse(ctxValues);
-		JsonObject ob = elHrefs.getAsJsonObject();
-		String contextFileName = config.getProjectName() + ".ctx";
-		JsonObject obEditorProperties = ob.getAsJsonObject(config.getPropertiesEditorConfiguration());
+		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());
 		obEditorProperties.add(contextFileName+"-values", elCtx);
-		
-		// Plugin.xml references
-		String pluginXmlRefs = extractPluginXMLRefs();
-		JsonElement elPlugin = parser.parse(pluginXmlRefs);
-		ob.add(Config.PLUGIN_XML_FILENAME, elPlugin);
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -129,7 +138,6 @@ public class StaticExplorer {
 			if (++isf < Config.getInstance().getContentFoldersName().size())
 				res += ",\n";
 		}
-
 		return res + "}";
 	}
 	
@@ -147,7 +155,7 @@ public class StaticExplorer {
 		LOGGER.fine(countElts + " references found in " + files.size() +" files");
 		return res;
 	}
-	
+
 	private String getCtxValues_Json() {
 		String res = "";
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
@@ -155,30 +163,95 @@ public class StaticExplorer {
 		try {
 			elts = getContextValuElementsFromFile(builder, fContext);
 			String ctxvalues = getJSonForCtxValues(elts);
-			res += ctxvalues ;
+			res += ctxvalues;
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		res = Utils.cleanJSon(res);
-		LOGGER.fine(elts.size() + " references found in '" + fContext +"'");
+		LOGGER.fine(elts.size() + " references found in '" + fContext + "'");
 		return res;
 	}
-	
 
+
+	/**
+	 * Extract references from Ecore project file (see {@link Config#getEcoreFilePath()}) <br/>
+	 * <ul>
+	 * 	<li> epackageDeclaration values, </li>
+	 * 	<li> eStructuralFeature types (intra and inter model dependencies) </li>
+	 * 
+	 * @return
+	 */
+	private String extractEcoreRefs() {
+		File f = new File(config.getEcoreFilePath());
+		String res = "";
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//*[@name and @nsURI and @nsPrefix]";
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				res += "{\"type\": \"epackgeDeclaration\", "
+					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
+					+ "\"nsURI\": \""+((Element)nNode).getAttribute("nsURI")+"\", "
+					+ "\"nsPrefix\": \""+((Element)nNode).getAttribute("nsPrefix")+"\"},";
+				LOGGER2.info(res);
+			}
+			
+			expression = "//eStructuralFeatures";
+			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				String[] eTypeArray = ((Element)nNode).getAttribute("eType").split(" ");
+				String eTypeType = "";
+				String eTypePath = "";					
+				if(eTypeArray.length > 1) {
+					eTypeType = ((Element)nNode).getAttribute("eType").split(" ")[0];
+					eTypePath = ((Element)nNode).getAttribute("eType").split(" ")[1];	
+				} else {
+					eTypeType = "local";
+					eTypePath = ((Element)nNode).getAttribute("eType").split(" ")[0];
+				}
+				
+				res += "{\"type\": \"eStructuralFeature\", "
+					+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
+					+ "\"xsi:type\": \""+((Element)nNode).getAttribute("xsi:type")+"\", "
+					+ "\"eTypePath\": \""+eTypePath+"\", "
+					+ "\"eTypeType\": \""+eTypeType+"\"},";
+				LOGGER2.info(res);
+			}
+			
+			if(!res.isBlank())
+				res = res.substring(0, res.length()-1);
+
+			return "["+res+"]";
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
+	
 	/**
 	 * 
 	 * @return JSON containing references found in /plugin.xml file
 	 */
-	private  String extractPluginXMLRefs() {
+	private String extractPluginXMLRefs() {
 		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
 		try {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			return getProfileExtensionPoints(doc, xPath, f);
-			
+
 		} catch (SAXException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -188,7 +261,7 @@ public class StaticExplorer {
 		}
 		return "";
 	}
-	
+
 	private String getProfileExtensionPoints(Document doc, XPath xPath, File f) throws XPathExpressionException {
 		String resElt = "{";
 
@@ -198,24 +271,9 @@ public class StaticExplorer {
 		for (i = 0; i < nodeList2.getLength(); i++) {
 			Node nNode = nodeList2.item(i);
 
-			/*
-			 * 
-			 * 
-			 * 
-			 * TODO
-			 * Here we are. One case for each extension point type.
-			 *  -> references "profile-extension-points"
-			 *     - element name, attributes path, model, etc.
-			 * 
-			 */
-
-			
-			String point = ((Element)nNode).getAttribute("point");
+			String point = ((Element) nNode).getAttribute("point");
 			String value = "";
-			String name = ((Element)nNode).getAttribute("name");
-			String path = ((Element)nNode).getAttribute("path");
-			
-			
+
 			value = nNode.toString();
 			
 			switch (ExtensionPoint.getExtensionPointFromName(point)) {
@@ -223,47 +281,52 @@ public class StaticExplorer {
 				value = getProfileExtension(doc, xPath, f);
 				break;
 			case generated_package:
+				value = getPackageExtension(doc, xPath, f);
+				break;
 			case architecture:
-			case infra:
-			case conetxt:
+				value = getArchitectureExtension(doc, xPath, f);
+				break;
+			case palette:
+				value = getPaletteExtension(doc, xPath, f);
+				break;
+			case context:
+				value = getContextExtension(doc, xPath, f);
+				break;
 			case factory:
-				value = "{\"TODO\": \"TODO\"}";
-				//TODO
+				value = getFactoryExtension(doc, xPath, f);
 				break;
 			default:
-				throw new IllegalArgumentException("Should never get there, unrecognized extension point: "+point);
+				throw new IllegalArgumentException("Should never get there, unrecognized extension point: " + point);
 			}
-			
-			
-			LOGGER2.finest("\""+point+"\": "+value+"");
-			resElt += "\""+point+"\": "+value+",\n";
+
+			resElt += "\"" + point + "\": " + value + ",\n";
 		}
-		if(i>0) 
-			resElt = resElt.substring(0, resElt.trim().length()-1);
+		if (i > 0)
+			resElt = resElt.substring(0, resElt.trim().length() - 1);
+		LOGGER2.finer(resElt);
 		return resElt + "}";
 	}
+
 	static enum ExtensionPoint {
 		profile("org.eclipse.papyrus.uml.extensionpoints.UMLProfile"),
 		generated_package("org.eclipse.emf.ecore.generated_package"),
-		architecture("org.eclipse.papyrus.infra.architecture.models"),
-		infra("org.eclipse.papyrus.infra.newchild"),
-		conetxt("org.eclipse.papyrus.infra.properties.contexts"),
-		factory("org.eclipse.emf.ecore.factory_override");
+		architecture("org.eclipse.papyrus.infra.architecture.models"), palette("org.eclipse.papyrus.infra.newchild"),
+		context("org.eclipse.papyrus.infra.properties.contexts"), factory("org.eclipse.emf.ecore.factory_override");
 
 		ExtensionPoint(String name) {
 			this.name = name;
 		}
-		
+
 		static ExtensionPoint getExtensionPointFromName(String name) {
 			for (ExtensionPoint ep : ExtensionPoint.values()) {
-				if(ep.getName().equals(name))
+				if (ep.getName().equals(name))
 					return ep;
 			}
 			return null;
 		}
-		
-		
+
 		String name;
+
 		public String getName() {
 			return name;
 		}
@@ -275,18 +338,139 @@ public class StaticExplorer {
 		try {
 			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
-				if ( i > 1 ) {
-					throw new IllegalArgumentException("Should never get there, only one extension profile by "+Config.PLUGIN_XML_FILENAME+" file.");
+				if (i > 1) {
+					throw new IllegalArgumentException("Should never get there, only one extension profile by "
+							+ Config.PLUGIN_XML_FILENAME + " file.");
 				}
 				Node nNode = nodeList2.item(i);
-				LOGGER2.finest("{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}");
-				res += "{ \"name\": \""+((Element)nNode).getAttribute("name")+"\", \"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
+				res += "{ "
+						+ "\"type\": \"profile\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
+						+ "\"path\": \""+((Element)nNode).getAttribute("path")+"\", "
+						+ "\"iconpath\": \""+((Element)nNode).getAttribute("iconpath")+"\"}";
+				LOGGER2.finest(res);
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
 		return res;
 	}
+	
+	private String getPackageExtension(Document doc, XPath xPath, File f) {
+		String res = "";
+		String expression = "/plugin/extension/package";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension package by "+Config.PLUGIN_XML_FILENAME+" file.");
+				}
+				Node nNode = nodeList2.item(i);
+				res += "{ "
+						+ "\"type\": \"package\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"uri\": \""+((Element)nNode).getAttribute("uri")+"\", "
+						+ "\"class\": \""+((Element)nNode).getAttribute("class")+"\", "
+						+ "\"genmodel\": \""+((Element)nNode).getAttribute("genmodel")+"\"}";
+				LOGGER2.finest(res);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	private String getArchitectureExtension(Document doc, XPath xPath, File f) {
+		String res = "";
+		String expression = "/plugin/extension/model";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension architecture by "+Config.PLUGIN_XML_FILENAME+" file.");
+				}
+				Node nNode = nodeList2.item(i);
+				res += "{ "
+						+ "\"type\": \"model\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"path\": \""+((Element)nNode).getAttribute("path")+"\"}";
+				LOGGER2.finest(res);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	
+	private String getPaletteExtension(Document doc, XPath xPath, File f) {
+		String res = "";
+		String expression = "/plugin/extension/menuCreationModel";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension palette by "+Config.PLUGIN_XML_FILENAME+" file.");
+				}
+				Node nNode = nodeList2.item(i);
+				res += "{ "
+						+ "\"type\": \"palette\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"model\": \""+((Element)nNode).getAttribute("model")+"\"}";
+				LOGGER2.finest(res);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	private String getContextExtension(Document doc, XPath xPath, File f) {
+		String res = "";
+		String expression = "/plugin/extension/context";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension context by "+Config.PLUGIN_XML_FILENAME+" file.");
+				}
+				Node nNode = nodeList2.item(i);
+				res += "{ "
+						+ "\"type\": \"context\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"contextModel\": \""+((Element)nNode).getAttribute("contextModel")+"\", "
+						+ "\"isCustomizable\": \""+((Element)nNode).getAttribute("isCustomizable")+"\"}";
+				LOGGER2.finest(res);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	private String getFactoryExtension(Document doc, XPath xPath, File f) {
+		String res = "";
+		String expression = "/plugin/extension/factory";
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				if ( i > 1 ) {
+					throw new IllegalArgumentException("Should never get there, only one extension factory by "+Config.PLUGIN_XML_FILENAME+" file.");
+				}
+				Node nNode = nodeList2.item(i);
+				res += "{ "
+						+ "\"type\": \"factory\", "
+						+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
+						+ "\"class\": \""+((Element)nNode).getAttribute("class")+"\", "
+						+ "\"uri\": \""+((Element)nNode).getAttribute("uri")+"\"}";
+				LOGGER2.finest(res);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 
 	/**
 	 * Source to reference
