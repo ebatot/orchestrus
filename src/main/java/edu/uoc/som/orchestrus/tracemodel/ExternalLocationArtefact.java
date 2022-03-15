@@ -7,7 +7,7 @@ public class ExternalLocationArtefact extends Artefact {
 
 	public ExternalLocationArtefact(String location, ArtefactType externalFolderArtefact,
 			Protocol protocol) {
-		super(location, externalFolderArtefact, location, null);
+		super(location, externalFolderArtefact, location, null, false);
 		setProtocol(protocol);
 	}
 }

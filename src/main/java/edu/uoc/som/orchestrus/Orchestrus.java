@@ -1,6 +1,7 @@
 package edu.uoc.som.orchestrus;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
@@ -10,7 +11,8 @@ import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class Orchestrus {
-	
+	public final static Logger LOGGER = Logger.getLogger(Orchestrus.class.getName());
+
 	
 	public static void main(String[] args) {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
@@ -29,7 +31,8 @@ public class Orchestrus {
 		// Build artefacts from Sources and References
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
-//		printArtefactSignatures();
+		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
+		printArtefactSignatures();
 		
 		TraceFactory tFactory = TraceFactory.getInstance();
 		// TODONE Connect fragments.

@@ -37,10 +37,22 @@ public class Artefact extends TypedArtefact {
 		targetOf = new ArrayList<>();
 	}
 
+	/**
+	 * TEST PURPOSE.
+	 * @param name
+	 * @param type
+	 * @param location
+	 * @param parent
+	 */
 	public Artefact(String name, ArtefactType type, String location, Artefact parent) {
 		this(name, type, location, parent, false);
 	}
 
+	/**
+	 * TEST PURPOSE
+	 * @param name
+	 * @param type
+	 */
 	public Artefact(String name, ArtefactType type) {
 		this(name, type, null, null, false);
 	}

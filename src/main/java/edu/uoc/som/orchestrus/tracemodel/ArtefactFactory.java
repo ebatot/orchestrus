@@ -25,6 +25,7 @@ public class ArtefactFactory {
 	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
 
 	private static final String ROOT_LOCATION_NAME = "ROOT";
+	private Artefact localRoot;
 
 	static ArtefactFactory instance;
 
@@ -38,6 +39,7 @@ public class ArtefactFactory {
 	 * (location+name) -> artefact
 	 */
 	private Map<String, Artefact> artefacts;
+
 
 	public ArtefactFactory() {
 		artefacts = new HashMap<>();
@@ -115,6 +117,9 @@ public class ArtefactFactory {
 	 * Builds artefacts from an instanciated static explorer (see {@link StaticExplorer}) 
 	 */
 	public void buildArtefacts() {
+		
+		localRoot = new Artefact("LocalRoot", ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, "/", null, true);
+		addArtefact(localRoot);
 
 		/* build Artefact from source files found in project folder */
 		buildSourceFileArtefacts();
@@ -141,7 +146,8 @@ public class ArtefactFactory {
 			File f = new File(sFile);
 			Artefact a = newSourceFileArtefact(f);
 			addArtefact(a);
-			addLocalParentArtefact(a);
+			Artefact parent = addLocalParentArtefact(a);
+			localRoot.addFragment(parent);
 		}
 		LOGGER.fine(getArtefacts().size() + " SourceFile artefacts found in " + StaticExplorer.getSourceFiles().size()
 				+ " files.");
@@ -288,8 +294,6 @@ public class ArtefactFactory {
 	 *         {@link ArtefactTypeFactory#LOCAL_FILE_ARTEFACT}
 	 */
 	private Artefact newLocalFileArtefact(Reference r) {
-		ArtefactType atLocals = ArtefactTypeFactory.LOCAL_FILE_ARTEFACT;
-
 		Artefact res = null;
 
 		File f = new File(r.getTargetFileArtefact());
@@ -299,18 +303,18 @@ public class ArtefactFactory {
 			// precise the location
 			res = getArtefact(f);
 			if (res == null) {
-				res = new Artefact(name + "", atLocals, f.getParent(), null, true);
+				res = new Artefact(name + "", ArtefactTypeFactory.LOCAL_FILE_ARTEFACT, f.getParent(), null, true);
 				LOGGER.finest("newR " + res);
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
 			}
+			
 		} else { // R is not resolved
 			String location = r.getTargetFileArtefact(); // Location is the target - we keep it full.
 
 			res = getArtefact(r.getProtocol(), location, name);
 			if (res == null) {
-				// location and name are redundant -> because there is a quack (no resolution)!
-				res = new Artefact(name + "", atLocals, location, null, false);
+				res = new Artefact(name + "", ArtefactTypeFactory.LOCAL_FILE_ARTEFACT, location, null, false);
 				LOGGER.finest("new " + res);
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
@@ -427,13 +431,12 @@ public class ArtefactFactory {
 	
 	 
 	public static String printFragmentD3Json() {
+		System.out.println("ArtefactFactory.printFragmentD3Json()");
 		ArrayList<TraceLink> allFragment = new ArrayList<>();
 		
-		System.out.println("ArtefactFactory.printFragmentD3Json()");
 		for (Artefact a : getAncestors()) {
 			List<TraceLink> aFragments = getFragmentLinks(a);
 			allFragment.addAll(aFragments);
-			System.out.println(" -> " + allFragment.size() + " : "+a);
 		}
 		
 		Set<Artefact> artCollect = new HashSet<>();
@@ -441,6 +444,14 @@ public class ArtefactFactory {
 			artCollect.addAll(tl.getSources());
 			artCollect.addAll(tl.getTargets());
 		}
+		
+		for (Artefact a : ArtefactFactory.getArtefacts().values()) {
+			if(!artCollect.contains(a))
+				System.out.println("missing: "+a + ": " + a.isResolves());
+		}
+		
+		System.out.println(ArtefactFactory.getArtefacts().values().size());
+		System.out.println(artCollect.size());
 		
 		String links = "" ;
 		for (TraceLink tl : allFragment) 
