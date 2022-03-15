@@ -65,7 +65,10 @@ public class ArtefactFactory {
 
 	public Artefact getArtefact(File f) {
 		String locationName = f.getParent() + f.getName();
-		return getArtefact(Protocol.no_protocol + locationName);
+		Protocol p = Protocol.no_protocol;
+		if(f.exists())
+			p = Protocol.local;
+		return getArtefact(p + locationName);
 	}
 
 	/**

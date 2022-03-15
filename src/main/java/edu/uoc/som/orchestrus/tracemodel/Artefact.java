@@ -35,6 +35,9 @@ public class Artefact extends TypedArtefact {
 		this.location = location;
 		sourceOf = new ArrayList<>();
 		targetOf = new ArrayList<>();
+		this.resolves = resolved;
+		if(resolves)
+			protocol = Protocol.local;
 	}
 
 	/**

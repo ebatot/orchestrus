@@ -11,13 +11,13 @@ public class Reference extends TracingElement {
 	public final static Logger LOGGER = Logger.getLogger(Reference.class.getName());
 
 	private boolean resolved = false;
-	
+
 	private String raw;
 	private Protocol protocol;
 	private String location;
 	private String innerLocation;
 	private Set<String> sources = new HashSet<String>();
-	
+
 	public Reference(String strRef, String source) {
 		this.raw = strRef;
 		this.protocol = ReferenceFactory.extractProtocol(this.raw);
@@ -26,27 +26,29 @@ public class Reference extends TracingElement {
 		newName();
 		sources.add(source);
 	}
-	
+
 	/**
 	 * A reference is considered "local" if it has no protocol {@link Protocol}
+	 * 
 	 * @return
 	 */
 	public boolean isLocal() {
-		return protocol == Protocol.no_protocol;
+		return protocol == Protocol.no_protocol || protocol == Protocol.local;
 	}
-	
+
 	public boolean isResolved() {
 		return resolved;
 	}
-	
+
 	private static int counter = 0;
+
 	private void newName() {
-		setName("Ref_"+counter++);
+		setName("Ref_" + counter++);
 	}
-	
+
 	public String getHREF() {
 		String res = "";
-		if(this.hasProtocol()) {
+		if (!this.isLocal()) {
 			res += this.getProtocol() + "://";
 		}
 		res += getTargetFileArtefact() + "#" + getInnerLocation();
@@ -56,60 +58,61 @@ public class Reference extends TracingElement {
 	public Set<String> getSources() {
 		return sources;
 	}
-	
+
 	public void setLocation(String newLocation) {
 		this.location = newLocation;
-		
+
 	}
 
 	/**
-	 * protocol == o.protocol && location == o.location && innerLocation == o.innerLocation
+	 * protocol == o.protocol && location == o.location && innerLocation ==
+	 * o.innerLocation
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null) return false;
-		if(!obj.getClass().equals(this.getClass())) return false;
-		Reference rObj = (Reference)obj;
-		if(!rObj.getProtocol().equals(this.getProtocol())) return false;
-		if(!rObj.getTargetFileArtefact().equals(this.getTargetFileArtefact())) return false;
+		if (obj == null)
+			return false;
+		if (!obj.getClass().equals(this.getClass()))
+			return false;
+		Reference rObj = (Reference) obj;
+		if (!rObj.getProtocol().equals(this.getProtocol()))
+			return false;
+		if (!rObj.getTargetFileArtefact().equals(this.getTargetFileArtefact()))
+			return false;
 		return (!rObj.getInnerLocation().equals(this.getInnerLocation()));
 	}
-	
+
 	public String getRaw() {
 		return raw;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();
 	}
 
-	public boolean hasNoProtocol() {
-		return protocol == Protocol.no_protocol;
-	}
-
-	public boolean hasProtocol() {
-		return !hasNoProtocol();
-	}
-
 	/**
-	 * returns what lies between protocol:// and # (the latter indicates that its about the inside of a file.
+	 * returns what lies between protocol:// and # (the latter indicates that its
+	 * about the inside of a file.
+	 * 
 	 * @return
 	 */
 	public String getTargetFileArtefact() {
 		return location;
 	}
-	
+
 	public Protocol getProtocol() {
 		return protocol;
 	}
-	
+
 	public String getInnerLocation() {
 		return innerLocation;
 	}
 
 	public void setResolved(boolean resolved) {
 		this.resolved = resolved;
+		if (resolved && protocol == Protocol.no_protocol)
+			protocol = Protocol.local;
 	}
 
 	public boolean containsSource(String sSource) {

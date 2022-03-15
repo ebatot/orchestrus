@@ -43,9 +43,21 @@ public class ReferenceFactory {
 		return Protocol.getProtocol(rawReference);
 	}
 
+	/**
+	 * @author Edouard Romari Batot 2022
+	 *
+	 * Default for local files : no_protocol. <br/>
+	 * {@link Protocol#local} will be assignated when resolving a "no_protocol" href.
+	 */
 	public enum Protocol {
-		http, pathmap, platform, ppe, bundleclass, no_protocol;
+		http, pathmap, platform, ppe, bundleclass, local, no_protocol;
 
+		/**
+		 * Default for local files : no_protocol. <br/>
+		 * {@link Protocol#local} will be assignated when resolving a "no_protocol" href.
+		 * @param raw
+		 * @return
+		 */
 		static Protocol getProtocol(String raw) {
 			if (raw.startsWith("http"))
 				return http;
@@ -71,6 +83,7 @@ public class ReferenceFactory {
 			case ppe:
 				return rawReference.substring(p.toString().length() + 2);
 
+			case local:
 			case no_protocol:
 				return rawReference;
 			default:
@@ -88,7 +101,7 @@ public class ReferenceFactory {
 	 * @return
 	 */
 	public static boolean resolveLocation(String sourceFile, Reference r) {
-		if (r.hasNoProtocol()) {
+		if (r.isLocal()) {
 			boolean res = false;
 			String resolvedLocation = "-resolvedLocation-";
 			try {
