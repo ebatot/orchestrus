@@ -6,10 +6,10 @@ import java.util.HashMap;
 public class ArtefactTypeFactory {
 
 	public static final ArtefactType EXTERNAL_FILE_ARTEFACT = addType("ExternalFileArtefact");
-	public static final ArtefactType EXTERNAL_FOLDER_ARTEFACT = addType("ExternalFolderArtefact");
+	public static final ArtefactType EXTERNAL_LOCATION_ARTEFACT = addType("ExternalLocationArtefact");
 	public static final ArtefactType LOCAL_FILE_ARTEFACT = addType("LocalFileArtefact");
 	public static final ArtefactType SOURCE_FILE_ARTEFACT = addType("SourceFileArtefact");
-	public static final ArtefactType SOURCE_FOLDER_ARTEFACT = addType("SourceFolderArtefact");
+	public static final ArtefactType LOCAL_LOCATION_ARTEFACT = addType("LocalLocationArtefact");
 
 	static ArtefactTypeFactory instance;
 

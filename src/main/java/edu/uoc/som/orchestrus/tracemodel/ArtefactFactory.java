@@ -140,7 +140,7 @@ public class ArtefactFactory {
 
 	/**
 	 * Allocate its parent folder
-	 * ({@link ArtefactTypeFactory#SOURCE_FOLDER_ARTEFACT}) to a Source/Local File
+	 * ({@link ArtefactTypeFactory#LOCAL_LOCATION_ARTEFACT}) to a Source/Local File
 	 * artefact. <br/>
 	 * 
 	 * Warning. If parent does not resolve, the system will send an exception
@@ -166,7 +166,7 @@ public class ArtefactFactory {
 		String locationname = location + f.getName();
 		res = getArtefact(locationname);
 		if (res == null) {
-			res = new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FOLDER_ARTEFACT, location, null, true);
+			res = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true);
 			addArtefact(res);
 		}
 		return res;
@@ -179,7 +179,7 @@ public class ArtefactFactory {
 	 * Warning. If one parent does not resolve, the system will send an exception
 	 * and stop.
 	 */
-	private void buildSourceFolderArtefacts() {
+	private void buildLocalLocationArtefacts() {
 		List<Artefact> sourceArts = subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact a : sourceArts) {
 			String location = "-location-";
@@ -196,7 +196,7 @@ public class ArtefactFactory {
 			Artefact res = getArtefact(locationname);
 			if (res == null) {
 				addArtefact(
-						new Artefact(f.getName(), ArtefactTypeFactory.SOURCE_FOLDER_ARTEFACT, location, null, true));
+						new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_LOCATION_ARTEFACT, location, null, true));
 			}
 		}
 	}
@@ -343,14 +343,25 @@ public class ArtefactFactory {
 			addArtefact(res);
 			LOGGER.finest("new " + res);
 		}
-		Artefact resParent = getArtefact(location);
-		if(resParent == null) {
-			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_FOLDER_ARTEFACT, r.getProtocol());
-			addArtefact(resParent);
-		}
-		resParent.addFragment(res);
+		Artefact parent = getExternalLocation(location, r.getProtocol(), res);
+		parent.addFragment(res);
 
 		return res;
+	}
+
+	/**
+	 * 
+	 * @param location
+	 * @param p
+	 * @param res fragment 
+	 */
+	private Artefact getExternalLocation(String location, Protocol p, Artefact res) {
+		Artefact resParent = getArtefact(location);
+		if(resParent == null) {
+			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
+			addArtefact(resParent);
+		}
+		return resParent;
 	}
 
 	public Artefact[] sortArtefactsByType(Collection<Artefact> artefacts) {

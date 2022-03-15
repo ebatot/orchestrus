@@ -1,5 +1,7 @@
 package edu.uoc.som.orchestrus;
 
+import java.util.Arrays;
+
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
@@ -55,6 +57,15 @@ public class Orchestrus {
 		
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
+		
+		String[] keys = (String[])  ArtefactFactory.getArtefacts().keySet().toArray(new String[ ArtefactFactory.getArtefacts().keySet().size()]);
+		
+		Arrays.sort(keys);
+		
+		for (String key : keys) {
+			Artefact a = ArtefactFactory.getArtefacts().get(key);
+			System.out.println(key + ":\t\t "+a);
+		}
 	}
 	/*
 	 *  Arguments:
