@@ -75,6 +75,7 @@ public class StaticExplorer {
 	 */
 	@SuppressWarnings("deprecation")
 	public String getInterArtefactReferences_Json() {
+		LOGGER.info("Building References - JSon manipulation.");
 		JsonParser parser = new JsonParser();
 		
 		String contextFileName = config.getProjectName() + ".ctx";
@@ -111,6 +112,7 @@ public class StaticExplorer {
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+		
 		return gson.toJson(elHrefs);
 	}
 	

@@ -4,12 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -125,31 +127,49 @@ public class ArtefactFactory {
 	 * Builds artefacts from an instanciated static explorer (see {@link StaticExplorer}) 
 	 */
 	public void buildArtefacts() {
-		
+		LOGGER.info("Building Artefacts ** Roots, Local, Files, Folders and Locations...");
+
 		createProjectRootArtefact();
-		createUnresovledsRootArtefact();
-		createLocalRootDependenciesArtefacts();
-		
+		createUnresovledsStackArtefact();
+		int deps = createLocalRootDependenciesArtefacts();
+		LOGGER.info(2 + deps + " root location dependencies found (" + deps + " local" + (deps > 1 ? "s" : "")
+				+ ", rootProject, and unresolvedsStack).");
+		for (Artefact aDep : subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT)) {
+			LOGGER.finer("  - " + aDep + ": " + aDep.getLocation());
+		}
 
 		/* build Artefact from source files found in project folder */
-		LOGGER.info("Building Artefacts from source files found in project folder");
 		buildSourceFileArtefacts();
-
-//		Orchestrus.printArtefactSignatures();
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT).size() + " SourceFile found and "
+				+ subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT).size() + " LocalFolder.");
+		for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT))
+			LOGGER.finer("  - " + a + ": " + a.getHREF());
 
 		/* build Artefact from source files found in project folder */
-		LOGGER.info("Building Artefacts from local files found in source files as references");
 		buildLocalFilesArtefacts();
-		System.out.println("\n");
-//		Orchestrus.printArtefactSignatures();
-
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_FILE_ARTEFACT).size() + " LocalFile found ("
+				+ subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT).size() + " LocalFolder).");
+		if (LOGGER.getLevel().equals(Level.FINE)) {
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_FILE_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+		}
+		LOGGER.info(unresolvedsRoot.getFragments().size() + " unresolved artefacts.");
+		for (Artefact a : unresolvedsRoot.getFragments())
+			LOGGER.finer("  - " + a + ": " + a.getHREF());
+		
 		/* build Artefact from source files found in project folder */
-		LOGGER.info("Building Artefacts from external location found in source files as references");
 		buildExternalFilesArtefacts();
-//		clusterExternalFilesIntoLocations();
-		System.out.println("\n");
-//		Orchestrus.printArtefactSignatures();
-
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT).size() + " ExternalFile and "
+				+ subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT).size()
+				+ " ExternalLocations found in " + ReferenceFactory.getReferences().size() + " references.");
+		if (LOGGER.getLevel().equals(Level.FINE)) {
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+		}
 	}
 
 	
@@ -217,8 +237,8 @@ public class ArtefactFactory {
 	/**
 	 * Instantiate {@link #unresolvedsRoot}
 	 */
-	private void createUnresovledsRootArtefact() {
-		unresolvedsRoot = new Artefact("UnresolvedsRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT,
+	private void createUnresovledsStackArtefact() {
+		unresolvedsRoot = new Artefact("UnresolvedsStack", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT,
 				"nowhere", null, true);
 		unresolvedsRoot.setProtocol(Protocol.no_protocol);
 		addArtefact(unresolvedsRoot);
@@ -229,11 +249,12 @@ public class ArtefactFactory {
 	 * {@link Config#getProjectDependenciesFull()}) create a local root artefact
 	 * ({@link ArtefactTypeFactory#LOCAL_ROOT_ARTEFACT})
 	 */
-	private void createLocalRootDependenciesArtefacts() {
+	private int createLocalRootDependenciesArtefacts() {
 		List<String> deps = Config.getInstance().getProjectDependenciesFull();
 		for (String depPath : deps) {
 			createLocalRootArtefact(depPath);
 		}
+		return deps.size();
 	}
 
 	/**
@@ -247,7 +268,8 @@ public class ArtefactFactory {
 	}
 
 	private Artefact createLocalRootArtefact(String fullPath) {
-		Artefact depRoot = new Artefact("DepRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, fullPath, null, true);
+		String name = fullPath.substring(fullPath.lastIndexOf(File.separator)+1);
+		Artefact depRoot = new Artefact(name, ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, fullPath, null, true);
 		depRoot.setProtocol(Protocol.local);
 		addArtefact(depRoot);
 		return depRoot;
@@ -337,7 +359,7 @@ public class ArtefactFactory {
 				}
 			}
 		} else {
-			LOGGER.warning(artefact+" does not resolves. It is stored in the unresolveds stack.");
+			LOGGER.fine(artefact+" does not resolves. It is stored in the unresolveds stack.");
 			unresolvedsRoot.addFragment(artefact);
 		}
 		if(parent != null)
@@ -345,39 +367,6 @@ public class ArtefactFactory {
 		return parent;
 	}
 	
-	
-
-
-//	/**
-//	 * Browse {@link ArtefactTypeFactory#SOURCE_FILE_ARTEFACT}s and allocate for
-//	 * each of them its parent folder. <br/>
-//	 * 
-//	 * Warning. If one parent does not resolve, the system will send an exception
-//	 * and stop.
-//	 */
-//	@SuppressWarnings("unused")
-//	private void buildLocalFolderArtefacts() {
-//		List<Artefact> sourceArts = subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
-//		for (Artefact a : sourceArts) {
-//			String location = "-location-";
-//			File f = new File(a.getLocation());
-//			try {
-//				location = f.getParentFile().getCanonicalPath();
-//			} catch (IOException e) {
-//				e.printStackTrace();// NO REASON we get there, sources were got from same env.
-//				LOGGER.severe("Location (of parent folder) not found: " + f.getAbsolutePath());
-//				System.exit(1);
-//			}
-//
-//			Artefact parent = getArtefact(f.getParentFile());
-//			if (parent == null) {
-//				parent = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT, location, null, f.exists());
-//				addArtefact(parent);
-//			}
-//			parent.addFragment(a);
-//		}
-//	}
-
 	/**
 	 * Browse {@link ReferenceFactory#getExternalReferences()} and create
 	 * ExternalFiles artefacts accordingly
@@ -389,17 +378,13 @@ public class ArtefactFactory {
 	 * (Source/LocalFile artefacts).
 	 */
 	private void buildExternalFilesArtefacts() {
-		int artefactsAdded = 0;
 		for (Reference r : ReferenceFactory.getExternalReferences()) {
 			Artefact a = newExternalFileArtefact(r);
+			
 			boolean success = addArtefact(a);
-			if (success)
-				artefactsAdded++;
-//			Artefact parent = affectsExternalParent(a);
-//			LOGGER.finer("new: " + a);
+			if(success)
+				LOGGER.finer("new: " + a);
 		}
-		LOGGER.fine(artefactsAdded + " ExternalFile artefacts found in " + ReferenceFactory.getReferences().size()
-				+ " references.");
 	}
 
 	/**
@@ -581,8 +566,6 @@ public class ArtefactFactory {
 		}
 		return res;
 	}
-
-	
 	
 	public boolean addArtefact(Artefact a) {
 		int size = artefacts.size();

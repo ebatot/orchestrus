@@ -98,7 +98,7 @@ public class Artefact extends TypedArtefact {
 	public String getD3JSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
-		res += "\"name\": \"" + getName() + "\",";
+		res += "\"name\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"size\": " + 100 + ",";
 		res += "\"group\": \"" + getType().getNumber() + "\"";

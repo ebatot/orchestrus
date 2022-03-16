@@ -33,7 +33,6 @@ public class Orchestrus {
 		aFactory.buildArtefacts();
 		
 		
-		System.out.println("Ancestors: "+ArtefactFactory.getAncestors().size());
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 //		printArtefactSignatures();
 		
