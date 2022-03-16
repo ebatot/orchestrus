@@ -1,5 +1,6 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -111,7 +112,7 @@ public class Artefact extends TypedArtefact {
 	}
 	
 	public String getHREF() {
-		return protocol + "://" + getLocation() + " // "+getName();
+		return protocol + "://" + getLocation() + File.separator+getName();
 	}
 
 	public void setProtocol(Protocol protocol) {

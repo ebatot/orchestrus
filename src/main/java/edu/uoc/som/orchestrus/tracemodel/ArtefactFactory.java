@@ -169,9 +169,26 @@ public class ArtefactFactory {
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
+		
+		
+		buildElementLevelArtefacts();
+		
 	}
 
 	
+	private void buildElementLevelArtefacts() {
+		for (Reference r :  ReferenceFactory.getReferences().values()) {
+			
+			Artefact a = getArtefact(r);
+			
+			Artefact aElt = new Artefact(r.getInnerLocation(), ArtefactTypeFactory.ELEMENT_ARTEFACT, r.getHREF().substring(0, r.getHREF().length() - r.getInnerLocation().length()), null);
+			addArtefact(aElt);
+			a.addFragment(aElt);
+//			System.out.println(r.getHREF());
+//			System.out.println(aElt);
+		}
+	}
+
 	/**
 	 * WARNING !! <br/>
 	 * NOT IMPLEMENTED !!

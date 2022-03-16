@@ -11,6 +11,7 @@ public class ArtefactTypeFactory {
 	public static final ArtefactType SOURCE_FILE_ARTEFACT = addType("SourceFile");
 	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = addType("LocalFolder");
 	public static final ArtefactType LOCAL_ROOT_ARTEFACT = addType("LocalRoot");
+	public static final ArtefactType ELEMENT_ARTEFACT = addType("Element");
 
 	static ArtefactTypeFactory instance;
 
