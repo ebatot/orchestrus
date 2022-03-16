@@ -1,5 +1,5 @@
 /*****************************************************************************
-* Copyright (c) 2015, 2021 CEA LIST, Edouard Batot
+* Copyright (c) 2015, 2022 CEA LIST, Edouard Batot
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License 2.0
@@ -9,7 +9,7 @@
 * SPDX-License-Identifier: EPL-2.0
 *
 * Contributors:
-* CEA LIST - Initial API and implementation
+* UOC - SOM 
 * Edouard Batot (UOC SOM) ebatot@uoc.edu 
 *****************************************************************************/
 
@@ -105,7 +105,7 @@ var simulation = this.force = d3.forceSimulation()
 d3.forceLink().distance(function(d) {return d.distance;}).strength(0.11)
 
 
-var dataPath = "data/eDrone_example_out.json"
+var dataPath = "data/input_data.json"
 if ( getUrlVars()['imf'] != null )
 	dataPath = getUrlVars()['imf'];
 
@@ -121,6 +121,8 @@ d3.json(dataPath, function(error, graph) {
 
 	links = graph.links;
 	nodes = graph.nodes;
+
+	log.text(links.length + "  " + nodes.length)
 
 	edgesize = getEdgeSizeLinearScale(nodes, CIRCLE_SIZE[0], CIRCLE_SIZE[1]);
 	linkedByIndex = getLinkageByIndex(links);
@@ -238,10 +240,6 @@ d3.json(dataPath, function(error, graph) {
 		.nodes(nodes)
 		.on("tick", ticked);
 			
-
-		
-	console.log(simulation)
-
 	simulation
 		.force("link")
 		.links(links);
@@ -440,7 +438,7 @@ function addlegend(legendNamesNodes, legendNamesLinks) {
 		
 	var legendNodes = addlegendNodes(legend, legendNamesNodes);
 	var legendLinks = addlegendLinks(legend, legendNamesLinks);
-	log.text("size : "+legendSize)
+	//log.text("size : "+legendSize)
 }
 
 function addlegendNodes(legend, legendNamesNodes){
@@ -483,7 +481,8 @@ function addlegendLinks(legend, legendNamesLinks){
 		.attr("class", "legend")
 		.attr("id", "#legendLinks")
 		.attr("width", 180)
-		.attr("height", (legendNamesLinks.length +1) * 20 )
+		.attr("height", (legendNamesLinks.length + 1) * 20 )
+		.attr("y", ((nGroups + 1) * 20) )
 		//Offset to show link legend below node legend
 		.attr("transform", "translate(0," +((nGroups + 1) * 20) + ")")
 		.selectAll("g")
@@ -491,7 +490,7 @@ function addlegendLinks(legend, legendNamesLinks){
 		.enter()
 		.append("g")
 		.attr("transform", function(d, i) {
-				return "translate(3," + (i * 20) + ")";
+				return "translate(3," +(i * 20) + ")";
 			});
 
 	legendLinks.append("rect")

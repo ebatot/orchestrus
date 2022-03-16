@@ -1,28 +1,1424 @@
 {
-	"___rights" : "/****** Copyright (c) 2015, 2018 CEA LIST, Edouard Batot / * All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which accompanies this distribution, and is available at  https://www.eclipse.org/legal/epl-2.0/ SPDX-License-Identifier: EPL-2.0 Contributors: Edouard Batot (UOC SOM) ebatot@uoc.edu ***/",
- "links": [
-  { "id": "3b0246c6-a527-4667-a5af-95ff7e284025", "name": "eng2front", "type": "TypeA", "source_id": "77e4a69d-d9e7-46a5-90b2-e7c2498d40ad", "target_id": "da448c4b-1f0c-4fa3-ad6f-f4dcff6b78ff", "confidence": 85.0, "energy": 100,"group": 0},
-  { "id": "c9d85c02-ed0c-48e2-97b1-1a2d0b49fb22", "name": "frAx2frWi", "type": "TypeA", "source_id": "da448c4b-1f0c-4fa3-ad6f-f4dcff6b78ff", "target_id": "64829f04-d8eb-476b-b52f-a27357097e42", "confidence": 75.0, "energy": 100,"group": 0},
-  { "id": "9baa7e70-15a2-45ff-ae26-4f30db671455", "name": "reAx2reWi", "type": "TypeA", "source_id": "018b0ceb-bd28-4716-964f-1e5803fbf9dc", "target_id": "20b0a605-ce0e-4e79-b2d6-ccacba3daa83", "confidence": 75.0, "energy": 100,"group": 0},
-  { "id": "a9edb9b7-d9a3-473a-8da2-a5b2bc613ffe", "name": "bod2bat", "type": "TypeE", "source_id": "bbf83f18-3a34-405c-ab8e-479ed9813a57", "target_id": "3f03c60a-f50a-4777-bb93-0d1afceb93e8", "confidence": 100.0, "energy": 100,"group": 1},
-  { "id": "918081bc-5c62-4acc-a00f-7573e3756515", "name": "bod2eng", "type": "TypeE", "source_id": "bbf83f18-3a34-405c-ab8e-479ed9813a57", "target_id": "77e4a69d-d9e7-46a5-90b2-e7c2498d40ad", "confidence": 100.0, "energy": 70,"group": 1},
-  { "id": "bc5fc3ad-91da-48c9-8f6a-76c304e4b9d7", "name": "bod2frAx", "type": "TypeE", "source_id": "bbf83f18-3a34-405c-ab8e-479ed9813a57", "target_id": "da448c4b-1f0c-4fa3-ad6f-f4dcff6b78ff", "confidence": 100.0, "energy": 60,"group": 1},
-  { "id": "e6227866-31cb-43a6-8fcc-f2d2658c0579", "name": "bod2reAx", "type": "TypeE", "source_id": "bbf83f18-3a34-405c-ab8e-479ed9813a57", "target_id": "018b0ceb-bd28-4716-964f-1e5803fbf9dc", "confidence": 100.0, "energy": 50,"group": 1},
-  { "id": "6dd32822-8119-4f30-9271-d6109f6082e2", "name": "rq1ToWing", "type": "TypeR", "source_id": "15092156-4756-495e-9dfd-59f361b64918", "target_id": "77e4a69d-d9e7-46a5-90b2-e7c2498d40ad", "confidence": 55.0, "energy": 40,"group": 2},
-  { "id": "a0158ca2-d008-4b10-ad19-1eab781e4ca1", "name": "eng2bat_Typed", "type": "TypeR", "source_id": "412f1fde-d55c-4cac-a74b-2eaccd3a2a34", "target_id": "ea32e1f2-428f-4710-ab4c-d57298aaa240", "confidence": 70.0, "energy": 10,"group": 2},
-  { "id": "6f2ce5eb-b394-4d4d-815d-939c75db8cd4", "name": "refine1", "type": "Convenience", "source_id": "3f03c60a-f50a-4777-bb93-0d1afceb93e8", "target_id": "412f1fde-d55c-4cac-a74b-2eaccd3a2a34", "confidence": 100.0, "energy": 10,"group": 3},
-  { "id": "36ba6486-95b3-43ff-8e05-3630d368c929", "name": "refine2", "type": "Convenience", "source_id": "3f03c60a-f50a-4777-bb93-0d1afceb93e8", "target_id": "ea32e1f2-428f-4710-ab4c-d57298aaa240", "confidence": 100.0, "energy": 0,"group": 3} 
-], "nodes": [
-  { "id": "3f03c60a-f50a-4777-bb93-0d1afceb93e8", "name": "eDrone.battery", "type": "Component","size": 100,"group": 2},
-  { "id": "412f1fde-d55c-4cac-a74b-2eaccd3a2a34", "name": "eDrone.battery.powerOut", "type": "Feature","size": 100,"group": 1},
-  { "id": "bbf83f18-3a34-405c-ab8e-479ed9813a57", "name": "eDrone.body", "type": "Component","size": 100,"group": 2},
-  { "id": "77e4a69d-d9e7-46a5-90b2-e7c2498d40ad", "name": "eDrone.engine", "type": "Component","size": 100,"group": 2},
-  { "id": "ea32e1f2-428f-4710-ab4c-d57298aaa240", "name": "eDrone.engine.powerIn", "type": "Feature","size": 100,"group": 1},
-  { "id": "da448c4b-1f0c-4fa3-ad6f-f4dcff6b78ff", "name": "eDrone.frontAxis", "type": "Component","size": 100,"group": 2},
-  { "id": "64829f04-d8eb-476b-b52f-a27357097e42", "name": "eDrone.frontWing", "type": "Component","size": 100,"group": 2},
-  { "id": "018b0ceb-bd28-4716-964f-1e5803fbf9dc", "name": "eDrone.rearAxis", "type": "Component","size": 100,"group": 2},
-  { "id": "20b0a605-ce0e-4e79-b2d6-ccacba3daa83", "name": "eDrone.rearWing", "type": "Component","size": 100,"group": 2},
-  { "id": "15092156-4756-495e-9dfd-59f361b64918", "name": "eDroneMaxSpeed", "type": "Requirement","size": 100,"group": 0},
-  { "id": "15092156-4756-495e-9dfd-59f361basd64918", "name": "eDroneMaxSpeedasd", "type": "Requirement2","size": 100,"group": 3} 
-]
+  "links": [
+    {
+      "id": "-5676437617995670271",
+      "name": "L173",
+      "source_id": "-5750938754692243805",
+      "target_id": "4576928933661640065",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-6229422153290037356",
+      "name": "L174",
+      "source_id": "-5618382238152864924",
+      "target_id": "-6258257505220082850",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-3470992035567274715",
+      "name": "L175",
+      "source_id": "4186500393464558610",
+      "target_id": "-1536370178267393258",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "4490699462169925315",
+      "name": "L176",
+      "source_id": "-5602443087896595230",
+      "target_id": "9027364443478060593",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2085514944176636981",
+      "name": "L177",
+      "source_id": "-1764663158608709677",
+      "target_id": "5252597101040674788",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-6351545261091820040",
+      "name": "L178",
+      "source_id": "-6112638349343351201",
+      "target_id": "-3513243953459919461",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "7568152121272977319",
+      "name": "L179",
+      "source_id": "5230188369518627582",
+      "target_id": "2376089161403027529",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-6377597914667638510",
+      "name": "L180",
+      "source_id": "-5518772318856452026",
+      "target_id": "-2630640458714660924",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "6930727985934307533",
+      "name": "L181",
+      "source_id": "-4753439350076413560",
+      "target_id": "-8801024223719842325",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8919479767191568051",
+      "name": "L182",
+      "source_id": "8878880990380133247",
+      "target_id": "-1834630468491979278",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4788814632176207479",
+      "name": "L183",
+      "source_id": "8878880990380133247",
+      "target_id": "-2002340668655768383",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2172334371531403025",
+      "name": "L184",
+      "source_id": "8878880990380133247",
+      "target_id": "7441140671832051352",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-2246307162809424511",
+      "name": "L185",
+      "source_id": "8878880990380133247",
+      "target_id": "8854345371572758707",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "7715349719558014036",
+      "name": "L186",
+      "source_id": "8878880990380133247",
+      "target_id": "919133701870088857",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "484674711442276742",
+      "name": "L187",
+      "source_id": "8878880990380133247",
+      "target_id": "2844771047995362167",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "6330278186957564577",
+      "name": "L188",
+      "source_id": "-1354101644968877159",
+      "target_id": "-1413086062714263357",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-2755168356010956107",
+      "name": "L189",
+      "source_id": "-7813620298630019505",
+      "target_id": "-1224730682512050027",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "1357552638896659247",
+      "name": "L190",
+      "source_id": "-1586353566023122286",
+      "target_id": "8274312482481400228",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-2178668329230865375",
+      "name": "L191",
+      "source_id": "8647700788316763689",
+      "target_id": "2321380891857826539",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "3517617063047687578",
+      "name": "L192",
+      "source_id": "955806597483767041",
+      "target_id": "-4189436761186973755",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "6913975995044752781",
+      "name": "L193",
+      "source_id": "-4344726947370177665",
+      "target_id": "-2054686219498730888",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "6054404498017914349",
+      "name": "L194",
+      "source_id": "-1762152954899563432",
+      "target_id": "4291953320052665112",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-736834942076048994",
+      "name": "L195",
+      "source_id": "-1376057584738686639",
+      "target_id": "-1291398980092457869",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2247701784774381440",
+      "name": "L196",
+      "source_id": "8705905623994186346",
+      "target_id": "-2713498352480095246",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "7621527475426087290",
+      "name": "L197",
+      "source_id": "-6588520830619229782",
+      "target_id": "-4406352061179240930",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8144979002974262818",
+      "name": "L198",
+      "source_id": "8979248342292542896",
+      "target_id": "-4460378072546930536",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-2404643401729694741",
+      "name": "L199",
+      "source_id": "-5836817935898387334",
+      "target_id": "-937988617827481474",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "685050494844945905",
+      "name": "L200",
+      "source_id": "-1435576777950119048",
+      "target_id": "3444753911948294601",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2933625116703735150",
+      "name": "L201",
+      "source_id": "5091005973868214284",
+      "target_id": "6814011446209869900",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-3057496860377170061",
+      "name": "L202",
+      "source_id": "-5344218513546070699",
+      "target_id": "1470163907775464415",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "1910163792759725138",
+      "name": "L203",
+      "source_id": "-8477341280260271490",
+      "target_id": "6474544442793276370",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-1005310786518947726",
+      "name": "L204",
+      "source_id": "314568120853429669",
+      "target_id": "-5806553024226602461",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2717806207813971206",
+      "name": "L205",
+      "source_id": "-3361418965451619050",
+      "target_id": "921715037030900347",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2819266686349401182",
+      "name": "L206",
+      "source_id": "1916030291890719740",
+      "target_id": "-569822575639294917",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4030180576964359997",
+      "name": "L207",
+      "source_id": "-3052815711870089314",
+      "target_id": "-4163283484559259849",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4675570910169527879",
+      "name": "L208",
+      "source_id": "-3052815711870089314",
+      "target_id": "7877584925125983098",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2640170978345869485",
+      "name": "L209",
+      "source_id": "-7446361549812901745",
+      "target_id": "-4215136086865806579",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-172369098170646586",
+      "name": "L210",
+      "source_id": "-5996743729849429829",
+      "target_id": "-1520572712869371347",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-6792816444720515196",
+      "name": "L211",
+      "source_id": "4903183508867575596",
+      "target_id": "9102601439324356141",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8789761928499567520",
+      "name": "L212",
+      "source_id": "4903183508867575596",
+      "target_id": "9069293167831185900",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "4302172432994458276",
+      "name": "L213",
+      "source_id": "4903183508867575596",
+      "target_id": "7145874481636577506",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-48966286800727617",
+      "name": "L214",
+      "source_id": "-8901026663882483789",
+      "target_id": "-3821448069496393127",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-6089111285199253826",
+      "name": "L215",
+      "source_id": "1057295218901695108",
+      "target_id": "-3194910953394092995",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-3481047700463894531",
+      "name": "L216",
+      "source_id": "7197089014761580158",
+      "target_id": "3460888294049253337",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2559867802869680721",
+      "name": "L217",
+      "source_id": "-4571354934659070174",
+      "target_id": "4428034967581198159",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4517842617367949256",
+      "name": "L218",
+      "source_id": "7634192756408267947",
+      "target_id": "-9192254713253839342",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4491654567902902124",
+      "name": "L219",
+      "source_id": "-1667944374804706092",
+      "target_id": "-2801820833334485236",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2646649503393368040",
+      "name": "L220",
+      "source_id": "-1667944374804706092",
+      "target_id": "-945584249581752694",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "5786662560387569845",
+      "name": "L221",
+      "source_id": "-1667944374804706092",
+      "target_id": "-1929575661243773764",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "8791593310870526030",
+      "name": "L222",
+      "source_id": "-1667944374804706092",
+      "target_id": "-9180667803199798581",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8341147291325976790",
+      "name": "L223",
+      "source_id": "-1667944374804706092",
+      "target_id": "-5057015777494555657",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-1270331565712117052",
+      "name": "L224",
+      "source_id": "-1667944374804706092",
+      "target_id": "-7365728366597161121",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8779292307671220340",
+      "name": "L225",
+      "source_id": "7551463285351494988",
+      "target_id": "4759955471860497609",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "8428710181604923702",
+      "name": "L226",
+      "source_id": "-4652008045888650634",
+      "target_id": "683677628624362463",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-4428746901242040689",
+      "name": "L227",
+      "source_id": "-8173407874604992356",
+      "target_id": "-8982270417572491649",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "2979599081767293558",
+      "name": "L228",
+      "source_id": "-3064789390179291007",
+      "target_id": "-1478509223196947234",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-1034866839003498972",
+      "name": "L229",
+      "source_id": "-8239711876728359336",
+      "target_id": "-8698601553791642034",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-7343507619073578171",
+      "name": "L230",
+      "source_id": "-8107780731211157180",
+      "target_id": "-2633180319693986826",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "8631619642881828241",
+      "name": "L231",
+      "source_id": "4777114488099798464",
+      "target_id": "9110655419767646762",
+      "type": "SourceFolderArtefact-SourceFileArtefact",
+      "group": 2,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "-8631934180617643686",
+      "name": "L232",
+      "source_id": "-4654296227574648580",
+      "target_id": "-950180124596715259",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "4181602267197118789",
+      "name": "L233",
+      "source_id": "3942185277208994980",
+      "target_id": "-230910584688989022",
+      "type": "ExternalFolderArtefact-ExternalFileArtefact",
+      "group": 1,
+      "confidence": 100,
+      "energy": 100
+    },
+    {
+      "id": "1840359877737385061",
+      "name": "L234",
+      "source_id": "5134035801538425715",
+      "target_id": "591840173403494270",
+      "type": "SourceFolderArtefact-LocalFileArtefact",
+      "group": 3,
+      "confidence": 100,
+      "energy": 100
+    }
+  ],
+  "nodes": [
+    {
+      "id": "-5750938754692243805",
+      "name": "plugin/org.eclipse.papyrus.infra.gmfdiag.common/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-5618382238152864924",
+      "name": "tabular-editors-configurations",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "3460888294049253337",
+      "name": "glossary-ml.architecture",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "4186500393464558610",
+      "name": "/SysML16_PROFILES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-5602443087896595230",
+      "name": "/www.eclipse.org/uml2/5.0.0/UML/Profile/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1764663158608709677",
+      "name": "/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-6112638349343351201",
+      "name": "/UML_PROFILES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-4163283484559259849",
+      "name": "GlossaryML.profile.uml",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-1291398980092457869",
+      "name": "UMLPrimitiveTypes.library.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "921715037030900347",
+      "name": "rulebased.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "5230188369518627582",
+      "name": "element-type-configurations",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "-7365728366597161121",
+      "name": "GlossaryML.LanguageReqModel.notation",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-4753439350076413560",
+      "name": "plugin/org.eclipse.papyrus.uml.service.types/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-9192254713253839342",
+      "name": "ReferencesML.profile.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-1929575661243773764",
+      "name": "GlossaryML.domainmodel.notation",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "5252597101040674788",
+      "name": "com.cea.papyrus.glossaryml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-3513243953459919461",
+      "name": "Standard.profile.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-1354101644968877159",
+      "name": "environment/org.eclipse.papyrus.uml.properties/Model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1586353566023122286",
+      "name": "plugin/com.cea.papyrus.referencemanagement/element-type-configurations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "8854345371572758707",
+      "name": "SingleTerm.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "-9180667803199798581",
+      "name": "GlossaryML.LanguageReqModel.uml",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-1413086062714263357",
+      "name": "Environment.xmi",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-4344726947370177665",
+      "name": "plugin/com.cea.papyrus.glossary/palette-configurations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1762152954899563432",
+      "name": "plugin/org.eclipse.papyrus.uml.service.types/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-569822575639294917",
+      "name": "Types",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-1376057584738686639",
+      "name": "/UML_LIBRARIES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-4215136086865806579",
+      "name": "SysML-Standard-Library.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-2054686219498730888",
+      "name": "GlossaryML.paletteconfiguration",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-8801024223719842325",
+      "name": "uml.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "7145874481636577506",
+      "name": "GlossaryML.creationmenumodel",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-4406352061179240930",
+      "name": "stereotype-edit.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-8698601553791642034",
+      "name": "UML.ctx",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-6258257505220082850",
+      "name": "glossary_tree_table.nattableconfiguration",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "1470163907775464415",
+      "name": "org.eclipse.papyrus.customization.properties.generation.layout.StandardLayoutGenerator",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "919133701870088857",
+      "name": "SingleGlossary.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "3444753911948294601",
+      "name": "com.cea.papyrus.referenceml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-4189436761186973755",
+      "name": "Ecore.profile.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "7877584925125983098",
+      "name": "GlossaryML.profile.notation",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-5344218513546070699",
+      "name": "/org.eclipse.papyrus.uml.properties.generation/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "2704203055555410673",
+      "name": "PapyrusGlossary.uml",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "314568120853429669",
+      "name": "plugin/com.cea.papyrus.glossary/element-type-configurations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-3361418965451619050",
+      "name": "plugin/org.eclipse.papyrus.infra.types.rulebased/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "6474544442793276370",
+      "name": "generic.nattableconfiguration",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "1916030291890719740",
+      "name": "/www.eclipse.org/uml2/5.0.0/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-3052815711870089314",
+      "name": "uml-profiles",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "-2801820833334485236",
+      "name": "GlossaryML.domainmodel.uml",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-5057015777494555657",
+      "name": "GlossaryML_ToolReqModel.notation",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-7446361549812901745",
+      "name": "/SysML14_LIBRARIES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-2713498352480095246",
+      "name": "infra-emf.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "4903183508867575596",
+      "name": "element-type-configurations",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "1057295218901695108",
+      "name": "plugin/org.eclipse.papyrus.infra.gmfdiag.common/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "7197089014761580158",
+      "name": "architecture-framework",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "7634192756408267947",
+      "name": "resource/com.cea.papyrus.referencemanagement/uml-profiles/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1667944374804706092",
+      "name": "specification-models",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "-3194910953394092995",
+      "name": "notation.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "7551463285351494988",
+      "name": "properties-editor-configurations",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "-8173407874604992356",
+      "name": "plugin/org.eclipse.papyrus.sysml14.nattable.requirement/resources/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-945584249581752694",
+      "name": "GlossaryML_ToolReqModel.uml",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-8107780731211157180",
+      "name": "plugin/org.eclipse.papyrus.uml.service.types.ui/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "591840173403494270",
+      "name": "ReferencesML.profile.uml",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "-4654296227574648580",
+      "name": "/PAPYRUS_VIEWPOINTS_POLICY/representations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-4460378072546930536",
+      "name": "interactionOverviewDiagram.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "3942185277208994980",
+      "name": "plugin/org.eclipse.papyrus.uml.service.types/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-3821448069496393127",
+      "name": "SysML",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "2376089161403027529",
+      "name": "ReferencesML.elementtypesconfigurations",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "-1478509223196947234",
+      "name": "GlossaryML_Semantic.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-1520572712869371347",
+      "name": "SysML16.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-937988617827481474",
+      "name": "genericTreeTable.nattableconfiguration",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-5518772318856452026",
+      "name": "/SysML14_PROFILES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-230910584688989022",
+      "name": "umldi.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "7441140671832051352",
+      "name": "MultipleTerm.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "2321380891857826539",
+      "name": "SysML",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-2633180319693986826",
+      "name": "uml-advice.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "9027364443478060593",
+      "name": "Standard",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "4576928933661640065",
+      "name": "gmfdiag-common.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "8878880990380133247",
+      "name": "ui",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "-7813620298630019505",
+      "name": "/UML_METAMODELS/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "6814011446209869900",
+      "name": "glossary_tree_table.nattableconfiguration",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "2844771047995362167",
+      "name": "MultipleGlossary.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "8647700788316763689",
+      "name": "/www.eclipse.org/papyrus/sysml/1.4/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "955806597483767041",
+      "name": "/UML_PROFILES/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-950180124596715259",
+      "name": "advice",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "8705905623994186346",
+      "name": "plugin/org.eclipse.papyrus.infra.emf/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-6588520830619229782",
+      "name": "plugin/org.eclipse.papyrus.uml.diagram.stereotype.edition/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "8979248342292542896",
+      "name": "plugin/org.eclipse.papyrus.uml.diagram.interactionoverview/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "4759955471860497609",
+      "name": "GlossaryML.ctx",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-5836817935898387334",
+      "name": "plugin/org.eclipse.papyrus.uml.nattable/configs/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1435576777950119048",
+      "name": "/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "5091005973868214284",
+      "name": "plugin/com.cea.papyrus.glossary/tabular-editors-configurations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "991200708456618261",
+      "name": "SysML16.elementtypesconfigurations",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "-8477341280260271490",
+      "name": "plugin/org.eclipse.papyrus.uml.nattable.generic.config/configs/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-8982270417572491649",
+      "name": "requirementTree.nattableconfiguration",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "5763327166483641209",
+      "name": "GlossaryML.profile.uml",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "9069293167831185900",
+      "name": "GlossaryML_glossarystructurediagram.elementtypesconfigurations",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-1834630468491979278",
+      "name": "SingleDefinition.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "4291953320052665112",
+      "name": "uml-containments.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "4428034967581198159",
+      "name": "SysML16DiUML.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-1224730682512050027",
+      "name": "UML.metamodel.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-5996743729849429829",
+      "name": "plugin/org.eclipse.papyrus.sysml16.service.types/model/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "9102601439324356141",
+      "name": "GlossaryML_Semantic.elementtypesconfigurations",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-2002340668655768383",
+      "name": "MultipleDefinition.xwt",
+      "type": "LocalFileArtefact",
+      "size": 100,
+      "group": "2"
+    },
+    {
+      "id": "-8901026663882483789",
+      "name": "/www.eclipse.org/papyrus/sysml/1.6/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-2630640458714660924",
+      "name": "SysML.profile.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "8274312482481400228",
+      "name": "ReferencesML.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-4571354934659070174",
+      "name": "plugin/org.eclipse.papyrus.sysml16.diagram.common/resources/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "683677628624362463",
+      "name": "UML",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-4652008045888650634",
+      "name": "/www.eclipse.org/uml2/5.0.0/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-1536370178267393258",
+      "name": "SysML.profile.uml",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "-3064789390179291007",
+      "name": "plugin/com.cea.papyrus.glossary/element-type-configurations/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "-8239711876728359336",
+      "name": "context/org.eclipse.papyrus.uml.properties/Model/UML/",
+      "type": "ExternalFolderArtefact",
+      "size": 100,
+      "group": "1"
+    },
+    {
+      "id": "4777114488099798464",
+      "name": "palette-configurations",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    },
+    {
+      "id": "9110655419767646762",
+      "name": "GlossaryML.paletteconfiguration",
+      "type": "SourceFileArtefact",
+      "size": 100,
+      "group": "3"
+    },
+    {
+      "id": "-5806553024226602461",
+      "name": "GlossaryML_glossarystructurediagram.elementtypesconfigurations",
+      "type": "ExternalFileArtefact",
+      "size": 100,
+      "group": "0"
+    },
+    {
+      "id": "5134035801538425715",
+      "name": "uml-profiles",
+      "type": "SourceFolderArtefact",
+      "size": 100,
+      "group": "4"
+    }
+  ]
 }
