@@ -220,8 +220,7 @@ public class ArtefactFactory {
 			if (added)
 				iFolder++;
 			
-			Artefact parent = affectsParentIfExists(a);
-			
+			affectsLocalParentIfExists(a);
 		}
 		LOGGER.fine(iFile + " SourceFile and " + iFolder + " LocalFolder found in "
 				+ StaticExplorer.getSourceFiles().size() + " files.");
@@ -256,7 +255,7 @@ public class ArtefactFactory {
 			addArtefact(res);
 			
 			// If the parent artefact exists, affects it.
-			affectsParentIfExists(res);
+			affectsLocalParentIfExists(res);
 
 			return true;
 		}
@@ -270,7 +269,10 @@ public class ArtefactFactory {
 	 * @param artefact (Resolving !) (see {@link Artefact#isResolves()}
 	 * @return
 	 */
-	private Artefact affectsParentIfExists(Artefact artefact) {
+	private Artefact affectsLocalParentIfExists(Artefact artefact) {
+		if(!artefact.isLocal()) 
+			throw new IllegalArgumentException(artefact+" is not local. Should not get here.");
+		
 		Artefact parent = null;
 		if (artefact.isResolves()) {
 			parent = getArtefact(new File(artefact.getLocation()));
@@ -285,12 +287,42 @@ public class ArtefactFactory {
 			}
 		} else {
 			LOGGER.warning(artefact+" does not resolves. It is stored in the unresolveds stack.");
-//			unresolvedsRoot.addFragment(artefact);
+			unresolvedsRoot.addFragment(artefact);
 		}
 		if(parent != null)
 			parent.addFragment(artefact);
 		return parent;
 	}
+	
+	private Artefact affectsExternalParent(Artefact artefact) {
+		Artefact parent = null;
+			
+		String location = artefact.getLocation();
+
+		if (location.endsWith("/"))
+			location = location.substring(0, location.length() - 1);
+
+		String name = location.substring(location.lastIndexOf("/") + 1);
+		location = location.substring(0, location.length() - name.length());
+		
+		parent = getArtefact(artefact.getProtocol(), location, name);
+		System.out.println(artefact.getProtocol() + "  " + location + "    " + name    + " < "+artefact.getName());
+		System.out.println("affectedparent: "+parent);
+		if (parent != null) {
+			// Check dependencies paths to assign root.
+			for (Artefact aDep : getLocalRootDependenciesArtefacts()) {
+				String aDepPath = aDep.getLocation();
+				if (parent.getLocation().equals(aDepPath)) {
+					aDep.addFragment(parent);
+				}
+			}
+		}
+		
+		if(parent != null)
+			parent.addFragment(artefact);
+		return parent;
+	}
+
 
 //	/**
 //	 * Browse {@link ArtefactTypeFactory#SOURCE_FILE_ARTEFACT}s and allocate for
@@ -339,7 +371,7 @@ public class ArtefactFactory {
 			boolean success = addArtefact(a);
 			if (success)
 				artefactsAdded++;
-			Artefact parent = affectsParentIfExists(a);
+			Artefact parent = affectsExternalParent(a);
 //			LOGGER.finer("new: " + a);
 		}
 		LOGGER.fine(artefactsAdded + " ExternalFile artefacts found in " + ReferenceFactory.getReferences().size()
@@ -366,7 +398,7 @@ public class ArtefactFactory {
 				if(added) 
 					folderAdded++;
 			}
-			affectsParentIfExists(a);
+			affectsLocalParentIfExists(a);
 		}
 		LOGGER.fine(artefactsAdded + " LocalFile and "+folderAdded+" LocalFolder found in " + ReferenceFactory.getReferences().size()
 				+ " references.");
@@ -477,7 +509,7 @@ public class ArtefactFactory {
 		if(resParent == null) {
 			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
 			addArtefact(resParent);
-			Artefact parent = affectsParentIfExists(resParent);
+			Artefact parent = affectsExternalParent(resParent);
 		}
 		return resParent;
 	}

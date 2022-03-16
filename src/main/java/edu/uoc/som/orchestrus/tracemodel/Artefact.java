@@ -210,4 +210,8 @@ public class Artefact extends TypedArtefact {
 	public boolean isOfType(String typeName) {
 		return getType().getName().equals(typeName);
 	}
+
+	public boolean isLocal() {
+		return protocol == Protocol.no_protocol || protocol == Protocol.local;
+	}
 }
