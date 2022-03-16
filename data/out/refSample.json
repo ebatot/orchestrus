@@ -1308,7 +1308,7 @@
     "GlossaryML.ecore": [
       [
         {
-          "type": "epackgeDeclaration",
+          "type": "epackageDeclaration",
           "name": "GlossaryML",
           "nsURI": "http://com.cea.papyrus.glossaryml",
           "nsPrefix": "GlossaryML"
