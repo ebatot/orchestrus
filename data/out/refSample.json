@@ -1427,7 +1427,27 @@
         }
       ]
     ],
-    "glossaryml.genmodel": [],
+    "glossaryml.genmodel": [
+      [
+        {
+          "type": "genModelDeclaration",
+          "modelDirectory": "/com.cea.papyrus.glossary/src-gen",
+          "modelPluginID": "com.cea.papyrus.glossary",
+          "modelName": "Glossaryml",
+          "rootExtendsClass": "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container",
+          "importerID": "org.eclipse.uml2.uml.ecore.importer",
+          "usedGenPackages": [
+            "../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore",
+            "../../com.cea.papyrus.referencemanagement/uml-profiles/ReferenceML.genmodel#//ReferenceML",
+            "../../org.eclipse.uml2.types/model/Types.genmodel#//types",
+            "../../org.eclipse.uml2.uml/model/UML.genmodel#//uml"
+          ]
+        },
+        {
+          "foreignModel": "GlossaryML.profile.uml"
+        }
+      ]
+    ],
     "GlossaryML.profile.di": [],
     "GlossaryML.profile.notation": [
       {

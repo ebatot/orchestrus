@@ -53,6 +53,8 @@ public class StaticExplorer {
 	private Config config;
 
 	public StaticExplorer() {
+		// TODO Externalize config parameters: project root in CmdLine...
+		// TODO Derive config parameters: dependencies, project name, and uris... 
 		this.config = Config.getInstance();
 		try {
 			factory = DocumentBuilderFactory.newInstance();
@@ -103,6 +105,12 @@ public class StaticExplorer {
 		// TODO Check uml-profile/*.gencode
 		// gemodel[usedGenPackages] -> ref extern
 		// foreignModel & genPackages
+		// uml-profile/*.ecore definition and references
+		String genmodRefs = extractGenmodelRefs();
+		JsonArray obGenmod = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(genmodelFileName);
+		JsonElement elGenmod = parser.parse(genmodRefs);
+		obGenmod.add(elGenmod);
+
 		
 		// Added extra context references
 		String ctxValues = getCtxValues_Json();
@@ -152,7 +160,7 @@ public class StaticExplorer {
 			res += "\n\""+f.getName()+"\": "+hrefs + (++i < files.size()?",":"");
 		}
 		res += "}";
-		LOGGER.fine(countElts + " references found in " + files.size() +" files");
+		LOGGER.fine(countElts + " references found in " + files.size() + " files");
 		return res;
 	}
 
@@ -175,6 +183,89 @@ public class StaticExplorer {
 		return res;
 	}
 
+	/**
+	 * Extract references from GenModel file. <br/>
+	 * 
+	 * <ul>
+	 * <li>genModelDeclaration</li>
+	 * <ul>
+	 * <li>modelDirectory</li>
+	 * 
+	 * <li>modelPluginID</li>
+	 * <li>modelName</li>
+	 * <li>rootExtendsClass</li>
+	 * <li>importerID</li>
+	 * <li>usedGenPackages (list)</li>
+	 * <ul>
+	 * <li>Foreign models</li>
+	 * <li>(genFeatures ? not yet implemented)</li>
+	 * <ul>
+	 * 
+	 * @return JSON
+	 */
+	private String extractGenmodelRefs() {
+		File f = new File(config.getGenmodelFilePath());
+		String res = "";
+
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//*[@modelName and @modelPluginID and @modelDirectory]";
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+
+				String ugp = getUsegGenPackagesAsArray(nNode);
+				
+				res += "{\"type\": \"genModelDeclaration\", "
+						+ "\"modelDirectory\": \""+((Element)nNode).getAttribute("modelDirectory")+"\", "
+						+ "\"modelPluginID\": \""+((Element)nNode).getAttribute("modelPluginID")+"\", "
+						+ "\"modelName\": \""+((Element)nNode).getAttribute("modelName")+"\", "
+						+ "\"rootExtendsClass\": \""+((Element)nNode).getAttribute("rootExtendsClass")+"\", "
+						+ "\"importerID\": \""+((Element)nNode).getAttribute("importerID")+"\", "
+						+ "\"usedGenPackages\": "+ugp+"},\n";
+				LOGGER2.finer(res);
+			}
+
+			expression = "//foreignModel";
+			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				res += "{\"foreignModel\": \"" + ((Element) nNode).getTextContent() + "\"},\n";
+			}
+			res = res.trim();
+			if (!res.isBlank())
+				res = res.substring(0, res.length() - 1);
+			return "[" + res + "]";
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return res;
+	}
+
+	/**
+	 * Axtrude a list from the node's 'usedGenPackages' attribute.
+	 * @param nNode
+	 * @return
+	 */
+	private String getUsegGenPackagesAsArray(Node nNode) {
+		String usedGenPackages[] = ((Element) nNode).getAttribute("usedGenPackages").split(" ");
+		String ugp = "";
+		for (String gp : usedGenPackages)
+			ugp += "\"" + gp + "\",";
+		if (!ugp.isBlank())
+			ugp = ugp.substring(0, ugp.length() - 1);
+		ugp = "[" + ugp + "]";
+		return ugp;
+	}
 
 	/**
 	 * Extract references from Ecore project file (see {@link Config#getEcoreFilePath()}) <br/>
@@ -194,7 +285,7 @@ public class StaticExplorer {
 			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				res += "{\"type\": \"epackgeDeclaration\", "
+				res += "{\"type\": \"epackageDeclaration\", "
 					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
 					+ "\"nsURI\": \""+((Element)nNode).getAttribute("nsURI")+"\", "
 					+ "\"nsPrefix\": \""+((Element)nNode).getAttribute("nsPrefix")+"\"},";

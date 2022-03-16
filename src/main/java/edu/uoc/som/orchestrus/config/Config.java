@@ -264,6 +264,15 @@ public class Config {
 	}
 
 	/**
+	 * WARNING. "to lower case" as for the GlossaryML project, genmodel in lower case.
+	 * @return
+	 */
+	public String getGenmodelFilePath() {
+		File fEcore = new File(getUmlProfilesFolderFull()+File.separator+projectName.toLowerCase()+".genmodel");
+		return fEcore.getAbsolutePath();
+	}
+
+	/**
 	 * @deprecated
 	 * @return
 	 */

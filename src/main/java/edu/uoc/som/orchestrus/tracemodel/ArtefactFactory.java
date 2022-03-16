@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -173,6 +172,10 @@ public class ArtefactFactory {
 	}
 
 	
+	/**
+	 * WARNING !! <br/>
+	 * NOT IMPLEMENTED !!
+	 */
 	private void clusterExternalFilesIntoLocations() {
 		System.out.println("\nArtefactFactory.clusterExternalFilesIntoLocations()");
 		List<Artefact> extArts = subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT);
@@ -186,43 +189,6 @@ public class ArtefactFactory {
 		System.out.println("extArts after:  "+extArts.size());
 		
 	}
-
-	private Artefact affectsExternalParent(Artefact artefact) {
-			Artefact parent = null;
-				
-			String location = artefact.getLocation();
-			
-			
-			if(artefact.getLocation().equals(artefact.getName())) {
-				System.out.println("------------    - - --    same loc/name: "+artefact);
-			} else {
-				System.out.println("------------    - - --    NOT same:      "+artefact + "   " +artefact.getLocation());
-			}
-	
-			if (location.endsWith("/"))
-				location = location.substring(0, location.length() - 1);
-	
-			String name = location.substring(location.lastIndexOf("/") + 1);
-			location = location.substring(0, location.length() - name.length());
-			
-			parent = getArtefact(artefact.getProtocol(), location, name);
-			
-	//		System.out.println(artefact.getProtocol() + "  " + location + "    " + name    + " < "+artefact.getName());
-	//		System.out.println("affectedparent: "+parent);
-			if (parent != null) {
-				// Check dependencies paths to assign root.
-				for (Artefact aDep : getLocalRootDependenciesArtefacts()) {
-					String aDepPath = aDep.getLocation();
-					if (parent.getLocation().equals(aDepPath)) {
-						aDep.addFragment(parent);
-					}
-				}
-			}
-			
-			if(parent != null)
-				parent.addFragment(artefact);
-			return parent;
-		}
 
 	/**
 	 * Instantiate {@link #projectRoot}
