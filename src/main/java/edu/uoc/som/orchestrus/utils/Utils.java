@@ -219,7 +219,6 @@ public class Utils {
 			
 			System.out.println(ArtefactFactory.getArtefacts().values().size());
 			System.out.println(artCollect.size());
-			System.out.println(ArtefactFactory.arts.size());
 			
 			String links = "" ;
 			for (TraceLink tl : allFragment) 

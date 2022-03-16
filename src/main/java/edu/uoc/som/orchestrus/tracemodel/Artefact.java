@@ -110,6 +110,10 @@ public class Artefact extends TypedArtefact {
 	public String toString() {
 		return this.getType().getName()+"["+this.getName()+"]";
 	}
+	
+	public String getHREF() {
+		return protocol + "://" + getLocation() + " // "+getName();
+	}
 
 	public void setProtocol(Protocol protocol) {
 		this.protocol = protocol;
