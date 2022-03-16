@@ -272,7 +272,7 @@ public class StaticExplorer {
 	 * <ul>
 	 * 	<li> epackageDeclaration values, </li>
 	 * 	<li> eStructuralFeature types (intra and inter model dependencies) </li>
-	 * 
+	 * </ul>
 	 * @return
 	 */
 	private String extractEcoreRefs() {
