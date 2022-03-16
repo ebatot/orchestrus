@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
@@ -24,7 +25,17 @@ public class ArtefactFactory {
 	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
 
 	private static final String ROOT_LOCATION_NAME = "ROOT";
+	
+	/**
+	 * Root to project source and folders
+	 */
 	private Artefact projectRoot;
+	
+	/**
+	 * Root to unresovleds and other weirdos of the cyber space.
+	 */
+	private Artefact unresolvedsRoot;
+
 
 	static ArtefactFactory instance;
 
@@ -86,8 +97,6 @@ public class ArtefactFactory {
 			else
 				locationName = r.getTargetFileArtefact() + f.getName();
 		} else {
-			//TODO locationName connundrum
-//			locationName = r.getTargetFileArtefact() + r.getTargetFileArtefact();
 			String location = r.getTargetFileArtefact();
 			String name = location.substring(location.lastIndexOf("/") + 1);
 			location = location.substring(0, location.length() - name.length());
@@ -119,16 +128,16 @@ public class ArtefactFactory {
 	 */
 	public void buildArtefacts() {
 		
-		createLocalRootArtefact();
-//		Orchestrus.printArtefactSignatures();
+		createProjectRootArtefact();
+		createUnresovledsRootArtefact();
+		createLocalRootDependenciesArtefacts();
 		
+
 		/* build Artefact from source files found in project folder */
 		buildSourceFileArtefacts();
 		System.out.println("\n");
 //		Orchestrus.printArtefactSignatures();
 		getArtefacts();
-		/* build Artefact from source files' parent folders */
-		//buildSourceFolderArtefacts();
 
 		/* build Artefact from source files found in project folder */
 		buildLocalFilesArtefacts();
@@ -144,10 +153,53 @@ public class ArtefactFactory {
 
 	}
 
-	private void createLocalRootArtefact() {
-		projectRoot = new Artefact("ProjectRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, ROOT_LOCATION_NAME, null, true);
+	/**
+	 * Instantiate {@link #projectRoot}
+	 */
+	private void createProjectRootArtefact() {
+		projectRoot = new Artefact("ProjectRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT,
+				Config.getInstance().getProjectFullPath(), null, true);
 		projectRoot.setProtocol(Protocol.local);
 		addArtefact(projectRoot);
+	}
+
+	/**
+	 * Instantiate {@link #unresolvedsRoot}
+	 */
+	private void createUnresovledsRootArtefact() {
+		unresolvedsRoot = new Artefact("UnresolvedsRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT,
+				"nowhere", null, true);
+		unresolvedsRoot.setProtocol(Protocol.no_protocol);
+		addArtefact(unresolvedsRoot);
+	}
+
+	/**
+	 * For each dependencies (reported in
+	 * {@link Config#getProjectDependenciesFull()}) create a local root artefact
+	 * ({@link ArtefactTypeFactory#LOCAL_ROOT_ARTEFACT})
+	 */
+	private void createLocalRootDependenciesArtefacts() {
+		List<String> deps = Config.getInstance().getProjectDependenciesFull();
+		for (String depPath : deps) {
+			createLocalRootArtefact(depPath);
+		}
+	}
+
+	/**
+	 * Returns existing {@link ArtefactTypeFactory#LOCAL_ROOT_ARTEFACT}s.
+	 * @return
+	 */
+	public List<Artefact> getLocalRootDependenciesArtefacts() {
+		List<Artefact> arts = subsetsArtefactsByType(ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT);
+//		arts.remove(projectRoot);
+		return arts;
+	}
+
+	private Artefact createLocalRootArtefact(String fullPath) {
+		Artefact depRoot = new Artefact("DepRoot", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, fullPath, null, true);
+		depRoot.setProtocol(Protocol.local);
+		addArtefact(depRoot);
+		return depRoot;
 	}
 
 	/**
@@ -169,9 +221,7 @@ public class ArtefactFactory {
 				iFolder++;
 			
 			Artefact parent = affectsParentIfExists(a);
-
-			if(parent != null)
-				projectRoot.addFragment(a.getParent());
+			
 		}
 		LOGGER.fine(iFile + " SourceFile and " + iFolder + " LocalFolder found in "
 				+ StaticExplorer.getSourceFiles().size() + " files.");
@@ -214,24 +264,31 @@ public class ArtefactFactory {
 		return false;
 	}
 
-	private Artefact affectsParentIfExists(Artefact res) {
+	/**
+	 * If a there exists an artefact at parent location (location-path/..), makes the fragment.<br/>
+	 * Also associate an artefact with its Local root folder
+	 * @param artefact (Resolving !) (see {@link Artefact#isResolves()}
+	 * @return
+	 */
+	private Artefact affectsParentIfExists(Artefact artefact) {
 		Artefact parent = null;
-		if(res.isResolves()) {
-			parent = getArtefact(new File(res.getLocation()));
+		if (artefact.isResolves()) {
+			parent = getArtefact(new File(artefact.getLocation()));
+			if (parent != null) {
+				// Check dependencies paths to assign root.
+				for (Artefact aDep : getLocalRootDependenciesArtefacts()) {
+					String aDepPath = aDep.getLocation();
+					if (parent.getLocation().equals(aDepPath)) {
+						aDep.addFragment(parent);
+					}
+				}
+			}
 		} else {
-			String location = res.getLocation();
-			if(location.endsWith("/"))
-				location = location.substring(0, location.length() - 1);
-			String name = location.substring(location.lastIndexOf("/") + 1);
-			location = location.substring(0, location.length() - name.length());
-			
-			System.out.println(location + "      " + name);
-			parent = getArtefact(res.getProtocol(), location, name);
-			if(parent != null)
-				System.out.println("---------------------------> FOUND !");
+			LOGGER.warning(artefact+" does not resolves. It is stored in the unresolveds stack.");
+//			unresolvedsRoot.addFragment(artefact);
 		}
 		if(parent != null)
-			parent.addFragment(res);
+			parent.addFragment(artefact);
 		return parent;
 	}
 
@@ -459,6 +516,10 @@ public class ArtefactFactory {
 		return getArtefacts().values().stream().filter(a -> a.getProtocol() == p).collect(Collectors.toList());
 	}
 
+	/**
+	 * Wrong behavior - wrong start, ensues duplicate entries (descendants present in the list)
+	 * @return
+	 */
 	public static Set<Artefact> getAncestors() {
 		HashSet<Artefact> res = new HashSet<>();
 		for (Artefact a : getArtefacts().values()) {

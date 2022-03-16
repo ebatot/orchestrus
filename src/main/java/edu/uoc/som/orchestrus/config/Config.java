@@ -157,7 +157,7 @@ public class Config {
 		//Main /
 		res &= checkExistsAndDirectory(getProjectRoot());
 		//Project folder
-		res &= checkExistsAndDirectory(getProjectFull());
+		res &= checkExistsAndDirectory(getProjectFullPath());
 		
 		//Project denpendencies
 		for (String pd : getProjectDependenciesFull()) 
@@ -165,7 +165,7 @@ public class Config {
 		
 		//sub folders
 		for (String sf : contentFolders) 
-			res &= checkExistsAndDirectory(getProjectFull() + File.separator + sf);
+			res &= checkExistsAndDirectory(getProjectFullPath() + File.separator + sf);
 		
 		
 		return res;
@@ -192,7 +192,7 @@ public class Config {
 	public List<String> getContentFoldersFull() {
 		ArrayList<String> res = new ArrayList<>(getContentFoldersName().size());
 		for (String s : getContentFoldersName()) {
-			res.add(getProjectFull() + File.separator + s);
+			res.add(getProjectFullPath() + File.separator + s);
 		}
 		return res;
 	}
@@ -215,7 +215,7 @@ public class Config {
 		return projectName;
 	}
 	
-	public String getProjectFull() {
+	public String getProjectFullPath() {
 		return projectRoot+ File.separator+ project;
 	}
 	
@@ -235,11 +235,11 @@ public class Config {
 		return propertiesEditorConfiguration;
 	}
 	public String getPropertiesEditorConfigurationContext() {
-		return getProjectFull() + File.separator + propertiesEditorConfiguration + File.separator + getProjectName()+".ctx";
+		return getProjectFullPath() + File.separator + propertiesEditorConfiguration + File.separator + getProjectName()+".ctx";
 	}
 
 	public String getSpecificationModelsFolderFull() {
-		return getProjectFull() + File.separator + specificationModelsFolder;
+		return getProjectFullPath() + File.separator + specificationModelsFolder;
 	}
 	
 	public String getSpecificationModelsFolder() {
@@ -247,7 +247,7 @@ public class Config {
 	}
 
 	public String getUmlProfilesFolderFull() {
-		return getProjectFull() + File.separator + umlProfilesFolder;
+		return getProjectFullPath() + File.separator + umlProfilesFolder;
 	}
 
 	public static String getUmlprofilesfolder() {
@@ -255,7 +255,7 @@ public class Config {
 	}
 	
 	public String getPaletteConfigurationsFolderFull() {
-		return getProjectFull() + File.separator + paletteConfigurationsFolder;
+		return getProjectFullPath() + File.separator + paletteConfigurationsFolder;
 	}
 	
 	public String getEcoreFilePath() {
