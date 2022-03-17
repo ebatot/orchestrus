@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
@@ -16,15 +17,15 @@ public class Reference extends TracingElement {
 	private Protocol protocol;
 	private String location;
 	private String innerLocation;
-	private Set<String> sources = new HashSet<String>();
+	private Set<Source> sources = new HashSet<Source>();
 
-	public Reference(String strRef, String source) {
+	public Reference(String strRef, Source source) {
 		this.raw = strRef;
 		this.protocol = ReferenceFactory.extractProtocol(this.raw);
 		this.location = ReferenceFactory.extractLocation(this.raw);
 		this.innerLocation = ReferenceFactory.extractInnerPath(this.raw);
 		newName();
-		sources.add(source);
+		addSource(source);
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class Reference extends TracingElement {
 		return res;
 	}
 
-	public Set<String> getSources() {
+	public Set<Source> getSources() {
 		return sources;
 	}
 
@@ -119,7 +120,7 @@ public class Reference extends TracingElement {
 		return sources.contains(sSource);
 	}
 
-	public boolean addSource(String sourceFile) {
-		return this.sources.add(sourceFile);
+	public boolean addSource(Source source) {
+		return this.sources.add(source);
 	}
 }

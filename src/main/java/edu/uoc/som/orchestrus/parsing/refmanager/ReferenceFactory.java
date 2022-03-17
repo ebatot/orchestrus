@@ -4,10 +4,13 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public class ReferenceFactory {
@@ -100,12 +103,12 @@ public class ReferenceFactory {
 	 * @param r
 	 * @return
 	 */
-	public static boolean resolveLocation(String sourceFile, Reference r) {
+	public static boolean resolveLocation(Source sourceFile, Reference r) {
 		if (r.isLocal()) {
 			boolean res = false;
 			String resolvedLocation = "-resolvedLocation-";
 			try {
-				File source = new File(sourceFile);
+				File source = new File(sourceFile.getPath());
 				File folder = source.getParentFile();
 
 				File f = Path.of(folder.getAbsolutePath(), r.getTargetFileArtefact()).toFile();
@@ -151,11 +154,11 @@ public class ReferenceFactory {
 	 * @return A new reference is "href" does not match an existing reference. <br/>
 	 *         Href are compared <i>resolved</i>
 	 */
-	public static Reference getReference(String href, String sourceFile) {
+	public static Reference getReference(String href, Source source) {
 
 		// GHOST Create a ghost reference for resolution (not optimal, but working)
-		Reference rr = new Reference(href, sourceFile);
-		ReferenceFactory.resolveLocation(sourceFile, rr);
+		Reference rr = new Reference(href, source);
+		ReferenceFactory.resolveLocation(source, rr);
 
 		Reference r = references.get(rr.getHREF());
 		if (r == null) {// R is new
@@ -165,12 +168,29 @@ public class ReferenceFactory {
 			// GHOST Clean the stack of elements (ghost erase, because TracingElement.class
 			// contains a map of {id:element})
 			TracingElement.removeElement(rr);
-			r.addSource(sourceFile);
+			r.addSource(source);
 			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
 		return r;
 	}
+	
+	/** DEV */
+	static int counter = 0;
+	public static Set<Reference> getReferences(GenModel gm) {
+		HashSet<Reference> res = new HashSet<>();
+		
+		if(counter++ < 2) {
+			for (String key : references.keySet()) {
+				System.out.println(" - "+key+": "+references.get(key));
+			}
+		}
+		
+		
+		return res;
+	}
+
+
 
 	public static Collection<Reference> getReferencesValues() {
 		return references.values();
