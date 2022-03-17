@@ -61,6 +61,13 @@ public class Utils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		f = new File("R:\\Coding\\public_html\\tracea\\v2\\data\\input_data.json");
+		try {
+			FileUtils.write(f, Utils.printFragmentD3Json());
+			LOGGER.warning("Fragmentation as D3Tracea stored in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("deprecation")
