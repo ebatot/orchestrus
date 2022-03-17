@@ -34,6 +34,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.uoc.som.orchestrus.config.Config;
+import edu.uoc.som.orchestrus.parsing.refmanager.EcoreModel;
+import edu.uoc.som.orchestrus.parsing.refmanager.GenModel;
 import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
@@ -214,61 +216,46 @@ public class StaticExplorer {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			String expression = "//*[@modelName and @modelPluginID and @modelDirectory]";
+			Node genModelRootNode = null;
 			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-
-				String ugp = getUsegGenPackagesAsArray(nNode);
-				
-				res += "{\"type\": \"genModelDeclaration\", "
-						+ "\"modelDirectory\": \""+((Element)nNode).getAttribute("modelDirectory")+"\", "
-						+ "\"modelPluginID\": \""+((Element)nNode).getAttribute("modelPluginID")+"\", "
-						+ "\"modelName\": \""+((Element)nNode).getAttribute("modelName")+"\", "
-						+ "\"rootExtendsClass\": \""+((Element)nNode).getAttribute("rootExtendsClass")+"\", "
-						+ "\"importerID\": \""+((Element)nNode).getAttribute("importerID")+"\", "
-						+ "\"usedGenPackages\": "+ugp+"},\n";
+				if(genModelRootNode == null)
+					genModelRootNode = nNode;
+				else
+					throw new IllegalAccessError("Only one genModel node (root) expected in genmodel file.");
 				LOGGER2.finer(res);
 			}
 
+			List<Element> foreignModels = new ArrayList<>();
 			expression = "//foreignModel";
 			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				res += "{\"foreignModel\": \"" + ((Element) nNode).getTextContent() + "\"},\n";
+				foreignModels.add((Element)nNode);
 			}
-			res = res.trim();
-			if (!res.isBlank())
-				res = res.substring(0, res.length() - 1);
-			return "[" + res + "]";
+			
+			GenModel gm = new GenModel((Element)genModelRootNode, foreignModels);
+			
+			Set<Reference> refs = ReferenceFactory.getReferences(gm);
+			for (Reference reference : refs) {
+				System.out.println(reference.getSources());
+			}
+			
+			res += gm.getHRefJSon();
+			
+			return res;
 		} catch (XPathExpressionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return res;
 	}
 
-	/**
-	 * Axtrude a list from the node's 'usedGenPackages' attribute.
-	 * @param nNode
-	 * @return
-	 */
-	private String getUsegGenPackagesAsArray(Node nNode) {
-		String usedGenPackages[] = ((Element) nNode).getAttribute("usedGenPackages").split(" ");
-		String ugp = "";
-		for (String gp : usedGenPackages)
-			ugp += "\"" + gp + "\",";
-		if (!ugp.isBlank())
-			ugp = ugp.substring(0, ugp.length() - 1);
-		ugp = "[" + ugp + "]";
-		return ugp;
-	}
+
 
 	/**
 	 * Extract references from Ecore project file (see {@link Config#getEcoreFilePath()}) <br/>
@@ -285,44 +272,29 @@ public class StaticExplorer {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			String expression = "//*[@name and @nsURI and @nsPrefix]";
+			Element rootNode = null;
 			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				res += "{\"type\": \"epackageDeclaration\", "
-					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
-					+ "\"nsURI\": \""+((Element)nNode).getAttribute("nsURI")+"\", "
-					+ "\"nsPrefix\": \""+((Element)nNode).getAttribute("nsPrefix")+"\"},";
+				rootNode = (Element)nNode;
+				if(i >= 1)
+					throw new IllegalAccessError("Ecore file should only have one root node.");
 				LOGGER2.finer(res);
 			}
 			
+			List<Element> esfElts = new ArrayList<>();
 			expression = "//eStructuralFeatures";
 			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				String[] eTypeArray = ((Element)nNode).getAttribute("eType").split(" ");
-				String eTypeType = "";
-				String eTypePath = "";					
-				if(eTypeArray.length > 1) {
-					eTypeType = ((Element)nNode).getAttribute("eType").split(" ")[0];
-					eTypePath = ((Element)nNode).getAttribute("eType").split(" ")[1];	
-				} else {
-					eTypeType = "local";
-					eTypePath = ((Element)nNode).getAttribute("eType").split(" ")[0];
-				}
-				
-				res += "{\"type\": \"eStructuralFeature\", "
-					+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)nNode)+"\", "
-					+ "\"name\": \""+((Element)nNode).getAttribute("name")+"\", "
-					+ "\"xsi:type\": \""+((Element)nNode).getAttribute("xsi:type")+"\", "
-					+ "\"eTypePath\": \""+eTypePath+"\", "
-					+ "\"eTypeType\": \""+eTypeType+"\"},";
+				esfElts.add((Element)nNode);
 				LOGGER2.finer(res);
 			}
 			
-			if(!res.isBlank())
-				res = res.substring(0, res.length()-1);
+			EcoreModel ecoreModel = new EcoreModel(rootNode, esfElts);
+			res = ecoreModel.getHRefJSon();
 
-			return "["+res+"]";
+			return res;
 		} catch (SAXException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -594,12 +566,16 @@ public class StaticExplorer {
 		int i = 0;
 		for (Element element : elts) {
 			String sourceFile = element.getAttributes().getNamedItem(XMI_SOURCE_PATH).getTextContent();
+			String sourceInnerPath = DomUtil.getAbsolutePath(element);
+			String sourceInnerPathNamed = DomUtil.getAbsolutePathNamed(element);
+			Source source = new Source(sourceFile, sourceInnerPath, sourceInnerPathNamed);
+			
 			String cleanhref = element.getAttributes().getNamedItem("href").getTextContent();
 			
 			/*
 			 * Build and resolve references
 			 */
-			Reference r = ReferenceFactory.getReference(cleanhref, sourceFile);
+			Reference r = ReferenceFactory.getReference(cleanhref, source);
 			addReferenceSourceReversed(sourceFile, r);
 			
 			cleanhref = Utils.cleanUrlsForJson(r.getHREF());
@@ -609,8 +585,8 @@ public class StaticExplorer {
 
 			sb.append("{"
 //					+ "\"sourceFile\": \""+Utils.cleanUrlsForJson(sourceFile)+"\", "
-					+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)element)+"\", "
-					+ "\n \"xpathNamed\": \""+DomUtil.getAbsolutePathNamed((Element)element)+"\", "
+					+ "\"xpath\": \""+sourceInnerPath+"\", "
+					+ "\n \"xpathNamed\": \""+sourceInnerPathNamed+"\", "
 					+ xmitype
 					+ "\n \"href\": \"" + cleanhref +"\""
 					+ "}");
@@ -639,12 +615,16 @@ public class StaticExplorer {
 		int i = 0;
 		for (Element element : elts) {
 			String sourceFile = element.getAttributes().getNamedItem(XMI_SOURCE_PATH).getTextContent();
+			String sourceInnerPath = DomUtil.getAbsolutePath(element);
+			String sourceInnerPathNamed = DomUtil.getAbsolutePathNamed(element);
+			Source source = new Source(sourceFile, sourceInnerPath, sourceInnerPathNamed);
+
 			String cleanvalue = element.getAttributes().getNamedItem("value").getTextContent();
 			
 			/*
 			 * Build and resolve references
 			 */
-			Reference r = ReferenceFactory.getReference(cleanvalue, sourceFile);
+			Reference r = ReferenceFactory.getReference(cleanvalue, source); //sourceFile, sourceInnerPath, sourceInnerPathNamed);
 			addReferenceSourceReversed(sourceFile, r);
 
 			cleanvalue = Utils.cleanUrlsForJson(r.getHREF());
@@ -654,8 +634,8 @@ public class StaticExplorer {
 			Node elt = element.getAttributes().getNamedItem("xmi:id");
 			String xmiid = elt != null ? "\n \"xmi:id\": \""+elt.getTextContent()+"\", ":"";
 			sb.append("{"
-					+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)element)+"\", "
-					+ "\n \"xpathNamed\": \""+DomUtil.getAbsolutePathNamed((Element)element)+"\", "
+					+ "\"xpath\": \""+sourceInnerPath+"\", "
+					+ "\n \"xpathNamed\": \""+sourceInnerPathNamed+"\", "
 					+ xmiid
 					+ "\n \"key\": \"" + key +"\","
 					+ "\n \"value\": \"" + cleanvalue +"\""
