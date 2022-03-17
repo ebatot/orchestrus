@@ -34,10 +34,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.uoc.som.orchestrus.config.Config;
-import edu.uoc.som.orchestrus.parsing.refmanager.EcoreModel;
-import edu.uoc.som.orchestrus.parsing.refmanager.GenModel;
-import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
-import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.parsing.utils.XmlException;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
@@ -50,7 +46,7 @@ public class StaticExplorer {
 	public final static Logger LOGGER2 = Logger.getLogger(StaticExplorer.class.getName()+2);
 	
 	/** Internal temporary name for source file path of references */
-	private static final String XMI_SOURCE_PATH = "refSource";
+	protected static final String XMI_SOURCE_PATH = "refSource";
 	
 	private DocumentBuilderFactory factory;
 	private DocumentBuilder builder;

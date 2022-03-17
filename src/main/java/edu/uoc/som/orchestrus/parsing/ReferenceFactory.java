@@ -1,4 +1,4 @@
-package edu.uoc.som.orchestrus.parsing.refmanager;
+package edu.uoc.som.orchestrus.parsing;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public class ReferenceFactory {

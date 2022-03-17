@@ -1,4 +1,4 @@
-package edu.uoc.som.orchestrus.parsing.refmanager;
+package edu.uoc.som.orchestrus.parsing;
 
 import java.util.List;
 
@@ -48,6 +48,10 @@ public class EcoreModel {
 	}
 
 
+	/**
+	 * Return a JSon array with all estructural feature in the EcoreModel.<br/>
+	 * @return
+	 */
 	private String getJSonForEStructuralFeatures() {
 		
 		
@@ -66,12 +70,12 @@ public class EcoreModel {
 			
 			resFMs += "{\"type\": \"eStructuralFeature\", "
 					+ "\"xpath\": \""+DomUtil.getAbsolutePath(e)+"\", "
-					+ "\n \"xpathNamed\": \""+DomUtil.getAbsolutePathNamed(e)+"\", "
-				+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)e)+"\", "
-				+ "\"name\": \""+((Element)e).getAttribute("name")+"\", "
-				+ "\"xsi:type\": \""+((Element)e).getAttribute("xsi:type")+"\", "
-				+ "\"eTypePath\": \""+eTypePath+"\", "
-				+ "\"eTypeType\": \""+eTypeType+"\"},";
+					+ "\"xpathNamed\": \""+DomUtil.getAbsolutePathNamed(e)+"\", "
+					+ "\"name\": \""+((Element)e).getAttribute("name")+"\", "
+					+ "\"xsi:type\": \""+((Element)e).getAttribute("xsi:type")+"\", "
+					+ "\"eTypePath\": \""+eTypePath+"\", "
+					+ "\"eTypeType\": \""+eTypeType+"\""
+					+ "},";
 
 		}
 		resFMs = resFMs.trim();

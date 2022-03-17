@@ -1,9 +1,12 @@
-package edu.uoc.som.orchestrus.parsing.refmanager;
+package edu.uoc.som.orchestrus.parsing;
 
 import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
+import edu.uoc.som.orchestrus.utils.Utils;
 
 public class GenModel {
 
@@ -61,6 +64,10 @@ public class GenModel {
 	}
 
 
+	/**
+	 * Return a JSon array with foreign model references. <br/>
+	 * @return
+	 */
 	private String getJSonForForeignModels() {
 		String resFMs = "";
 		for (Element e : foreignModels) {

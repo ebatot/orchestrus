@@ -1,11 +1,10 @@
-package edu.uoc.som.orchestrus.parsing.refmanager;
+package edu.uoc.som.orchestrus.parsing;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import edu.uoc.som.orchestrus.parsing.Source;
-import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory.Protocol;
+import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public class Reference extends TracingElement {

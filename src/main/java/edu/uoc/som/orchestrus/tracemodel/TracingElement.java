@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
+import edu.uoc.som.orchestrus.parsing.Reference;
 
 public abstract class TracingElement {
 	static String UNNAMED = "UNNAMED";

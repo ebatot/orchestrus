@@ -8,9 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.parsing.Reference;
+import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
-import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
-import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
 public class TraceFactory {
