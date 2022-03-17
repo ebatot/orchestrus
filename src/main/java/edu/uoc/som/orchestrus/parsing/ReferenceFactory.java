@@ -2,6 +2,7 @@ package edu.uoc.som.orchestrus.parsing;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -171,25 +172,29 @@ public class ReferenceFactory {
 			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
+		addReferenceSourceReversed(source.path, r);
 		return r;
 	}
 	
-	/** DEV */
-	static int counter = 0;
-	public static Set<Reference> getReferences(GenModel gm) {
-		HashSet<Reference> res = new HashSet<>();
-		
-		if(counter++ < 2) {
-			for (String key : references.keySet()) {
-				System.out.println(" - "+key+": "+references.get(key));
-			}
-		}
-		
-		
-		return res;
+	
+	/**
+	 * Source to reference
+	 */
+	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
+	protected static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
+		return referencesSourcesReversed;
 	}
-
-
+	
+	/**
+	 * Adds a source-reference to the stock.
+	 * @param sourceFile
+	 * @param r
+	 */
+	private static void addReferenceSourceReversed(String sourceFile, Reference r) {
+		if (!referencesSourcesReversed.keySet().contains(sourceFile))
+			referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
+		referencesSourcesReversed.get(sourceFile).add(r);
+	}
 
 	public static Collection<Reference> getReferencesValues() {
 		return references.values();

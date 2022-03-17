@@ -1,15 +1,21 @@
 package edu.uoc.som.orchestrus.parsing;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class GenModel {
 
+	public static String getFilePath() {
+		return Config.getInstance().getGenmodelFilePath();
+	}
+	
 	private String modelDirectory;
 	private String modelPluginID;
 	private String modelName;
@@ -19,6 +25,8 @@ public class GenModel {
 	
 	Element rootNode;
 	List<Element> foreignModels;
+	
+	Set<Reference> references;
 	
 	
 	public GenModel(Element rootNode, List<Element> foreignModels) {
@@ -33,7 +41,7 @@ public class GenModel {
 	}
 	
 	
-	public GenModel(String modelDirectory, String modelPluginID, String modelName, String rootExtendsClass,
+	private GenModel(String modelDirectory, String modelPluginID, String modelName, String rootExtendsClass,
 			String importerID, String[] usedGenPackages) {
 		this.modelDirectory = modelDirectory;
 		this.modelPluginID = modelPluginID;
@@ -41,6 +49,8 @@ public class GenModel {
 		this.rootExtendsClass = rootExtendsClass;
 		this.importerID = importerID;
 		this.usedGenPackages = usedGenPackages;
+		
+		references = new HashSet<>();
 	}
 
 	public String getHRefJSon() {
@@ -55,8 +65,14 @@ public class GenModel {
 				+ ",\n";
 		
 		
+		Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(rootNode), DomUtil.getAbsolutePathNamed(rootNode));
 		
-		
+		Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelDirectory), source);
+		Reference r2 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelPluginID), source);
+		Reference r3 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(rootExtendsClass), source);
+		references.add(r);
+		references.add(r2);
+		references.add(r3);
 		String resFMs = getJSonForForeignModels();
 		
 		res = res + resFMs;
@@ -72,6 +88,11 @@ public class GenModel {
 		String resFMs = "";
 		for (Element e : foreignModels) {
 			resFMs += "\"" + ((Element) e).getTextContent() + "\",\n";
+			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
+			// TODO Information required to resolve ??
+			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(e.getTextContent()), source);
+			System.out.println(r.isResolved() + ": "+r+":"+r.getHREF()+"    "+r.getSources());
+			references.add(r);
 		}
 		resFMs = resFMs.trim();
 		if (!resFMs.isBlank())

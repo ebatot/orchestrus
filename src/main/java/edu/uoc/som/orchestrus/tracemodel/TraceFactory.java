@@ -42,6 +42,7 @@ public class TraceFactory {
 
 	public Trace buildBaseTrace() {
 		Trace t = new Trace();
+		LOGGER.info(ReferenceFactory.getReferences().size() + " references.");
 		for (Reference r : ReferenceFactory.getReferences().values()) {
 			TraceLink tl = new TraceLink();
 			HashMap<String, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();

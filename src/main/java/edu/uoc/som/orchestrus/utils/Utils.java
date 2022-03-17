@@ -35,7 +35,7 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
-//
+
 //	public static void main(String[] args) {
 //		 printLOC();
 //		 System.exit(1);

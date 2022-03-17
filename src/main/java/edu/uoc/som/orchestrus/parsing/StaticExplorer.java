@@ -233,10 +233,10 @@ public class StaticExplorer {
 			
 			GenModel gm = new GenModel((Element)genModelRootNode, foreignModels);
 			
-			Set<Reference> refs = ReferenceFactory.getReferences(gm);
-			for (Reference reference : refs) {
-				System.out.println(reference.getSources());
-			}
+//			Set<Reference> refs = ReferenceFactory.getReferences(gm);
+//			for (Reference reference : refs) {
+//				System.out.println(reference.getSources());
+//			}
 			
 			res += gm.getHRefJSon();
 			
@@ -301,8 +301,6 @@ public class StaticExplorer {
 		return res;
 	}
 
-
-	
 	/**
 	 * 
 	 * @return JSON containing references found in /plugin.xml file
@@ -533,21 +531,6 @@ public class StaticExplorer {
 		return res;
 	}
 
-	/**
-	 * Source to reference
-	 */
-	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
-	
-	/**
-	 * Adds a source-reference to the stock.
-	 * @param sourceFile
-	 * @param r
-	 */
-	private static void addReferenceSourceReversed(String sourceFile, Reference r) {
-		if (!referencesSourcesReversed.keySet().contains(sourceFile))
-			referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
-		referencesSourcesReversed.get(sourceFile).add(r);
-	}
 	
 	/**
 	 * For each element found with a "href" attribute, extract the following information (JSON syntax)
@@ -572,7 +555,7 @@ public class StaticExplorer {
 			 * Build and resolve references
 			 */
 			Reference r = ReferenceFactory.getReference(cleanhref, source);
-			addReferenceSourceReversed(sourceFile, r);
+//			addReferenceSourceReversed(sourceFile, r);
 			
 			cleanhref = Utils.cleanUrlsForJson(r.getHREF());
 			
@@ -620,8 +603,8 @@ public class StaticExplorer {
 			/*
 			 * Build and resolve references
 			 */
-			Reference r = ReferenceFactory.getReference(cleanvalue, source); //sourceFile, sourceInnerPath, sourceInnerPathNamed);
-			addReferenceSourceReversed(sourceFile, r);
+			Reference r = ReferenceFactory.getReference(cleanvalue, source); 
+//			addReferenceSourceReversed(sourceFile, r);
 
 			cleanvalue = Utils.cleanUrlsForJson(r.getHREF());
 			
@@ -693,7 +676,7 @@ public class StaticExplorer {
 
 
 	public static Set<String> getSourceFiles() {
-		return referencesSourcesReversed.keySet();
+		return ReferenceFactory.getReferencesSourcesReversed().keySet();
 	}
 	
 	/**
@@ -701,7 +684,7 @@ public class StaticExplorer {
 	 * @return For each source file, its references.
 	 */
 	public static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
-		return referencesSourcesReversed;
+		return ReferenceFactory.getReferencesSourcesReversed();
 	}
 
 

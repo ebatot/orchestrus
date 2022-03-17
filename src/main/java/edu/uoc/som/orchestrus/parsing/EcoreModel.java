@@ -1,13 +1,19 @@
 package edu.uoc.som.orchestrus.parsing;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
+import edu.uoc.som.orchestrus.utils.Utils;
 
 public class EcoreModel {
+	public static String getFilePath() {
+		return Config.getInstance().getEcoreFilePath();
+	}
 
 	private String name;
 	private String nsURI;
@@ -15,6 +21,8 @@ public class EcoreModel {
 	
 	Element rootNode;
 	List<Element> eStructuralFeatures;
+	
+	private List<Reference> references;
 	
 	
 	public EcoreModel(Element rootNode, List<Element> eStructuralFeatures) {
@@ -26,10 +34,12 @@ public class EcoreModel {
 	}
 	
 	
-	public EcoreModel(String name, String nsURI, String nsPrefix) {
+	private EcoreModel(String name, String nsURI, String nsPrefix) {
 		this.name = name;
 		this.nsURI = nsURI;
 		this.nsPrefix = nsPrefix;
+		
+		references = new ArrayList<>();
 	}
 
 	public String getHRefJSon() {
@@ -50,6 +60,7 @@ public class EcoreModel {
 
 	/**
 	 * Return a JSon array with all estructural feature in the EcoreModel.<br/>
+	 * Create a reference for each estructuralfeature with its 'eTypePath' - to be discussed.
 	 * @return
 	 */
 	private String getJSonForEStructuralFeatures() {
@@ -57,6 +68,7 @@ public class EcoreModel {
 		
 		String resFMs = "";
 		for (Element e : eStructuralFeatures) {
+			
 			String[] eTypeArray = ((Element)e).getAttribute("eType").split(" ");
 			String eTypeType = "";
 			String eTypePath = "";					
@@ -76,7 +88,11 @@ public class EcoreModel {
 					+ "\"eTypePath\": \""+eTypePath+"\", "
 					+ "\"eTypeType\": \""+eTypeType+"\""
 					+ "},";
-
+			
+			// TODO Information required to resolve ??
+			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
+			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(eTypePath), source);
+			references.add(r);
 		}
 		resFMs = resFMs.trim();
 		if (!resFMs.isBlank())
