@@ -170,8 +170,14 @@ public class ArtefactFactory {
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
 		
-		
 		buildElementLevelArtefacts();
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT).size() + " Elements in " + ReferenceFactory.getReferences().size() + " references.");
+		if (LOGGER.getLevel().equals(Level.FINE)) {
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+		}
 		
 	}
 
