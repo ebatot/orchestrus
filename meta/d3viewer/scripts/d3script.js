@@ -89,8 +89,15 @@ svg.on('click', function(d, i) {
 	stopMoving();
 });
 
-var colorNodes = d3.scaleOrdinal(d3.schemeCategory20);
-var colorLinks = d3.scaleOrdinal(d3.schemeCategory20.slice(6));
+var nColorSlice = 15;
+if ( getUrlVars()['nc'] != null )
+	nColorSlice = getUrlVars()['nc'];
+var colorNodes = d3.scaleOrdinal(d3.schemeCategory20.slice(nColorSlice));
+
+var lColorSlice = 15;
+if ( getUrlVars()['lc'] != null )
+	lColorSlice = getUrlVars()['lc'];
+var colorLinks = d3.scaleOrdinal(d3.schemeCategory20.slice(lColorSlice));
 
 // Call zoom for svg container.
 svg.call(d3.zoom().on('zoom', zoomed));
