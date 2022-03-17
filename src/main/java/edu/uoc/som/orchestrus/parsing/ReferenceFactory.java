@@ -5,9 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -172,7 +170,7 @@ public class ReferenceFactory {
 			LOGGER.finest("Exists: " + rr.getHREF());
 		}
 		r = references.get(rr.getHREF());
-		addReferenceSourceReversed(source.path, r);
+		addReferenceSourceReversed(source, r);
 		return r;
 	}
 	
@@ -180,8 +178,8 @@ public class ReferenceFactory {
 	/**
 	 * Source to reference
 	 */
-	private static HashMap<String, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
-	protected static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
+	private static HashMap<Source, ArrayList<Reference>> referencesSourcesReversed = new HashMap<>();
+	protected static HashMap<Source, ArrayList<Reference>> getReferencesSourcesReversed() {
 		return referencesSourcesReversed;
 	}
 	
@@ -190,7 +188,7 @@ public class ReferenceFactory {
 	 * @param sourceFile
 	 * @param r
 	 */
-	private static void addReferenceSourceReversed(String sourceFile, Reference r) {
+	private static void addReferenceSourceReversed(Source sourceFile, Reference r) {
 		if (!referencesSourcesReversed.keySet().contains(sourceFile))
 			referencesSourcesReversed.put(sourceFile, new ArrayList<Reference>());
 		referencesSourcesReversed.get(sourceFile).add(r);

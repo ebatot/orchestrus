@@ -675,7 +675,7 @@ public class StaticExplorer {
 	}
 
 
-	public static Set<String> getSourceFiles() {
+	public static Set<Source> getSourceFiles() {
 		return ReferenceFactory.getReferencesSourcesReversed().keySet();
 	}
 	
@@ -683,11 +683,17 @@ public class StaticExplorer {
 	 * 
 	 * @return For each source file, its references.
 	 */
-	public static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
+	public static HashMap<Source, ArrayList<Reference>> getReferencesSourcesReversed() {
 		return ReferenceFactory.getReferencesSourcesReversed();
 	}
 
 
+	/**
+	 * NOT IMPLEMENTED !
+	 * @param f
+	 * @param name
+	 * @return
+	 */
 	public Object getElementFromFile(File f, String name) {
 		// TODO get element from xmi ID !
 	

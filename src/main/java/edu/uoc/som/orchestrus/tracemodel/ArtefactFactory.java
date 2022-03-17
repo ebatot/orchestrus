@@ -19,6 +19,7 @@ import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
+import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
@@ -271,8 +272,8 @@ public class ArtefactFactory {
 	private void buildSourceFileArtefacts() {
 		int iFile = 0;
 		int iFolder = 0;
-		for (String sFile : StaticExplorer.getSourceFiles()) {
-			File f = new File(sFile);
+		for (Source sFile : StaticExplorer.getSourceFiles()) {
+			File f = new File(sFile.getPath());
 			Artefact a = newSourceFileArtefact(f);
 			addArtefact(a);
 			iFile++;

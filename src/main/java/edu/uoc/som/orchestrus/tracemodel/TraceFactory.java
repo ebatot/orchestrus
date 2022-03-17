@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
+import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
@@ -45,12 +46,14 @@ public class TraceFactory {
 		LOGGER.info(ReferenceFactory.getReferences().size() + " references.");
 		for (Reference r : ReferenceFactory.getReferences().values()) {
 			TraceLink tl = new TraceLink();
-			HashMap<String, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
-			for (String sSource : sourcesToRef.keySet()) {
+			HashMap<Source, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
+			for (Source sSource : sourcesToRef.keySet()) {
 				// Pour chaque source, chercher les references qui la contiennent
 				if(r.containsSource(sSource)) {
 					// l'ajouter au lien
-					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource));
+					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource.getPath()));
+					
+					/// TODO What about xpath etc. -> for TraceLink types ??
 					if(a == null) {
 						throw new IllegalAccessError("Should not get there. Artefact not recognized.");
 					}

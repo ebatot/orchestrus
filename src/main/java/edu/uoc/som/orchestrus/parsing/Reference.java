@@ -115,7 +115,7 @@ public class Reference extends TracingElement {
 			protocol = Protocol.local;
 	}
 
-	public boolean containsSource(String sSource) {
+	public boolean containsSource(Source sSource) {
 		return sources.contains(sSource);
 	}
 
