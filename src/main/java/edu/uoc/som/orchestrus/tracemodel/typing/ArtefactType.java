@@ -20,6 +20,11 @@ public class ArtefactType extends TracingElement {
 		return res +"}";
 	}
 	
+	@Override
+	public String getName() {
+		return super.getName();
+	}
+	
 	public int getNumber() {
 		return number;
 	}

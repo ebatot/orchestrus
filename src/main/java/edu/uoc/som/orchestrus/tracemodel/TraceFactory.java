@@ -13,6 +13,7 @@ import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class TraceFactory {
 	public final static Logger LOGGER = Logger.getLogger(TraceFactory.class.getName());
@@ -43,9 +44,16 @@ public class TraceFactory {
 
 	public Trace buildBaseTrace() {
 		Trace t = new Trace();
+		
+		
 		LOGGER.info(ReferenceFactory.getReferences().size() + " references.");
 		for (Reference r : ReferenceFactory.getReferences().values()) {
-			TraceLink tl = new TraceLink();
+			
+			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
+			if(target == null) 
+				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: "+r.getHREF());
+			
+
 			HashMap<Source, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
 			for (Source sSource : sourcesToRef.keySet()) {
 				// Pour chaque source, chercher les references qui la contiennent
@@ -54,22 +62,23 @@ public class TraceFactory {
 					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource.getPath()));
 					
 					/// TODO What about xpath etc. -> for TraceLink types ??
+					LinkType lType = LinkType.getType(a,target);
+					TraceLink tl = new TraceLink(lType);
+					
+					
+					
 					if(a == null) {
 						throw new IllegalAccessError("Should not get there. Artefact not recognized.");
 					}
 					tl.addSource(a);
+					tl.addTarget(target);
+					LOGGER.finer("Link added:" + tl + " sources:"+tl.getSources().size()+ " targets:"+tl.getTargets().size());
+					t.addTraceLink(tl);
 				} 
 			}
 			
-			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
-			if(target == null) {
-				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: "+r.getHREF());
-			}
-			tl.addTarget(target);
-			LOGGER.finer("Link added:" + tl + " sources:"+tl.getSources().size()+ " targets:"+tl.getTargets().size());
-			t.addTraceLink(tl);
 		}
-		LOGGER.fine(t.getTraceLinks().size()+" trace link added.");
+		LOGGER.info(t.getTraceLinks().size()+" trace link added.");
 		return t;
 	}
 
