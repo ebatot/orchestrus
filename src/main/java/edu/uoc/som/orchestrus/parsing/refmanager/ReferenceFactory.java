@@ -134,7 +134,7 @@ public class ReferenceFactory {
 	/**
 	 * 
 	 * @param href
-	 * @return null is href do not exists in the stack of references.
+	 * @return null if href do not exists in the stack of references.
 	 */
 	public static Reference getReference(String href) {
 		return references.get(href);

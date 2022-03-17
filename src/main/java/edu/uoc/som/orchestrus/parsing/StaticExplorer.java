@@ -38,6 +38,9 @@ import edu.uoc.som.orchestrus.parsing.refmanager.Reference;
 import edu.uoc.som.orchestrus.parsing.refmanager.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.parsing.utils.XmlException;
+import edu.uoc.som.orchestrus.tracemodel.Artefact;
+import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class StaticExplorer {
@@ -68,7 +71,7 @@ public class StaticExplorer {
 	
 	/**
 	 * Get XMI elements with an HREF attribute (see {@link #getHrefs_Json()}) <br/>
-	 * and other elements with interdependencies (ctx.values) (see {@link #getCtxValues_Json()}
+	 * and other elements with interdependencies (ctx.values) (see {@link #getJSonForCtxValues()}
 	 * 
 	 * Collects on the fly references for later processing.
 	 * 
@@ -92,12 +95,12 @@ public class StaticExplorer {
 		
 		
 		// Plugin.xml references
-		String pluginXmlRefs = extractPluginXMLRefs();
+		String pluginXmlRefs = getJSonForPluginXMLRefs();
 		JsonElement elPlugin = parser.parse(pluginXmlRefs);
 		obRoot.add(Config.PLUGIN_XML_FILENAME, elPlugin);
 		
 		// uml-profile/*.ecore definition and references
-		String ecoreRefs = extractEcoreRefs();
+		String ecoreRefs = getJSonForEcoreRefs();
 		JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
 		JsonElement elEcore = parser.parse(ecoreRefs);
 		obEcore.add(elEcore);
@@ -106,14 +109,14 @@ public class StaticExplorer {
 		// gemodel[usedGenPackages] -> ref extern
 		// foreignModel & genPackages
 		// uml-profile/*.ecore definition and references
-		String genmodRefs = extractGenmodelRefs();
+		String genmodRefs = getJsonForGenmodelRefs();
 		JsonArray obGenmod = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(genmodelFileName);
 		JsonElement elGenmod = parser.parse(genmodRefs);
 		obGenmod.add(elGenmod);
 
 		
 		// Added extra context references
-		String ctxValues = getCtxValues_Json();
+		String ctxValues = getJSonForCtxValues();
 		JsonElement elCtx = parser.parse(ctxValues);
 		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());
 		obEditorProperties.add(contextFileName+"-values", elCtx);
@@ -136,7 +139,7 @@ public class StaticExplorer {
 			String domainModelHrefs = "";
 			try {
 				if (files != null)
-					domainModelHrefs = getHrefsFromFiles_Json(Arrays.asList(files));
+					domainModelHrefs = getJSonForHrefsFromFiles(Arrays.asList(files));
 				res += domainModelHrefs;
 			} catch (SAXException e) {
 				e.printStackTrace();
@@ -149,7 +152,7 @@ public class StaticExplorer {
 		return res + "}";
 	}
 	
-	private String getHrefsFromFiles_Json(Collection<File> files) throws SAXException, IOException {
+	private String getJSonForHrefsFromFiles(Collection<File> files) throws SAXException, IOException {
 		String res = "{";
 		int i = 0;
 		int countElts  = 0;
@@ -164,7 +167,7 @@ public class StaticExplorer {
 		return res;
 	}
 
-	private String getCtxValues_Json() {
+	private String getJSonForCtxValues() {
 		String res = "";
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
 		List<Element> elts = Collections.emptyList();
@@ -203,7 +206,7 @@ public class StaticExplorer {
 	 * 
 	 * @return JSON
 	 */
-	private String extractGenmodelRefs() {
+	private String getJsonForGenmodelRefs() {
 		File f = new File(config.getGenmodelFilePath());
 		String res = "";
 
@@ -275,7 +278,7 @@ public class StaticExplorer {
 	 * </ul>
 	 * @return
 	 */
-	private String extractEcoreRefs() {
+	private String getJSonForEcoreRefs() {
 		File f = new File(config.getEcoreFilePath());
 		String res = "";
 		try {
@@ -336,7 +339,7 @@ public class StaticExplorer {
 	 * 
 	 * @return JSON containing references found in /plugin.xml file
 	 */
-	private String extractPluginXMLRefs() {
+	private String getJSonForPluginXMLRefs() {
 		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
 		try {
 			Document doc = builder.parse(f);
@@ -471,6 +474,7 @@ public class StaticExplorer {
 		}
 		return res;
 	}
+	
 	private String getArchitectureExtension(Document doc, XPath xPath, File f) {
 		String res = "";
 		String expression = "/plugin/extension/model";
@@ -493,7 +497,6 @@ public class StaticExplorer {
 		return res;
 	}
 
-	
 	private String getPaletteExtension(Document doc, XPath xPath, File f) {
 		String res = "";
 		String expression = "/plugin/extension/menuCreationModel";
@@ -562,7 +565,6 @@ public class StaticExplorer {
 		return res;
 	}
 
-
 	/**
 	 * Source to reference
 	 */
@@ -606,6 +608,7 @@ public class StaticExplorer {
 			String xmitype = elt != null ? "\n \"xmi:type\": \""+elt.getTextContent()+"\", ":"";
 
 			sb.append("{"
+//					+ "\"sourceFile\": \""+Utils.cleanUrlsForJson(sourceFile)+"\", "
 					+ "\"xpath\": \""+DomUtil.getAbsolutePath((Element)element)+"\", "
 					+ "\n \"xpathNamed\": \""+DomUtil.getAbsolutePathNamed((Element)element)+"\", "
 					+ xmitype
@@ -724,4 +727,52 @@ public class StaticExplorer {
 	public static HashMap<String, ArrayList<Reference>> getReferencesSourcesReversed() {
 		return referencesSourcesReversed;
 	}
+
+
+	public Object getElementFromFile(File f, String name) {
+		// TODO get element from xmi ID !
+	
+		try {
+			Document doc = builder.parse(f);
+			
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//details[@key and @value]";
+			List<Element> elts = new ArrayList<>();
+				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+				for (int i = 0; i < nodeList2.getLength(); i++) {
+				   Node nNode = nodeList2.item(i);
+				}
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new IllegalAccessError("NOT IMPLEMENTED !");
+	}
+
+
+	/**
+	 * Warning. NOT IMPLEMENTED !
+	 * Extract elements from XMI files using their xmi:ID.
+	 */
+	public void resolveElementIDs() {
+		for (Artefact a : ArtefactFactory.subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT)) {
+			String name = a.getName(); 
+			if(a.isResolves()) {
+				if(name.length() == 23 && name.startsWith("_")) {
+					File f = new File(a.getLocation() + File.separator + a.getName());
+					
+					Object elt = getElementFromFile(f, name);
+					
+				}
+			}
+		}
+		throw new IllegalAccessError("NOT IMPLEMENTED !");
+	}
 }
+	

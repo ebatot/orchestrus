@@ -178,16 +178,13 @@ public class ArtefactFactory {
 	
 	private void buildElementLevelArtefacts() {
 		for (Reference r :  ReferenceFactory.getReferences().values()) {
-			
 			Artefact a = getArtefact(r);
-			
 			Artefact aElt = new Artefact(r.getInnerLocation(), ArtefactTypeFactory.ELEMENT_ARTEFACT, r.getHREF().substring(0, r.getHREF().length() - r.getInnerLocation().length()), null);
 			addArtefact(aElt);
 			a.addFragment(aElt);
-//			System.out.println(r.getHREF());
-//			System.out.println(aElt);
 		}
 	}
+
 
 	/**
 	 * WARNING !! <br/>
@@ -204,6 +201,7 @@ public class ArtefactFactory {
 			}
 		}
 		System.out.println("extArts after:  "+extArts.size());
+		throw new IllegalAccessError("NOT IMPLEMENTED !");
 		
 	}
 

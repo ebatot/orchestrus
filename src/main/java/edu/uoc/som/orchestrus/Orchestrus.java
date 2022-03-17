@@ -33,6 +33,10 @@ public class Orchestrus {
 		aFactory.buildArtefacts();
 		
 		
+		// TODO resolve IDs from target file.
+//		ppse.resolveElementIDs();
+		
+		
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 //		printArtefactSignatures();
 		

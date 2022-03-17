@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
@@ -53,7 +54,7 @@ public class Utils {
 
 	@SuppressWarnings("deprecation")
 	public static void storeD3Fragmentation_HC() {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\fragmentD3Sample.json");
+		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_FragData.d3.json");
 		try {
 			FileUtils.write(f, Utils.printFragmentD3Json());
 			LOGGER.info("Fragmentation as D3Tracea stored in '"+f.getAbsolutePath()+"'");
