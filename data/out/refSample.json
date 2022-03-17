@@ -1306,131 +1306,145 @@
   },
   "uml-profiles": {
     "GlossaryML.ecore": [
-      [
-        {
-          "type": "epackageDeclaration",
+      {
+        "root": {
           "name": "GlossaryML",
           "nsURI": "http://com.cea.papyrus.glossaryml",
           "nsPrefix": "GlossaryML"
         },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[1]",
-          "name": "base_Model",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Model",
-          "eTypeType": "ecore:EClass"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[2]",
-          "name": "knowledgeDomainName",
-          "xsi:type": "ecore:EAttribute",
-          "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
-          "eTypeType": "ecore:EDataType"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[3]",
-          "name": "knowledgeDomainDescription",
-          "xsi:type": "ecore:EAttribute",
-          "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
-          "eTypeType": "ecore:EDataType"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[4]",
-          "name": "subGlossaries",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Glossary",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[1]",
-          "name": "base_Class",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Class",
-          "eTypeType": "ecore:EClass"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[2]",
-          "name": "acronym",
-          "xsi:type": "ecore:EAttribute",
-          "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
-          "eTypeType": "ecore:EDataType"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[3]",
-          "name": "meanings",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Definition",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[4]",
-          "name": "commonMeaning",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Definition",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[5]",
-          "name": "hyponyms",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Term",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[6]",
-          "name": "hypernyms",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Term",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[7]",
-          "name": "synonyms",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "#//Term",
-          "eTypeType": "local"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[8]",
-          "name": "reference",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "../../com.cea.papyrus.referencemanagement/uml-profiles/ReferenceML.ecore#//Reference",
-          "eTypeType": "ecore:EClass"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[3]/eStructuralFeatures[1]",
-          "name": "base_Comment",
-          "xsi:type": "ecore:EReference",
-          "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Comment",
-          "eTypeType": "ecore:EClass"
-        },
-        {
-          "type": "eStructuralFeature",
-          "xpath": "/ecore:EPackage/eClassifiers[3]/eStructuralFeatures[2]",
-          "name": "isCommon",
-          "xsi:type": "ecore:EAttribute",
-          "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//Boolean",
-          "eTypeType": "ecore:EDataType"
-        }
-      ]
+        "eStructuralFeatures": [
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[1]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[base_Model]",
+            "name": "base_Model",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Model",
+            "eTypeType": "ecore:EClass"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[2]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainName]",
+            "name": "knowledgeDomainName",
+            "xsi:type": "ecore:EAttribute",
+            "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
+            "eTypeType": "ecore:EDataType"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[3]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[knowledgeDomainDescription]",
+            "name": "knowledgeDomainDescription",
+            "xsi:type": "ecore:EAttribute",
+            "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
+            "eTypeType": "ecore:EDataType"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[1]/eStructuralFeatures[4]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Glossary]/eStructuralFeatures[subGlossaries]",
+            "name": "subGlossaries",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Glossary",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[1]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[base_Class]",
+            "name": "base_Class",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Class",
+            "eTypeType": "ecore:EClass"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[2]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[acronym]",
+            "name": "acronym",
+            "xsi:type": "ecore:EAttribute",
+            "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//String",
+            "eTypeType": "ecore:EDataType"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[3]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[meanings]",
+            "name": "meanings",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Definition",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[4]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[commonMeaning]",
+            "name": "commonMeaning",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Definition",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[5]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[hyponyms]",
+            "name": "hyponyms",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Term",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[6]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[hypernyms]",
+            "name": "hypernyms",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Term",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[7]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[synonyms]",
+            "name": "synonyms",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "#//Term",
+            "eTypeType": "local"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[2]/eStructuralFeatures[8]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Term]/eStructuralFeatures[reference]",
+            "name": "reference",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "../../com.cea.papyrus.referencemanagement/uml-profiles/ReferenceML.ecore#//Reference",
+            "eTypeType": "ecore:EClass"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[3]/eStructuralFeatures[1]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[base_Comment]",
+            "name": "base_Comment",
+            "xsi:type": "ecore:EReference",
+            "eTypePath": "../../org.eclipse.uml2.uml/model/UML.ecore#//Comment",
+            "eTypeType": "ecore:EClass"
+          },
+          {
+            "type": "eStructuralFeature",
+            "xpath": "/ecore:EPackage/eClassifiers[3]/eStructuralFeatures[2]",
+            "xpathNamed": "/ecore:EPackage[GlossaryML]/eClassifiers[Definition]/eStructuralFeatures[isCommon]",
+            "name": "isCommon",
+            "xsi:type": "ecore:EAttribute",
+            "eTypePath": "../../org.eclipse.uml2.types/model/Types.ecore#//Boolean",
+            "eTypeType": "ecore:EDataType"
+          }
+        ]
+      }
     ],
     "glossaryml.genmodel": [
-      [
-        {
-          "type": "genModelDeclaration",
+      {
+        "root": {
           "modelDirectory": "/com.cea.papyrus.glossary/src-gen",
           "modelPluginID": "com.cea.papyrus.glossary",
           "modelName": "Glossaryml",
@@ -1443,10 +1457,10 @@
             "../../org.eclipse.uml2.uml/model/UML.genmodel#//uml"
           ]
         },
-        {
-          "foreignModel": "GlossaryML.profile.uml"
-        }
-      ]
+        "foreignModels": [
+          "GlossaryML.profile.uml"
+        ]
+      }
     ],
     "GlossaryML.profile.di": [],
     "GlossaryML.profile.notation": [
