@@ -103,8 +103,8 @@ public class TestingTracemodel {
 		t.addTraceLink(l1);
 		t.addTraceLink(l2);
 		t.addTraceLink(l3);
-		System.out.println("Closure of l1: (" +  l1.getClosure().size() + "/3) " + l1.getClosure());
-		System.out.println("Closure of t: (" +  t.getAllTraceLinks().size() + "/8) " + t.getAllTraceLinks());
+//		System.out.println("Closure of l1: (" +  l1.getClosure().size() + "/3) " + l1.getClosure());
+		System.out.println("Closure of t: (" +  t.getTraceLinks().size() + "/8) " + t.getTraceLinks());
 		
 		System.out.println(t.printJSon());
 		

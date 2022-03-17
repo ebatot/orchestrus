@@ -57,10 +57,9 @@ public class Tests {
 		// TODONE Connect fragments.
 		tFactory.fragmentSourcesAndFolders();
 		// TODONE connect artefacts with links.
-		Trace t = tFactory.buildBaseTrace();
+		Trace t = tFactory.buildReferencesTrace();
 		
 		
-		Utils.storeTrace_HC(t);
 
 		// TODO Decompose artefacts with XPath patterns.
 

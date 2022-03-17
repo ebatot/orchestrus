@@ -21,9 +21,12 @@ public class Orchestrus {
 		System.out.println("    --                            --");
 		System.out.println("    --------------------------------\n");
 
-//		Config config = Config.getInstance();
 
-		
+/*
+ * Init.
+ * builds references from source files, 
+ * then builds artefacts as sources and targets of these references.		
+ */
 		StaticExplorer ppse = new StaticExplorer();
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 		Utils.storeDependencies_HC(interArtDependencies_JSON);
@@ -31,29 +34,22 @@ public class Orchestrus {
 		// Build artefacts from Sources and References
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
+		// Relates artefacts with fragmentation links.
+		TraceFactory.fragmentSourcesAndFolders();
+		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 		
+		
+		Trace tFrag = TraceFactory.buildFragmentationTrace();
+		Utils.storeD3Tracea(tFrag, true);
 		
 		// TODO resolve IDs from target file.
 //		ppse.resolveElementIDs();
-		
-		
-		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
-//		printArtefactSignatures();
-		
-		TraceFactory tFactory = TraceFactory.getInstance();
-		// TODONE Connect fragments.
-		tFactory.fragmentSourcesAndFolders();
-		// TODONE connect artefacts with links.
-		Trace t = tFactory.buildBaseTrace();
-		
-		
-		Utils.storeTrace_HC(t);
-
 		// TODO Decompose artefacts with XPath patterns.
 
-		Utils.storeD3Fragmentation_HC();
 
-//		ArtefactFactory.printArtefactsByType();
+		Trace t = TraceFactory.buildReferencesTrace();
+		Utils.storeD3Tracea(t, false);
+		
 		
 //		System.out.println("\nmain - Protocols");
 //		for (Protocol p : Protocol.values()) {

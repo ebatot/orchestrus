@@ -91,7 +91,6 @@ public class GenModel {
 			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
 			// TODO Information required to resolve ??
 			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(e.getTextContent()), source);
-			System.out.println(r.isResolved() + ": "+r+":"+r.getHREF()+"    "+r.getSources());
 			references.add(r);
 		}
 		resFMs = resFMs.trim();

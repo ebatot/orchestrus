@@ -29,7 +29,6 @@ public class TraceLink extends TypedLink {
 	}
 
 	private static int counter = 0;
-
 	private static String newName() {
 		return "L" + counter++;
 	}
@@ -43,6 +42,11 @@ public class TraceLink extends TypedLink {
 
 	public ArrayList<Artefact> getTargets() {
 		return targets;
+	}
+	
+	@Override
+	public String toString() {
+		return getName() + sources + targets;
 	}
 
 //	public Collection<Artefact> getSourceArtefacts() {
@@ -73,15 +77,6 @@ public class TraceLink extends TypedLink {
 		for (Artefact af : sources)
 			res.addAll(af.getTargetOf());
 		return res;
-	}
-
-	public HashSet<TraceLink> getClosure() {
-		HashSet<TraceLink> tls = new HashSet<>();
-		tls.addAll(getSuccessors());
-		TraceLink[] tlsArray = (TraceLink[]) tls.toArray(new TraceLink[tls.size()]);
-		for (TraceLink traceLink : tlsArray)
-			tls.addAll(traceLink.getClosure());
-		return tls;
 	}
 
 	public void setEnds(List<Artefact> sources, List<Artefact> targets) {
@@ -163,4 +158,24 @@ public class TraceLink extends TypedLink {
 		
 		return res + "}";
 	}
+	
+//	static HashSet<TraceLink> traceLinksTMp = new HashSet<>();
+//
+//	public static Collection<? extends TraceLink> getClosure(TraceLink tl) {
+//		traceLinksTMp = new HashSet<>();
+//		
+//		return null;
+//	}
+//	
+//	
+//	public HashSet<TraceLink> getClosure() {
+//		HashSet<TraceLink> tls = new HashSet<>();
+//		tls.addAll(getSuccessors());
+//		TraceLink[] tlsArray = (TraceLink[]) tls.toArray(new TraceLink[tls.size()]);
+//		for (TraceLink traceLink : tlsArray)
+//			tls.addAll(traceLink.getClosure());
+//		return tls;
+//	}
+
+
 }

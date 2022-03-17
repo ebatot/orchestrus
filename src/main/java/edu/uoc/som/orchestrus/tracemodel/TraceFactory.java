@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class TraceFactory {
 
 	Set<TraceLink> links;
 	
-	public void fragmentSourcesAndFolders() {
+	public static void fragmentSourcesAndFolders() {
 		Collection<Artefact> sourceArts = ArtefactFactory.subsetsArtefactsByType(ArtefactTypeFactory.SOURCE_FILE_ARTEFACT);
 		for (Artefact sArt : sourceArts) {
 			File f = new File(sArt.getLocation());
@@ -42,45 +43,58 @@ public class TraceFactory {
 		LOGGER.fine("Done: Each file has its parent folder as parent.");
 	}
 
-	public Trace buildBaseTrace() {
-		Trace t = new Trace();
-		
-		
+	public static Trace buildReferencesTrace() {
+		Trace t = new Trace("Links");
+
 		LOGGER.info(ReferenceFactory.getReferences().size() + " references.");
 		for (Reference r : ReferenceFactory.getReferences().values()) {
-			
+
 			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
-			if(target == null) 
-				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: "+r.getHREF());
-			
+			if (target == null)
+				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: " + r.getHREF());
 
 			HashMap<Source, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
 			for (Source sSource : sourcesToRef.keySet()) {
 				// Pour chaque source, chercher les references qui la contiennent
-				if(r.containsSource(sSource)) {
+				if (r.containsSource(sSource)) {
 					// l'ajouter au lien
 					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource.getPath()));
-					
+
 					/// TODO What about xpath etc. -> for TraceLink types ??
-					LinkType lType = LinkType.getType(a,target);
+					LinkType lType = LinkType.getType(a, target);
 					TraceLink tl = new TraceLink(lType);
-					
-					
-					
-					if(a == null) {
+
+					if (a == null) {
 						throw new IllegalAccessError("Should not get there. Artefact not recognized.");
 					}
 					tl.addSource(a);
 					tl.addTarget(target);
-					LOGGER.finer("Link added:" + tl + " sources:"+tl.getSources().size()+ " targets:"+tl.getTargets().size());
+					LOGGER.finer("Link added:" + tl + " sources:" + tl.getSources().size() + " targets:"
+							+ tl.getTargets().size());
 					t.addTraceLink(tl);
-				} 
+				}
 			}
-			
+
 		}
-		LOGGER.info(t.getTraceLinks().size()+" trace link added.");
+		LOGGER.info(t.getTraceLinks().size() + " trace link added.");
 		return t;
 	}
 
+	/**
+	 * Builds a trace with all know artefacts in the universe linked by inclusion :
+	 * location-folder-file-...-element
+	 * 
+	 * @return
+	 */
+	public static Trace buildFragmentationTrace() {
+		Trace res = new Trace("Fragmentation");
+		for (Artefact a : ArtefactFactory.getAncestors()) {
+			List<TraceLink> aFragments = ArtefactFactory.getFragmentLinks(a);
+			for (TraceLink traceLink : aFragments) {
+				res.addTraceLink(traceLink);
+			}
+		}
+		return res;
+	}
 
 }

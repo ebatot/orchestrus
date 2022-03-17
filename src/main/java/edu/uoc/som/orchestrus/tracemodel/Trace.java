@@ -1,13 +1,12 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class Trace extends TracingElement {
-	ArrayList<TraceLink> traceLinks = new ArrayList<TraceLink>();
+	HashSet<TraceLink> traceLinks = new HashSet<TraceLink>();
 	
 	public Trace() {
 	}
@@ -26,7 +25,7 @@ public class Trace extends TracingElement {
 		trace = "\"trace\": { \"init\":[" + trace+"]}";
 		
 		String links = "" ;
-		for (TraceLink tl : getAllTraceLinks()) 
+		for (TraceLink tl : getTraceLinks()) 
 			links += tl.getJSon()+",\n";
 		if(!links.isBlank())
 			links = links.substring(0, links.length()-2);
@@ -63,40 +62,30 @@ public class Trace extends TracingElement {
 		traceLinks.add(tl);
 	}
 	
-	public ArrayList<TraceLink> getTraceLinks() {
+	public HashSet<TraceLink> getTraceLinks() {
 		return traceLinks;
 	}
 	
-	/**
-	 * Transitive closure on trace links targets.
-	 * @return
-	 */
-	public HashSet<TraceLink> getAllTraceLinks() {
-		HashSet<TraceLink> tls = new HashSet<>();
-		for (TraceLink tl : traceLinks) {
-			tls.add(tl);
-			tls.addAll(tl.getClosure());
-		}
-		return tls;
-	}
+//	/**
+//	 * Transitive closure on trace links targets.
+//	 * @return
+//	 */
+//	public HashSet<TraceLink> getAllTraceLinks() {
+//		return traceLinks;
+//		HashSet<TraceLink> tls = new HashSet<>();
+//		for (TraceLink tl : traceLinks) {
+//			tls.add(tl);
+//			tls.addAll(TraceLink.getClosure(tl));
+//		}
+//		return tls;
+//	}
 	
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public HashSet<Artefact> getAllArtefactsConnected() {
-		HashSet<Artefact> as = new HashSet<>();
-		for (TraceLink tl : getAllTraceLinks()) {
-			as.addAll(tl.getSources());
-			as.addAll(tl.getTargets());
-		}
-		return as;
-	}
 	
 	public HashSet<LinkType> getAllTraceLinkTypes() {	
 		HashSet<LinkType> lts = new HashSet<>();
-		for (TraceLink tl : getAllTraceLinks()) {
-			lts.add(tl.getType());
+//		for (TraceLink tl : getAllTraceLinks()) {
+		for (LinkType tl : LinkType.getTypes().values()) {
+			lts.add(tl);
 		}
 		return lts;
 	}
