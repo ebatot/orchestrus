@@ -410,198 +410,198 @@
     ],
     "GlossaryML.ctx-values": [
       {
+        "xmi:id": "_6F6vklzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[1]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Definition]/annotations/details",
-        "xmi:id": "_6F6vklzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6F6vlVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[2]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Definition]/annotations/details",
-        "xmi:id": "_6F6vlVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6F7WolzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[3]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Glossary]/annotations/details",
-        "xmi:id": "_6F7WolzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6F7WpVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[4]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Glossary]/annotations/details",
-        "xmi:id": "_6F7WpVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6F79slzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[5]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Single Term]/annotations/details",
-        "xmi:id": "_6F79slzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6F79tVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/tabs/allSections[6]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/tabs/allSections[Multiple Term]/annotations/details",
-        "xmi:id": "_6F79tVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biFVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[1]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Definition]/annotations/details",
-        "xmi:id": "_52biFVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biGlzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[2]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Definition]/annotations/details",
-        "xmi:id": "_52biGlzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biH1zdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[3]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Glossary]/annotations/details",
-        "xmi:id": "_52biH1zdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biJFzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[4]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Glossary]/annotations/details",
-        "xmi:id": "_52biJFzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biKVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[5]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Single Term]/annotations/details",
-        "xmi:id": "_52biKVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biLlzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/views[6]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/views[Multiple Term]/annotations/details",
-        "xmi:id": "_52biLlzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biMVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/annotations/details[1]",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/annotations/details",
-        "xmi:id": "_52biMVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_saqecET2EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_6Fza0FzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/annotations/details[2]",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/annotations/details",
-        "xmi:id": "_6Fza0FzdEeyo7IKkYihL2w",
         "key": "layoutGenerator",
         "value": "bundleclass:///org.eclipse.papyrus.uml.properties.generation/org.eclipse.papyrus.customization.properties.generation.layout.StandardLayoutGenerator#"
       },
       {
+        "xmi:id": "_52biNFzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[1]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Definition]/annotations/details",
-        "xmi:id": "_52biNFzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_kxro8ET4EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biN1zdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[1]/properties/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Definition]/properties[isCommon]/annotations/details",
-        "xmi:id": "_52biN1zdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_Wv5CUMYtEeesNIEaKYOnjA"
       },
       {
+        "xmi:id": "_52biOlzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/annotations/details",
-        "xmi:id": "_52biOlzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_w_thgET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biPVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[1]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[acronym]/annotations/details",
-        "xmi:id": "_52biPVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XQ4TUC3KEeykYdacufooTg"
       },
       {
+        "xmi:id": "_52biQFzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[2]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[meanings]/annotations/details",
-        "xmi:id": "_52biQFzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_-3Bb8BnWEee85eN49tGVcA"
       },
       {
+        "xmi:id": "_52biQ1zdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[3]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[commonMeaning]/annotations/details",
-        "xmi:id": "_52biQ1zdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_SsYJZLnTEeehsM9KGeEXUQ"
       },
       {
+        "xmi:id": "_52biRlzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[4]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[hyponyms]/annotations/details",
-        "xmi:id": "_52biRlzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_Wwe6EhpIEee85eN49tGVcA"
       },
       {
+        "xmi:id": "_52biSVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[5]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[hypernyms]/annotations/details",
-        "xmi:id": "_52biSVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_WwfhIBpIEee85eN49tGVcA"
       },
       {
+        "xmi:id": "_52biTFzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[6]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[synonyms]/annotations/details",
-        "xmi:id": "_52biTFzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_XIxwMRpGEee85eN49tGVcA"
       },
       {
+        "xmi:id": "_52biT1zdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[2]/properties[7]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Term]/properties[reference]/annotations/details",
-        "xmi:id": "_52biT1zdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_tU4LoFngEeyFfo7P2D8rIQ"
       },
       {
+        "xmi:id": "_52biUlzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[3]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/annotations/details",
-        "xmi:id": "_52biUlzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_H-K2wET3EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biVVzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[3]/properties[1]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[knowledgeDomainName]/annotations/details",
-        "xmi:id": "_52biVVzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_JPaMcBohEee85eN49tGVcA"
       },
       {
+        "xmi:id": "_52biWFzdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[3]/properties[2]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[knowledgeDomainDescription]/annotations/details",
-        "xmi:id": "_52biWFzdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_DaiooET5EeS25e5tbYLtxg"
       },
       {
+        "xmi:id": "_52biW1zdEeyo7IKkYihL2w",
         "xpath": "/contexts:Context/dataContexts/elements[3]/properties[3]/annotations/details",
         "xpathNamed": "/contexts:Context[GlossaryML]/dataContexts[GlossaryML]/elements[Glossary]/properties[subGlossaries]/annotations/details",
-        "xmi:id": "_52biW1zdEeyo7IKkYihL2w",
         "key": "model",
         "value": "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml#_K7z20sPpEeeSJfWHTbkb_A"
       }
