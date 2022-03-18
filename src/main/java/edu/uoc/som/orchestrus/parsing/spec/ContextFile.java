@@ -1,11 +1,22 @@
 package edu.uoc.som.orchestrus.parsing.spec;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.Source;
@@ -15,13 +26,48 @@ import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.utils.Utils;
 
 public class ContextFile extends SpecificFileReferenceExtractor {
-	public String getFilePath() {
-		return Config.getInstance().getPropertiesEditorConfigurationContext();
-	}
-	List<Element> elements;
 	
-	public ContextFile(List<Element> elements) {
-		this.elements = elements;
+	public final static Logger LOGGER = Logger.getLogger(ContextFile.class.getName());
+	
+	public String getFilePath() {
+		return f.getAbsolutePath();
+	}
+	
+	List<Element> elements;
+	File f;
+	
+	public ContextFile(File contextFile) {
+		this.f = contextFile;
+		try {
+			elements = getContextValuElementsFromFile(f);
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private List<Element> getContextValuElementsFromFile(File xmlFile)
+			throws SAXException, IOException {
+		LOGGER.finest("XMI file: "+xmlFile.getAbsolutePath());
+
+		Document doc = builder.parse(xmlFile);
+		
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		String expression = "//details[@key and @value]";
+		List<Element> elts = new ArrayList<>();
+		try {
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+			   Node nNode = nodeList2.item(i);
+			   elts.add((Element)nNode);
+			   ((Element)nNode).setAttribute(StaticExplorer.XMI_SOURCE_PATH_REF, xmlFile.getAbsolutePath());
+			   LOGGER.finest(" ->  "+((Element)nNode).getAttribute("value"));
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return elts;
 	}
 	
 	@Override

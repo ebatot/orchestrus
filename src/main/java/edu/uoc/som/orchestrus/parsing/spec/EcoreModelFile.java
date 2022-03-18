@@ -1,8 +1,21 @@
 package edu.uoc.som.orchestrus.parsing.spec;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
@@ -12,19 +25,22 @@ import edu.uoc.som.orchestrus.parsing.SpecificFileReferenceExtractor;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.utils.Utils;
 
-public class EcoreModel extends SpecificFileReferenceExtractor{
+public class EcoreModelFile extends SpecificFileReferenceExtractor{
+	
+	public final static Logger LOGGER = Logger.getLogger(EcoreModelFile.class.getName());
+
 	public String getFilePath() {
 		return Config.getInstance().getEcoreFilePath();
 	}
 
-	private String name;
-	private String nsURI;
-	private String nsPrefix;
+	private String ecoreName;
+	private String ecoreNsURI;
+	private String ecoreNsPrefix;
 	
 	Element rootNode;
 	List<Element> eStructuralFeatures;
 	
-	public EcoreModel(Element rootNode, List<Element> eStructuralFeatures) {
+	public EcoreModelFile(Element rootNode, List<Element> eStructuralFeatures) {
 		this((rootNode).getAttribute("name"), 
 			(rootNode).getAttribute("nsURI"), 
 			(rootNode).getAttribute("nsPrefix"));
@@ -33,18 +49,60 @@ public class EcoreModel extends SpecificFileReferenceExtractor{
 	}
 	
 	
-	private EcoreModel(String name, String nsURI, String nsPrefix) {
-		this.name = name;
-		this.nsURI = nsURI;
-		this.nsPrefix = nsPrefix;
+	private EcoreModelFile(String name, String nsURI, String nsPrefix) {
+		this.ecoreName = name;
+		this.ecoreNsURI = nsURI;
+		this.ecoreNsPrefix = nsPrefix;
+	}
+	File f;
+	List<Element> elements;
+	public EcoreModelFile(File ecoreFile) {
+		this.f = ecoreFile;
+		
+		elements = getElementsForEcoreRefs();
+	}
+	
+	private List<Element> getElementsForEcoreRefs() {
+		
+		List<Element> res = new ArrayList<>();
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			
+			String expression = "//*[@name and @nsURI and @nsPrefix]";
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				rootNode = (Element)nNode;
+				if(i >= 1)
+					throw new IllegalAccessError("Ecore file should only have one root node.");
+				res.add(rootNode);
+			}
+			
+			expression = "//eStructuralFeatures";
+			eStructuralFeatures = new ArrayList<Element>();
+			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				res.add((Element)nNode);
+				eStructuralFeatures.add((Element)nNode);
+			}
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	public String getHRefJSon() {
 		String res = "";
 		res += "\"root\": {"
-					+ "\"name\": \""+name+"\", "
-					+ "\"nsURI\": \""+nsURI+"\", "
-					+ "\"nsPrefix\": \""+nsPrefix+"\""
+					+ "\"name\": \""+ecoreName+"\", "
+					+ "\"nsURI\": \""+ecoreNsURI+"\", "
+					+ "\"nsPrefix\": \""+ecoreNsPrefix+"\""
 					+ "}"
 				+ ",\n";
 		
@@ -61,8 +119,6 @@ public class EcoreModel extends SpecificFileReferenceExtractor{
 	 * @return
 	 */
 	private String getJSonForEStructuralFeatures() {
-		
-		
 		String resFMs = "";
 		for (Element e : eStructuralFeatures) {
 			
@@ -97,5 +153,17 @@ public class EcoreModel extends SpecificFileReferenceExtractor{
 		
 		resFMs = "\"eStructuralFeatures\": [" + resFMs + "] ";
 		return resFMs;
+	}
+	
+	public String getEcoreName() {
+		return ecoreName;
+	}
+	
+	public String getEcoreNsPrefix() {
+		return ecoreNsPrefix;
+	}
+	
+	public String getEcoreNsURI() {
+		return ecoreNsURI;
 	}
 }

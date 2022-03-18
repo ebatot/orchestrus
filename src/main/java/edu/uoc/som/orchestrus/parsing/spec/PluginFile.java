@@ -1,16 +1,19 @@
 package edu.uoc.som.orchestrus.parsing.spec;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
@@ -34,10 +37,16 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 	XPath xPath;
 	File f;
 	
-	public PluginFile(Document doc, XPath xPath, File f) {
-		this.doc = doc;
-		this.xPath = xPath;
+	public PluginFile(File f) {
 		this.f = f;
+		try {
+			doc = builder.parse(f);
+			xPath = XPathFactory.newInstance().newXPath();
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@Override

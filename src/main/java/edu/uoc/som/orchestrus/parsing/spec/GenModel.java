@@ -1,10 +1,21 @@
 package edu.uoc.som.orchestrus.parsing.spec;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Element;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
-import edu.uoc.som.orchestrus.config.Config;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.Source;
@@ -15,7 +26,7 @@ import edu.uoc.som.orchestrus.utils.Utils;
 public class GenModel extends SpecificFileReferenceExtractor {
 
 	public String getFilePath() {
-		return Config.getInstance().getGenmodelFilePath();
+		return f.getAbsolutePath();
 	}
 	
 	private String modelDirectory;
@@ -25,42 +36,64 @@ public class GenModel extends SpecificFileReferenceExtractor {
 	private String importerID;
 	private String[] usedGenPackages;
 	
+	File f;
+	
 	Element rootNode;
 	List<Element> foreignModels;
 	
+	public GenModel(File f) {
+		this.f = f;
+		init();
+	}
 	
-	public GenModel(Element rootNode, List<Element> foreignModels) {
-		this(((Element)rootNode).getAttribute("modelDirectory"), 
-			((Element)rootNode).getAttribute("modelPluginID"), 
-			((Element)rootNode).getAttribute("modelName"), 
-			((Element)rootNode).getAttribute("rootExtendsClass"), 
-			((Element)rootNode).getAttribute("importerID"), 
-			((Element) rootNode).getAttribute("usedGenPackages").split(" "));
-		this.foreignModels = foreignModels;
-		this.rootNode = rootNode;
+	public void init() {
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			
+			String expression = "//*[@modelName and @modelPluginID and @modelDirectory]";
+			Node genModelRootNode = null;
+			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				if(genModelRootNode == null)
+					genModelRootNode = nNode;
+				else
+					throw new IllegalAccessError("Only one genModel node (root) expected in genmodel file.");
+			}
+			rootNode = (Element)genModelRootNode;
+			affectRootValues(rootNode);
+			
+			foreignModels = new ArrayList<>();
+			expression = "//foreignModel";
+			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				foreignModels.add((Element)nNode);
+			}
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
-	private GenModel(String modelDirectory, String modelPluginID, String modelName, String rootExtendsClass,
-			String importerID, String[] usedGenPackages) {
-		this.modelDirectory = modelDirectory;
-		this.modelPluginID = modelPluginID;
-		this.modelName = modelName;
-		this.rootExtendsClass = rootExtendsClass;
-		this.importerID = importerID;
-		this.usedGenPackages = usedGenPackages;
+	private void affectRootValues(Element rootNode2) {
+		this.modelDirectory = ((Element) rootNode).getAttribute("modelDirectory");
+		this.modelPluginID = ((Element) rootNode).getAttribute("modelPluginID");
+		this.modelName = ((Element) rootNode).getAttribute("modelName");
+		this.rootExtendsClass = ((Element) rootNode).getAttribute("rootExtendsClass");
+		this.importerID = ((Element) rootNode).getAttribute("importerID");
+		this.usedGenPackages = ((Element) rootNode).getAttribute("usedGenPackages").split(" ");
 	}
+	
 
 	public String getHRefJSon() {
 		String res = "";
-		res += "\"root\": {"
-					+ "\"modelDirectory\": \""+modelDirectory+"\", "
-					+ "\"modelPluginID\": \""+modelPluginID+"\", "
-					+ "\"modelName\": \""+modelName+"\", "
-					+ "\"rootExtendsClass\": \""+rootExtendsClass+"\", "
-					+ "\"importerID\": \""+importerID+"\", "
-					+ "\"usedGenPackages\": "+getUsegGenPackagesAsJSonArray() + "}"
-				+ ",\n";
+		res = getJSonForRootValues(res);
 		
 		// TODO Information required to resolve ??
 		Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(rootNode), DomUtil.getAbsolutePathNamed(rootNode));
@@ -74,6 +107,18 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		
 		res = res + resFMs;
 		return "{" + res + "}";
+	}
+
+	private String getJSonForRootValues(String res) {
+		res += "\"root\": {"
+					+ "\"modelDirectory\": \""+modelDirectory+"\", "
+					+ "\"modelPluginID\": \""+modelPluginID+"\", "
+					+ "\"modelName\": \""+modelName+"\", "
+					+ "\"rootExtendsClass\": \""+rootExtendsClass+"\", "
+					+ "\"importerID\": \""+importerID+"\", "
+					+ "\"usedGenPackages\": "+getUsegGenPackagesAsJSonArray() + "}"
+				+ ",\n";
+		return res;
 	}
 
 

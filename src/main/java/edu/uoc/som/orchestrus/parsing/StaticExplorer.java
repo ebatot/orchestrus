@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +34,7 @@ import com.google.gson.JsonParser;
 
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.spec.ContextFile;
-import edu.uoc.som.orchestrus.parsing.spec.EcoreModel;
+import edu.uoc.som.orchestrus.parsing.spec.EcoreModelFile;
 import edu.uoc.som.orchestrus.parsing.spec.GenModel;
 import edu.uoc.som.orchestrus.parsing.spec.PluginFile;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
@@ -168,20 +167,10 @@ public class StaticExplorer {
 	private String getJSonForCtxValues() {
 		String res = "";
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
-		List<Element> elts = Collections.emptyList();
-		try {
-			elts = getContextValuElementsFromFile(builder, fContext);
-			ContextFile gm = new ContextFile(elts);
-			String ctxvalues = gm.getHRefJSon();
-			res += ctxvalues;
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		ContextFile gm = new ContextFile(fContext);
+		res = gm.getHRefJSon();
 		res = Utils.cleanJSon(res);
-		LOGGER.fine(elts.size() + " references found in '" + fContext + "'");
+		LOGGER.fine(gm.getReferences().size() + " references found in '" + fContext + "'");
 		return res;
 	}
 
@@ -207,99 +196,25 @@ public class StaticExplorer {
 	 */
 	private String getJsonForGenmodelRefs() {
 		File f = new File(config.getGenmodelFilePath());
-		String res = "";
-
-		try {
-			Document doc = builder.parse(f);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//*[@modelName and @modelPluginID and @modelDirectory]";
-			Node genModelRootNode = null;
-			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList2.getLength(); i++) {
-				Node nNode = nodeList2.item(i);
-				if(genModelRootNode == null)
-					genModelRootNode = nNode;
-				else
-					throw new IllegalAccessError("Only one genModel node (root) expected in genmodel file.");
-				LOGGER2.finer(res);
-			}
-
-			List<Element> foreignModels = new ArrayList<>();
-			expression = "//foreignModel";
-			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList2.getLength(); i++) {
-				Node nNode = nodeList2.item(i);
-				foreignModels.add((Element)nNode);
-			}
-			
-			GenModel gm = new GenModel((Element)genModelRootNode, foreignModels);
-			
-//			Set<Reference> refs = ReferenceFactory.getReferences(gm);
-//			for (Reference reference : refs) {
-//				System.out.println(reference.getSources());
-//			}
-			
-			res += gm.getHRefJSon();
-			
-			return res;
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		GenModel gm = new GenModel(f);
+		String res = gm.getHRefJSon();
 		return res;
 	}
 
-
-
 	/**
-	 * Extract references from Ecore project file (see {@link Config#getEcoreFilePath()}) <br/>
+	 * Extract references from Ecore project file (see
+	 * {@link Config#getEcoreFilePath()}) <br/>
 	 * <ul>
-	 * 	<li> epackageDeclaration values, </li>
-	 * 	<li> eStructuralFeature types (intra and inter model dependencies) </li>
+	 * <li>epackageDeclaration values,</li>
+	 * <li>eStructuralFeature types (intra and inter model dependencies)</li>
 	 * </ul>
-	 * @return
+	 * 
+	 * @return JSON
 	 */
 	private String getJSonForEcoreRefs() {
 		File f = new File(config.getEcoreFilePath());
-		String res = "";
-		try {
-			Document doc = builder.parse(f);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//*[@name and @nsURI and @nsPrefix]";
-			Element rootNode = null;
-			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList2.getLength(); i++) {
-				Node nNode = nodeList2.item(i);
-				rootNode = (Element)nNode;
-				if(i >= 1)
-					throw new IllegalAccessError("Ecore file should only have one root node.");
-				LOGGER2.finer(res);
-			}
-			
-			List<Element> esfElts = new ArrayList<>();
-			expression = "//eStructuralFeatures";
-			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList2.getLength(); i++) {
-				Node nNode = nodeList2.item(i);
-				esfElts.add((Element)nNode);
-				LOGGER2.finer(res);
-			}
-			
-			EcoreModel ecoreModel = new EcoreModel(rootNode, esfElts);
-			res = ecoreModel.getHRefJSon();
-
-			return res;
-		} catch (SAXException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		return res;
+		EcoreModelFile ecoreModel = new EcoreModelFile(f);
+		return ecoreModel.getHRefJSon();
 	}
 
 	/**
@@ -308,19 +223,8 @@ public class StaticExplorer {
 	 */
 	private String getJSonForPluginXMLRefs() {
 		File f = Config.getInstance().getConfigFile(Config.PLUGIN_XML_FILENAME);
-		try {
-			Document doc = builder.parse(f);
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			
-			PluginFile pf = new PluginFile(doc, xPath, f);
-			return pf.getHRefJSon();
-
-		} catch (SAXException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		return "";
+		PluginFile pf = new PluginFile(f);
+		return pf.getHRefJSon();
 	}
 
 	
@@ -398,28 +302,6 @@ public class StaticExplorer {
 		return elts;
 	}
 	
-	private static List<Element> getContextValuElementsFromFile(DocumentBuilder builder, File xmlFile)
-			throws SAXException, IOException {
-		LOGGER.finest("XMI file: "+xmlFile.getAbsolutePath());
-		Document doc = builder.parse(xmlFile);
-		
-		XPath xPath = XPathFactory.newInstance().newXPath();
-		String expression = "//details[@key and @value]";
-		List<Element> elts = new ArrayList<>();
-		try {
-			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < nodeList2.getLength(); i++) {
-			   Node nNode = nodeList2.item(i);
-			   elts.add((Element)nNode);
-			   ((Element)nNode).setAttribute(XMI_SOURCE_PATH_REF, xmlFile.getAbsolutePath());
-			   LOGGER.finest(" ->  "+((Element)nNode).getAttribute("value"));
-			}
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		
-		return elts;
-	}
 
 
 	public static Set<Source> getSourceFiles() {
