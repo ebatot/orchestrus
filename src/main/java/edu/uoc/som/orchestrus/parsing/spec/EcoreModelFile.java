@@ -40,28 +40,20 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	Element rootNode;
 	List<Element> eStructuralFeatures;
 	
-	public EcoreModelFile(Element rootNode, List<Element> eStructuralFeatures) {
-		this((rootNode).getAttribute("name"), 
-			(rootNode).getAttribute("nsURI"), 
-			(rootNode).getAttribute("nsPrefix"));
-		this.eStructuralFeatures = eStructuralFeatures;
-		this.rootNode = rootNode;
-	}
-	
-	
-	private EcoreModelFile(String name, String nsURI, String nsPrefix) {
-		this.ecoreName = name;
-		this.ecoreNsURI = nsURI;
-		this.ecoreNsPrefix = nsPrefix;
-	}
 	File f;
 	List<Element> elements;
 	public EcoreModelFile(File ecoreFile) {
 		this.f = ecoreFile;
-		
 		elements = getElementsForEcoreRefs();
+		affectRootValues(rootNode);
 	}
 	
+	private void affectRootValues(Element rootNode) {
+		this.ecoreName = (rootNode).getAttribute("name");
+		this.ecoreNsURI = (rootNode).getAttribute("nsURI");
+		this.ecoreNsPrefix = (rootNode).getAttribute("nsPrefix");
+	}
+
 	private List<Element> getElementsForEcoreRefs() {
 		
 		List<Element> res = new ArrayList<>();
@@ -111,7 +103,6 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 		res = res + resFMs;
 		return "{" + res + "}";
 	}
-
 
 	/**
 	 * Return a JSon array with all estructural feature in the EcoreModel.<br/>
