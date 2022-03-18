@@ -25,12 +25,6 @@ import edu.uoc.som.orchestrus.utils.Utils;
 
 public class PluginFile extends SpecificFileReferenceExtractor {
 	
-	@Override
-	public String getFilePath() {
-		return f.getAbsolutePath();
-	}
-
-
 	public final static Logger LOGGER = Logger.getLogger(PluginFile.class.getName());
 	
 	Document doc;
@@ -49,6 +43,11 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	@Override
+	public String getFilePath() {
+		return f.getAbsolutePath();
 	}
 
 	@Override

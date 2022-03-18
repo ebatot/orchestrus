@@ -28,10 +28,6 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	
 	public final static Logger LOGGER = Logger.getLogger(EcoreModelFile.class.getName());
 
-	public String getFilePath() {
-		return f.getAbsolutePath();
-	}
-
 	private String ecoreName;
 	private String ecoreNsURI;
 	private String ecoreNsPrefix;
@@ -56,29 +52,29 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	}
 
 	private List<Element> getElementsForEcoreRefs() {
-		
+
 		List<Element> res = new ArrayList<>();
 		try {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			
+
 			String expression = "//*[@name and @nsURI and @nsPrefix]";
 			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				rootNode = (Element)nNode;
-				if(i >= 1)
+				rootNode = (Element) nNode;
+				if (i >= 1)
 					throw new IllegalAccessError("Ecore file should only have one root node.");
 				res.add(rootNode);
 			}
-			
+
 			expression = "//eStructuralFeatures";
 			eStructuralFeatures = new ArrayList<Element>();
 			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				res.add((Element)nNode);
-				eStructuralFeatures.add((Element)nNode);
+				res.add((Element) nNode);
+				eStructuralFeatures.add((Element) nNode);
 			}
 		} catch (SAXException e1) {
 			e1.printStackTrace();
@@ -88,6 +84,10 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public String getFilePath() {
+		return f.getAbsolutePath();
 	}
 
 	public String getHRefJSon() {

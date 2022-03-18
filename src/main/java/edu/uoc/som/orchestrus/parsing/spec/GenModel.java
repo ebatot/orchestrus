@@ -25,10 +25,6 @@ import edu.uoc.som.orchestrus.utils.Utils;
 
 public class GenModel extends SpecificFileReferenceExtractor {
 
-	public String getFilePath() {
-		return f.getAbsolutePath();
-	}
-	
 	private String modelDirectory;
 	private String modelPluginID;
 	private String modelName;
@@ -91,8 +87,12 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		this.importerID = ((Element) rootNode).getAttribute("importerID");
 		this.usedGenPackages = ((Element) rootNode).getAttribute("usedGenPackages").split(" ");
 	}
-	
 
+	public String getFilePath() {
+		return f.getAbsolutePath();
+	}
+
+	@Override
 	public String getHRefJSon() {
 		String res = "";
 		res = getJSonForRootValues(res);

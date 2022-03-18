@@ -29,17 +29,13 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 	
 	public final static Logger LOGGER = Logger.getLogger(ContextFile.class.getName());
 	
-	public String getFilePath() {
-		return f.getAbsolutePath();
-	}
-	
 	List<Element> elements;
 	File f;
 	
-	public ContextFile(File contextFile) {
+	public ContextFile(File f) {
 		if(f == null)
 			throw new IllegalArgumentException("File is null.");
-		this.f = contextFile;
+		this.f = f;
 		try {
 			elements = getContextValuElementsFromFile(f);
 		} catch (SAXException e) {
@@ -70,6 +66,10 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 			e.printStackTrace();
 		}
 		return elts;
+	}
+	
+	public String getFilePath() {
+		return f.getAbsolutePath();
 	}
 	
 	@Override
