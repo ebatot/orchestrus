@@ -48,7 +48,7 @@ public class Orchestrus {
 
 
 		Trace t = TraceFactory.buildReferencesTrace();
-		Utils.storeD3Tracea(t, false);
+		Utils.storeD3Tracea(t, true, "R:\\Coding\\public_html\\tracea\\v2\\data\\input_trace_data.json");
 		
 		
 //		System.out.println("\nmain - Protocols");

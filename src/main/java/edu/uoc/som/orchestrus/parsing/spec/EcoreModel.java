@@ -1,17 +1,19 @@
-package edu.uoc.som.orchestrus.parsing;
+package edu.uoc.som.orchestrus.parsing.spec;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.w3c.dom.Element;
 
 import edu.uoc.som.orchestrus.config.Config;
+import edu.uoc.som.orchestrus.parsing.Reference;
+import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
+import edu.uoc.som.orchestrus.parsing.Source;
+import edu.uoc.som.orchestrus.parsing.SpecificFileReferenceExtractor;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.utils.Utils;
 
-public class EcoreModel {
-	public static String getFilePath() {
+public class EcoreModel extends SpecificFileReferenceExtractor{
+	public String getFilePath() {
 		return Config.getInstance().getEcoreFilePath();
 	}
 
@@ -21,9 +23,6 @@ public class EcoreModel {
 	
 	Element rootNode;
 	List<Element> eStructuralFeatures;
-	
-	private List<Reference> references;
-	
 	
 	public EcoreModel(Element rootNode, List<Element> eStructuralFeatures) {
 		this((rootNode).getAttribute("name"), 
@@ -38,8 +37,6 @@ public class EcoreModel {
 		this.name = name;
 		this.nsURI = nsURI;
 		this.nsPrefix = nsPrefix;
-		
-		references = new ArrayList<>();
 	}
 
 	public String getHRefJSon() {
@@ -92,7 +89,7 @@ public class EcoreModel {
 			// TODO Information required to resolve ??
 			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
 			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(eTypePath), source);
-			references.add(r);
+			addReference(r);
 		}
 		resFMs = resFMs.trim();
 		if (!resFMs.isBlank())

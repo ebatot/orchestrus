@@ -58,8 +58,7 @@ public class Utils {
 //
 
 	@SuppressWarnings("deprecation")
-	public static void storeD3Tracea(Trace t, boolean deploy) {
-		
+	public static void storeD3Tracea(Trace t, boolean deploy, String deployLocationPath) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
 		try {
 			FileUtils.write(f, Utils.printRefLinksD3Json(t));
@@ -68,7 +67,7 @@ public class Utils {
 			e.printStackTrace();
 		}
 		if(deploy) {
-			f = new File("R:\\Coding\\public_html\\tracea\\v2\\data\\input_trace_data.json");
+			f = new File(deployLocationPath);
 			try {
 				FileUtils.write(f, Utils.printRefLinksD3Json(t));
 				LOGGER.warning("Fragmentation as D3Tracea deployed in '"+f.getAbsolutePath()+"'");
@@ -76,6 +75,11 @@ public class Utils {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void storeD3Tracea(Trace t, boolean deploy) {
+		storeD3Tracea(t, deploy, "R:\\Coding\\public_html\\tracea\\v2\\data\\input_data.json");
+		
 	}
 
 	@SuppressWarnings("deprecation")
