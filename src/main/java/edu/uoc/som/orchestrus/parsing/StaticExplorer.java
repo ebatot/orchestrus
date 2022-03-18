@@ -97,14 +97,14 @@ public class StaticExplorer {
 		obRoot.add(Config.PLUGIN_XML_FILENAME, elPlugin);
 		
 		// uml-profile/*.ecore definition and references
-		String ecoreFileName = config.getProjectName() + ".ecore";
+		String ecoreFileName = new File(config.getEcoreFilePath()).getName();
 		String ecoreRefs = getJSonForEcoreRefs();
 		JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
 		JsonElement elEcore = parser.parse(ecoreRefs);
 		obEcore.add(elEcore);
 		
 		// TODO To lower ?! always ? or only for GlossaryML project..
-		String genmodelFileName = config.getProjectName().toLowerCase() + ".genmodel";
+		String genmodelFileName = new File(config.getGenmodelFilePath()).getName();
 		String genmodRefs = getJsonForGenmodelRefs();
 		JsonArray obGenmod = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(genmodelFileName);
 		JsonElement elGenmod = parser.parse(genmodRefs);
@@ -118,9 +118,10 @@ public class StaticExplorer {
 		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());
 		obEditorProperties.add(contextFileName+"-values", elCtx);
 		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 		
+		
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		return gson.toJson(elHrefs);
 	}
 	
@@ -169,7 +170,6 @@ public class StaticExplorer {
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
 		ContextFile gm = new ContextFile(fContext);
 		res = gm.getHRefJSon();
-		res = Utils.cleanJSon(res);
 		LOGGER.fine(gm.getReferences().size() + " references found in '" + fContext + "'");
 		return res;
 	}
@@ -252,7 +252,6 @@ public class StaticExplorer {
 			 * Build and resolve references
 			 */
 			Reference r = ReferenceFactory.getReference(cleanhref, source);
-//			addReferenceSourceReversed(sourceFile, r);
 			
 			cleanhref = Utils.cleanUrlsForJson(r.getHREF());
 			
@@ -320,17 +319,17 @@ public class StaticExplorer {
 	/**
 	 * NOT IMPLEMENTED !
 	 * @param f
-	 * @param name
+	 * @param id
 	 * @return
 	 */
-	public Object getElementFromFile(File f, String name) {
+	public Object getElementFromFile(File f, String id) {
 		// TODO get element from xmi ID !
 	
 		try {
 			Document doc = builder.parse(f);
 			
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//details[@key and @value]";
+			String expression = "//details[@xmi:id=\""+id+"\"]";
 			List<Element> elts = new ArrayList<>();
 				NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 				for (int i = 0; i < nodeList2.getLength(); i++) {

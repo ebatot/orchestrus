@@ -78,7 +78,6 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		}
 	}
 	
-	
 	private void affectRootValues(Element rootNode2) {
 		this.modelDirectory = ((Element) rootNode).getAttribute("modelDirectory");
 		this.modelPluginID = ((Element) rootNode).getAttribute("modelPluginID");
@@ -123,7 +122,6 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		return res;
 	}
 
-
 	/**
 	 * Return a JSon array with foreign model references. <br/>
 	 * @return
@@ -160,5 +158,4 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		ugp = "[" + ugp + "]";
 		return ugp;
 	}
-	
 }
