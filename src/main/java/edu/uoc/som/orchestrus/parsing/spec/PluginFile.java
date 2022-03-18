@@ -38,6 +38,8 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 	File f;
 	
 	public PluginFile(File f) {
+		if(f == null)
+			throw new IllegalArgumentException("File is null.");
 		this.f = f;
 		try {
 			doc = builder.parse(f);

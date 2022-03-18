@@ -37,6 +37,8 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 	File f;
 	
 	public ContextFile(File contextFile) {
+		if(f == null)
+			throw new IllegalArgumentException("File is null.");
 		this.f = contextFile;
 		try {
 			elements = getContextValuElementsFromFile(f);

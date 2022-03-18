@@ -42,6 +42,8 @@ public class GenModel extends SpecificFileReferenceExtractor {
 	List<Element> foreignModels;
 	
 	public GenModel(File f) {
+		if(f == null)
+			throw new IllegalArgumentException("File is null.");
 		this.f = f;
 		init();
 	}

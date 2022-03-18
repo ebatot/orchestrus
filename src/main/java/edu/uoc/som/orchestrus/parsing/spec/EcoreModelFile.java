@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.Source;
@@ -30,7 +29,7 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	public final static Logger LOGGER = Logger.getLogger(EcoreModelFile.class.getName());
 
 	public String getFilePath() {
-		return Config.getInstance().getEcoreFilePath();
+		return f.getAbsolutePath();
 	}
 
 	private String ecoreName;
@@ -42,8 +41,10 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	
 	File f;
 	List<Element> elements;
-	public EcoreModelFile(File ecoreFile) {
-		this.f = ecoreFile;
+	public EcoreModelFile(File f) {
+		if(f == null)
+			throw new IllegalArgumentException("File is null.");
+		this.f = f;
 		elements = getElementsForEcoreRefs();
 		affectRootValues(rootNode);
 	}
