@@ -166,8 +166,10 @@ public class Utils {
 		try {
 			i = countLOC(new File("./src"));
 			System.out.println("Main.main(src:"+i[0]+") ("+i[1]+" classes)");
-//			i = countLOC(new File("./test"));
-//			System.out.println("Main.main(test:"+i[0]+")");
+			i = countLOC(new File("./meta/d3viewer/data"));
+			System.out.println("Main.main(meta/d3viewer/data:"+i[0]+")");
+			i = countLOC(new File("./meta/d3viewer/scripts/bootstrap"));
+			System.out.println("Main.main(meta/d3viewer/scripts/bootstrap:"+i[0]+")");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -175,11 +177,15 @@ public class Utils {
 
 	static int[] countLOC(File f) throws IOException {
 		int[] res = new int[] {0, 0};
-		if(f.getName().endsWith(".java"))
-			res[1]++;
-		if(f.getName().startsWith("result"))
+		
+		if(f.getName().equals("bootstrap"))
 			return res;
+		
+		if(f.getName().endsWith(".java") )
+			res[1]++;
+		
 		if(f.isDirectory()){
+			
 			for (File f2 : f.listFiles()) {
 				res[0] += countLOC(f2)[0];
 				res[1] += countLOC(f2)[1];
@@ -270,7 +276,7 @@ public class Utils {
 	 */
 	public static String printRefLinksD3Json(Trace t, boolean printUnreferencedArtefacts) {
 		Set<Artefact> artCollect = new HashSet<>();
-		int i = 0;
+
 		for (TraceLink tl : t.getTraceLinks()) {
 			artCollect.addAll(tl.getSources());
 			artCollect.addAll(tl.getTargets());
