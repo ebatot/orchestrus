@@ -42,12 +42,12 @@ public class Utils {
 //	}
 	
 	public static void storeD3Tracea(Trace t, boolean deploy) {
-		storeD3Tracea(t, deploy, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data.json");
+		storeD3Tracea(t, deploy, "meta\\d3viewer\\data\\input_data.json");
 	}
 
 	@SuppressWarnings("deprecation")
 	public static void storeD3Tracea(Trace t, boolean deploy, String deployLocationPath) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
 		String d3trace = t.renderD3JSon();
 		String log = "";
 		try {
@@ -69,12 +69,12 @@ public class Utils {
 	}
 	
 	public static void storeMatrixTracea(Trace t, boolean deploy) {
-		storeMatrixTracea(t, deploy, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\adjacencyMatrix.html");
+		storeMatrixTracea(t, deploy, "meta\\d3viewer\\data\\adjacencyMatrix.html");
 	}
 	
 	@SuppressWarnings("deprecation")
 	public static void storeMatrixTracea(Trace t, boolean deploy, String deployLocationPath) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
 		String htmlTrace = t.renderHTMLMatrix();
 		String log = "";
 		try {
@@ -97,7 +97,7 @@ public class Utils {
 
 	@SuppressWarnings("deprecation")
 	public static void storeDependencies_HC(String interArtDependencies_JSON) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+".refs.json");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+".refs.json");
 		try {
 			FileUtils.write(f, interArtDependencies_JSON);
 			LOGGER.info("References stored in '"+f.getAbsolutePath()+"'");
@@ -108,7 +108,7 @@ public class Utils {
 
 	@SuppressWarnings("deprecation")
 	public static File writeTmpJson_HC(String json) {
-		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\tmp.json");
+		File f = new File("data\\out\\junk\\tmp.json");
 		try {
 			FileUtils.write(f, json);
 			LOGGER.info("JSon stored in '"+f.getAbsolutePath()+"'");
