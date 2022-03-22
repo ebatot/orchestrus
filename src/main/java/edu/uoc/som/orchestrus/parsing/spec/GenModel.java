@@ -47,24 +47,21 @@ public class GenModel extends SpecificFileReferenceExtractor {
 	
 	public void init() {
 		try {
+			rootNode = null;
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			
-			String expression = "//*[@modelName and @modelPluginID and @modelDirectory]";
-			Node genModelRootNode = null;
-			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			NodeList nodeList2 = doc.getChildNodes();
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
-				if(genModelRootNode == null)
-					genModelRootNode = nNode;
+				if(rootNode == null)
+					rootNode = (Element)nNode;
 				else
 					throw new IllegalAccessError("Only one genModel node (root) expected in genmodel file.");
 			}
-			rootNode = (Element)genModelRootNode;
 			affectRootValues(rootNode);
 			
 			foreignModels = new ArrayList<>();
-			expression = "//foreignModel";
+			String expression = "//foreignModel";
 			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
@@ -86,8 +83,6 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		this.rootExtendsClass = ((Element) rootNode).getAttribute("rootExtendsClass");
 		this.importerID = ((Element) rootNode).getAttribute("importerID");
 		this.usedGenPackages = ((Element) rootNode).getAttribute("usedGenPackages").split(" ");
-		System.out.println("GenModel.affectRootValues()");
-		System.out.println(Arrays.deepToString(usedGenPackages));
 		if(usedGenPackages == null)
 			usedGenPackages = new String[0];
 	}

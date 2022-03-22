@@ -57,9 +57,8 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 		try {
 			Document doc = builder.parse(f);
 			XPath xPath = XPathFactory.newInstance().newXPath();
-
-			String expression = "//*[@name and @nsURI and @nsPrefix]";
-			NodeList nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
+			
+			NodeList nodeList2 = doc.getChildNodes();
 			for (int i = 0; i < nodeList2.getLength(); i++) {
 				Node nNode = nodeList2.item(i);
 				rootNode = (Element) nNode;
@@ -67,8 +66,8 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 					throw new IllegalAccessError("Ecore file should only have one root node.");
 				res.add(rootNode);
 			}
-
-			expression = "//eStructuralFeatures";
+			
+			String expression = "//eStructuralFeatures";
 			eStructuralFeatures = new ArrayList<Element>();
 			nodeList2 = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < nodeList2.getLength(); i++) {
