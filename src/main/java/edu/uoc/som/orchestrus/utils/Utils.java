@@ -69,7 +69,7 @@ public class Utils {
 	}
 	
 	public static void storeMatrixTracea(Trace t, boolean deploy) {
-		storeMatrixTracea(t, deploy, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\trace.html");
+		storeMatrixTracea(t, deploy, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\adjacencyMatrix.html");
 	}
 	
 	@SuppressWarnings("deprecation")
