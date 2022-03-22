@@ -131,7 +131,8 @@ d3.json(dataPath, function(error, graph) {
 
 	log.text(links.length + "  " + nodes.length)
 
-	edgesize = getEdgeSizeLinearScale(nodes, CIRCLE_SIZE[0], CIRCLE_SIZE[1]);
+	edgesize = getSizeLinearScale(nodes, CIRCLE_SIZE[0], CIRCLE_SIZE[1]);
+	nodesize = getSizeLinearScale(nodes, 10, 30);
 	linkedByIndex = getLinkageByIndex(links);
 	// A function to test if two nodes are neighboring.
 
@@ -200,7 +201,7 @@ d3.json(dataPath, function(error, graph) {
 			'cx': d => d.x,
 			'cy': d => d.y,
 			// Use degree centrality from R igraph in json.
-			'r': function(d, i) { return edgesize(d.size); },
+			'r': function(d, i) { return nodesize(d.size); },
 			// Color by group, a result of modularity calculation in R igraph.
 			"fill": function(d) { return colorNodes(d.group); },
 			'stroke-width': '1.0'
@@ -252,7 +253,7 @@ d3.json(dataPath, function(error, graph) {
 		.links(links);
 	// Collision detection based on degree centrality.
 	simulation
-	 	.force("collide", d3.forceCollide().radius( function (d) { return edgesize(d.size); }));
+	 	.force("collide", d3.forceCollide().radius( function (d) { return nodesize(d.size); }));
 });
 
 // A slider that removes nodes below/above the input threshold.
@@ -399,8 +400,8 @@ function addIconsToLegend() {
             .attr('patternUnits', 'userSpaceOnUse')
            // .attr('x', d => -edgesize(d.size)/2)
            // .attr('y', d => -edgesize(d.size)/2)
-            .attr('height', d => edgesize(d.size))
-            .attr('width', d => edgesize(d.size))
+            .attr('height', d => nodesize(d.size))
+            .attr('width', d => nodesize(d.size))
             .append("image")
             .attr('xlink:href', d => imgPath + i.img.toLowerCase() )
 			
@@ -408,7 +409,7 @@ function addIconsToLegend() {
 			.filter(function() {
 				return d3.select(this).attr("type") == i.type; // filter by single attribute
 			})
-			.attr('r', d => 0.9 * edgesize(d.size))
+			.attr('r', d => 0.9 * nodesize(d.size))
 			.attr('fill', d => 'url(#image-' + i.type + ')')
 			.attr("stroke-width", d => nodeSelection.includes(d)?"3.0":"1.0")
 		})
@@ -606,7 +607,7 @@ function showError(datapath) {
 }
 
 // Linear scale for degree centrality. WITH SIZE
-function  getEdgeSizeLinearScale(nodes, min, max) {
+function  getSizeLinearScale(nodes, min, max) {
 	return d3.scaleLinear()
 		.domain([d3.min(nodes, function(d) {return d.size; }),d3.max(nodes, function(d) {return d.size; })])
 		.range([min,max]);

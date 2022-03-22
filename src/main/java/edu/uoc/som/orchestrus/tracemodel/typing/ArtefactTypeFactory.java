@@ -44,21 +44,21 @@ public class ArtefactTypeFactory {
 	}
 
 	public static int getD3Size(ArtefactType type) {
-//		if(type == LOCAL_ROOT_ARTEFACT)
-//			return 1;
-		return 100;
-//		if(type == LOCAL_FOLDER_ARTEFACT)
-//			return 34;
-//		if(type == LOCAL_FILE_ARTEFACT)
-//			return 38;
-//		if(type == SOURCE_FILE_ARTEFACT)
-//			return 38;
-//		if(type == EXTERNAL_LOCATION_ARTEFACT)
-//			return 30;
-//		if(type == EXTERNAL_FILE_ARTEFACT)
-//			return 34;
-//		if(type == ELEMENT_ARTEFACT)
-//			return 42;
-//		throw new IllegalArgumentException("Unrecognized type:" + type);
+		if(type == LOCAL_ROOT_ARTEFACT)
+			return 100;
+		if(type == LOCAL_FOLDER_ARTEFACT)
+			return 34;
+		if(type == LOCAL_FILE_ARTEFACT)
+			return 38;
+		if(type == SOURCE_FILE_ARTEFACT)
+			return 38;
+		if(type == EXTERNAL_LOCATION_ARTEFACT)
+			return 30;
+		if(type == EXTERNAL_FILE_ARTEFACT)
+			return 34;
+		if(type == ELEMENT_ARTEFACT)
+			return 42;
+		throw new IllegalArgumentException("Unrecognized type:" + type);
+		
 	}
 }
