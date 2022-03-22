@@ -45,8 +45,9 @@ public class TraceFactory {
 
 	public static Trace buildReferencesTrace() {
 		Trace t = new Trace("Links");
-
+		LOGGER.info("Building trace '"+t.getName()+"'");
 		LOGGER.info(ReferenceFactory.getReferences().size() + " references.");
+		
 		for (Reference r : ReferenceFactory.getReferences().values()) {
 
 			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
@@ -88,6 +89,7 @@ public class TraceFactory {
 	 */
 	public static Trace buildFragmentationTrace() {
 		Trace res = new Trace("Fragmentation");
+		LOGGER.info("Building trace '"+res.getName()+"'");
 		for (Artefact a : ArtefactFactory.getAncestors()) {
 			List<TraceLink> aFragments = ArtefactFactory.getFragmentLinks(a);
 			for (TraceLink traceLink : aFragments) {

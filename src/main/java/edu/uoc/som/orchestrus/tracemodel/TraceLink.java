@@ -9,6 +9,11 @@ import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
 public class TraceLink extends TypedLink {
+	
+	private int confidence = 100;
+
+	ArrayList<Artefact> sources = new ArrayList<>();
+	ArrayList<Artefact> targets = new ArrayList<>();
 
 	public TraceLink(String name, LinkType type) {
 		super(name);
@@ -33,15 +38,20 @@ public class TraceLink extends TypedLink {
 		return "L" + counter++;
 	}
 
-	ArrayList<Artefact> sources = new ArrayList<>();
-	ArrayList<Artefact> targets = new ArrayList<>();
-
 	public ArrayList<Artefact> getSources() {
 		return sources;
 	}
 
 	public ArrayList<Artefact> getTargets() {
 		return targets;
+	}
+	
+	public int getConfidence() {
+		return confidence;
+	}
+	
+	public void setConfidence(int confidence) {
+		this.confidence = confidence;
 	}
 	
 	@Override
@@ -135,6 +145,7 @@ public class TraceLink extends TypedLink {
 		res += "\"name\": \"" + getName() + "\",";
 		res += "\"sources\": " + Utils.getElementsIDsAsJsonCollection(sources) + ",";
 		res += "\"targets\": " + Utils.getElementsIDsAsJsonCollection(targets) + ",";
+		res += "\"confidence\": "+confidence+",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
 	}
@@ -151,31 +162,10 @@ public class TraceLink extends TypedLink {
 		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"group\": " + getType().getNumber() + ",";
-		
-		res += "\"confidence\": 100,";
+		res += "\"confidence\": "+confidence+",";
 		res += "\"energy\": 100";
-		
 		
 		return res + "}";
 	}
-	
-//	static HashSet<TraceLink> traceLinksTMp = new HashSet<>();
-//
-//	public static Collection<? extends TraceLink> getClosure(TraceLink tl) {
-//		traceLinksTMp = new HashSet<>();
-//		
-//		return null;
-//	}
-//	
-//	
-//	public HashSet<TraceLink> getClosure() {
-//		HashSet<TraceLink> tls = new HashSet<>();
-//		tls.addAll(getSuccessors());
-//		TraceLink[] tlsArray = (TraceLink[]) tls.toArray(new TraceLink[tls.size()]);
-//		for (TraceLink traceLink : tlsArray)
-//			tls.addAll(traceLink.getClosure());
-//		return tls;
-//	}
-
 
 }

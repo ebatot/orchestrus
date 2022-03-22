@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
-import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
 public class Artefact extends TypedArtefact {
@@ -101,7 +100,8 @@ public class Artefact extends TypedArtefact {
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
-		res += "\"size\": " + ArtefactTypeFactory.getD3Size(getType()) + ",";
+		res += "\"size\": " + getFragments().size()*10 + ",";
+//		res += "\"size\": " + ArtefactTypeFactory.getD3Size(getType()) + ",";
 		res += "\"group\": \"" + getType().getNumber() + "\"";
 		return res + "}";
 	}
