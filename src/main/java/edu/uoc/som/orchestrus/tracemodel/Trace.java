@@ -1,6 +1,7 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
@@ -68,52 +70,60 @@ public class Trace extends TracingElement {
 			"}";
 	}
 	
+	HashMap<Artefact, Integer> artefactsIndex;
+
+	int[][] adjacencyMatrix;
+
+	private List<Artefact> artefactsOrdered;
 	
+	public void computeArtefactsIndex() {
+		artefactsIndex = new HashMap<>();
+		Artefact[] arts = (Artefact[]) artefactsOrdered.toArray(new Artefact[artefactsOrdered.size()]);
+		for (int i = 0; i < arts.length; i++) {
+			artefactsIndex.put(arts[i], i);
+		}
+	}
 	
-	public int[][] getAdgacencyMatrix() {
-		int[][] matrix;
-		Artefact[] arts = (Artefact[]) getArtefactsOrdered().toArray(new Artefact[getArtefactsOrdered().size()]);
-		matrix = new int[arts.length][arts.length];
+	public void computeAdgacencyMatrix() {
+		Artefact[] arts = (Artefact[]) artefactsOrdered.toArray(new Artefact[artefactsOrdered.size()]);
+		adjacencyMatrix = new int[arts.length][arts.length];
 		for (TraceLink tl : traceLinks) {
 			for (int i = 0; i < arts.length; i++) {
 				Artefact a1 = arts[i];
 				for (int j = 0; j < arts.length; j++) {
 					Artefact a2 = arts[j];
 					if (tl.getSources().contains(a1) && tl.getTargets().contains(a2))
-						matrix[i][j]++;
+						adjacencyMatrix[i][j]++;
 					if (tl.getTargets().contains(a1) && tl.getSources().contains(a2))
-						matrix[i][j]++;
+						adjacencyMatrix[i][j]++;
 				}
 			}
 		}
-		return matrix;
 	}
 	
-	public HashMap<Artefact, Integer> getArtefactIndexes() {
-		HashMap<Artefact, Integer> artefactIndexes = new HashMap<>();
-		Artefact[] arts = (Artefact[]) getArtefactsOrdered().toArray(new Artefact[getArtefactsOrdered().size()]);
-		for (int i = 0; i < arts.length; i++) {
-			artefactIndexes.put(arts[i], i);
-		}
-		return artefactIndexes;
-	}
-	
-	
-	public void computeLinksSize() {
-		int[][] matrix = getAdgacencyMatrix();
-		HashMap<Artefact, Integer> artefactIndexes = getArtefactIndexes();
+	public void computeLinksSize(boolean normalize) {
+		computeArtefactsOrdered();
+		computeArtefactsIndex();
+		computeAdgacencyMatrix();
 		
+		if(normalize)
+			normalizeAdjacencymatrix();
+		
+		assignLinksSize();
+	}
+	
+	public void assignLinksSize() {
 		setTraceConfidence(0);
 		for (TraceLink tl : traceLinks) {
 			int counter = 0;
 			for (Artefact as : tl.getSources()) {
 				for (Artefact at : tl.getTargets()) {
-					counter += matrix[artefactIndexes.get(as)][artefactIndexes.get(at)];
+					counter += adjacencyMatrix[artefactsIndex.get(as)][artefactsIndex.get(at)];
 				}
 			}
 			tl.setConfidence(counter);
 		}
-		normalizeLinksSize();
+		
 	}
 	
 	public void normalizeLinksSize() {
@@ -142,33 +152,31 @@ public class Trace extends TracingElement {
 		
 	}
 	
-	public int[][] normalizedAdjacencymatrix(int[][] m) {
-		int[][] n = new int[m.length][m.length]; // SQUARE MAtRIX !
-		int min = m[0][0];
-		int max = m[0][0];
-		for(int i = 0; i < m.length; i++){
-		    for(int j = 0; j < m[0].length; j++){
-		        if(m[i][j] < min){
-		            min = m[i][j];
+	public void normalizeAdjacencymatrix() {
+		int[][] n = adjacencyMatrix; // SQUARE MAtRIX !
+		int min = n[0][0];
+		int max = n[0][0];
+		for(int i = 0; i < n.length; i++){
+		    for(int j = 0; j < n[0].length; j++){
+		        if(n[i][j] < min){
+		            min = n[i][j];
 		        }
-		        if(m[i][j] > max){
-		            max = m[i][j];
+		        if(n[i][j] > max){
+		            max = n[i][j];
 		        }
 		    }
 		}  
 		double tessiture = max - min;
 		if(tessiture == 0)
-			return m;
+			return;
 		
-		for(int i = 0; i < m.length; i++){
-		    for(int j = 0; j < m[0].length; j++){
-		    	int v = m[i][j];
-				v = v - min;
+		for(int i = 0; i < n.length; i++){
+		    for(int j = 0; j < n[0].length; j++){
+		    	int v = n[i][j] - min;
 				v = (int) (v * Math.ceil(1 / tessiture));
-				n[i][j] = v;
+				adjacencyMatrix[i][j] = v;
 		    }
 		}
-		return n;
 	}
 
 	/**
@@ -189,21 +197,20 @@ public class Trace extends TracingElement {
 		return traceLinks;
 	}
 	
-	public List<Artefact> getArtefactsOrdered() {
-		HashSet<Artefact> res = new HashSet<>();
+	public void computeArtefactsOrdered() {
+		Set<Artefact> set = new HashSet<>();
 		for (TraceLink tl : traceLinks) {
-			res.addAll(tl.getSources());
-			res.addAll(tl.getTargets());
+			set.addAll(tl.getSources());
+			set.addAll(tl.getTargets());
 		}
-		ArrayList<Artefact> arts = new ArrayList<>(res.size());
-		arts.addAll(res);
-		Collections.sort(arts, new Comparator<Artefact>() {
+		artefactsOrdered = new ArrayList<>();
+		artefactsOrdered.addAll(set);
+		Collections.sort(artefactsOrdered, new Comparator<Artefact>() {
 			@Override
 			public int compare(Artefact o1, Artefact o2) {
 				return o1.getID().compareTo(o2.getID());
 			}
 		});
-		return arts;
 	}
 	
 	public HashSet<LinkType> getAllTraceLinkTypes() {	
@@ -214,26 +221,29 @@ public class Trace extends TracingElement {
 		return lts;
 	}
 
-	public String printHTMLMatrix() {
-		int[][] matrix = getAdgacencyMatrix();
-		List<Artefact> arts = getArtefactsOrdered();
-		HashMap<Artefact, Integer> artsIdx = getArtefactIndexes();
-		int[][] m = normalizedAdjacencymatrix(matrix);
+	public String renderHTMLMatrix() {
+		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") matrix adjacency in HTML.");
 		
+		computeLinksSize(true);
+		System.out.println("Trace.renderHTMLMatrix()");
+		System.out.println(artefactsIndex.size());
+		System.out.println(artefactsOrdered.size());
 		boolean printEltIDs = true;
 		String res = "\t<tr>\n\t\t<th></th>\n";
-		for (Artefact a : arts) 
+		for (Artefact a : artefactsOrdered) 
 			res += "\t\t<th class=\"linkName\">"+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+"</th>\n";
 		res += "\t</tr>\n";
 		
 		String res2 = "";
-		for (Artefact a : arts) {
+		int i = 0;
+		for (Artefact a : artefactsOrdered) {
 			res2 += "\t<tr>\n";
-			res2 += "\t\t<td class=\"linkName\" width=\"150px\">"+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+ "</td>\n";
-			for (Artefact a2 : arts) {
-				double color = 255- (((m[artsIdx.get(a)][artsIdx.get(a2)]*255)/100));
+			res2 += "\t\t<td class=\"linkName\" width=\"150px\">"+i++ + "   "+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+ "</td>\n";
+			for (Artefact a2 : artefactsOrdered) {
+				int value = adjacencyMatrix[artefactsIndex.get(a)][artefactsIndex.get(a2)];
+				double color = 255 - (((value*255)/100));
 				res2 += "\t\t<td class=\"linkCell\" width=\"150px\" style=\"background-color:rgb("+color+",250,250); font-size:1em\">";
-				res2 += m[artsIdx.get(a)][artsIdx.get(a2)] + ": "+color;
+				res2 += value + ": "+color;
 				res2 += "</td>\n";
 			}
 			res2 += "\t</tr>\n";
@@ -270,33 +280,19 @@ public class Trace extends TracingElement {
 		return  HEADER + table + "\n\t</div>\n</body>" ;
 	}
 
-	public String printD3JSon() {
-		return printD3JSon(false);
+	public String renderD3JSon() {
+		return renderD3JSon(false);
 	}
 
-	public String printD3JSon(boolean printUnreferencedArtefacts) {
-		Set<Artefact> artCollect = new HashSet<>();
-		for (TraceLink tl : getTraceLinks()) {
-			artCollect.addAll(tl.getSources());
-			artCollect.addAll(tl.getTargets());
-		}
-		LOGGER.fine(artCollect.size() + "/"+ArtefactFactory.getArtefacts().values()+ " artefacts referenced.");
-		
-		for (Artefact a : ArtefactFactory.sortArtefactsByLocation(ArtefactFactory.getArtefacts().values())) {
-			if(!artCollect.contains(a)) {
-				LOGGER.finest("[DEV] !! missing: "+a + " in collection list.");
-			}
-		}
-		for (Artefact a : ArtefactFactory.sortArtefactsByLocation(artCollect)) {
-			if(!ArtefactFactory.getArtefacts().values().contains(a)) {
-				LOGGER.finest("[DEV] !! missing: "+a + " in complete list.");
-			}
-		}
+	public String renderD3JSon(boolean printUnreferencedArtefacts) {
+		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") in Tracea D3 JSon");
+		Set<Artefact> artCollect = collectArtefacts();
 		
 		String links = "" ;
 		
 		//TODO Link sizes attribution
-		computeLinksSize();
+		computeLinksSize(true);
+		
 		
 		for (TraceLink tl : getTraceLinks()) 
 			links += tl.getD3Json()+",\n";
@@ -318,6 +314,26 @@ public class Trace extends TracingElement {
 					links+",\n"+
 					nodes+"\n"+
 				"}";
+	}
+
+	private Set<Artefact> collectArtefacts() {
+		Set<Artefact> artCollect = new HashSet<>();
+		for (TraceLink tl : getTraceLinks()) {
+			artCollect.addAll(tl.getSources());
+			artCollect.addAll(tl.getTargets());
+		}
+		LOGGER.fine(artCollect.size() + "/"+ArtefactFactory.getArtefacts().values()+ " artefacts referenced.");
+		for (Artefact a : ArtefactFactory.sortArtefactsByLocation(ArtefactFactory.getArtefacts().values())) {
+			if(!artCollect.contains(a)) {
+				LOGGER.finest("[DEV] !! missing: "+a + " in collection list.");
+			}
+		}
+		for (Artefact a : ArtefactFactory.sortArtefactsByLocation(artCollect)) {
+			if(!ArtefactFactory.getArtefacts().values().contains(a)) {
+				LOGGER.finest("[DEV] !! missing: "+a + " in complete list.");
+			}
+		}
+		return artCollect;
 	}
 
 

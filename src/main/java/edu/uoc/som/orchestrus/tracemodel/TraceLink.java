@@ -163,6 +163,7 @@ public class TraceLink extends TypedLink {
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"group\": " + getType().getNumber() + ",";
 		res += "\"confidence\": "+confidence+",";
+//		System.out.println(confidence);
 		res += "\"energy\": 100";
 		
 		return res + "}";

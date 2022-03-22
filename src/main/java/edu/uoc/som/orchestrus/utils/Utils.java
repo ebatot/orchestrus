@@ -48,7 +48,7 @@ public class Utils {
 	@SuppressWarnings("deprecation")
 	public static void storeD3Tracea(Trace t, boolean deploy, String deployLocationPath) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
-		String d3trace = t.printD3JSon();
+		String d3trace = t.renderD3JSon();
 		String log = "";
 		try {
 			FileUtils.write(f, d3trace);
@@ -75,7 +75,7 @@ public class Utils {
 	@SuppressWarnings("deprecation")
 	public static void storeMatrixTracea(Trace t, boolean deploy, String deployLocationPath) {
 		File f = new File("R:\\Coding\\Git\\orchestrus\\data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
-		String htmlTrace = t.printHTMLMatrix();
+		String htmlTrace = t.renderHTMLMatrix();
 		String log = "";
 		try {
 			FileUtils.write(f, htmlTrace);
