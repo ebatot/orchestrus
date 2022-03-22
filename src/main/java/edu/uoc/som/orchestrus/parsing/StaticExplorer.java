@@ -101,7 +101,7 @@ public class StaticExplorer {
 		if(!filePath.isBlank()) {
 			File f = new File(filePath);
 			String ecoreFileName = f.getName();
-			String ecoreRefs = getJSonForEcoreRefs(f);
+			String ecoreRefs = getJSonForEcoreRefs();
 			JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
 			JsonElement elEcore = parser.parse(ecoreRefs);
 			obEcore.add(elEcore);
@@ -219,11 +219,19 @@ public class StaticExplorer {
 	 * @return JSON
 	 */
 	private String getJsonForGenmodelRefs() {
+		String res = "";
 		File f = new File(config.getGenmodelFilePath());
-		GenModel gm = new GenModel(f);
-		String res = gm.getHRefJSon();
+		if(f.exists()) {
+			GenModel gm = new GenModel(f);
+			res = gm.getHRefJSon();
+			LOGGER.fine(gm.getReferences().size() + " references found in '" + f + "'");
+		} else {
+			LOGGER.warning("No genmodel file found");			
+		}
 		return res;
 	}
+
+	
 
 	/**
 	 * Extract references from Ecore project file (see
@@ -235,14 +243,17 @@ public class StaticExplorer {
 	 * 
 	 * @return JSON
 	 */
-	private String getJSonForEcoreRefs(File f) {
-		
-		if(!f.exists()) {
-			LOGGER.warning("Ecore file not found. Check Project name / Ecore file name.");
-			return "{}";
+	private String getJSonForEcoreRefs() {
+		String res = "";
+		File f = new File(config.getGenmodelFilePath());
+		if(f.exists()) {
+			EcoreModelFile ecoreModel = new EcoreModelFile(f);
+			res = ecoreModel.getHRefJSon();
+			LOGGER.fine(ecoreModel.getReferences().size() + " references found in '" + f + "'");
+		} else {
+			LOGGER.warning("No Ecore file found");			
 		}
-		EcoreModelFile ecoreModel = new EcoreModelFile(f);
-		return ecoreModel.getHRefJSon();
+		return res;
 	}
 
 	/**
