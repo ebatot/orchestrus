@@ -3,6 +3,7 @@ package edu.uoc.som.orchestrus.parsing.spec;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.xpath.XPath;
@@ -85,6 +86,10 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		this.rootExtendsClass = ((Element) rootNode).getAttribute("rootExtendsClass");
 		this.importerID = ((Element) rootNode).getAttribute("importerID");
 		this.usedGenPackages = ((Element) rootNode).getAttribute("usedGenPackages").split(" ");
+		System.out.println("GenModel.affectRootValues()");
+		System.out.println(Arrays.deepToString(usedGenPackages));
+		if(usedGenPackages == null)
+			usedGenPackages = new String[0];
 	}
 
 	public String getFilePath() {

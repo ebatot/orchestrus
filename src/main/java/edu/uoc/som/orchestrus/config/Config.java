@@ -1,8 +1,10 @@
 package edu.uoc.som.orchestrus.config;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,11 +16,15 @@ public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
 	
-	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-	String project = "com.cea.papyrus.glossary";
-	String projectName = "GlossaryML";
-	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
+//	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+//	String project = "com.cea.papyrus.glossaryml";
+//	String projectName = "GlossaryML";
+//	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
 
+	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+	String project = "com.cea.papyrus.referencemanagement";
+	String projectName = "ReferencesML";
+	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
 
 	/*
 	 * Hard coded config files (in project root folder)
@@ -92,8 +98,8 @@ public class Config {
 		
 		boolean check = checkFolderNames();
 		if(!check) {
-			LOGGER.severe("Some folders were not found. Please check configuration.\nExit with errors.");
-			System.exit(1);
+			LOGGER.severe("Some folders were not found. Please check configuration.");
+//			System.exit(1);
 		} else {
 			LOGGER.fine("Folders correct.");
 		}
@@ -260,7 +266,23 @@ public class Config {
 	
 	public String getEcoreFilePath() {
 		File fEcore = new File(getUmlProfilesFolderFull()+File.separator+projectName+".ecore");
-		return fEcore.getAbsolutePath();
+		if(fEcore.exists())
+			return fEcore.getAbsolutePath();
+		else {
+			File folder = new File(getUmlProfilesFolderFull());
+			File[] fs = folder.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.toLowerCase().endsWith(".ecore");
+				}
+			});
+			LOGGER.warning("Ecore file '"+fEcore.getName()+"' not found.");
+			if(fs.length > 0) {
+				LOGGER.warning("Ecore file '"+fs[0]+"' used instead.");
+				return fs[0].getAbsolutePath();
+			}
+			return "";
+		}
 	}
 
 	/**

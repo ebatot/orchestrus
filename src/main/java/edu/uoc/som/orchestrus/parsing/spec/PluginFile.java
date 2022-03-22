@@ -69,35 +69,35 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 		for (i = 0; i < nodeList2.getLength(); i++) {
 			Node nNode = nodeList2.item(i);
 
-			String point = ((Element) nNode).getAttribute("point");
-			String value = "";
-
-			value = nNode.toString();
-			
-			switch (ExtensionPoint.getExtensionPointFromName(point)) {
-			case profile:
-				value = getProfileExtension(doc, xPath, f);
-				break;
-			case generated_package:
-				value = getPackageExtension(doc, xPath, f);
-				break;
-			case architecture:
-				value = getArchitectureExtension(doc, xPath, f);
-				break;
-			case palette:
-				value = getPaletteExtension(doc, xPath, f);
-				break;
-			case context:
-				value = getContextExtension(doc, xPath, f);
-				break;
-			case factory:
-				value = getFactoryExtension(doc, xPath, f);
-				break;
-			default:
-				throw new IllegalArgumentException("Should never get there, unrecognized extension point: " + point);
+			String pointStr = ((Element) nNode).getAttribute("point");
+			String value = nNode.toString();
+			ExtensionPoint point = ExtensionPoint.getExtensionPointFromName(pointStr);
+			if(point != null) {
+				switch (point) {
+				case profile:
+					value = getProfileExtension(doc, xPath, f);
+					break;
+				case generated_package:
+					value = getPackageExtension(doc, xPath, f);
+					break;
+				case architecture:
+					value = getArchitectureExtension(doc, xPath, f);
+					break;
+				case palette:
+					value = getPaletteExtension(doc, xPath, f);
+					break;
+				case context:
+					value = getContextExtension(doc, xPath, f);
+					break;
+				case factory:
+					value = getFactoryExtension(doc, xPath, f);
+					break;
+				default:
+					throw new IllegalArgumentException("Should never get there, unrecognized extension point: " + point);
+				}
+	
+				resElt += "\"" + point + "\": " + value + ",\n";
 			}
-
-			resElt += "\"" + point + "\": " + value + ",\n";
 		}
 		if (i > 0)
 			resElt = resElt.substring(0, resElt.trim().length() - 1);
@@ -122,6 +122,7 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 				if (ep.getName().equals(name))
 					return ep;
 			}
+			LOGGER.warning("Extension point not found '"+name+"'");
 			return null;
 		}
 

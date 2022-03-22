@@ -39,10 +39,10 @@ public class Tests {
 		System.out.println("    --       Parsing  tests       --");
 		System.out.println("    --------------------------------\n");
 
-//		Config config = Config.getInstance();
+		Config config = Config.getInstance();
 
 		
-		StaticExplorer ppse = new StaticExplorer();
+		StaticExplorer ppse = new StaticExplorer(config);
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 		Utils.storeDependencies_HC(interArtDependencies_JSON);
 

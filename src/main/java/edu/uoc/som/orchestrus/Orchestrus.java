@@ -3,6 +3,7 @@ package edu.uoc.som.orchestrus;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
@@ -27,7 +28,8 @@ public class Orchestrus {
  * builds references from source files, 
  * then builds artefacts as sources and targets of these references.		
  */
-		StaticExplorer ppse = new StaticExplorer();
+		Config config = Config.getInstance();
+		StaticExplorer ppse = new StaticExplorer(config);
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 		Utils.storeDependencies_HC(interArtDependencies_JSON);
 

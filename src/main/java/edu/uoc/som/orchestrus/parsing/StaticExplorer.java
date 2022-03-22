@@ -56,10 +56,10 @@ public class StaticExplorer {
 	
 	private Config config;
 
-	public StaticExplorer() {
+	public StaticExplorer(Config config) {
 		// TODO Externalize config parameters: project root in CmdLine...
 		// TODO Derive config parameters: dependencies, project name, and uris... 
-		this.config = Config.getInstance();
+		this.config = config;
 		try {
 			factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
@@ -97,18 +97,24 @@ public class StaticExplorer {
 		obRoot.add(Config.PLUGIN_XML_FILENAME, elPlugin);
 		
 		// uml-profile/*.ecore definition and references
-		String ecoreFileName = new File(config.getEcoreFilePath()).getName();
-		String ecoreRefs = getJSonForEcoreRefs();
-		JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
-		JsonElement elEcore = parser.parse(ecoreRefs);
-		obEcore.add(elEcore);
+		String filePath = config.getEcoreFilePath();
+		if(!filePath.isBlank()) {
+			File f = new File(filePath);
+			String ecoreFileName = f.getName();
+			String ecoreRefs = getJSonForEcoreRefs(f);
+			JsonArray obEcore = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(ecoreFileName);
+			JsonElement elEcore = parser.parse(ecoreRefs);
+			obEcore.add(elEcore);
+		}
 		
 		// TODO To lower ?! always ? or only for GlossaryML project..
 		String genmodelFileName = new File(config.getGenmodelFilePath()).getName();
 		String genmodRefs = getJsonForGenmodelRefs();
-		JsonArray obGenmod = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(genmodelFileName);
 		JsonElement elGenmod = parser.parse(genmodRefs);
-		obGenmod.add(elGenmod);
+		JsonArray obGenmod = obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).getAsJsonArray(genmodelFileName);
+		if(obGenmod == null)
+			obRoot.getAsJsonObject(Config.getUmlprofilesfolder()).add(genmodelFileName, elGenmod);
+//		obGenmod.add(elGenmod);
 
 		
 		// Added extra context references
@@ -118,6 +124,16 @@ public class StaticExplorer {
 		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());
 		obEditorProperties.add(contextFileName+"-values", elCtx);
 		
+		/*
+		 * Yet to parse:
+		 * - CustomizationConfiguration.xmi
+		 * - build.properties
+		 * - .project
+		 * - .classpath
+		 * 
+		 * - src-custom java files
+		 * 
+		 */
 		
 		
 		
@@ -134,15 +150,19 @@ public class StaticExplorer {
 			res += "\"" + f.getName() + "\": \n";
 			
 			File[] files = f.listFiles(XMILikeFileFilter.getFilter());
-			String domainModelHrefs = "";
-			try {
-				if (files != null)
-					domainModelHrefs = getJSonForHrefsFromFiles(Arrays.asList(files));
-				res += domainModelHrefs;
-			} catch (SAXException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(files == null || files.length == 0) {
+				res += "{}";
+			} else {
+				String domainModelHrefs = "";
+				try {
+					if (files != null)
+						domainModelHrefs = getJSonForHrefsFromFiles(Arrays.asList(files));
+					res += domainModelHrefs;
+				} catch (SAXException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			if (++isf < Config.getInstance().getContentFoldersName().size())
 				res += ",\n";
@@ -155,7 +175,7 @@ public class StaticExplorer {
 		int i = 0;
 		int countElts  = 0;
 		for (File f : files) {
-			List<Element> elts = getHREFElementsFromFile(builder, f);
+			List<Element> elts = getHREFElementsFromFile(f);
 			countElts += elts.size();
 			String hrefs = getJSonForHrefs(elts) ;
 			res += "\n\""+f.getName()+"\": "+hrefs + (++i < files.size()?",":"");
@@ -168,9 +188,13 @@ public class StaticExplorer {
 	private String getJSonForCtxValues() {
 		String res = "";
 		File fContext = new File(config.getPropertiesEditorConfigurationContext());
-		ContextFile gm = new ContextFile(fContext);
-		res = gm.getHRefJSon();
-		LOGGER.fine(gm.getReferences().size() + " references found in '" + fContext + "'");
+		if(fContext.exists() ) {
+			ContextFile gm = new ContextFile(fContext);
+			res = gm.getHRefJSon();
+			LOGGER.fine(gm.getReferences().size() + " references found in '" + fContext + "'");
+		} else {
+			LOGGER.warning("No context file");			
+		}
 		return res;
 	}
 
@@ -211,8 +235,12 @@ public class StaticExplorer {
 	 * 
 	 * @return JSON
 	 */
-	private String getJSonForEcoreRefs() {
-		File f = new File(config.getEcoreFilePath());
+	private String getJSonForEcoreRefs(File f) {
+		
+		if(!f.exists()) {
+			LOGGER.warning("Ecore file not found. Check Project name / Ecore file name.");
+			return "{}";
+		}
 		EcoreModelFile ecoreModel = new EcoreModelFile(f);
 		return ecoreModel.getHRefJSon();
 	}
@@ -277,7 +305,7 @@ public class StaticExplorer {
 
 
 
-	private static List<Element> getHREFElementsFromFile(DocumentBuilder builder, File xmlFile)
+	private List<Element> getHREFElementsFromFile(File xmlFile)
 			throws SAXException, IOException {
 		LOGGER.finest("XMI file: "+xmlFile.getAbsolutePath());
 		Document doc = builder.parse(xmlFile);
@@ -322,7 +350,7 @@ public class StaticExplorer {
 	 * @param id
 	 * @return
 	 */
-	public Object getElementFromFile(File f, String id) {
+	public Element getElementFromFile(File f, String id) {
 		// TODO get element from xmi ID !
 	
 		try {
