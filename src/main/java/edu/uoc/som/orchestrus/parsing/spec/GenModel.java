@@ -3,7 +3,6 @@ package edu.uoc.som.orchestrus.parsing.spec;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.xpath.XPath;

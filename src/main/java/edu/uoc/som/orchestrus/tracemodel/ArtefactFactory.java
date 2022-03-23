@@ -197,6 +197,7 @@ public class ArtefactFactory {
 	 * WARNING !! <br/>
 	 * NOT IMPLEMENTED !!
 	 */
+	@SuppressWarnings("unused")
 	private void clusterExternalFilesIntoLocations() {
 		System.out.println("\nArtefactFactory.clusterExternalFilesIntoLocations()");
 		List<Artefact> extArts = subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT);

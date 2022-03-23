@@ -10,7 +10,7 @@ import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
 public class TraceLink extends TypedLink {
 	
-	private int confidence = 100;
+	private double confidence = 100;
 
 	ArrayList<Artefact> sources = new ArrayList<>();
 	ArrayList<Artefact> targets = new ArrayList<>();
@@ -46,11 +46,11 @@ public class TraceLink extends TypedLink {
 		return targets;
 	}
 	
-	public int getConfidence() {
+	public double getConfidence() {
 		return confidence;
 	}
 	
-	public void setConfidence(int confidence) {
+	public void setConfidence(double confidence) {
 		this.confidence = confidence;
 	}
 	
@@ -157,15 +157,13 @@ public class TraceLink extends TypedLink {
 	public String getD3Json() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
-		res += "\"name\": \"" + getName() + "\",";
+		res += "\"name\": \"" + confidence + "\",";
 		res += "\"source_id\": \"" + sources.get(0).getID() + "\",";
 		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"group\": " + getType().getNumber() + ",";
-		res += "\"confidence\": "+confidence+",";
-//		System.out.println(confidence);
+		res += "\"confidence\": " + confidence + ",";
 		res += "\"energy\": 100";
-		
 		return res + "}";
 	}
 

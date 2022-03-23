@@ -26,7 +26,8 @@ var imgs = [
 	{"type":"Requirement", "img":  "icons-72.png"}
 ]
 
-var CIRCLE_SIZE = [15, 5];
+var EDGES_SIZE = [5, 30];
+var NODES_SIZE = [20, 100];
 var LEGEND_GAP = 120; //legend start from top
 var moving = true;
 
@@ -131,8 +132,8 @@ d3.json(dataPath, function(error, graph) {
 
 	log.text(links.length + "  " + nodes.length)
 
-	edgesize = getSizeLinearScale(nodes, CIRCLE_SIZE[0], CIRCLE_SIZE[1]);
-	nodesize = getSizeLinearScale(nodes, 10, 30);
+	edgesize = getConfidenceLinearScale(links, EDGES_SIZE[0], EDGES_SIZE[1]);
+	nodesize = getSizeLinearScale(nodes, NODES_SIZE[0], NODES_SIZE[1]);
 	linkedByIndex = getLinkageByIndex(links);
 	// A function to test if two nodes are neighboring.
 
@@ -610,6 +611,11 @@ function showError(datapath) {
 function  getSizeLinearScale(nodes, min, max) {
 	return d3.scaleLinear()
 		.domain([d3.min(nodes, function(d) {return d.size; }),d3.max(nodes, function(d) {return d.size; })])
+		.range([min,max]);
+}
+function  getConfidenceLinearScale(nodes, min, max) {
+	return d3.scaleLinear()
+		.domain([d3.min(nodes, function(d) {return d.confidence; }),d3.max(nodes, function(d) {return d.confidence; })])
 		.range([min,max]);
 }
 
