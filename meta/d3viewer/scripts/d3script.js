@@ -651,6 +651,14 @@ function zoomed() {
 
 
 
+document.getElementById('searchTerm').addEventListener("keyup", function (event) {
+	// if the key pressed is ENTER
+	// click listener on button is called
+	if (event.keyCode == 13) {
+		event.preventDefault();
+		searchNodes();
+	}
+});
 
 // Search for nodes by making all unmatched nodes temporarily transparent.
 function searchNodes() {
@@ -658,11 +666,11 @@ function searchNodes() {
   var selected = container.selectAll('.node').filter(function (d, i) {
 	  return d.name.toLowerCase().search(term.toLowerCase()) == -1;
   });
-  selected.style('opacity', '0');
+  selected.style('opacity', '0.2');
   var edgepaths = container.selectAll('.edgepath');
   edgepaths.style('opacity', '0');
 
-  d3.selectAll('.node').transition().duration(5000).style('opacity', '1');
+  d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
   d3.selectAll('.edgepath').transition().duration(5000).style('opacity', '0.6');
 
 }
