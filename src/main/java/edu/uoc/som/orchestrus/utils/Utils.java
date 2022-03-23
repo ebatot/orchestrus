@@ -68,14 +68,14 @@ public class Utils {
 		LOGGER.info(""+log);
 	}
 	
-	public static void storeMatrixTracea(Trace t, boolean deploy) {
-		storeMatrixTracea(t, deploy, "meta\\d3viewer\\data\\adjacencyMatrix.html");
+	public static void storeMatrixTracea(Trace t, boolean deploy, double acceptanceThreshold) {
+		storeMatrixTracea(t, deploy, "meta\\d3viewer\\data\\adjacencyMatrix.html", acceptanceThreshold);
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void storeMatrixTracea(Trace t, boolean deploy, String deployLocationPath) {
+	public static void storeMatrixTracea(Trace t, boolean deploy, String deployLocationPath, double acceptanceThreshold) {
 		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
-		String htmlTrace = t.renderHTMLMatrix();
+		String htmlTrace = t.renderHTMLMatrix(acceptanceThreshold);
 		String log = "";
 		try {
 			FileUtils.write(f, htmlTrace);

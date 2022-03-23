@@ -211,21 +211,27 @@ public class Trace extends TracingElement {
 	}
 
 	public String renderHTMLMatrix() {
+		return renderHTMLMatrix(Config.MATRIX_DEFAULT_THRESHOLD);
+	}
+	
+	public String renderHTMLMatrix(double acceptanceThreshold) {
 		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") matrix adjacency in HTML.");
 		
 		computeLinksSize(true);
+
+		List<Artefact> compressedArtefacts = compressedArtefacts(acceptanceThreshold);
 		boolean printEltIDs = true;
 		String res = "\t<tr>\n\t\t<th></th>\n";
-		for (Artefact a : artefactsOrdered) 
+		for (Artefact a : compressedArtefacts) 
 			res += "\t\t<th class=\"linkName\">"+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+"</th>\n";
 		res += "\t</tr>\n";
 		
 		String res2 = "";
 		int i = 0;
-		for (Artefact a : artefactsOrdered) {
+		for (Artefact a : compressedArtefacts) {
 			res2 += "\t<tr>\n";
 			res2 += "\t\t<td class=\"linkName\" width=\"150px\">"+i++ + "   "+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+ "</td>\n";
-			for (Artefact a2 : artefactsOrdered) {
+			for (Artefact a2 : compressedArtefacts) {
 				double value = adjacencyMatrix[artefactsIndex.get(a)][artefactsIndex.get(a2)];
 				double color = 255- (value*255);
 				res2 += "\t\t<td class=\"linkCell\" width=\"150px\" "
@@ -265,6 +271,19 @@ public class Trace extends TracingElement {
 				+ "<h1>Trace matrix</h1>\n"
 				+ "\t<div style=\"overflow-x:auto;\">\n";
 		return  HEADER + table + "\n\t</div>\n</body>" ;
+	}
+
+	private List<Artefact> compressedArtefacts(double threshold) {
+		List<Artefact> res = new ArrayList<>();
+		for (Artefact a : artefactsOrdered) {
+			boolean keep = false;
+			for (int i = 0; i < adjacencyMatrix.length; i++) 
+				if(adjacencyMatrix[artefactsIndex.get(a)][i] > threshold) 
+					keep = true;
+			if(keep)
+				res.add(a);
+		}
+		return res;
 	}
 
 	public String renderD3JSon() {

@@ -17,9 +17,9 @@ public class Config {
 
 	
 //	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-//	String project = "com.cea.papyrus.glossaryml";
+//	String project = "com.cea.papyrus.glossary";
 //	String projectName = "GlossaryML";
-//	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
+//	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
 
 	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
 	String project = "com.cea.papyrus.referencemanagement";
@@ -68,7 +68,8 @@ public class Config {
 	static String DOMAIN_MODEL_SUFFIX = ".domainmodel";
 	static String LANGUAGE_REQ_SUFFIX = ".LanguageReqModel";
 	
-	
+	public static final double MATRIX_DEFAULT_THRESHOLD = 0.5;
+
 	static Config instance;
 	public static Config getInstance() {
 		if(instance == null)
@@ -81,6 +82,8 @@ public class Config {
 	HashMap<String, String> values = new HashMap<>();
 	/** Name -> Artefact */
 	HashMap<String, Artefact> artefacts = new HashMap<>();
+
+
 	
 	private Config() {
 		atFactory = ArtefactTypeFactory.getInstance();
