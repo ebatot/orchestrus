@@ -649,6 +649,9 @@ function zoomed() {
 	container.attr("transform", "translate(" + d3.event.transform.x + ", " + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
 }
 
+
+
+
 // Search for nodes by making all unmatched nodes temporarily transparent.
 function searchNodes() {
   var term = document.getElementById('searchTerm').value;
@@ -656,13 +659,15 @@ function searchNodes() {
 	  return d.name.toLowerCase().search(term.toLowerCase()) == -1;
   });
   selected.style('opacity', '0');
-  var edgepaths = container.selectAll('.link');
-  edgepaths.style('stroke-opacity', '0');
-  d3.selectAll('.node').transition()
-	  .duration(5000)
-	  .style('opacity', '1');
-  d3.selectAll('.link').transition().duration(5000).style('stroke-opacity', '0.6');
+  var edgepaths = container.selectAll('.edgepath');
+  edgepaths.style('opacity', '0');
+
+  d3.selectAll('.node').transition().duration(5000).style('opacity', '1');
+  d3.selectAll('.edgepath').transition().duration(5000).style('opacity', '0.6');
+
 }
+
+
 
 function getUrlVars() {
     var vars = {};
@@ -720,7 +725,9 @@ function dragElement(elmnt) {
 }
 
 
-/** Node selection */
+//////////// NODE SELECTION //////////// 
+
+
 function selectNode(d) {
 	nodeSelection = []
 	nodeSelection.push(d)
@@ -744,129 +751,6 @@ function addNodeToSelection(d) {
 	}
 	updateVisualNodeSelection()
 }
-/*
-function addConfigurationBoard() {
-	console.log("here")
-	
-	var board = d3.select("#board");
-
-
-	board
-	.attrs({
-		"position": "absolute"
-	})
-	.style("top","10px")
-	.style("left","10px")
-	.style("border", "1px rgb(54, 2, 2) solid")
-	
-	.append("div").text("Board")
-		.attr("id", "boardHeader")
-		.style("background-color", "rgb(205 190 205)")
-		.style("cursor", "move")
-		.style("font-weight", "bold")
-		
-		
-
-	boardSize = 40;
-	board = board.append("div")
-		.attrs({
-			"width": "200px",
-			"height": boardSize
-		})
-		.style("background-color", "rgb(225 210 225)");
-
-	Object.keys(FORCE_INIT).forEach(function (e) {
-		addConfigSlider(e, board);
-	})
-
-	dragElement(document.getElementById('board'))
-}*/
-
-/*
-function addConfigSlider(name, board) {
-	var values = FORCE_INIT[name]
-	var init = values.init
-	var min = values.min
-	var max = values.max
-	var label = values.label
-
-	console.log(values)
-
-
-	// A slider that removes nodes below the input threshold.
-	var slider = board
-		.append('div')
-		.style('font-size', '60%')
-
-	var p = slider.append("p")
-
-	p.append("label")
-		.text("   "+label+':  ')
-
-	p.append('label')
-		.attr('id', "label"+name)
-		.attr('for', 'threshold')
-		.text(init).style('font-weight', 'bold')
-		.style('font-size', '120%');
-
-	p.append('input')
-		.attr('type', 'range')
-		.attr('min', min)
-		.attr('max', max)
-		.attr('value', init)
-		.attr('id', 'threshold'+name)
-		.style('width', '100%')
-		.style('display', 'block')
-		.on('input', function () { 
-			log.text(this.value);
-			d3.select('#label' + name).text("  "+this.value);
-			updateSimulationValues();
-		});
-
-
-}*/
-/*
-function updateSimulationValues() {
-	d3.forceSimulation()
-		.force("link", d3.forceLink().distance(FORCE_INIT.link.init).strength(1)) // {}
-		.force("charge", d3.forceManyBody().strength(FORCE_INIT.charge.init).distanceMax(FORCE_INIT.chargeMaxDistance.init)) //120 500
-		.force("center", d3.forceCenter(width / 2, height / 2))
-		.force('collision', d3.forceCollide().radius(function(d) {return d.radius*FORCE_INIT.collision.init}));
-
-	d3.forceLink().distance(function(d) {return d.distance;}).strength(FORCE_INIT.distancestrength.init)
-	
-
-	simulation
-		.nodes(nodes)
-		.on("tick", ticked);
-			
-	simulation
-		.force("link")
-		.links(links);
-	// Collision detection based on degree centrality.
-	simulation
-	 	.force("collide", d3.forceCollide().radius( function (d) { return nodesize(d.size); }));
-
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //////////// FORCE SIMULATION //////////// 
