@@ -47,7 +47,7 @@ public class Utils {
 
 	@SuppressWarnings("deprecation")
 	public static void storeD3Tracea(Trace t, boolean deploy, String deployLocationPath) {
-		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
 		String d3trace = t.renderD3JSon();
 		String log = "";
 		try {
@@ -74,7 +74,7 @@ public class Utils {
 	
 	@SuppressWarnings("deprecation")
 	public static void storeMatrixTracea(Trace t, boolean deploy, String deployLocationPath) {
-		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.html");
 		String htmlTrace = t.renderHTMLMatrix();
 		String log = "";
 		try {
