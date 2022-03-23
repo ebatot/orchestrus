@@ -30,8 +30,8 @@ var imgs = [
 //dragElement(document.getElementById('controlBoard'))
 		
 
-var EDGES_SIZE = [5, 30];
-var NODES_SIZE = [20, 100];
+var EDGES_SIZE = [3, 20];
+var NODES_SIZE = [10, 30];
 var LEGEND_GAP = 140; //legend start from top
 var moving = true;
 
