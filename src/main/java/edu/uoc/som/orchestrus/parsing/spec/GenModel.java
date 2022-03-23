@@ -93,19 +93,11 @@ public class GenModel extends SpecificFileReferenceExtractor {
 	@Override
 	public String getHRefJSon() {
 		String res = "";
-		res = getJSonForRootValues(res);
+		res = getJSonForRootValues(res) + ", ";
+		res += getJSonForForeignModels() + ", ";
+		res += getJSonForGenClasses() + ", ";
+		res += getJSonForGenFeatures();
 		
-		// TODO Information required to resolve ??
-		Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(rootNode), DomUtil.getAbsolutePathNamed(rootNode));
-		Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelDirectory), source);
-		Reference r2 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelPluginID), source);
-		Reference r3 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(rootExtendsClass), source);
-		addReference(r);
-		addReference(r2);
-		addReference(r3);
-		String resFMs = getJSonForForeignModels();
-		
-		res = res + resFMs;
 		return "{" + res + "}";
 	}
 
@@ -117,7 +109,15 @@ public class GenModel extends SpecificFileReferenceExtractor {
 					+ "\"rootExtendsClass\": \""+rootExtendsClass+"\", "
 					+ "\"importerID\": \""+importerID+"\", "
 					+ "\"usedGenPackages\": "+getUsegGenPackagesAsJSonArray() + "}"
-				+ ",\n";
+				;
+		Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(rootNode), DomUtil.getAbsolutePathNamed(rootNode));
+		// TODO Information required to resolve ??
+		Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelDirectory), source);
+		Reference r2 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(modelPluginID), source);
+		Reference r3 = ReferenceFactory.getReference(Utils.cleanUrlsForJson(rootExtendsClass), source);
+		addReference(r);
+		addReference(r2);
+		addReference(r3);
 		return res;
 	}
 
@@ -141,6 +141,99 @@ public class GenModel extends SpecificFileReferenceExtractor {
 		resFMs = "\"foreignModels\": [" + resFMs + "] ";
 		return resFMs;
 	}
+	
+	private List<Element> collectElements(String xPathExpr) {
+
+		List<Element> res = new ArrayList<>();
+		try {
+			Document doc = builder.parse(f);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			
+			NodeList nodeList2 = (NodeList) xPath.compile(xPathExpr).evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < nodeList2.getLength(); i++) {
+				Node nNode = nodeList2.item(i);
+				res.add((Element) nNode);
+			}
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	/**
+	 * Return a JSon array with all estructural feature in the EcoreModel.<br/>
+	 * Create a reference for each estructuralfeature with its 'eTypePath' - to be discussed.
+	 * @return
+	 */
+	private String getJSonForGenFeatures() {
+		String res = "";
+		
+		List<Element> genFeatures = collectElements("//genFeatures");
+		for (Element e : genFeatures) {
+			String[] ecoreClassArray = ((Element)e).getAttribute("ecoreClass").split(" ");
+			String ecoreClassType = "";
+			String ecoreClassPath = "";					
+			if(ecoreClassArray.length > 1) {
+				ecoreClassType = (e).getAttribute("eType").split(" ")[0];
+				ecoreClassPath = (e).getAttribute("eType").split(" ")[1];	
+			} else {
+				ecoreClassType = "local";
+				ecoreClassPath = (e).getAttribute("eType").split(" ")[0];
+			}
+			
+			res += "{\"type\": \"eStructuralFeature\", "
+					+ "\"xpath\": \""+DomUtil.getAbsolutePath(e)+"\", "
+					+ "\"xpathNamed\": \""+DomUtil.getAbsolutePathNamed(e)+"\", "
+					+ "\"xsi:type\": \""+((Element)e).getAttribute("xsi:type")+"\", "
+					+ "\"eTypePath\": \""+ecoreClassType+"\", "
+					+ "\"eTypeType\": \""+ecoreClassPath+"\""
+					+ "},";
+			
+			
+			// TODO Information required to resolve ??
+			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
+			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(ecoreClassPath), source);
+			addReference(r);
+		}
+		res = res.trim();
+		if (!res.isBlank())
+			res = res.substring(0, res.length() - 1);
+		
+		res = "\"genFeatures\": [" + res + "] ";
+		return res;
+	}
+	
+	private String getJSonForGenClasses() {
+		String res = "";
+		
+		List<Element> genFeatures = collectElements("//genClasses");
+		for (Element e : genFeatures) {
+			String ecoreClass = ((Element)e).getAttribute("ecoreClass");
+			res += "{\"type\": \"eStructuralFeature\", "
+					+ "\"xpath\": \""+DomUtil.getAbsolutePath(e)+"\", "
+					+ "\"xpathNamed\": \""+DomUtil.getAbsolutePathNamed(e)+"\", "
+					+ "\"xsi:type\": \""+((Element)e).getAttribute("xsi:type")+"\", "
+					+ "\"ecoreClass\": \""+ecoreClass+"\" "
+					+ "},";
+			
+			
+			// TODO Information required to resolve ??
+			Source source = new Source(getFilePath(), DomUtil.getAbsolutePath(e), DomUtil.getAbsolutePathNamed(e));
+			Reference r = ReferenceFactory.getReference(Utils.cleanUrlsForJson(ecoreClass), source);
+			addReference(r);
+		}
+		res = res.trim();
+		if (!res.isBlank())
+			res = res.substring(0, res.length() - 1);
+		
+		res = "\"genClasses\": [" + res + "] ";
+		return res;
+	}
+
 
 	/**
 	 * Axtrude a list from the node's 'usedGenPackages' attribute.
