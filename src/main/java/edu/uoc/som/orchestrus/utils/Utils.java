@@ -97,7 +97,7 @@ public class Utils {
 
 	@SuppressWarnings("deprecation")
 	public static void storeDependencies_HC(String interArtDependencies_JSON) {
-		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+".refs.json");
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+".refs.json");
 		try {
 			FileUtils.write(f, interArtDependencies_JSON);
 			LOGGER.info("References stored in '"+f.getAbsolutePath()+"'");
