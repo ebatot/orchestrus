@@ -1,5 +1,6 @@
 package edu.uoc.som.orchestrus.parsing;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,15 +12,20 @@ import javax.xml.parsers.ParserConfigurationException;
 import edu.uoc.som.orchestrus.parsing.utils.XmlException;
 
 public abstract class SpecificFileReferenceExtractor {
-	private Set<Reference> references = new HashSet<>();;
-	protected DocumentBuilder builder;
 	
-	public SpecificFileReferenceExtractor() {
-		loadXMLTools();
+	private Set<Reference> references = new HashSet<>();;
+	
+	protected File f;
+	protected DocumentBuilder builder;
+
+	public SpecificFileReferenceExtractor(File f) {
+		if(f == null)
+			throw new IllegalArgumentException("File is null.");
+		this.f = f;
+		
 	}
 
-	private void loadXMLTools() {
-		
+	protected void loadXMLTools() {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			builder = factory.newDocumentBuilder();
@@ -42,5 +48,8 @@ public abstract class SpecificFileReferenceExtractor {
 	}
 
 	public abstract String getHRefJSon();
-	public abstract String getFilePath();
+
+	public String getFilePath() {
+		return f.getAbsolutePath();
+	}
 }

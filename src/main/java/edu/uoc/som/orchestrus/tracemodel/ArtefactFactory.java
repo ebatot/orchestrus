@@ -18,6 +18,7 @@ import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
+import edu.uoc.som.orchestrus.parsing.spec.JavaFolder;
 import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
@@ -180,9 +181,29 @@ public class ArtefactFactory {
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
 		
+		buildJavaCustomArtefacts();
+//		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT).size() + " Elements in " + ReferenceFactory.getReferences().size() + " references.");
+//		if (LOGGER.getLevel().equals(Level.FINE)) {
+//			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
+//				LOGGER.finer("  - " + a + ": " + a.getHREF());
+//			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
+//				LOGGER.finer("  - " + a + ": " + a.getHREF());
+//		}
+		
 	}
 
 	
+	private void buildJavaCustomArtefacts() {
+		Set<File> folders = Config.getInstance().getJavaCustomFolders();
+		
+		for (File folder : folders) {
+			JavaFolder jf = new JavaFolder(folder);
+			
+		}
+		
+		
+	}
+
 	private void buildElementLevelArtefacts() {
 		for (Reference r :  ReferenceFactory.getReferences().values()) {
 			Artefact a = getArtefact(r);

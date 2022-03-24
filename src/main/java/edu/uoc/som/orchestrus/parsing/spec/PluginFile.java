@@ -29,12 +29,10 @@ public class PluginFile extends SpecificFileReferenceExtractor {
 	
 	Document doc;
 	XPath xPath;
-	File f;
 	
 	public PluginFile(File f) {
-		if(f == null)
-			throw new IllegalArgumentException("File is null.");
-		this.f = f;
+		super(f);
+		loadXMLTools();
 		try {
 			doc = builder.parse(f);
 			xPath = XPathFactory.newInstance().newXPath();

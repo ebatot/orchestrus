@@ -35,12 +35,10 @@ public class EcoreModelFile extends SpecificFileReferenceExtractor{
 	Element rootNode;
 	List<Element> eStructuralFeatures;
 	
-	File f;
 	List<Element> elements;
 	public EcoreModelFile(File f) {
-		if(f == null)
-			throw new IllegalArgumentException("File is null.");
-		this.f = f;
+		super(f);
+		loadXMLTools();
 		elements = getElementsForEcoreRefs();
 		affectRootValues(rootNode);
 	}

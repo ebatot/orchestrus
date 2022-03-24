@@ -30,12 +30,9 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 	public final static Logger LOGGER = Logger.getLogger(ContextFile.class.getName());
 	
 	List<Element> elements;
-	File f;
-	
 	public ContextFile(File f) {
-		if(f == null)
-			throw new IllegalArgumentException("File is null.");
-		this.f = f;
+		super(f);
+		loadXMLTools();
 		try {
 			elements = getContextValuElementsFromFile(f);
 		} catch (SAXException e) {
@@ -87,7 +84,7 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 	 * @param elts
 	 * @return JSON
 	 */
-	private static String getJSonForCtxValues(List<Element> elts) {
+	private String getJSonForCtxValues(List<Element> elts) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
 		int i = 0;
@@ -103,7 +100,8 @@ public class ContextFile extends SpecificFileReferenceExtractor {
 			 * Build and resolve references
 			 */
 			Reference r = ReferenceFactory.getReference(cleanvalue, source); 
-
+			addReference(r);
+			
 			cleanvalue = Utils.cleanUrlsForJson(r.getHREF());
 			
 			String key = element.getAttributes().getNamedItem("key").getTextContent();

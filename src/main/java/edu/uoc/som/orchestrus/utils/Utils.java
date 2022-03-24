@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -280,5 +281,19 @@ public class Utils {
 		if(s.length() > maxLength)
 			return s.substring(0, maxLength);
 		return s;
+	}
+
+	public static boolean askYesNpQuestionToUser(String question) {
+		System.out.println(question + " Y/N");
+		Scanner sc = new Scanner(System.in);
+		String res = "";
+		try {
+			res = sc.nextLine();
+			sc.close();
+		} catch (Exception e) {
+			res = "";
+			e.printStackTrace();
+		}
+		return res.toLowerCase().equals("y");
 	}
 }

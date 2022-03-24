@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
@@ -25,6 +27,7 @@ public class Config {
 	String project = "com.cea.papyrus.referencemanagement";
 	String projectName = "ReferencesML";
 	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
+	List<String> javaSourceFolders = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
 
 	/*
 	 * Hard coded config files (in project root folder)
@@ -267,6 +270,21 @@ public class Config {
 		return getProjectFullPath() + File.separator + paletteConfigurationsFolder;
 	}
 	
+	public File getConfigFile(String fileName) {
+		File f = new File(projectRoot + File.separator+project+File.separator + fileName);
+		return f;
+	}
+
+	public Set<File> getJavaCustomFolders() {
+		HashSet<File> res = new HashSet<>(javaSourceFolders.size());
+		for (String folder : javaSourceFolders) {
+			File f = new File(projectRoot + File.separator+project+File.separator + folder);
+			res.add(f);
+		}
+		return res;
+	}
+
+	
 	public String getEcoreFilePath() {
 		File fEcore = new File(getUmlProfilesFolderFull()+File.separator+projectName+".ecore");
 		if(fEcore.exists())
@@ -347,8 +365,4 @@ public class Config {
 		return res;
 	}
 
-	public File getConfigFile(String fileName) {
-		File f = new File(projectRoot + File.separator+project+File.separator + fileName);
-		return f;
-	}
 }

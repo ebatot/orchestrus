@@ -32,15 +32,13 @@ public class GenModel extends SpecificFileReferenceExtractor {
 	private String importerID;
 	private String[] usedGenPackages;
 	
-	File f;
 	
-	Element rootNode;
-	List<Element> foreignModels;
+	private Element rootNode;
+	private List<Element> foreignModels;
 	
 	public GenModel(File f) {
-		if(f == null)
-			throw new IllegalArgumentException("File is null.");
-		this.f = f;
+		super(f);
+		loadXMLTools();
 		init();
 	}
 	
