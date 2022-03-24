@@ -734,5 +734,38 @@
       "contextModel": "properties-editor-configurations/ReferencesML.ctx",
       "isCustomizable": "true"
     }
+  },
+  "src-custom": {
+    "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.referencemanagement/src-custom": {
+      "com.cea.papyrus.referencemanagement.ReferenceLibraryDerivedOperationImpl": {
+        "package": "com.cea.papyrus.referencemanagement",
+        "hardCodedStrings": [],
+        "imports": [
+          "java.util.Iterator",
+          "org.eclipse.emf.common.util.BasicEList",
+          "org.eclipse.emf.common.util.EList",
+          "org.eclipse.uml2.uml.PackageableElement",
+          "org.eclipse.uml2.uml.util.UMLUtil",
+          "ReferenceML.ReferenceLibrary",
+          "ReferenceML.Collection"
+        ]
+      },
+      "com.cea.papyrus.referencemanagement.CollectionDerivedOperationImpl": {
+        "package": "com.cea.papyrus.referencemanagement",
+        "hardCodedStrings": [
+          "ceci est une hcstring",
+          "in foreign language :("
+        ],
+        "imports": [
+          "java.util.Iterator",
+          "org.eclipse.emf.common.util.BasicEList",
+          "org.eclipse.emf.common.util.EList",
+          "org.eclipse.uml2.uml.PackageableElement",
+          "org.eclipse.uml2.uml.util.UMLUtil",
+          "ReferenceML.Collection",
+          "ReferenceML.Reference"
+        ]
+      }
+    }
   }
 }

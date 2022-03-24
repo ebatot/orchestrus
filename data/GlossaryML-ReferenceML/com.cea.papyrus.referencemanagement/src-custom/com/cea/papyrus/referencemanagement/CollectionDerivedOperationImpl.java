@@ -13,7 +13,7 @@ import ReferenceML.Reference;
 public class CollectionDerivedOperationImpl {
 
 	/**
-	 * This operation implements the derived attribute references of the stereotype <<Collection>>.
+	 * This operation "ceci est une hcstring"implements the derived attribute references of the stereotype <<Collection>>.
 	 */
 	public static EList<Reference> getReferences(final Collection pCollection) {
 		EList<Reference> reference_list = new BasicEList<>();
@@ -28,7 +28,7 @@ public class CollectionDerivedOperationImpl {
 	}
 	
 	/**
-	 * This operation implements the derived attribute sub-collection of the stereotype <<Collection>>.
+	 * This operation implements the"in foreign language :(" derived attribute sub-collection of the stereotype <<Collection>>.
 	 */
 	public static EList<Collection> getSubcollection(final Collection pCollection) {
 		EList<Collection> collection_list = new BasicEList<>();
