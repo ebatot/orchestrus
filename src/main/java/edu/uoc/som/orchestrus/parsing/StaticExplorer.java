@@ -135,13 +135,31 @@ public class StaticExplorer {
 		 * 
 		 */
 		
+		// Added extra context references
+		/*
+		for (File fCustom : Config.getInstance().getJavaCustomFolders()) {
+			String customSourceFolder = fCustom.getName();
+			String customJavaFolderJson = getJSonForJavaCustomFolder(fCustom);
+			JsonElement elJavaCustom = parser.parse(customJavaFolderJson);
+			obRoot.add(customSourceFolder, elJavaCustom);
+		}*/
 		
+		
+		
+		
+	
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		return gson.toJson(elHrefs);
 	}
 	
 	
+	private String getJSonForJavaCustomFolder(File fCustom) {
+		
+		return null;
+	}
+
+
 	private String getHrefs_Json() {
 		String res ="{";
 		int isf = 0;

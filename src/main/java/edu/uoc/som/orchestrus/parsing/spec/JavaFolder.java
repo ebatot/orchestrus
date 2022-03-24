@@ -11,34 +11,28 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 
 	public final static Logger LOGGER = Logger.getLogger(JavaFolder.class.getName());
 
-	
 	Set<JavaFile> javaFiles;
+
+	public Set<JavaFile> getJavaFiles() {
+		return javaFiles;
+	}
 	
 	public JavaFolder(File folder) {
 		super(folder);
-		
-		
-		
 		Set<File> files = listOfFiles(folder);
 		javaFiles = new HashSet<JavaFile>(files.size());
 		for (File f : files) {
-			if(f.getName().endsWith(".java")) {
+			if (f.getName().endsWith(".java")) {
 				JavaFile jf = new JavaFile(f);
 				javaFiles.add(jf);
 			}
 		}
-		
-		for (JavaFile jf : javaFiles) {
-			System.out.println(jf.getFilePath());
-		}
-		LOGGER.fine(javaFiles.size() + " Java files found in '"+folder.getAbsolutePath()+"'.");
+		LOGGER.fine(javaFiles.size() + " Java files found in '" + folder.getAbsolutePath() + "'.");
 	}
 
 	public static Set<File> listOfFiles(File dirPath) {
 		Set<File> res = new HashSet<>();
-		
 		File filesList[] = dirPath.listFiles();
-		
 		for (File file : filesList) {
 			if (file.isFile()) {
 				res.add(file);
@@ -49,8 +43,7 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 		}
 		return res;
 	}
-	
-	
+
 	public Set<JavaFile> getClassFiles() {
 		return javaFiles;
 	}
@@ -59,12 +52,12 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 	public String getHRefJSon() {
 		String res = "";
 		
+		//print location in full
+
 		for (JavaFile f : javaFiles) {
-			
-			
+			String resJF = f.getHRefJSon();
 		}
-		
-		
+
 		// TODO Auto-generated method stub
 		return null;
 	}

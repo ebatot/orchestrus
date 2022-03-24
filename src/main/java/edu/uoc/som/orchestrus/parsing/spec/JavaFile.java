@@ -43,6 +43,11 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 		public String toString() {
 			return "HS\"" + string + "\"";
 		}
+
+		public String getHREFJson() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 	public JavaFile(File f) {
@@ -159,7 +164,6 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 		return strings;
 	}
 
-	
 	private ArrayList<String> parseFileAndMatchImports() {
 		ArrayList<String> strings = new ArrayList<>();
 		try {
@@ -184,8 +188,29 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 
 	@Override
 	public String getHRefJSon() {
+		String res = "\""+packagePath+"."+f.getName().substring(0, f.getName().lastIndexOf("."))+"\" :";
 
-		return null;
+		res += "\"package\": \"" + packagePath + "\",\n";
+
+		String tmpRes = "";
+		for (HardcodedString hcString : hcStrings)
+			tmpRes += hcString.getHREFJson() + ",\n";
+		tmpRes = tmpRes.trim();
+		if (!tmpRes.isBlank())
+			tmpRes = tmpRes.substring(0, tmpRes.length() - 1);
+		res += "\"hardCodedStrings\": [" + tmpRes + "],\n";;
+
+		tmpRes = "";
+		for (String is : importStrings) {
+			tmpRes = "\"" + is + "\",\n";
+		}
+		tmpRes = tmpRes.trim();
+		if (!tmpRes.isBlank())
+			tmpRes = tmpRes.substring(0, tmpRes.length() - 1);
+		res += "\"imports\": [" + tmpRes + "],\n";;
+		
+		System.out.println(res);
+		return res;
 	}
 
 }

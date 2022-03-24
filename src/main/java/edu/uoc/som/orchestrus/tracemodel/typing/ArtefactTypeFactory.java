@@ -12,6 +12,8 @@ public class ArtefactTypeFactory {
 	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = addType("LocalFolder");
 	public static final ArtefactType LOCAL_ROOT_ARTEFACT = addType("LocalRoot");
 	public static final ArtefactType ELEMENT_ARTEFACT = addType("Element");
+	public static final ArtefactType CUSTOM_SOURCE_FOLDER_ARTEFACT =  addType("JavaCustomFolder");
+	public static final ArtefactType CUSTOM_SOURCE_FILE_ARTEFACT =  addType("JavaCustomFile");
 
 	static ArtefactTypeFactory instance;
 

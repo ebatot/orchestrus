@@ -24,6 +24,10 @@ public abstract class SpecificFileReferenceExtractor {
 		this.f = f;
 		
 	}
+	
+	public File getFile() {
+		return f;
+	}
 
 	protected void loadXMLTools() {
 		try {

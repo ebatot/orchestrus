@@ -18,6 +18,7 @@ import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
+import edu.uoc.som.orchestrus.parsing.spec.JavaFile;
 import edu.uoc.som.orchestrus.parsing.spec.JavaFolder;
 import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
@@ -192,20 +193,38 @@ public class ArtefactFactory {
 		
 	}
 
-	
 	private void buildJavaCustomArtefacts() {
 		Set<File> folders = Config.getInstance().getJavaCustomFolders();
-		
+
 		for (File folder : folders) {
 			JavaFolder jf = new JavaFolder(folder);
+
+			Artefact a = getArtefact(folder);
+			if (a == null) {
+				a = new Artefact(folder.getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FOLDER_ARTEFACT,
+						folder.getParent(), null, true);
+				addArtefact(a);
+
+				// If the parent artefact exists, affects it.
+				affectsLocalParentIfExists(a);
+			}
 			
+			for (JavaFile f : jf.getJavaFiles()) {
+				Artefact a2 = getArtefact(folder);
+				if (a2 == null) {
+					a2 = new Artefact(f.getFile().getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FILE_ARTEFACT,
+							f.getFile().getParent(), a, true);
+					addArtefact(a2);
+
+					// If the parent artefact exists, affects it.
+					affectsLocalParentIfExists(a2);
+				}
+			}
 		}
-		
-		
 	}
 
 	private void buildElementLevelArtefacts() {
-		for (Reference r :  ReferenceFactory.getReferences().values()) {
+		for (Reference r : ReferenceFactory.getReferences().values()) {
 			Artefact a = getArtefact(r);
 			Artefact aElt = new Artefact(r.getInnerLocation(), ArtefactTypeFactory.ELEMENT_ARTEFACT, r.getHREF().substring(0, r.getHREF().length() - r.getInnerLocation().length()), null);
 			addArtefact(aElt);
