@@ -198,7 +198,10 @@ public class ArtefactFactory {
 
 		for (File folder : folders) {
 			JavaFolder jf = new JavaFolder(folder);
-
+			// TODO create referenec
+			
+			
+			//TODO extract artefact creation and put reference creation into getDependency de staticeexplorer
 			Artefact a = getArtefact(folder);
 			if (a == null) {
 				a = new Artefact(folder.getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FOLDER_ARTEFACT,
@@ -210,6 +213,7 @@ public class ArtefactFactory {
 			}
 			
 			for (JavaFile f : jf.getJavaFiles()) {
+				//TODO extract artefact creation and put reference creation into getDependency de staticeexplorer
 				Artefact a2 = getArtefact(folder);
 				if (a2 == null) {
 					a2 = new Artefact(f.getFile().getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FILE_ARTEFACT,

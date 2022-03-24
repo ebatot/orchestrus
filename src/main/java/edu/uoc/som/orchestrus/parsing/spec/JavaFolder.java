@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.SpecificFileReferenceExtractor;
+import edu.uoc.som.orchestrus.utils.Utils;
 
 public class JavaFolder extends SpecificFileReferenceExtractor {
 
@@ -16,7 +17,7 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 	public Set<JavaFile> getJavaFiles() {
 		return javaFiles;
 	}
-	
+
 	public JavaFolder(File folder) {
 		super(folder);
 		Set<File> files = listOfFiles(folder);
@@ -51,15 +52,17 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 	@Override
 	public String getHRefJSon() {
 		String res = "";
-		
-		//print location in full
 
-		for (JavaFile f : javaFiles) {
-			String resJF = f.getHRefJSon();
+		System.out.println("JavaFolder.getHRefJSon()");
+		String resTmp = "";
+		for (JavaFile jf : javaFiles) {
+			resTmp += "\"" + jf.getPackagePath() + "." + jf.getName() + "\" : \n" + jf.getHRefJSon() + ",\n";
 		}
+		if (!resTmp.isBlank())
+			resTmp = resTmp.substring(0, resTmp.trim().length() - 1);
 
-		// TODO Auto-generated method stub
-		return null;
+		res = "\"" + Utils.cleanUrlsForJson(f.getAbsolutePath()) + "\":{\n" + resTmp + "}";
+		return "{" + res + "}";
 	}
 
 }

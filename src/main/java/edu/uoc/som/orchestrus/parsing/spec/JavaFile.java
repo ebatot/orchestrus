@@ -26,7 +26,9 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 	public enum ACCEPT_STRINGS {
 		ALL, NONE, REGEX, UX;
 	};
-	ACCEPT_STRINGS acceptsStringsMethod = ACCEPT_STRINGS.NONE;
+	ACCEPT_STRINGS acceptsStringsMethod = ACCEPT_STRINGS.ALL;
+
+	private String name;
 
 	class HardcodedString {
 		public HardcodedString(String s, File sourceFile, int lineNumber, int iStart, int iEnd) {
@@ -38,20 +40,33 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 
 		String string;
 		int lineNumber, iStart, iEnd;
-
+		
+		public String getString() {
+			return string;
+		}
+		
 		@Override
 		public String toString() {
-			return "HS\"" + string + "\"";
+			return "hsStr("+string+")";
 		}
+	}
 
-		public String getHREFJson() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	public String getPackagePath() {
+		return packagePath;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return packagePath + "." + f.getName();
 	}
 
 	public JavaFile(File f) {
 		super(f);
+		name = f.getName().substring(0, f.getName().lastIndexOf("."));
 		packagePath = getPackage();
 		hcStrings = getHCStrings();
 		importStrings = getImportStrings();
@@ -59,10 +74,9 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 
 	private ArrayList<HardcodedString> getHCStrings() {
 		if (hcStrings == null) {
-
 			hcStrings = new ArrayList<>();
 			for (HardcodedString hcString : parseFileAndMatchHardCodedStrings()) {
-				
+
 				switch (acceptsStringsMethod) {
 				case ALL:
 					hcStrings.add(hcString);
@@ -89,15 +103,15 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 					break;
 
 				default:
-					throw new IllegalAccessError("Unrecognized ACCEPT_STRING method: "+acceptsStringsMethod);
+					throw new IllegalAccessError("Unrecognized ACCEPT_STRING method: " + acceptsStringsMethod);
 				}
 			}
 			LOGGER.fine(hcStrings.size() + " hardcoded strings found in '" + getFilePath() + "'");
-			LOGGER.fine("  Acceptance method is: "+acceptsStringsMethod);
+			LOGGER.fine("  Acceptance method is: " + acceptsStringsMethod);
 		}
 		return hcStrings;
 	}
-	
+
 	private ArrayList<String> getImportStrings() {
 		if (importStrings == null) {
 			importStrings = new ArrayList<>();
@@ -109,18 +123,17 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 		return importStrings;
 	}
 
-
 	public String getPackage() {
 		if (packagePath == null) {
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(f));
 				String line;
-				int i = 1;
 				boolean notFound = true;
 				while ((line = br.readLine()) != null && notFound) {
 					if (line.trim().startsWith("package")) {
-						packagePath = line.split(" ")[1];
-						LOGGER.finest("Package: "+packagePath);
+						packagePath = line.split(" ")[1]; // import package.path
+						packagePath = packagePath.substring(0, packagePath.length() - 1); // Remove ';'
+						LOGGER.finest("Package: " + packagePath);
 						notFound = false;
 						break;
 					}
@@ -171,11 +184,12 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if(line.startsWith("import")) {
-					String importString = line.split(" ")[1];
-					LOGGER.finest("import: "+importString);
+				if (line.startsWith("import")) {
+					String importString = line.split(" ")[1]; // import package.name
+					importString = importString.substring(0, importString.length() - 1); // remove ';'
+					LOGGER.finest("import: " + importString);
 					strings.add(importString);
-				} else if(line.startsWith("public class")) 
+				} else if (line.startsWith("public class"))
 					break;
 			}
 			br.close();
@@ -188,29 +202,29 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 
 	@Override
 	public String getHRefJSon() {
-		String res = "\""+packagePath+"."+f.getName().substring(0, f.getName().lastIndexOf("."))+"\" :";
+		String res = "";
 
-		res += "\"package\": \"" + packagePath + "\",\n";
+		res += "  \"package\": \"" + packagePath + "\",\n";
 
 		String tmpRes = "";
 		for (HardcodedString hcString : hcStrings)
-			tmpRes += hcString.getHREFJson() + ",\n";
+			tmpRes += hcString.getString() + ",\n";
 		tmpRes = tmpRes.trim();
 		if (!tmpRes.isBlank())
 			tmpRes = tmpRes.substring(0, tmpRes.length() - 1);
-		res += "\"hardCodedStrings\": [" + tmpRes + "],\n";;
+		res += "  \"hardCodedStrings\": [" + tmpRes + "],\n";
 
 		tmpRes = "";
 		for (String is : importStrings) {
-			tmpRes = "\"" + is + "\",\n";
+			tmpRes += "\"" + is + "\",\n";
 		}
 		tmpRes = tmpRes.trim();
 		if (!tmpRes.isBlank())
 			tmpRes = tmpRes.substring(0, tmpRes.length() - 1);
-		res += "\"imports\": [" + tmpRes + "],\n";;
-		
-		System.out.println(res);
-		return res;
+		res += "  \"imports\": [" + tmpRes + "]\n";
+		;
+
+		return "{" + res + "}";
 	}
 
 }

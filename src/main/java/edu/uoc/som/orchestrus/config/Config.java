@@ -18,15 +18,15 @@ public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
 	
-//	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-//	String project = "com.cea.papyrus.glossary";
-//	String projectName = "GlossaryML";
-//	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
-
 	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-	String project = "com.cea.papyrus.referencemanagement";
-	String projectName = "ReferencesML";
-	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
+	String project = "com.cea.papyrus.glossary";
+	String projectName = "GlossaryML";
+	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
+
+//	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+//	String project = "com.cea.papyrus.referencemanagement";
+//	String projectName = "ReferencesML";
+//	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
 	List<String> javaSourceFolders = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
 
 	/*

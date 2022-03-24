@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.spec.ContextFile;
 import edu.uoc.som.orchestrus.parsing.spec.EcoreModelFile;
 import edu.uoc.som.orchestrus.parsing.spec.GenModel;
+import edu.uoc.som.orchestrus.parsing.spec.JavaFolder;
 import edu.uoc.som.orchestrus.parsing.spec.PluginFile;
 import edu.uoc.som.orchestrus.parsing.utils.DomUtil;
 import edu.uoc.som.orchestrus.parsing.utils.XmlException;
@@ -136,14 +138,14 @@ public class StaticExplorer {
 		 */
 		
 		// Added extra context references
-		/*
+		
 		for (File fCustom : Config.getInstance().getJavaCustomFolders()) {
 			String customSourceFolder = fCustom.getName();
 			String customJavaFolderJson = getJSonForJavaCustomFolder(fCustom);
 			JsonElement elJavaCustom = parser.parse(customJavaFolderJson);
 			obRoot.add(customSourceFolder, elJavaCustom);
-		}*/
-		
+		}
+		//TODO Add javas in href json file.
 		
 		
 		
@@ -154,9 +156,22 @@ public class StaticExplorer {
 	}
 	
 	
+	Set<JavaFolder> javaFolders;
+	
 	private String getJSonForJavaCustomFolder(File fCustom) {
-		
-		return null;
+		String res = "";
+		Set<File> folders = Config.getInstance().getJavaCustomFolders();
+		javaFolders = new HashSet<JavaFolder>(folders.size());
+		for (File folder : folders) {
+			JavaFolder jf = new JavaFolder(folder);
+			javaFolders.add(jf);
+			res = jf.getHRefJSon() + ",";
+			// TODO create references and stick JSON !
+		}
+		if(!res.isBlank())
+			res = res.substring(0, res.length()-1);
+
+		return ""+res+"";
 	}
 
 
