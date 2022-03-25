@@ -27,12 +27,10 @@ var imgs = [
 ]
 
 
-//dragElement(document.getElementById('controlBoard'))
 		
 
 var EDGES_SIZE = [3, 20];
 var NODES_SIZE = [10, 30];
-var LEGEND_GAP = 140; //legend start from top
 var moving = true;
 
 var MIN = "MIN",
@@ -51,25 +49,13 @@ d3.json("data/thresholds.json", function(data) {
 		thresholdsCheckboxesValues[k] = "on"
 	})
 });
-sliderBox = d3.select('body')
-	.append('div')
-		.attr("id", "sliderBox")
-		.style("border", '1px rgb(54, 2, 2) solid')
-		.style("position", 'absolute')
-		.style('right', '10px')
-		.style('top', '10px')
-		.style('width', '200px')
-		.style("background-color", "rgb(225 210 225)")
 
-sliderBox.append('div')
-		.text(' Thresholds')	
-		.attr('id', 'sliderBoxHeader')
-		.style("background-color", "rgb(205 190 205)")
-		.style("cursor", "move")
-		.style("font-weight", "bold")
-
+// Ornament adjacency thresholds sliders
+sliderBox = d3.select('#sliderBox')
 dragElement(document.getElementById('sliderBox'))
-	
+dragElement(document.getElementById('controlBoard'))//force properties sliders
+dragElement(document.getElementById('searchBox'))
+
 
 var nodeSelection = []
 
@@ -109,16 +95,6 @@ svg.call(d3.zoom().on('zoom', zoomed));
 
 // force simulator
 var simulation = this.force = d3.forceSimulation();
-
-/*var simulation = this.force = d3.forceSimulation()
-	.force("link", d3.forceLink().distance(FORCE_INIT.link.init).strength(1)) // {}
-	.force("charge", d3.forceManyBody().strength(FORCE_INIT.charge.init).distanceMax(FORCE_INIT.chargeMaxDistance.init)) //120 500
-	.force("center", d3.forceCenter(width / 2, height / 2))
-	.force('collision', d3.forceCollide().radius(function(d) {return d.radius*FORCE_INIT.collision.init}));
-
-d3.forceLink().distance(function(d) {return d.distance;}).strength(FORCE_INIT.distancestrength.init)
-*/
-
 
 var dataPath = "data/input_data.json"
 if ( getUrlVars()['imf'] != null )
@@ -415,21 +391,10 @@ function addIconsToLegend() {
 function addlegend(legendNamesNodes, legendNamesLinks) {
 	var legend = d3.select("#legend");
 	
-	legend
-	.attrs({
-		"position": "absolute"
-	})
-	.style("top", LEGEND_GAP+"px")
-	.style("right","10px")
-	.style("border", "1px rgb(54, 2, 2) solid")
-	
-	.append("div").text("Legend")
+	legend.append("div").text("Legend")
 		.attr("id", "legendHeader")
-		.style("background-color", "rgb(205 190 205)")
-		.style("cursor", "move")
-		.style("font-weight", "bold")
 		
-		dragElement(document.getElementById('legend'))
+	dragElement(document.getElementById('legend'))
 		
 		
 	legendSize = (nGroups + lGroups + 1) * 20
@@ -771,7 +736,7 @@ function initializeSimulation(nodes) {
 	simulation.on("tick", ticked);
 }
 
-// values for all forces
+
 forceProperties = {
     center: {
         x: 0.5,
@@ -804,6 +769,43 @@ forceProperties = {
         distance: 100,
         iterations: 1
     }
+}
+updateForcePropertiesValues()
+
+
+function updateForcePropertiesValues() {
+	console.log(forceProperties.link.distance)
+	d3.select('#link_DistanceSliderOutput').text(forceProperties.link.distance); 
+	d3.select('#link_IterationsSliderOutput').text(forceProperties.link.iterations); 
+	d3.select('#charge_StrengthSliderOutput').text(forceProperties.charge.strength); 
+	d3.select('#charge_distanceMinSliderOutput').text(forceProperties.charge.distanceMin); 
+	d3.select('#charge_distanceMaxSliderOutput').text(forceProperties.charge.distanceMax); 
+	d3.select('#collide_StrengthSliderOutput').text(forceProperties.collide.strength); 
+	d3.select('#collide_radiusSliderOutput').text(forceProperties.collide.radius); 
+	d3.select('#collide_iterationsSliderOutput').text(forceProperties.collide.iterations); 
+	d3.select('#forceX_StrengthSliderOutput').text(forceProperties.forceX.strength); 
+	d3.select('#forceX_XSliderOutput').text(forceProperties.forceX.x); 
+	d3.select('#forceY_StrengthSliderOutput').text(forceProperties.forceY.strength); 
+	d3.select('#forceY_YSliderOutput').text(forceProperties.forceY.y); 
+	d3.select('#center_XSliderOutput').text(forceProperties.center.x); 
+	d3.select('#center_YSliderOutput').text(forceProperties.center.y); 
+
+	
+	d3.select('#link_DistanceSliderInput').property('value', forceProperties.link.distance); 
+	d3.select('#link_IterationsSliderInput').property('value', 'forceProperties.link.iterations'); 
+	d3.select('#charge_StrengthSliderInput').property('value', 'forceProperties.charge.strength'); 
+	d3.select('#charge_distanceMinSliderInput').property('value', 'forceProperties.charge.distanceMin'); 
+	d3.select('#charge_distanceMaxSliderInput').property('value', forceProperties.charge.distanceMax); 
+	d3.select('#collide_StrengthSliderInput').property('value', forceProperties.collide.strength); 
+	d3.select('#collide_radiusSliderInput').property('value', forceProperties.collide.radius); 
+	d3.select('#collide_iterationsSliderInput').property('value', forceProperties.collide.iterations); 
+	d3.select('#forceX_StrengthSliderInput').property('value', forceProperties.forceX.strength); 
+	d3.select('#forceX_XSliderInput').property('value', forceProperties.forceX.x); 
+	d3.select('#forceY_StrengthSliderInput').property('value', forceProperties.forceY.strength); 
+	d3.select('#forceY_YSliderInput').property('value', forceProperties.forceY.y); 
+	d3.select('#center_XSliderInput').property('value', forceProperties.center.x); 
+	d3.select('#center_YSliderInput').property('value', forceProperties.center.y); 
+
 }
 
 // add forces to the simulation

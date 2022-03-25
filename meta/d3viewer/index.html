@@ -2,40 +2,78 @@
 <meta charset="utf-8">
 <title>TraceaML D3 </title>
 <style>
-html{ width: 100%; }
-body {
-  font-family: 'Arial';
-  background-color: #fffff0;
-}
-.link line {
-  stroke: #999;
-  stroke-opacity: 0.6;
-}
-.node circle {
-  stroke: black;
-}
-#legend {
-  position: absolute;
+  html {
+    width: 100%;
+  }
+.headerTitle{
+  font-size: 30px;
+  text-shadow: -1px -1px rgb(6, 101, 98), 1px 1px #060, -3px 0 4px #000;
+  font-family:Arial, Helvetica, sans-serif;
+  color: rgb(9, 128, 9);
+  padding:5px 0px 0px 16px;
+  text-align:left;
+  display:inline;
+  margin:5px 0px 0px 16px;
 }
 
+.headerSubTitle {
+  font-size: 20px;
+  text-shadow: -1px -1px rgb(6, 101, 98), 1px 1px #060, -3px 0 4px #000;
+  font-family:Arial, Helvetica, sans-serif;
+  color: rgb(8, 71, 8);
+  padding:0px 0px 0px 32px;
+  font-weight:lighter;
+  text-align:left;
+  display:inline;
+  margin:10px 0px 0px 16px;
+}
 
+  body {
+    font-family: 'Arial';
+    background-color: #fffff0;
+  }
+
+  .link line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
+
+  .node circle {
+    stroke: black;
+  }
+
+ 
 
 .controls {
-  flex-basis: 200px;
-  padding: 0 5px;
-  font-size: 60%
+  border: 1px rgb(54, 2, 2) solid;
+  position: absolute;
+  left: 10px;
+  top: 85px;
+  width: 200px;
+  background-color: rgb(225 210 225);
+
+  
+
+  height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .controls .force {
-  background-color:#eee;
+  /*background-color:#eee;*/
   border-radius: 3px;
+  border: 1px rgb(54, 2, 2) solid;
   padding: 5px;
   margin: 5px 0;
+  font-size: 70%;
 }
-.controls .force p label { margin-right: .5em; font-size: 120%; font-weight: bold;}
+.controls .force p label { margin-right: .5em; margin-left: .5em; font-size: 100%; font-weight: bold;}
+.controls .force p label { margin-right: .5em; margin-left: .5em; font-size: 100%; font-weight: bold;}
+
+
 .controls .force p { margin-top: 0;}
 .controls .force label { display: inline-block; }
 .controls input[type="checkbox"] { transform: scale(1.2, 1.2); }
-.controls input[type="range"] { margin: 0 5% 0.5em 5%; width: 90%; }
+.controls input[type="range"] { margin: 0.5 5% 0.5em 5%; width: 90%; }
 /* alpha viewer */
 .controls .alpha p { margin-bottom: .25em; }
 .controls .alpha .alpha_bar { height: .5em; border: 1px #777 solid; border-radius: 2px; padding: 1px; display: flex; }
@@ -43,141 +81,206 @@ body {
 .controls .alpha .alpha_bar:hover { border-width: 2px; margin:-1px; }
 .controls .alpha .alpha_bar:active #alpha_value { background-color: #222 }
 
+#legend {
+  border: 1px rgb(54, 2, 2) solid;
+  position: absolute;
+  right: 10px;
+  top: 230px;
+  width: 200px;
+  background-color: rgb(225 210 225);
+  }
+
+
+#sliderBox {
+  border: 1px rgb(54, 2, 2) solid;
+  position: absolute;
+  right: 10px;
+  top: 100px;
+  width: 200px;
+  background-color: rgb(225 210 225);
+}
+#searchBox {
+  border: 1px rgb(54, 2, 2) solid;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 200px;
+  background-color: rgb(225 210 225);
+}
+
+#searchBox button {
+  font-size: 60%;
+}
+
+#sliderBoxHeader, #legendHeader, #controlBoardHeader, #searchBoxHeader {
+  background-color: rgb(205 190 205);
+  cursor: move;
+  font-weight: bold;
+  font-size: 70%;
+}
+
+
 </style>
 
 </meta>
+
 <body>
   <div class="row">
-    <center>
-      <h1>
-        TraceaML D3 
-      </h1>
-     <h2>
-        Papyrus - Trace analysis
-      </h2>
-      <div>
-        <input id="searchTerm" name="searchTerm" type="text"  />
-        <button id="searchButton" onclick="searchNodes()">Search</button></div>
-      <div class="row">
-    </center>
-  </div>
-  
-	<center>
-		<svg width="800" height="500" style="border:1px black solid; background-color: #fdffda;"></svg><br/>
-	</center>
-</div>
-<div id="legend"> </div>
 
-<div class="controls" id="controlBoard">
-  <!--div class="force alpha">
+      <p class="headerTitle">
+        TraceaML D3
+      </p>
+      <p class="headerSubTitle">
+        Papyrus - Trace analysis
+      </p>
+      
+      
+
+  </div>
+
+  <center>
+    <svg width="800" height="500" style="border:1px black solid; background-color: #fdffda;"></svg><br />
+  </center>
+  </div>
+  <div id="legend"> </div>
+
+  <div class="controls" id="controlBoard">
+    <!--div class="force alpha">
     <p><label>alpha</label> Simulation activity</p>
     <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
-  </div-->
-  
-  <div class="force">
-    <p><label><input type="checkbox" checked onchange="forceProperties.link.enabled = this.checked; updateAll();"> link</label> Sets link length</p>
-    <label title="The force will push/pull nodes to make links this long">
-      distance
-      <output id="link_DistanceSliderOutput">10</output>
-      <input type="range" min="0" max="100" value="10" step="1" oninput="d3.select('#link_DistanceSliderOutput').text(value); forceProperties.link.distance=value; updateAll();">
-    </label>
-    <label title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
-      iterations
-      <output id="link_IterationsSliderOutput">1</output>
-      <input type="range" min="1" max="10" value="1" step="1" oninput="d3.select('#link_IterationsSliderOutput').text(value); forceProperties.link.iterations=value; updateAll();">
-    </label>
+    </div-->
+    <div id="controlBoardHeader"> D3 Control Board</div>
+    <div class="force">
+      <p><label><input type="checkbox" checked onchange="forceProperties.link.enabled = this.checked; updateAll();">
+          link</label> Sets link length</p>
+      <label title="The force will push/pull nodes to make links this long">
+        distance
+        <output id="link_DistanceSliderOutput">10</output>
+        <input id="link_DistanceSliderInput" type="range" min="10" max="200" value="10" step="1"
+          oninput="d3.select('#link_DistanceSliderOutput').text(value); forceProperties.link.distance=value; updateAll();">
+      </label>
+      <label title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
+        iterations
+        <output id="link_IterationsSliderOutput">1</output>
+        <input  id="link_IterationsSliderInput" type="range" min="1" max="10" value="1" step="1"
+          oninput="d3.select('#link_IterationsSliderOutput').text(value); forceProperties.link.iterations=value; updateAll();">
+      </label>
+    </div>
+
+    <div class="force">
+      <p><label><input type="checkbox" checked onchange="forceProperties.charge.enabled = this.checked; updateAll();">
+          charge</label> Attracts (+) or repels (-) nodes to/from each other.</p>
+      <label title="Negative strength repels nodes. Positive strength attracts nodes.">
+        strength
+        <output id="charge_StrengthSliderOutput">-30</output>
+        <input  id="charge_StrengthSliderInput" type="range" min="-200" max="50" value="-30" step=".1"
+          oninput="d3.select('#charge_StrengthSliderOutput').text(value); forceProperties.charge.strength=value; updateAll();">
+      </label>
+      <label title="Minimum distance where force is applied">
+        distanceMin
+        <output id="charge_distanceMinSliderOutput">1</output>
+        <input  id="charge_distanceMinSliderInput" type="range" min="0" max="50" value="1" step=".1"
+          oninput="d3.select('#charge_distanceMinSliderOutput').text(value); forceProperties.charge.distanceMin=value; updateAll();">
+      </label>
+      <label title="Maximum distance where force is applied">
+        distanceMax
+        <output id="charge_distanceMaxSliderOutput">2000</output>
+        <input  id="charge_distanceMaxSliderInput" type="range" min="0" max="2000" value="2000" step=".1"
+          oninput="d3.select('#charge_distanceMaxSliderOutput').text(value); forceProperties.charge.distanceMax=value; updateAll();">
+      </label>
+    </div>
+
+    <div class="force">
+      <p><label><input type="checkbox" checked onchange="forceProperties.collide.enabled = this.checked; updateAll();">
+          collide</label> Prevents nodes from overlapping</p>
+      <label>
+        strength
+        <output id="collide_StrengthSliderOutput">.7</output>
+        <input  id="collide_StrengthSliderInput" type="range" min="0" max="2" value=".7" step=".1"
+          oninput="d3.select('#collide_StrengthSliderOutput').text(value); forceProperties.collide.strength=value; updateAll();">
+      </label>
+      <label title="Size of nodes">
+        radius
+        <output id="collide_radiusSliderOutput">5</output>
+        <input  id="collide_radiusSliderInput" type="range" min="0" max="100" value="5" step="1"
+          oninput="d3.select('#collide_radiusSliderOutput').text(value); forceProperties.collide.radius=value; updateAll();">
+      </label>
+      <label title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
+        iterations
+        <output id="collide_iterationsSliderOutput">1</output>
+        <input  id="collide_iterationsSliderInput" type="range" min="1" max="10" value="1" step="1"
+          oninput="d3.select('#collide_iterationsSliderOutput').text(value); forceProperties.collide.iterations=value; updateAll();">
+      </label>
+    </div>
+
+    <div class="force">
+      <p><label><input type="checkbox" onchange="forceProperties.forceX.enabled = this.checked; updateAll();">
+          forceX</label> Acts like gravity. Pulls all points towards an X location.</p>
+      <label>
+        strength
+        <output id="forceX_StrengthSliderOutput">.1</output>
+        <input  id="forceX_StrengthSliderInput" type="range" min="0" max="1" value=".1" step="0.01"
+          oninput="d3.select('#forceX_StrengthSliderOutput').text(value); forceProperties.forceX.strength=value; updateAll();">
+      </label>
+      <label title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
+        x
+        <output id="forceX_XSliderOutput">.5</output>
+        <input  id="forceX_XSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+          oninput="d3.select('#forceX_XSliderOutput').text(value); forceProperties.forceX.x=value; updateAll();">
+      </label>
+    </div>
+
+    <div class="force">
+      <p><label><input type="checkbox" onchange="forceProperties.forceY.enabled = this.checked; updateAll();">
+          forceY</label> Acts like gravity. Pulls all points towards a Y location.</p>
+      <label>
+        strength
+        <output id="forceY_StrengthSliderOutput">.1</output>
+        <input  id="forceY_StrengthSliderInput" type="range" min="0" max="1" value=".1" step="0.01"
+          oninput="d3.select('#forceY_StrengthSliderOutput').text(value); forceProperties.forceY.strength=value; updateAll();">
+      </label>
+      <label
+        title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
+        y
+        <output id="forceY_YSliderOutput">.5</output>
+        <input  id="forceY_YSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+          oninput="d3.select('#forceY_YSliderOutput').text(value); forceProperties.forceY.y=value; updateAll();">
+      </label>
+    </div>
+
+    <div class="force">
+      <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
+      <label>
+        x
+        <output id="center_XSliderOutput">.5</output>
+        <input  id="center_XSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+          oninput="d3.select('#center_XSliderOutput').text(value); forceProperties.center.x=value; updateAll();">
+      </label>
+      <label>
+        y
+        <output id="center_YSliderOutput">.5</output>
+        <input  id="center_YSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+          oninput="d3.select('#center_YSliderOutput').text(value); forceProperties.center.y=value; updateAll();">
+      </label>
+    </div>
+
   </div>
 
-  <div class="force">
-    <p><label>center</label> Shifts the view, so the graph is centered at this location.</p>
-    <label>
-      x
-      <output id="center_XSliderOutput">.5</output>
-      <input type="range" min="0" max="1" value=".5" step="0.01" oninput="d3.select('#center_XSliderOutput').text(value); forceProperties.center.x=value; updateAll();">
-    </label>
-    <label>
-      y
-      <output id="center_YSliderOutput">.5</output>
-      <input type="range" min="0" max="1" value=".5" step="0.01" oninput="d3.select('#center_YSliderOutput').text(value); forceProperties.center.y=value; updateAll();">
-    </label>
+  <div id="searchBox">
+    <div id="searchBoxHeader">Search</div>
+    <input class="w3-input w3-border-0" id="searchTerm" name="searchTerm" type="text" />
+    <button id="searchButton" onclick="searchNodes()">Search</button>
+  </div>
+  <div id="sliderBox">
+    <div id="sliderBoxHeader"> Thresholds</div>
   </div>
 
-  <div class="force">
-    <p><label><input type="checkbox" checked onchange="forceProperties.charge.enabled = this.checked; updateAll();"> charge</label> Attracts (+) or repels (-) nodes to/from each other.</p>
-    <label title="Negative strength repels nodes. Positive strength attracts nodes.">
-      strength
-      <output id="charge_StrengthSliderOutput">-30</output>
-      <input type="range" min="-200" max="50" value="-30" step=".1" oninput="d3.select('#charge_StrengthSliderOutput').text(value); forceProperties.charge.strength=value; updateAll();">
-    </label>
-    <label title="Minimum distance where force is applied">
-      distanceMin
-      <output id="charge_distanceMinSliderOutput">1</output>
-      <input type="range" min="0" max="50" value="1" step=".1" oninput="d3.select('#charge_distanceMinSliderOutput').text(value); forceProperties.charge.distanceMin=value; updateAll();">
-    </label>
-    <label title="Maximum distance where force is applied">
-      distanceMax
-      <output id="charge_distanceMaxSliderOutput">2000</output>
-      <input type="range" min="0" max="2000" value="2000" step=".1" oninput="d3.select('#charge_distanceMaxSliderOutput').text(value); forceProperties.charge.distanceMax=value; updateAll();">
-    </label>
-  </div>
-
-  <div class="force">
-    <p><label><input type="checkbox" checked onchange="forceProperties.collide.enabled = this.checked; updateAll();"> collide</label> Prevents nodes from overlapping</p>
-    <label>
-      strength
-      <output id="collide_StrengthSliderOutput">.7</output>
-      <input type="range" min="0" max="2" value=".7" step=".1" oninput="d3.select('#collide_StrengthSliderOutput').text(value); forceProperties.collide.strength=value; updateAll();">
-    </label>
-    <label title="Size of nodes">
-      radius
-      <output id="collide_radiusSliderOutput">5</output>
-      <input type="range" min="0" max="100" value="5" step="1" oninput="d3.select('#collide_radiusSliderOutput').text(value); forceProperties.collide.radius=value; updateAll();">
-    </label>
-    <label title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
-      iterations
-      <output id="collide_iterationsSliderOutput">1</output>
-      <input type="range" min="1" max="10" value="1" step="1" oninput="d3.select('#collide_iterationsSliderOutput').text(value); forceProperties.collide.iterations=value; updateAll();">
-    </label>
-  </div>
-
-  <div class="force">
-    <p><label><input type="checkbox" onchange="forceProperties.forceX.enabled = this.checked; updateAll();"> forceX</label> Acts like gravity. Pulls all points towards an X location.</p>
-    <label>
-      strength
-      <output id="forceX_StrengthSliderOutput">.1</output>
-      <input type="range" min="0" max="1" value=".1" step="0.01" oninput="d3.select('#forceX_StrengthSliderOutput').text(value); forceProperties.forceX.strength=value; updateAll();">
-    </label>
-    <label title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
-      x
-      <output id="forceX_XSliderOutput">.5</output>
-      <input type="range" min="0" max="1" value=".5" step="0.01" oninput="d3.select('#forceX_XSliderOutput').text(value); forceProperties.forceX.x=value; updateAll();">
-    </label>
-  </div>
-
-  <div class="force">
-    <p><label><input type="checkbox" onchange="forceProperties.forceY.enabled = this.checked; updateAll();"> forceY</label> Acts like gravity. Pulls all points towards a Y location.</p>
-    <label>
-      strength
-      <output id="forceY_StrengthSliderOutput">.1</output>
-      <input type="range" min="0" max="1" value=".1" step="0.01" oninput="d3.select('#forceY_StrengthSliderOutput').text(value); forceProperties.forceY.strength=value; updateAll();">
-    </label>
-    <label title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
-      y
-      <output id="forceY_YSliderOutput">.5</output>
-      <input type="range" min="0" max="1" value=".5" step="0.01" oninput="d3.select('#forceY_YSliderOutput').text(value); forceProperties.forceY.y=value; updateAll();">
-    </label>
-  </div>
-</div>
-
-
-
-
-	<!-- Load D3 -->
-	<script src="https://d3js.org/d3.v4.min.js"></script>
-	<script src="http://d3js.org/d3-selection-multi.v1.js"></script>
-	<!-- Load bootstrap -->
-	<link href="scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<script src="scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Load D3-Tracea -->
+  <!-- Load D3 -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="http://d3js.org/d3-selection-multi.v1.js"></script>
+  <!-- Load bootstrap -->
+  <link href="scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <script src="scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Load D3-Tracea -->
   <script src="scripts/d3script.js"></script>
 </body>
