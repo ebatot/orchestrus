@@ -80,6 +80,10 @@ svg.on('click', function(d, i) {
 	stopMoving();
 });
 
+
+////////////// Coloring Nodes and Links   ///////////
+
+
 var nColorSlice = 15;
 if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
@@ -89,6 +93,19 @@ var lColorSlice = 15;
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
 var colorLinks = d3.scaleOrdinal(d3.schemeCategory20.slice(lColorSlice));
+
+// Linear scale for degree centrality. WITH SIZE
+function  getSizeLinearScale(nodes, min, max) {
+	return d3.scaleLinear()
+		.domain([d3.min(nodes, function(d) {return d.size; }),d3.max(nodes, function(d) {return d.size; })])
+		.range([min,max]);
+}
+function  getConfidenceLinearScale(nodes, min, max) {
+	return d3.scaleLinear()
+		.domain([d3.min(nodes, function(d) {return d.confidence; }),d3.max(nodes, function(d) {return d.confidence; })])
+		.range([min,max]);
+}
+
 
 // Call zoom for svg container.
 svg.call(d3.zoom().on('zoom', zoomed));
@@ -498,6 +515,64 @@ function buildLegendNames(nodes){
 }
 
 
+/** Neighboor matrix in str **/
+// Make object of all neighboring nodes.
+function getLinkageByIndex(links) {
+	linkedByIndex = {};
+	links.forEach(function(d) {
+		linkedByIndex[d.source + ',' + d.target] = 1;
+		linkedByIndex[d.target + ',' + d.source] = 1;
+	});
+	return linkedByIndex;
+}
+
+// Zooming function translates the size of the svg container.
+function zoomed() {
+	container.attr("transform", "translate(" + d3.event.transform.x + ", " + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
+}
+
+
+
+document.getElementById('searchTerm').addEventListener("keyup", function (event) {
+	// if the key pressed is ENTER
+	// click listener on button is called
+	if (event.keyCode == 13) {
+		event.preventDefault();
+		searchNodes();
+	}
+});
+
+// Search for nodes by making all unmatched nodes temporarily transparent.
+function searchNodes() {
+  var term = document.getElementById('searchTerm').value;
+  var selected = container.selectAll('.node').filter(function (d, i) {
+	  return d.name.toLowerCase().search(term.toLowerCase()) == -1;
+  });
+  selected.style('opacity', '0.2');
+  var edgepaths = container.selectAll('.edgepath');
+  edgepaths.style('opacity', '0');
+
+  d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
+  d3.selectAll('.edgepath').transition().duration(5000).style('opacity', '0.6');
+
+}
+
+
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function stopMoving() {
+	force.stop();
+}
+
+
+//////////////////// DRAGGING NODES ///////////////////////////
 function ticked() {
 	edgepaths
 		.attr("x1", function(d) { return d.source.x; })
@@ -575,84 +650,9 @@ function dragendedOnNode(d) {
 	//stopMoving()
 }
 
-function showError(datapath) {
-	d3.select("body").select("center").append("h2").style('color', '#900')
-	.text("Error loading the file '" + dataPath + "'");
-	d3.select("body").select("center").append("p").style('color', '#600')
-		.text("Check HTTP option 'imf' and..");
-	d3.select("body").select("center").append("h3").style('color', '#900')
-		.text("Try again !");
-	d3.select("svg").remove();
-	d3.select("button").remove();
-}
 
-// Linear scale for degree centrality. WITH SIZE
-function  getSizeLinearScale(nodes, min, max) {
-	return d3.scaleLinear()
-		.domain([d3.min(nodes, function(d) {return d.size; }),d3.max(nodes, function(d) {return d.size; })])
-		.range([min,max]);
-}
-function  getConfidenceLinearScale(nodes, min, max) {
-	return d3.scaleLinear()
-		.domain([d3.min(nodes, function(d) {return d.confidence; }),d3.max(nodes, function(d) {return d.confidence; })])
-		.range([min,max]);
-}
+///////////////////    BOXING DRAGGABLE HTML ELEMENT  /////////////
 
-/** Neighboor matrix in str **/
-// Make object of all neighboring nodes.
-function getLinkageByIndex(links) {
-	linkedByIndex = {};
-	links.forEach(function(d) {
-		linkedByIndex[d.source + ',' + d.target] = 1;
-		linkedByIndex[d.target + ',' + d.source] = 1;
-	});
-	return linkedByIndex;
-}
-
-// Zooming function translates the size of the svg container.
-function zoomed() {
-	container.attr("transform", "translate(" + d3.event.transform.x + ", " + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
-}
-
-
-
-document.getElementById('searchTerm').addEventListener("keyup", function (event) {
-	// if the key pressed is ENTER
-	// click listener on button is called
-	if (event.keyCode == 13) {
-		event.preventDefault();
-		searchNodes();
-	}
-});
-
-// Search for nodes by making all unmatched nodes temporarily transparent.
-function searchNodes() {
-  var term = document.getElementById('searchTerm').value;
-  var selected = container.selectAll('.node').filter(function (d, i) {
-	  return d.name.toLowerCase().search(term.toLowerCase()) == -1;
-  });
-  selected.style('opacity', '0.2');
-  var edgepaths = container.selectAll('.edgepath');
-  edgepaths.style('opacity', '0');
-
-  d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
-  d3.selectAll('.edgepath').transition().duration(5000).style('opacity', '0.6');
-
-}
-
-
-
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
-
-function stopMoving() {
-	force.stop();
-}
 
 function dragElement(elmnt) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -856,61 +856,16 @@ function updateForces(links) {
 // convenience function to update everything (run after UI input)
 function updateAll() {
     updateForces();
-    //updateDisplay();
 }
 
 
-//////////// DISPLAY ////////////
-/*
-// generate the svg objects and force simulation
-function initializeDisplay() {
-  // set the data and properties of link lines
-  link = svg.append("g")
-        .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line");
-
-  // set the data and properties of node circles
-  node = svg.append("g")
-        .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
-        .call(d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended));
-
-  // node tooltip
-  node.append("title")
-      .text(function(d) { return d.id; });
-  // visualize the graph
-  updateDisplay();
+function showError(datapath) {
+	d3.select("body").select("center").append("h2").style('color', '#900')
+	.text("Error loading the file '" + dataPath + "'");
+	d3.select("body").select("center").append("p").style('color', '#600')
+		.text("Check HTTP option 'imf' and..");
+	d3.select("body").select("center").append("h3").style('color', '#900')
+		.text("Try again !");
+	d3.select("svg").remove();
+	d3.select("button").remove();
 }
-
-// update the display based on the forces (but not positions)
-function updateDisplay() {
-    node
-        .attr("r", forceProperties.collide.radius)
-        .attr("stroke", forceProperties.charge.strength > 0 ? "blue" : "red")
-        .attr("stroke-width", forceProperties.charge.enabled==false ? 0 : Math.abs(forceProperties.charge.strength)/15);
-
-    link
-        .attr("stroke-width", forceProperties.link.enabled ? 1 : .5)
-        .attr("opacity", forceProperties.link.enabled ? 1 : 0);
-}*/
-
-/*// update the display positions after each simulation tick
-function ticked() {
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-    d3.select('#alpha_value').style('flex-basis', (simulation.alpha()*100) + '%');
-}*/
