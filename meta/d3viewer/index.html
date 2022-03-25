@@ -45,14 +45,9 @@
  
 
 .controls {
-  border: 1px rgb(54, 2, 2) solid;
-  position: absolute;
   left: 10px;
   top: 85px;
-  width: 200px;
-  background-color: rgb(225 210 225);
-
-  
+  width: 200px; 
 
   height: 400px;
   overflow-x: hidden;
@@ -71,7 +66,7 @@
 
 
 .controls .force p { margin-top: 0;}
-.controls .force label { display: inline-block; }
+.controls .force label { display: inline-block; height: 15px; }
 .controls input[type="checkbox"] { transform: scale(1.2, 1.2); }
 .controls input[type="range"] { margin: 0.5 5% 0.5em 5%; width: 90%; }
 /* alpha viewer */
@@ -88,31 +83,36 @@
   top: 230px;
   width: 200px;
   background-color: rgb(225 210 225);
-  }
+}
 
-
-#sliderBox {
+.box {
   border: 1px rgb(54, 2, 2) solid;
   position: absolute;
-  right: 10px;
-  top: 100px;
-  width: 200px;
   background-color: rgb(225 210 225);
 }
-#searchBox {
-  border: 1px rgb(54, 2, 2) solid;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 200px;
-  background-color: rgb(225 210 225);
-}
+
+
+#searchBox {  right: 10px;  top: 10px;  width: 200px;}
+#sliderBox {  right: 10px;  top: 65px;  width: 200px;}
+#legendBox {  right: 10px;  top: 184px;  width: 200px;}
+
+
 
 #searchBox button {
   font-size: 60%;
+  display: inline;
+  margin-right: 5px;
+}
+#searchBox input {
+  font-size: 60%;
+  height: 20px;
+  margin: 5px;
+  margin-right: 0px;
+  width:140px;
+  display: inline;
 }
 
-#sliderBoxHeader, #legendHeader, #controlBoardHeader, #searchBoxHeader {
+#sliderBoxHeader, #legendBoxHeader, #controlBoardHeader, #searchBoxHeader, #colorBoxHeader {
   background-color: rgb(205 190 205);
   cursor: move;
   font-weight: bold;
@@ -133,23 +133,35 @@
       <p class="headerSubTitle">
         Papyrus - Trace analysis
       </p>
-      
-      
-
   </div>
 
   <center>
     <svg width="800" height="500" style="border:1px black solid; background-color: #fdffda;"></svg><br />
   </center>
   </div>
-  <div id="legend"> </div>
-
-  <div class="controls" id="controlBoard">
+ 
+  <div class="controls box" id="controlBoard">
     <!--div class="force alpha">
     <p><label>alpha</label> Simulation activity</p>
     <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
     </div-->
     <div id="controlBoardHeader"> D3 Control Board</div>
+    <div class="force">
+      <p><label>Colors</label> Shifts colors shuffle unit.</p>
+      <label>
+        Nodes
+        <output id="colorNodesOutput">4</output>
+        <input  id="colorNodesInput" type="range" min="0" max="50" value="4" step="1"
+          oninput="d3.select('#colorNodesOutput').text(value); setColorNodes(value); updateAll();">
+      </label>
+      <label>
+        Links
+        <output id="colorLinksOutput">4</output>
+        <input  id="colorLinksInput" type="range"  min="0" max="50" value="4" step="1"
+          oninput="d3.select('#colorLinksOutput').text(value); setColorLinks(value); updateAll();">
+      </label>
+    </div>
+
     <div class="force">
       <p><label><input type="checkbox" checked onchange="forceProperties.link.enabled = this.checked; updateAll();">
           link</label> Sets link length</p>
@@ -266,21 +278,28 @@
 
   </div>
 
-  <div id="searchBox">
+  <div id="searchBox" class="box">
     <div id="searchBoxHeader">Search</div>
     <input class="w3-input w3-border-0" id="searchTerm" name="searchTerm" type="text" />
     <button id="searchButton" onclick="searchNodes()">Search</button>
   </div>
-  <div id="sliderBox">
+  <div id="sliderBox" class="box">
     <div id="sliderBoxHeader"> Thresholds</div>
   </div>
+  <div id="legendBox" class="box"> 
+    <div id="legendBoxHeader"> Legend</div>
+  </div>
 
+
+  <!-- Load W3 -->
+  <link rel="stylesheet" href="styles/w3.css"> 
   <!-- Load D3 -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="http://d3js.org/d3-selection-multi.v1.js"></script>
   <!-- Load bootstrap -->
   <link href="scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <script src="scripts/bootstrap/js/bootstrap.bundle.min.js"></script>
+
   <!-- Load D3-Tracea -->
   <script src="scripts/d3script.js"></script>
 </body>

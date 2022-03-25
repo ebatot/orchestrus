@@ -52,6 +52,7 @@ d3.json("data/thresholds.json", function(data) {
 
 // Ornament adjacency thresholds sliders
 sliderBox = d3.select('#sliderBox')
+sliderBox.attr("class", "box")
 dragElement(document.getElementById('sliderBox'))
 dragElement(document.getElementById('controlBoard'))//force properties sliders
 dragElement(document.getElementById('searchBox'))
@@ -87,12 +88,16 @@ svg.on('click', function(d, i) {
 var nColorSlice = 15;
 if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
-var colorNodes = d3.scaleOrdinal(d3.schemeCategory20.slice(nColorSlice));
+var colorNodes = setColor(nColorSlice);
+
+function setColor(colorSlice) {
+	return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
+}
 
 var lColorSlice = 15;
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
-var colorLinks = d3.scaleOrdinal(d3.schemeCategory20.slice(lColorSlice));
+var colorLinks = setColor(lColorSlice);
 
 // Linear scale for degree centrality. WITH SIZE
 function  getSizeLinearScale(nodes, min, max) {
@@ -406,12 +411,10 @@ function addIconsToLegend() {
 
 
 function addlegend(legendNamesNodes, legendNamesLinks) {
-	var legend = d3.select("#legend");
+	var legend = d3.select("#legendBox");
 	
-	legend.append("div").text("Legend")
-		.attr("id", "legendHeader")
-		
-	dragElement(document.getElementById('legend'))
+	
+	dragElement(document.getElementById('legendBox'))
 		
 		
 	legendSize = (nGroups + lGroups + 1) * 20
@@ -465,7 +468,7 @@ function addlegendLinks(legend, legendNamesLinks){
 	var legendLinks = legend
 		.append("svg")
 		.attr("class", "legend")
-		.attr("id", "#legendLinks")
+		.attr("id", "legendLinks")
 		.attr("width", 180)
 		.attr("height", (legendNamesLinks.length + 1) * 20 )
 		.attr("y", ((nGroups + 1) * 20) )
