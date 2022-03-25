@@ -88,16 +88,50 @@ svg.on('click', function(d, i) {
 var nColorSlice = 15;
 if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
-var colorNodes = setColor(nColorSlice);
+var colorNodes = getColorSlices(nColorSlice);
 
-function setColor(colorSlice) {
+function getColorSlices(colorSlice) {
 	return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
 }
 
 var lColorSlice = 15;
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
-var colorLinks = setColor(lColorSlice);
+var colorLinks = getColorSlices(lColorSlice);
+
+function setColorLinks(linkColorSLice){
+	//console.log("1."+colorLinks(1))
+	colorLinks = getColorSlices(linkColorSLice);
+	updateDisplay();
+	// TODO
+	//console.log("2."+colorLinks(1))
+}
+function setColorNodes(nodeColorSlice){
+	colorNodes = getColorSlices(nodeColorSlice);
+	updateDisplay();
+}
+
+// update the display based on the forces (but not positions)
+function updateDisplay() {
+	node.select("circle")
+		.attrs({
+			// Use degree centrality from R igraph in json.
+			'r': function(d, i) { return nodesize(d.size); },
+			// Color by group, a result of modularity calculation in R igraph.
+			"fill": function(d) { return colorNodes(d.group); },
+			'stroke-width': '1.0'
+	})
+
+
+		edgepaths.select('path')
+		.attrs({
+			'stroke': d => colorLinks(d.group),
+			'stroke-width': function(d) { return edgesize(d.confidence); },
+		});
+
+}
+
+
 
 // Linear scale for degree centrality. WITH SIZE
 function  getSizeLinearScale(nodes, min, max) {
@@ -413,9 +447,8 @@ function addIconsToLegend() {
 function addlegend(legendNamesNodes, legendNamesLinks) {
 	var legend = d3.select("#legendBox");
 	
-	
+	//Make it draggable
 	dragElement(document.getElementById('legendBox'))
-		
 		
 	legendSize = (nGroups + lGroups + 1) * 20
 	legend = legend.append("svg")
@@ -423,7 +456,7 @@ function addlegend(legendNamesNodes, legendNamesLinks) {
 			"width": 200,
 			"height": legendSize
 		})
-		.style("background-color", "rgb(225 210 225)")
+
 		
 	var legendNodes = addlegendNodes(legend, legendNamesNodes);
 	var legendLinks = addlegendLinks(legend, legendNamesLinks);
