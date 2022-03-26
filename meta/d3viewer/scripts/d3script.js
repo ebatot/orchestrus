@@ -39,6 +39,9 @@ var MIN = "MIN",
 thresholds = [] ;
 thresholdsCheckboxesValues = []
 var thresholdsMergeOperator;
+if(d3 == null)
+	showError("Could not load d3, check internet connection.");
+
 d3.json("data/thresholds.json", function(data) {
 	Object.keys(data.values).forEach(function (k) {
 		thresholdsMergeOperator = data.mergeOperator
@@ -51,7 +54,7 @@ d3.json("data/thresholds.json", function(data) {
 sliderBox = d3.select('#sliderBox')
 sliderBox.attr("class", "box")
 dragBox(document.getElementById('sliderBox'))
-dragBox(document.getElementById('controlBoard'))//force properties sliders
+dragBox(document.getElementById('controlBox'))//force properties sliders
 dragBox(document.getElementById('searchBox'))
 
 

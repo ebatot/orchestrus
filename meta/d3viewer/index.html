@@ -45,9 +45,6 @@
  
 
 .controls {
-  left: 10px;
-  top: 85px;
-  width: 200px; 
 
   height: 400px;
   overflow-x: hidden;
@@ -76,14 +73,6 @@
 .controls .alpha .alpha_bar:hover { border-width: 2px; margin:-1px; }
 .controls .alpha .alpha_bar:active #alpha_value { background-color: #222 }
 
-#legend {
-  border: 1px rgb(54, 2, 2) solid;
-  position: absolute;
-  right: 10px;
-  top: 230px;
-  width: 200px;
-  background-color: rgb(225 210 225);
-}
 
 .box {
   border: 1px rgb(54, 2, 2) solid;
@@ -92,9 +81,10 @@
 }
 
 
-#searchBox {  right: 10px;  top: 10px;  width: 200px;}
-#sliderBox {  right: 10px;  top: 65px;  width: 200px;}
-#legendBox {  right: 10px;  top: 140px;  width: 200px;}
+#controlBox {  right: 0px;  top: 50px;  width: 200px; left: 10px;}
+#searchBox {  right: 10px;  top: 50px;  width: 200px;}
+#sliderBox {  right: 10px;  top: 100px;  width: 200px;}
+#legendBox {  right: 10px;  top: 170px;  width: 200px;}
 
 
 
@@ -141,7 +131,7 @@
   </center>
   </div>
  
-  <div class="controls box" id="controlBoard">
+  <div class="controls box" id="controlBox">
     <!--div class="force alpha">
     <p><label>alpha</label> Simulation activity</p>
     <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
