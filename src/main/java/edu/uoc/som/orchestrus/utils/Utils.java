@@ -37,10 +37,10 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
 
-//	public static void main(String[] args) {
-//		 printLOC();
-//		 System.exit(1);
-//	}
+	public static void main(String[] args) {
+		 printLOC();
+		 System.exit(1);
+	}
 	
 	public static void storeD3Tracea(Trace t, boolean deploy) {
 		storeD3Tracea(t, deploy, "meta\\d3viewer\\data\\input_data.json");
@@ -182,10 +182,8 @@ public class Utils {
 		try {
 			i = countLOC(new File("./src"));
 			System.out.println("Main.main(src:"+i[0]+") ("+i[1]+" classes)");
-			i = countLOC(new File("./meta/d3viewer/data"));
-			System.out.println("Main.main(meta/d3viewer/data:"+i[0]+")");
-			i = countLOC(new File("./meta/d3viewer/scripts/bootstrap"));
-			System.out.println("Main.main(meta/d3viewer/scripts/bootstrap:"+i[0]+")");
+			i = countLOC(new File("./meta/d3viewer/"));
+			System.out.println("Main.main(meta/d3viewer/:"+i[0]+")");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

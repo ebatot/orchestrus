@@ -275,7 +275,7 @@ function addSlider(attribute, nodes, links, nGroups) {
 	var slider = sliderBox
 		.append('div')
 		.style('font-size', '60%')
-		.style('width', '200px')
+		.style('width', '190px')
 
 	var p = slider.append("p")
 
