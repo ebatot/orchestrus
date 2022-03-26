@@ -26,9 +26,6 @@ var imgs = [
 	{"type":"Requirement", "img":  "icons-72.png"}
 ]
 
-
-		
-
 var EDGES_SIZE = [3, 20];
 var NODES_SIZE = [10, 30];
 var moving = true;
@@ -53,9 +50,9 @@ d3.json("data/thresholds.json", function(data) {
 // Ornament adjacency thresholds sliders
 sliderBox = d3.select('#sliderBox')
 sliderBox.attr("class", "box")
-dragElement(document.getElementById('sliderBox'))
-dragElement(document.getElementById('controlBoard'))//force properties sliders
-dragElement(document.getElementById('searchBox'))
+dragBox(document.getElementById('sliderBox'))
+dragBox(document.getElementById('controlBoard'))//force properties sliders
+dragBox(document.getElementById('searchBox'))
 
 
 var nodeSelection = []
@@ -91,7 +88,7 @@ if ( getUrlVars()['nc'] != null )
 var colorNodes = getColorSlices(nColorSlice);
 
 function getColorSlices(colorSlice) {
-	return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
+	return d3.scaleOrdinal(d3.schemeCategory20b.slice(colorSlice))
 }
 
 var lColorSlice = 15;
@@ -457,7 +454,7 @@ function addlegend(legendNamesNodes, legendNamesLinks) {
 	legend = d3.select("#legendBox");
 	
 	//Make it draggable
-	dragElement(document.getElementById('legendBox'))
+	dragBox(document.getElementById('legendBox'))
 		
 	legendSize = (nGroups + lGroups + 1) * 20
 	legend = legend.append("svg")
@@ -487,7 +484,11 @@ function addlegendNodes(legend, legendNamesNodes){
 		.append("g")
 		.attr("transform", function(d, i) {
 				return "translate(3," + (i * 20) + ")";
-			});
+			})
+		.on('click', function(d, i) {
+			// Highlights related nodes
+			searchNodesByType(legendNamesNodes.find(x => x.id === (d)).type)
+		});
 
 	legendNodes.append("rect")
 		.attr("width", 18)
@@ -523,7 +524,11 @@ function addlegendLinks(legend, legendNamesLinks){
 		.append("g")
 		.attr("transform", function(d, i) {
 				return "translate(3," +(i * 20) + ")";
-			});
+			})
+		.on('click', function(d, i) {
+			// Highlights related links
+			searchLinksByType(legendNamesLinks.find(x => x.id === (d)).type)
+		});
 
 	legendLinks.append("rect")
 		.attr("width", 18)
@@ -584,25 +589,54 @@ document.getElementById('searchTerm').addEventListener("keyup", function (event)
 	// click listener on button is called
 	if (event.keyCode == 13) {
 		event.preventDefault();
-		searchNodes();
+		var term = document.getElementById('searchTerm').value;
+		searchNodes(term);
 	}
 });
 
 // Search for nodes by making all unmatched nodes temporarily transparent.
-function searchNodes() {
-  var term = document.getElementById('searchTerm').value;
-  var selected = container.selectAll('.node').filter(function (d, i) {
-	  return d.name.toLowerCase().search(term.toLowerCase()) == -1;
-  });
-  selected.style('opacity', '0.2');
-  var edgepaths = container.selectAll('.edgepath');
-  edgepaths.style('opacity', '0');
-
-  d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
-  d3.selectAll('.edgepath').transition().duration(5000).style('opacity', '0.6');
-
+function searchNodes(term) {
+	resetOpacity()
+	var selected = container.selectAll('.node').filter(function (d, i) {
+		return d.name.toLowerCase().search(term.toLowerCase()) == -1;
+	});
+	selected.style('opacity', '0.2');
+	container.selectAll('.edgepath').style('opacity', '0');
+	transitionToOpaque() 
+  }
+  
+  function searchLinksByType(term) {
+	resetOpacity()
+	var selected = edgepaths.filter(function (d, i) {
+		return d.type.toLowerCase().search(term.toLowerCase()) == -1;
+	});
+	selected.style('opacity', '0.2');
+	container.selectAll('.node').style('opacity', '0');
+	transitionToOpaque()
 }
 
+function searchNodesByType(term) {
+	resetOpacity()
+	var selected = container.selectAll('.node').filter(function (d, i) {
+		return d.type.toLowerCase().search(term.toLowerCase()) == -1;
+	});
+	selected.style('opacity', '0.2');
+	container.selectAll('.edgepath').style('opacity', '0');
+	transitionToOpaque()
+}
+ 
+function resetOpacity() {
+	d3.selectAll('.node').interrupt();
+	d3.selectAll('.edgepath').interrupt();
+	d3.selectAll('.node').style('opacity', '1');
+	d3.selectAll('.edgepath').style('opacity', '1');
+}
+
+function transitionToOpaque(){
+	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
+	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
+ 
+}
 
 
 function getUrlVars() {
@@ -700,7 +734,7 @@ function dragendedOnNode(d) {
 ///////////////////    BOXING DRAGGABLE HTML ELEMENT  /////////////
 
 
-function dragElement(elmnt) {
+function dragBox(elmnt) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	if (document.getElementById(elmnt.id + "Header")) {
 		// if present, the header is where you move the DIV from:
@@ -716,7 +750,7 @@ function dragElement(elmnt) {
 		// get the mouse cursor position at startup:
 		pos3 = e.clientX;
 		pos4 = e.clientY;
-		document.onmouseup = closeDragElement;
+		document.onmouseup = closeDragBox;
 		// call a function whenever the cursor moves:
 		document.onmousemove = elementDrag;
 	}
@@ -736,7 +770,7 @@ function dragElement(elmnt) {
 		elmnt.style.bottom = null;
 	}
 
-	function closeDragElement() {
+	function closeDragBox() {
 		// stop moving when mouse button is released:
 		document.onmouseup = null;
 		document.onmousemove = null;
@@ -782,6 +816,12 @@ function initializeSimulation(nodes) {
 	simulation.on("tick", ticked);
 }
 
+/*var forceProperties;
+d3.json("data/forceProperties.json", function(data) {
+	forceProperties = data;
+});
+console.log(forceProperties)*/
+
 
 forceProperties = {
     center: {
@@ -820,7 +860,7 @@ updateForcePropertiesValues()
 
 
 function updateForcePropertiesValues() {
-	console.log(forceProperties.link.distance)
+	//console.log(forceProperties)
 	d3.select('#link_DistanceSliderOutput').text(forceProperties.link.distance); 
 	d3.select('#link_IterationsSliderOutput').text(forceProperties.link.iterations); 
 	d3.select('#charge_StrengthSliderOutput').text(forceProperties.charge.strength); 
