@@ -126,6 +126,14 @@ public class StaticExplorer {
 		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());
 		obEditorProperties.add(contextFileName+"-values", elCtx);
 		
+		
+		for (File fCustom : Config.getInstance().getJavaCustomFolders()) {
+			String customSourceFolder = fCustom.getName();
+			String customJavaFolderJson = getJSonForJavaCustomFolder(fCustom);
+			JsonElement elJavaCustom = parser.parse(customJavaFolderJson);
+			obRoot.add(customSourceFolder, elJavaCustom);
+		}
+		
 		/*
 		 * Yet to parse:
 		 * - CustomizationConfiguration.xmi
@@ -136,17 +144,6 @@ public class StaticExplorer {
 		 * - src-custom java files
 		 * 
 		 */
-		
-		// Added extra context references
-		
-		for (File fCustom : Config.getInstance().getJavaCustomFolders()) {
-			String customSourceFolder = fCustom.getName();
-			String customJavaFolderJson = getJSonForJavaCustomFolder(fCustom);
-			JsonElement elJavaCustom = parser.parse(customJavaFolderJson);
-			obRoot.add(customSourceFolder, elJavaCustom);
-		}
-		//TODO Add javas in href json file.
-		
 		
 		
 	
