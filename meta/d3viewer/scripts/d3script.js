@@ -425,33 +425,7 @@ function addIconsToLegend() {
 }
 
 var legend
-// update the display based on the forces (but not positions)
-function updateDisplay() {
-	node.select('circle')
-		.attrs({
-			// Use degree centrality from R igraph in json.
-			'r': function(d, i) { return nodesize(d.size); },
-			// Color by group, a result of modularity calculation in R igraph.
-			"fill": function(d) { return colorNodes(d.group); },
-			'stroke-width': '1.0'
-	})
 
-	edgepaths
-		.attrs({
-			'stroke': d => colorLinks(d.group),
-			'stroke-width': function(d) { return edgesize(d.confidence); },
-		});
-
-	updateLegendColors()
-}
-
-
-function updateLegendColors() {
-	legendNodes.select("rect")
-		.style("fill", colorNodes);
-	legendLinks.select("rect")
-		.style("fill", colorLinks);
-}
 
 function addlegend(legendNamesNodes, legendNamesLinks) {
 	legend = d3.select("#legendBox");
@@ -584,7 +558,50 @@ function getLinkageByIndex(links) {
 function zoomed() {
 	container.attr("transform", "translate(" + d3.event.transform.x + ", " + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
 }
+////////////////////         Display update      ////////////////
 
+// update the display based on the forces (but not positions)
+function updateDisplay() {
+	node.select('circle')
+		.attrs({
+			// Use degree centrality from R igraph in json.
+			'r': function(d, i) { return nodesize(d.size); },
+			// Color by group, a result of modularity calculation in R igraph.
+			"fill": function(d) { return colorNodes(d.group); },
+			'stroke-width': '1.0'
+	})
+
+	edgepaths
+		.attrs({
+			'stroke': d => colorLinks(d.group),
+			'stroke-width': function(d) { return edgesize(d.confidence); },
+		});
+
+	updateLegendColors()
+}
+
+
+function updateLegendColors() {
+	legendNodes.select("rect")
+		.style("fill", colorNodes);
+	legendLinks.select("rect")
+		.style("fill", colorLinks);
+}
+
+function resetOpacity() {
+	d3.selectAll('.node').interrupt();
+	d3.selectAll('.edgepath').interrupt();
+	d3.selectAll('.node').style('opacity', '1');
+	d3.selectAll('.edgepath').style('opacity', '1');
+}
+
+function transitionToOpaque(){
+	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
+	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
+ 
+}
+
+//////////////////          SEARCH        ////////////////
 
 
 document.getElementById('searchTerm').addEventListener("keyup", function (event) {
@@ -611,10 +628,11 @@ function searchNodes(term) {
   function searchLinksByType(term) {
 	resetOpacity()
 	var selected = edgepaths.filter(function (d, i) {
+		console.log(d.type +":" + term + ":   " +(d.type.toLowerCase().search(term.toLowerCase()) == -1))
 		return d.type.toLowerCase().search(term.toLowerCase()) == -1;
 	});
-	selected.style('opacity', '0.2');
-	container.selectAll('.node').style('opacity', '0');
+	selected.style('opacity', '0');
+	container.selectAll('.node').style('opacity', '0.5');
 	transitionToOpaque()
 }
 
@@ -626,19 +644,6 @@ function searchNodesByType(term) {
 	selected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque()
-}
- 
-function resetOpacity() {
-	d3.selectAll('.node').interrupt();
-	d3.selectAll('.edgepath').interrupt();
-	d3.selectAll('.node').style('opacity', '1');
-	d3.selectAll('.edgepath').style('opacity', '1');
-}
-
-function transitionToOpaque(){
-	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
-	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
- 
 }
 
 
