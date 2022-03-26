@@ -2,15 +2,21 @@
 <meta charset="utf-8">
 <title>TraceaML D3 </title>
 <style>
-  html {
-    width: 100%;
-  }
+html {
+  width: 100%;
+}
+
+html, body {
+  font-family: 'Arial';
+  background-color: #535353;
+}
+
 .headerTitle{
   font-size: 30px;
   text-shadow: -1px -1px rgb(6, 101, 98), 1px 1px #060, -3px 0 4px #000;
   font-family:Arial, Helvetica, sans-serif;
   color: rgb(175, 177, 132);
-  padding:5px 0px 0px 16px;
+  padding:5px 0px 0px 10px;
   text-align:left;
   display:inline;
   margin:5px 0px 0px 16px;
@@ -21,32 +27,18 @@
   text-shadow: -1px -1px rgb(6, 101, 98), 1px 1px #060, -3px 0 4px #000;
   font-family:Arial, Helvetica, sans-serif;
   color: rgb(175, 177, 132);
-  padding:0px 0px 0px 15px;
+  padding:0px 0px 0px 10px;
   font-weight:lighter;
   text-align:left;
   display:inline;
-  margin:10px 0px 0px 16px;
+  margin:10px 0px 0px 10px;
 }
 
-  html, body {
-    font-family: 'Arial';
-    background-color: #535353;
-  }
-
-  .link line {
-    stroke: #999;
-    stroke-opacity: 0.6;
-  }
-
-  .node circle {
-    stroke: black;
-  }
-
- 
+.link line {  stroke: #999;  stroke-opacity: 0.6;}
+.node circle {  stroke: black;}
 
 .controls {
-
-  height: 400px;
+  height: 480px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -54,24 +46,24 @@
   /*background-color:#eee;*/
   border-radius: 3px;
   border: 1px rgb(54, 2, 2) solid;
-  padding: 5px;
-  margin: 5px 0;
-  font-size: 70%;
+  padding: 2px;
+  margin: 2px 2px 2px 0px ;
+  font-size: 60%;
 }
-.controls .force p label { margin-right: .5em; margin-left: .5em; font-size: 100%; font-weight: bold;}
-.controls .force p label { margin-right: .5em; margin-left: .5em; font-size: 100%; font-weight: bold;}
-
-
-.controls .force p { margin-top: 0;}
-.controls .force label { display: inline-block; height: 15px; }
+.controls .force p label { margin-right: .5em; margin-left: .5em; font-weight: bold;}
+.controls .force p { margin: 0px; width: 95%;}
+.controls .force label { display: inline-block; }
+.controls .force label output { font-weight: bold; }
 .controls input[type="checkbox"] { transform: scale(1.2, 1.2); }
-.controls input[type="range"] { margin: 0.5 5% 0.5em 5%; width: 90%; }
+.controls input[type="range"] { margin: 0.1em 5% 0.1em 5%;  }
+
 /* alpha viewer */
-.controls .alpha p { margin-bottom: .25em; }
-.controls .alpha .alpha_bar { height: .5em; border: 1px #777 solid; border-radius: 2px; padding: 1px; display: flex; }
-.controls .alpha .alpha_bar #alpha_value { background-color: #555; border-radius: 1px; flex-basis: 100% }
-.controls .alpha .alpha_bar:hover { border-width: 2px; margin:-1px; }
-.controls .alpha .alpha_bar:active #alpha_value { background-color: #222 }
+
+/*.sliderInput { height: .2em; border: 1px #777 solid; border-radius: 2px; padding: 1px;}*/
+.sliderInput  {height: .3em; background-color: #555; border-radius: 1px; display: flex;  flex-basis: 100% }
+
+.sliderInput:active { background-color: #222 }
+
 
 
 .box {
@@ -86,6 +78,12 @@
 #sliderBox {  right: 10px;  top: 100px;  width: 200px;}
 #legendBox {  right: 10px;  top: 170px;  width: 200px;}
 
+#sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader {
+  background-color: rgb(205 190 205);
+  cursor: move;
+  font-weight: bold;
+  font-size: 70%;
+}
 
 
 #searchBox button {
@@ -103,12 +101,25 @@
   display: inline;
 }
 
-#sliderBoxHeader, #legendBoxHeader, #controlBoardHeader, #searchBoxHeader, #colorBoxHeader {
-  background-color: rgb(205 190 205);
-  cursor: move;
-  font-weight: bold;
-  font-size: 70%;
-}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 10px;
+  background-color: #060;
+  overflow: visible;
+  cursor: pointer;
+ }
+
+/*
+ .rangeslider{background-color:#000; width:80%; margin:1em auto; height:60px}
+fieldset{margin:0 auto; width:80%; padding:20px 0}
+input[type="range"]{-webkit-appearance:none; -moz-apperance:none; width:100%; height:4px;}
+.rangeslider input::-webkit-slider-thumb{-webkit-appearance:none; -moz-apperance:none; width:10px; height:10px;
+-webkit-border-radius:10px; -moz-border-radius:10px; -ms-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fefefe), color-stop(0.49, #dddddd), color-stop(0.51, #d1d1d1), color-stop(1, #a1a1a1) );
+}*/
 
 
 </style>
@@ -132,24 +143,20 @@
   </div>
  
   <div class="controls box" id="controlBox">
-    <!--div class="force alpha">
-    <p><label>alpha</label> Simulation activity</p>
-    <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
-    </div-->
-    <div id="controlBoardHeader"> D3 Control Board</div>
+    <div id="controlBoxHeader"> D3 Control Board</div>
     
     <div class="force">
       <p><label>Colors</label> Shifts colors shuffle unit.</p>
       <label>
         Nodes
         <output id="colorNodesOutput">4</output>
-        <input  id="colorNodesInput" type="range" min="0" max="20" value="4" step="1"
+        <input  id="colorNodesInput" type="range" class="sliderInput" min="0" max="20" value="4" step="1"
           oninput="d3.select('#colorNodesOutput').text(value); setColorNodes(value); ">
       </label>
       <label>
         Links
         <output id="colorLinksOutput">4</output>
-        <input  id="colorLinksInput" type="range"  min="0" max="20" value="4" step="1"
+        <input  id="colorLinksInput" type="range" class="sliderInput"  min="0" max="20" value="4" step="1"
           oninput="d3.select('#colorLinksOutput').text(value); setColorLinks(value); ">
       </label>
     </div>
@@ -160,13 +167,13 @@
       <label title="The force will push/pull nodes to make links this long">
         distance
         <output id="link_DistanceSliderOutput">10</output>
-        <input id="link_DistanceSliderInput" type="range" min="10" max="200" value="10" step="1"
+        <input id="link_DistanceSliderInput" type="range" class="sliderInput" min="10" max="200" value="10" step="1"
           oninput="d3.select('#link_DistanceSliderOutput').text(value); forceProperties.link.distance=value; updateAll();">
       </label>
       <label title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
         iterations
         <output id="link_IterationsSliderOutput">1</output>
-        <input  id="link_IterationsSliderInput" type="range" min="1" max="10" value="1" step="1"
+        <input  id="link_IterationsSliderInput" type="range" class="sliderInput" min="1" max="10" value="1" step="1"
           oninput="d3.select('#link_IterationsSliderOutput').text(value); forceProperties.link.iterations=value; updateAll();">
       </label>
     </div>
@@ -177,19 +184,19 @@
       <label title="Negative strength repels nodes. Positive strength attracts nodes.">
         strength
         <output id="charge_StrengthSliderOutput">-30</output>
-        <input  id="charge_StrengthSliderInput" type="range" min="-200" max="50" value="-30" step=".1"
+        <input  id="charge_StrengthSliderInput" type="range" class="sliderInput" min="-200" max="50" value="-30" step=".1"
           oninput="d3.select('#charge_StrengthSliderOutput').text(value); forceProperties.charge.strength=value; updateAll();">
       </label>
       <label title="Minimum distance where force is applied">
         distanceMin
         <output id="charge_distanceMinSliderOutput">1</output>
-        <input  id="charge_distanceMinSliderInput" type="range" min="0" max="50" value="1" step=".1"
+        <input  id="charge_distanceMinSliderInput" type="range" class="sliderInput" min="0" max="50" value="1" step=".1"
           oninput="d3.select('#charge_distanceMinSliderOutput').text(value); forceProperties.charge.distanceMin=value; updateAll();">
       </label>
       <label title="Maximum distance where force is applied">
         distanceMax
         <output id="charge_distanceMaxSliderOutput">2000</output>
-        <input  id="charge_distanceMaxSliderInput" type="range" min="0" max="2000" value="2000" step=".1"
+        <input  id="charge_distanceMaxSliderInput" type="range" class="sliderInput" min="0" max="2000" value="2000" step=".1"
           oninput="d3.select('#charge_distanceMaxSliderOutput').text(value); forceProperties.charge.distanceMax=value; updateAll();">
       </label>
     </div>
@@ -200,19 +207,19 @@
       <label>
         strength
         <output id="collide_StrengthSliderOutput">.7</output>
-        <input  id="collide_StrengthSliderInput" type="range" min="0" max="2" value=".7" step=".1"
+        <input  id="collide_StrengthSliderInput" type="range" class="sliderInput" min="0" max="2" value=".7" step=".1"
           oninput="d3.select('#collide_StrengthSliderOutput').text(value); forceProperties.collide.strength=value; updateAll();">
       </label>
       <label title="Size of nodes">
         radius
         <output id="collide_radiusSliderOutput">5</output>
-        <input  id="collide_radiusSliderInput" type="range" min="0" max="100" value="5" step="1"
+        <input  id="collide_radiusSliderInput" type="range" class="sliderInput" min="0" max="100" value="5" step="1"
           oninput="d3.select('#collide_radiusSliderOutput').text(value); forceProperties.collide.radius=value; updateAll();">
       </label>
       <label title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
         iterations
         <output id="collide_iterationsSliderOutput">1</output>
-        <input  id="collide_iterationsSliderInput" type="range" min="1" max="10" value="1" step="1"
+        <input  id="collide_iterationsSliderInput" type="range" class="sliderInput" min="1" max="10" value="1" step="1"
           oninput="d3.select('#collide_iterationsSliderOutput').text(value); forceProperties.collide.iterations=value; updateAll();">
       </label>
     </div>
@@ -223,13 +230,13 @@
       <label>
         strength
         <output id="forceX_StrengthSliderOutput">.1</output>
-        <input  id="forceX_StrengthSliderInput" type="range" min="0" max="1" value=".1" step="0.01"
+        <input  id="forceX_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".1" step="0.01"
           oninput="d3.select('#forceX_StrengthSliderOutput').text(value); forceProperties.forceX.strength=value; updateAll();">
       </label>
       <label title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
         x
         <output id="forceX_XSliderOutput">.5</output>
-        <input  id="forceX_XSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+        <input  id="forceX_XSliderInput" type="range" class="sliderInput" min="0" max="1" value=".5" step="0.01"
           oninput="d3.select('#forceX_XSliderOutput').text(value); forceProperties.forceX.x=value; updateAll();">
       </label>
     </div>
@@ -240,14 +247,14 @@
       <label>
         strength
         <output id="forceY_StrengthSliderOutput">.1</output>
-        <input  id="forceY_StrengthSliderInput" type="range" min="0" max="1" value=".1" step="0.01"
+        <input  id="forceY_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".1" step="0.01"
           oninput="d3.select('#forceY_StrengthSliderOutput').text(value); forceProperties.forceY.strength=value; updateAll();">
       </label>
       <label
         title="The Y location that the force will push the nodes to (NOTE: This demo multiplies by the svg height)">
         y
         <output id="forceY_YSliderOutput">.5</output>
-        <input  id="forceY_YSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+        <input  id="forceY_YSliderInput" type="range" class="sliderInput" min="0" max="1" value=".5" step="0.01"
           oninput="d3.select('#forceY_YSliderOutput').text(value); forceProperties.forceY.y=value; updateAll();">
       </label>
     </div>
@@ -257,13 +264,13 @@
       <label>
         x
         <output id="center_XSliderOutput">.5</output>
-        <input  id="center_XSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+        <input  id="center_XSliderInput" type="range" class="sliderInput" min="0" max="1" value=".5" step="0.01"
           oninput="d3.select('#center_XSliderOutput').text(value); forceProperties.center.x=value; updateAll();">
       </label>
       <label>
         y
         <output id="center_YSliderOutput">.5</output>
-        <input  id="center_YSliderInput" type="range" min="0" max="1" value=".5" step="0.01"
+        <input  id="center_YSliderInput" type="range" class="sliderInput" min="0" max="1" value=".5" step="0.01"
           oninput="d3.select('#center_YSliderOutput').text(value); forceProperties.center.y=value; updateAll();">
       </label>
     </div>
@@ -272,7 +279,7 @@
 
   <div id="searchBox" class="box">
     <div id="searchBoxHeader">Search</div>
-    <input class="w3-input w3-border-0" id="searchTerm" name="searchTerm" type="text" />
+    <input id="searchTerm" name="searchTerm" type="text" />
     <button id="searchButton" onclick="searchNodes()">Search</button>
   </div>
   <div id="sliderBox" class="box">
@@ -281,7 +288,6 @@
   <div id="legendBox" class="box"> 
     <div id="legendBoxHeader"> Legend</div>
   </div>
-
 
   <!-- Load W3 -->
   <link rel="stylesheet" href="styles/w3.css"> 

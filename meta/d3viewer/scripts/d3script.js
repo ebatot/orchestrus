@@ -52,7 +52,6 @@ d3.json("data/thresholds.json", function(data) {
 
 // Ornament adjacency thresholds sliders
 sliderBox = d3.select('#sliderBox')
-sliderBox.attr("class", "box")
 dragBox(document.getElementById('sliderBox'))
 dragBox(document.getElementById('controlBox'))//force properties sliders
 dragBox(document.getElementById('searchBox'))
@@ -293,10 +292,11 @@ function addSlider(attribute, nodes, links, nGroups) {
 
 	p.append('input')
 		.attr('type', 'range')
+		.attr('class', 'sliderInput')
+		.attr('id', 'threshold'+attribute)
 		.attr('min', d3.min(links, function(d) {return d[attribute]; }))
 		.attr('max', d3.max(links, function(d) {return d[attribute]; }))
 		.attr('value', initValue)
-		.attr('id', 'threshold'+attribute)
 		.style('width', '100%')
 		.style('display', 'block')
 		.on('input', function () { 
