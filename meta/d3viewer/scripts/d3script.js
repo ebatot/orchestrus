@@ -101,13 +101,13 @@ var colorLinks = getColorSlices(lColorSlice);
 function setColorLinks(linkColorSLice){
 	//console.log("1."+colorLinks(1))
 	colorLinks = getColorSlices(linkColorSLice);
-	updateDisplay();
+	updateDisplayColors();
 	// TODO
 	//console.log("2."+colorLinks(1))
 }
 function setColorNodes(nodeColorSlice){
 	colorNodes = getColorSlices(nodeColorSlice);
-	updateDisplay();
+	updateDisplayColors();
 }
 
 
@@ -140,6 +140,58 @@ function neighboring(a, b) {
 	return linkedByIndex[a.index + ',' + b.index];
 }
 
+
+/*//////////////       Arc edges preprocesses
+function addIntermediatePointInLinks(links, nodes) {
+	links.forEach(function(link) {
+		var s = link.source = nodeById.get(link.source),
+			t = link.target = nodeById.get(link.target),
+			i = {"size":0}; // intermediate node SIZE is compulsory.
+		nodes.push(i);
+		links.push({source: s, target: i}, {source: i, target: t});
+		bilinks.push([s, i, t]);
+	  });
+}
+
+function positionLink(d) {
+	return "M" + d['s'].x + "," + d[0].y
+		 + "S" + d['t'].x + "," + d[1].y
+		 + " " + d['i'].x + "," + d[2].y;
+}
+*/
+
+//Filter nodes that have a valid ID
+function filteredNodes(nodes) {
+	// intermediary nodes (for curved paths) do not have IDs
+	return nodes.filter(function(d) { return d.id; });
+}
+
+
+function addChildren(nodes) {
+	nodes.forEach(function(el) {
+		el.children = links.filter(item => item.source_id == el.id);
+	})
+}
+
+function collapseNode(d){
+	/*/console.log("collapse"+d)
+	if (!d3.event.defaultPrevented) {
+		// if there children, move them to _children and clear data in children
+		if (d.children) {
+			d._children = d.children;
+			d.children = null;
+		} else {
+			// if no children, move data from _children to children and clear data in _children
+			d.children = d._children;
+			d._children = null;
+		}
+	}
+	node.data(filteredNodes(nodes))
+	console.log(d)*/
+}
+
+
+var nodeById, bilinks
 d3.json(dataPath, function(error, _graph) {
 	if (error) {
 		showError(dataPath);
@@ -149,16 +201,21 @@ d3.json(dataPath, function(error, _graph) {
 	graph = _graph;
 	links = graph.links;
 	nodes = graph.nodes;
+	addChildren(nodes)
+	bilinks = [];
+	
+	nodeById = d3.map(nodes, function(d) { return d.id; }),
+	//addIntermediatePointInLinks(links, nodes) // For curved paths arcs
 
 	log.text(links.length + "  " + nodes.length)
-
+		
 	edgesize = getConfidenceLinearScale(links, EDGES_SIZE[0], EDGES_SIZE[1]);
-	nodesize = getSizeLinearScale(nodes, NODES_SIZE[0], NODES_SIZE[1]);
+	nodesize = getSizeLinearScale(filteredNodes(nodes), NODES_SIZE[0], NODES_SIZE[1]);
 	linkedByIndex = getLinkageByIndex(links);
 	// A function to test if two nodes are neighboring.
 
 	/** Counting groups, for color rendering **/
-	legendNamesNodes = buildLegendNames(nodes);
+	legendNamesNodes = buildLegendNames(filteredNodes(nodes));
 	legendNamesLinks = buildLegendNames(links);
 	nGroups = legendNamesNodes.length;
 	lGroups = legendNamesLinks.length;
@@ -173,6 +230,23 @@ d3.json(dataPath, function(error, _graph) {
 		e.target = targetNode;
 	});
 
+	updateDrawing()
+
+	/***  SLIDERS and LEGEND  ***/
+	Object.keys(thresholds).forEach(function (att) {
+		addSlider(att);
+	})
+
+	addlegend(legendNamesNodes, legendNamesLinks)
+
+	if(showImages)
+		addIconsToLegend()
+
+/***  Simulation update  ***/
+	initializeSimulation(nodes, links);
+});
+
+function updateDrawing() {
 	edgepaths = gLines.selectAll(".edgepath")
 		.data(links)
 		.enter()
@@ -204,7 +278,7 @@ d3.json(dataPath, function(error, _graph) {
 		.text(function (d) {return d.name + '\n' +d.confidence;});
 
 	node = gNodes.selectAll(".node")
-		.data(nodes)
+		.data(filteredNodes(nodes))
 		.enter()
 		.append("g")
 		.attr("class", "node")
@@ -238,8 +312,7 @@ d3.json(dataPath, function(error, _graph) {
 			} else {
 				selectNode(d)
 			}
-			/*if(d3.event.shiftKey) {
-			}*/
+			collapseNode(d) // not implemented
 			d3.event.stopPropagation();
 		})
 
@@ -254,23 +327,56 @@ d3.json(dataPath, function(error, _graph) {
 	
 	node.append("title")
 		.text(d => d.name);
-		
-/***  SLIDERS and LEGEND  ***/
-	Object.keys(thresholds).forEach(function (e) {
-		addSlider(e, nodes, links, nGroups);
+}
+
+
+////////////////////         Display update      ////////////////
+
+// update the display based on the forces (but not positions)
+function updateDisplayColors() {
+	node.select('circle')
+		.attrs({
+			// Use degree centrality from R igraph in json.
+			'r': function(d, i) { return nodesize(d.size); },
+			// Color by group, a result of modularity calculation in R igraph.
+			"fill": function(d) { return colorNodes(d.group); },
+			'stroke-width': '1.0'
 	})
-	
-	addlegend(legendNamesNodes, legendNamesLinks)
 
-	if(showImages)
-		addIconsToLegend()
+	edgepaths
+		.attrs({
+			'stroke': d => colorLinks(d.group),
+			'stroke-width': function(d) { return edgesize(d.confidence); },
+		});
 
-/***  Simulation update  ***/
-	initializeSimulation(nodes, links);
-});
+	updateLegendColors()
+}
+
+
+function updateLegendColors() {
+	legendNodes.select("rect")
+		.style("fill", colorNodes);
+	legendLinks.select("rect")
+		.style("fill", colorLinks);
+}
+
+function resetOpacity() {
+	d3.selectAll('.node').interrupt();
+	d3.selectAll('.edgepath').interrupt();
+	d3.selectAll('.node').style('opacity', '1');
+	d3.selectAll('.edgepath').style('opacity', '1');
+}
+
+function transitionToOpaque(){
+	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
+	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
+ 
+}
+
+//////////////     SLIDER   /////////////
 
 // A slider that removes nodes below/above the input threshold.
-function addSlider(attribute, nodes, links, nGroups) {
+function addSlider(attribute) {
 	var initValue = thresholds[attribute][2]
 
 	// A slider that removes nodes below the input threshold.
@@ -300,7 +406,7 @@ function addSlider(attribute, nodes, links, nGroups) {
 		.style('width', '100%')
 		.style('display', 'block')
 		.on('input', function () { 
-			updateThresholdValue(this.value, attribute, links, nGroups, nodes);
+			updateThresholdValue(this.value, attribute, links);
 		});
 
 	p.insert('input', ":first-child")
@@ -327,7 +433,7 @@ function updateThresholdCheckboxes(checked, attribute) {
 	updateThresholdValue(value, attribute, links, nodes)
 }
 
-function updateThresholdValue(value, attribute, links, nodes) {
+function updateThresholdValue(value, attribute, links) {
 	var threshold = value;
 	// Update label text
 	d3.select('#label' + attribute).text(threshold);
@@ -425,7 +531,8 @@ function addIconsToLegend() {
 }
 
 var legend
-
+var legendNodes 
+var legendLinks
 
 function addlegend(legendNamesNodes, legendNamesLinks) {
 	legend = d3.select("#legendBox");
@@ -445,8 +552,7 @@ function addlegend(legendNamesNodes, legendNamesLinks) {
 	legendLinks = addlegendLinks(legend, legendNamesLinks);
 	log.text("legend size : "+legendSize)
 }
-var legendNodes 
-var legendLinks
+
 function addlegendNodes(legend, legendNamesNodes){
 	// add a legend
 	var legendNodes = legend
@@ -558,51 +664,9 @@ function getLinkageByIndex(links) {
 function zoomed() {
 	container.attr("transform", "translate(" + d3.event.transform.x + ", " + d3.event.transform.y + ") scale(" + d3.event.transform.k + ")");
 }
-////////////////////         Display update      ////////////////
 
-// update the display based on the forces (but not positions)
-function updateDisplay() {
-	node.select('circle')
-		.attrs({
-			// Use degree centrality from R igraph in json.
-			'r': function(d, i) { return nodesize(d.size); },
-			// Color by group, a result of modularity calculation in R igraph.
-			"fill": function(d) { return colorNodes(d.group); },
-			'stroke-width': '1.0'
-	})
-
-	edgepaths
-		.attrs({
-			'stroke': d => colorLinks(d.group),
-			'stroke-width': function(d) { return edgesize(d.confidence); },
-		});
-
-	updateLegendColors()
-}
-
-
-function updateLegendColors() {
-	legendNodes.select("rect")
-		.style("fill", colorNodes);
-	legendLinks.select("rect")
-		.style("fill", colorLinks);
-}
-
-function resetOpacity() {
-	d3.selectAll('.node').interrupt();
-	d3.selectAll('.edgepath').interrupt();
-	d3.selectAll('.node').style('opacity', '1');
-	d3.selectAll('.edgepath').style('opacity', '1');
-}
-
-function transitionToOpaque(){
-	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
-	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
- 
-}
 
 //////////////////          SEARCH        ////////////////
-
 
 document.getElementById('searchTerm').addEventListener("keyup", function (event) {
 	// if the key pressed is ENTER
@@ -677,6 +741,8 @@ function ticked() {
 			return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
 		});
 
+	//edgepaths.attr('d', positionLink) // Curved paths arcs
+
 	edgelabels.attr('transform', function (d) {
 		if (d.target.x < d.source.x) {
 			var bbox = this.getBBox();
@@ -688,7 +754,8 @@ function ticked() {
 			return 'rotate(0)';
 		}
 	});	
-}
+}	
+
 
 function dragstartedOnNode(d) {
 	if (!event.shiftKey && nodeSelection.includes(d)) {
@@ -740,8 +807,6 @@ function dragendedOnNode(d) {
 
 
 ///////////////////    BOXING DRAGGABLE HTML ELEMENT  /////////////
-
-
 function dragBox(elmnt) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	if (document.getElementById(elmnt.id + "Header")) {
@@ -787,8 +852,6 @@ function dragBox(elmnt) {
 
 
 //////////// NODE SELECTION //////////// 
-
-
 function selectNode(d) {
 	nodeSelection = []
 	nodeSelection.push(d)
