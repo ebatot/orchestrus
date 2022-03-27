@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
@@ -155,7 +157,7 @@ public class TraceLink extends TypedLink {
 	 * @return
 	 */
 	public String getD3Json() {
-		String res = "{";
+	String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + confidence + "\",";
 		res += "\"source_id\": \"" + sources.get(0).getID() + "\",";
@@ -166,5 +168,19 @@ public class TraceLink extends TypedLink {
 		res += "\"energy\": 100";
 		return res + "}";
 	}
+	
+	public boolean touchElementOfType(ArtefactType elementArtefact) {
+		for (Artefact a : sources) {
+			if(a.isOfType(elementArtefact))
+				return true;
+		}
+		for (Artefact a : targets) {
+			if(a.isOfType(elementArtefact))
+				return true;
+		}
+		
+		return false;
+	}
+
 
 }

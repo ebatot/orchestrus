@@ -41,7 +41,7 @@ public class Orchestrus {
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 		
 		Trace tFrag = TraceFactory.buildFragmentationTrace();
-		Utils.storeD3Tracea(tFrag, true);
+		Utils.storeD3Tracea(tFrag, false, true);
 		
 		// TODO resolve IDs from target file.
 //		ppse.resolveElementIDs();
@@ -49,7 +49,7 @@ public class Orchestrus {
 
 
 		Trace t = TraceFactory.buildReferencesTrace();
-		Utils.storeD3Tracea(t, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
+		Utils.storeD3Tracea(t, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
 		Utils.storeMatrixTracea(t, false, 3/21);
 		
 		

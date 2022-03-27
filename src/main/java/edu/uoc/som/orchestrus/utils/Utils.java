@@ -37,19 +37,19 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
 
-	public static void main(String[] args) {
-		 printLOC();
-		 System.exit(1);
-	}
+//	public static void main(String[] args) {
+//		 printLOC();
+//		 System.exit(1);
+//	}
 	
-	public static void storeD3Tracea(Trace t, boolean deploy) {
-		storeD3Tracea(t, deploy, "meta\\d3viewer\\data\\input_data.json");
+	public static void storeD3Tracea(Trace t, boolean renderElements, boolean deploy) {
+		storeD3Tracea(t, renderElements, deploy, "meta\\d3viewer\\data\\input_data.json");
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void storeD3Tracea(Trace t, boolean deploy, String deployLocationPath) {
+	public static void storeD3Tracea(Trace t, boolean renderElements, boolean deploy, String deployLocationPath) {
 		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
-		String d3trace = t.renderD3JSon();
+		String d3trace = t.renderD3JSon(renderElements);
 		String log = "";
 		try {
 			FileUtils.write(f, d3trace);

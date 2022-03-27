@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class Trace extends TracingElement {
@@ -286,13 +287,20 @@ public class Trace extends TracingElement {
 		return res;
 	}
 
-	public String renderD3JSon() {
-		return renderD3JSon(false);
+	public String renderD3JSon(boolean showElements) {
+		return renderD3JSon(showElements, false);
 	}
 
-	public String renderD3JSon(boolean printUnreferencedArtefacts) {
+	public String renderD3JSon(boolean showElements, boolean printUnreferencedArtefacts) {
 		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") in Tracea D3 JSon");
 		Set<Artefact> artCollect = collectArtefacts();
+		if(!showElements) {
+			Artefact[] artCollectTmp = (Artefact[]) artCollect.toArray(new Artefact[artCollect.size()]);
+			for (Artefact a : artCollectTmp) {
+				if(a.isOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
+					artCollect.remove(a);
+			}
+		}
 		
 		String links = "" ;
 		
@@ -301,7 +309,9 @@ public class Trace extends TracingElement {
 		
 		
 		for (TraceLink tl : getTraceLinks()) 
-			links += tl.getD3Json()+",\n";
+				if(showElements || (!showElements && !tl.touchElementOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)))
+					links += tl.getD3Json()+",\n";
+			
 		if(!links.isBlank())
 			links = links.substring(0, links.length()-2);
 		links = "\"links\": [" + links + "]";
