@@ -81,7 +81,7 @@ svg.on('click', function(d, i) {
 });
 
 
-////////////// Coloring Nodes and Links   ///////////
+////////////// COLORING NODES AND LINKS   ///////////
 
 var colorSchemeCategory = "schemeCategory20"
 if ( getUrlVars()['colorScheme'] != null )
@@ -108,8 +108,6 @@ if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
 var colorNodes = getColorSlices(nColorSlice);
 
-
-
 var lColorSlice = 4;
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
@@ -126,9 +124,6 @@ function setColorNodes(nodeColorSlice){
 	colorNodes = getColorSlices(nodeColorSlice);
 	updateDisplayColors();
 }
-
-
-
 
 // Linear scale for degree centrality. WITH SIZE
 function  getSizeLinearScale(nodes, min, max) {
@@ -149,9 +144,13 @@ svg.call(d3.zoom().on('zoom', zoomed));
 // force simulator
 var simulation = this.force = d3.forceSimulation();
 
+
+/// LOAD INPUT MODEL FILE 
 var dataPath = "data/input_data.json"
 if ( getUrlVars()['imf'] != null )
 	dataPath = getUrlVars()['imf'];
+
+
 
 function neighboring(a, b) {
 	return linkedByIndex[a.index + ',' + b.index];
@@ -703,7 +702,7 @@ function searchNodes(term) {
 	selected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque() 
-  }
+}
   
   function searchLinksByType(term) {
 	resetOpacity()
@@ -725,7 +724,6 @@ function searchNodesByType(term) {
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque()
 }
-
 
 function getUrlVars() {
     var vars = {};
