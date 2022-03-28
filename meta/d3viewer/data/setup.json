@@ -1,0 +1,80 @@
+{
+    "setup" : {
+      "projectName":"GlossaryML",
+      "projectFolder":"....",
+      "projectURI":"con.cea.papyrus.glossaryml"
+    } ,
+    "fragmentation": {
+      "files": [
+        {
+          "name": "",
+          "location": "",
+          "type": "",
+          "references": [],
+          "children": []
+        },
+        {
+          "name": "",
+          "location": "",
+          "type": "",
+          "references": [],
+          "children": []
+       }
+      ]
+    },
+    "identification": {
+      "links": {
+  
+      },
+      "types":{
+        "artefacts": ["SourceFile", "LocalFolder", "..."],
+        "links":["SourceFile-SourceFolder", "LocalFolder-ExternalLocation", "..."]
+      },
+      "references": [
+        {
+          "sourceFiles": ["File 1"],
+          "hrefs": [],
+          "specifics": [],
+          "strings": []
+        },
+        {
+          "sourceFiles": ["File 2", "File 3"],
+          "hrefs": [],
+          "specifics": [],
+          "strings": []
+        }     ]
+    },
+    "analysis": {
+      "artefacts": [
+        {
+          "name": "Biggest",
+          "location": "",
+          "type": "",
+          "references": [],
+          "children": []
+        },
+        {
+          "name": "Second",
+          "location": "",
+          "type": "",
+          "references": []
+        }
+      ],
+      "links": [
+        {
+          "name": "Biggest",
+          "confidence": ".9",
+          "source": "",
+          "target": "",
+          "type": ""
+        },
+        {
+          "name": "Second",
+          "confidence": ".8",
+          "source": "",
+          "target": "",
+          "type": ""
+        }
+      ]
+    }
+  }
