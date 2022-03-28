@@ -2,7 +2,8 @@
     "setup" : {
       "projectName":"GlossaryML",
       "projectFolder":"....",
-      "projectURI":"con.cea.papyrus.glossaryml"
+      "projectURI":"con.cea.papyrus.glossaryml",
+      "localDependencies": ["con.cea.papyrus.referenceml"]
     } ,
     "fragmentation": {
       "files": [
