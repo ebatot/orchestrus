@@ -282,7 +282,7 @@ background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #
   <div id="searchBox" class="box">
     <div id="searchBoxHeader">Search</div>
     <input id="searchTerm" name="searchTerm" type="text" />
-    <button id="searchButton" onclick="searchNodes()">Search</button>
+    <button id="searchButton" onclick="searchNodes(document.getElementById('searchTerm').value)">Search</button>
   </div>
   <div id="sliderBox" class="box">
     <div id="sliderBoxHeader"> Thresholds</div>
