@@ -83,17 +83,34 @@ svg.on('click', function(d, i) {
 
 ////////////// Coloring Nodes and Links   ///////////
 
+var colorSchemeCategory = "schemeCategory20"
+if ( getUrlVars()['colorScheme'] != null )
+	colorSchemeCategory = getUrlVars()['colorScheme'];
 
-var nColorSlice = 15;
+function getColorSlices(colorSlice) {
+	if(typeof d3[colorSchemeCategory] !== 'undefined')
+		return d3.scaleOrdinal(d3[colorSchemeCategory].slice(colorSlice))
+
+	switch (colorSchemeCategory) {
+		case "schemeCategory20b":
+			return d3.scaleOrdinal(d3.schemeCategory20b.slice(colorSlice))
+		case "schemeCategory20":
+			return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
+		case "schemeCategory10":
+			return d3.scaleOrdinal(d3.schemeCategory10.slice(colorSlice))
+		default:
+			return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
+	}
+}
+
+var nColorSlice = 4;
 if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
 var colorNodes = getColorSlices(nColorSlice);
 
-function getColorSlices(colorSlice) {
-	return d3.scaleOrdinal(d3.schemeCategory20b.slice(colorSlice))
-}
 
-var lColorSlice = 15;
+
+var lColorSlice = 4;
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
 var colorLinks = getColorSlices(lColorSlice);
@@ -351,7 +368,6 @@ function updateDisplayColors() {
 
 	updateLegendColors()
 }
-
 
 function updateLegendColors() {
 	legendNodes.select("rect")
