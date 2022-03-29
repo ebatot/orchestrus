@@ -221,23 +221,48 @@ public class Trace extends TracingElement {
 		computeLinksSize(true);
 
 		List<Artefact> compressedArtefacts = compressedArtefacts(acceptanceThreshold);
-		boolean printEltIDs = true;
-		String res = "\t<tr>\n\t\t<th></th>\n";
+		boolean printEltIDs = false;
+		String res = "\t<tr>\n\t\t<th>nº</th><th></th>\n";
+		int iA = 0;
 		for (Artefact a : compressedArtefacts) 
-			res += "\t\t<th class=\"linkName\">"+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+"</th>\n";
+			res += "\t\t<th class=\"linkName\">"+iA++/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
 		res += "\t</tr>\n";
 		
 		String res2 = "";
 		int i = 0;
 		for (Artefact a : compressedArtefacts) {
 			res2 += "\t<tr>\n";
-			res2 += "\t\t<td class=\"linkName\" width=\"150px\">"+i++ + "   "+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")+ "</td>\n";
+			res2 += "\t\t<td >"+ i++ + "</td>";
+			res2 += "\t\t<td class=\"linkName\" width=\"150px\">" 
+					+ edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)
+					+ (printEltIDs ? "<br/>" + a.getID() : "") + "</td>\n";
+			int j = 0;
 			for (Artefact a2 : compressedArtefacts) {
 				double value = adjacencyMatrix[artefactsIndex.get(a)][artefactsIndex.get(a2)];
-				double color = 255- (value*255);
-				res2 += "\t\t<td class=\"linkCell\" width=\"150px\" "
-						+ "style=\"background-color:rgb("+color+",250,250); font-size:'1em'\">";
-				res2 += value + ": "+color;
+				
+				Set<TraceLink> linksIn = new HashSet<>();
+				Set<TraceLink> linksOut = new HashSet<>();
+				for (TraceLink tl : a2.getSourceOf()) {
+					if(tl.getTargets().contains(a))
+						linksOut.add(tl);
+				}
+				for (TraceLink tl : a2.getTargetOf()) {
+					if(tl.getSources().contains(a))
+						linksIn.add(tl);
+				}
+
+				double color = 200 - (value * 200);
+				res2 += "\t\t<td class=\"linkCell\" ";
+				if (value > 0)
+					if(linksIn.isEmpty())
+						res2 += "style=\"background-color:rgb(" + color + ",250,250); \"";
+					else 
+						res2 += "style=\"background-color:rgb(250," + color + ",250); \"";
+				if(i==++j) {
+					res2 += "style=\"background-color:rgb(100,100,100); \"";
+				}
+				res2 += ">";
+				res2 += linksIn.size() + " / " + linksOut.size();
 				res2 += "</td>\n";
 			}
 			res2 += "\t</tr>\n";
@@ -265,6 +290,11 @@ public class Trace extends TracingElement {
 				+ "  font-size: 15px;\r\n"
 				+ "  font-style: bold;\r\n"
 				+ "}\r\n"
+				+ "td {  "
+				+ "  width:30px; "
+				+ "  background-color:rgb(250,250,250);"
+				+ " }"
+				+ ".linkCell { border: none;}"
 				+ "\r\n"
 				+ "</style>\r\n"
 				+ "</head>\r\n"
