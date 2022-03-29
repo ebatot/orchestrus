@@ -702,17 +702,22 @@ function searchNodes(term) {
 	selected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque() 
+	
+	var numberAffected = (container.selectAll('.node').filter(x => x.id).size() -  selected.size())/2 // /2 because of intermediary ghost nodes for arcs
+	log.text(term+" "+ numberAffected + " elements")
 }
   
   function searchLinksByType(term) {
 	resetOpacity()
 	var selected = edgepaths.filter(function (d, i) {
-		console.log(d.type +":" + term + ":   " +(d.type.toLowerCase().search(term.toLowerCase()) == -1))
 		return d.type.toLowerCase().search(term.toLowerCase()) == -1;
 	});
 	selected.style('opacity', '0');
 	container.selectAll('.node').style('opacity', '0.5');
 	transitionToOpaque()
+	
+	var numberAffected = (edgepaths.filter(x => x.id).size() -  selected.size())
+	log.text(term+" "+ numberAffected + " elements")
 }
 
 function searchNodesByType(term) {
@@ -723,6 +728,9 @@ function searchNodesByType(term) {
 	selected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque()
+
+	var numberAffected = (container.selectAll('.node').filter(x => x.id).size() -  selected.size())/2 // /2 because of intermediary ghost nodes for arcs
+	log.text(term+" "+ numberAffected + " elements")
 }
 
 function getUrlVars() {
