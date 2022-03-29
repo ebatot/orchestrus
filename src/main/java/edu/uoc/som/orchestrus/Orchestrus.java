@@ -36,6 +36,7 @@ public class Orchestrus {
 		// Build artefacts from Sources and References
 		ArtefactFactory aFactory = ArtefactFactory.getInstance();
 		aFactory.buildArtefacts();
+		aFactory.clusterExternalLocations(); 
 		// Relates artefacts with fragmentation links.
 		TraceFactory.fragmentSourcesAndFolders();
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
@@ -53,14 +54,6 @@ public class Orchestrus {
 		Utils.storeMatrixTracea(t, false, 3/21);
 		Utils.storeSetupJSon(t, true);
 		
-		
-//		System.out.println("\nmain - Protocols");
-//		for (Protocol p : Protocol.values()) {
-//			System.out.println(" - "+p);
-//			for (Artefact a : ArtefactFactory.sortArtefactsByLocation(ArtefactFactory.subsetsArtefactsByProtocol(p))) {
-//				System.out.println("     "+":"+a.getLocation()+"#"+a.getName()+" -- "+a.getAncestorProtocol());
-//			}	
-//		}
 		
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");

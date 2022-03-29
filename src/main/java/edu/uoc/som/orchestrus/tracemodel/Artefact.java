@@ -99,7 +99,8 @@ public class Artefact extends TypedArtefact {
 	public String getD3JSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
-		res += "\"name\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+//		res += "\"name\": \"" + getProtocol() + "::"+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "::"+ edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+		res += "\"name\": \"" +  edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"size\": " + getFragments().size()*10 + ",";
 //		res += "\"size\": " + ArtefactTypeFactory.getD3Size(getType()) + ",";

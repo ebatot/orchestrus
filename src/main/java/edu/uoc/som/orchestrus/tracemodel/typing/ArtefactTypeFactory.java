@@ -7,13 +7,16 @@ public class ArtefactTypeFactory {
 
 	public static final ArtefactType EXTERNAL_FILE_ARTEFACT = addType("ExternalFile");
 	public static final ArtefactType EXTERNAL_LOCATION_ARTEFACT = addType("ExternalLocation");
+	public static final ArtefactType EXTERNAL_ROOT_ARTEFACT = addType("ExternalRoot");
 	public static final ArtefactType LOCAL_FILE_ARTEFACT = addType("LocalFile");
 	public static final ArtefactType SOURCE_FILE_ARTEFACT = addType("SourceFile");
 	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = addType("LocalFolder");
 	public static final ArtefactType LOCAL_ROOT_ARTEFACT = addType("LocalRoot");
 	public static final ArtefactType ELEMENT_ARTEFACT = addType("Element");
-	public static final ArtefactType CUSTOM_SOURCE_FOLDER_ARTEFACT =  addType("JavaCustomFolder");
-	public static final ArtefactType CUSTOM_SOURCE_FILE_ARTEFACT =  addType("JavaCustomFile");
+	public static final ArtefactType CUSTOM_JAVA_FOLDER_ARTEFACT =  addType("JavaCustomFolder");
+	public static final ArtefactType CUSTOM_JAVA_FILE_ARTEFACT =  addType("JavaCustomFile");
+	
+	public static final ArtefactType GHOST_TYPE_FOR_DEV =  addType("DEV_TYPE");
 
 	static ArtefactTypeFactory instance;
 

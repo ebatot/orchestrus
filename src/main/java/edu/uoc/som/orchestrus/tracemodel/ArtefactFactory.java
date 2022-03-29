@@ -18,15 +18,16 @@ import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.Reference;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
-import edu.uoc.som.orchestrus.parsing.spec.JavaFile;
-import edu.uoc.som.orchestrus.parsing.spec.JavaFolder;
 import edu.uoc.som.orchestrus.parsing.Source;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
+import edu.uoc.som.orchestrus.parsing.spec.JavaFile;
+import edu.uoc.som.orchestrus.parsing.spec.JavaFolder;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
 public class ArtefactFactory {
 	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
+	public final static Logger LOGGER_EXT = Logger.getLogger(ArtefactFactory.class.getName()+"_EXT");
 
 	/**
 	 * Root to project source and folders
@@ -131,8 +132,11 @@ public class ArtefactFactory {
 	public void buildArtefacts() {
 		LOGGER.info("Building Artefacts ** Roots, Local, Files, Folders and Locations...");
 
+		createExternalKnownLocations();
 		createProjectRootArtefact();
 		createUnresovledsStackArtefact();
+		
+		
 		int deps = createLocalRootDependenciesArtefacts();
 		LOGGER.info(2 + deps + " root location dependencies found (" + deps + " local" + (deps > 1 ? "s" : "")
 				+ ", rootProject, and unresolvedsStack).");
@@ -178,18 +182,16 @@ public class ArtefactFactory {
 		if (LOGGER.getLevel().equals(Level.FINE)) {
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
-			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
-				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
 		
 		buildJavaCustomArtefacts();
-//		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT).size() + " Elements in " + ReferenceFactory.getReferences().size() + " references.");
-//		if (LOGGER.getLevel().equals(Level.FINE)) {
-//			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
-//				LOGGER.finer("  - " + a + ": " + a.getHREF());
-//			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
-//				LOGGER.finer("  - " + a + ": " + a.getHREF());
-//		}
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT).size() + " CustomJava files in " + subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT).size() + " folders.");
+		if (LOGGER.getLevel().equals(Level.FINE)) {
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT))
+				LOGGER.finer("  - " + a + ": " + a.getHREF());
+		}
 		
 	}
 
@@ -198,25 +200,21 @@ public class ArtefactFactory {
 
 		for (File folder : folders) {
 			JavaFolder jf = new JavaFolder(folder);
-			// TODO create referenec
-			
-			
-			//TODO extract artefact creation and put reference creation into getDependency de staticeexplorer
+
 			Artefact a = getArtefact(folder);
 			if (a == null) {
-				a = new Artefact(folder.getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FOLDER_ARTEFACT,
-						folder.getParent(), null, true);
+				a = new Artefact(folder.getName(), ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT, folder.getParent(),
+						null, true);
 				addArtefact(a);
 
 				// If the parent artefact exists, affects it.
 				affectsLocalParentIfExists(a);
 			}
-			
+
 			for (JavaFile f : jf.getJavaFiles()) {
-				//TODO extract artefact creation and put reference creation into getDependency de staticeexplorer
 				Artefact a2 = getArtefact(folder);
 				if (a2 == null) {
-					a2 = new Artefact(f.getFile().getName(), ArtefactTypeFactory.CUSTOM_SOURCE_FILE_ARTEFACT,
+					a2 = new Artefact(f.getFile().getName(), ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT,
 							f.getFile().getParent(), a, true);
 					addArtefact(a2);
 
@@ -230,12 +228,12 @@ public class ArtefactFactory {
 	private void buildElementLevelArtefacts() {
 		for (Reference r : ReferenceFactory.getReferences().values()) {
 			Artefact a = getArtefact(r);
-			Artefact aElt = new Artefact(r.getInnerLocation(), ArtefactTypeFactory.ELEMENT_ARTEFACT, r.getHREF().substring(0, r.getHREF().length() - r.getInnerLocation().length()), null);
+			Artefact aElt = new Artefact(r.getInnerLocation(), ArtefactTypeFactory.ELEMENT_ARTEFACT,
+					r.getHREF().substring(0, r.getHREF().length() - r.getInnerLocation().length()), null);
 			addArtefact(aElt);
 			a.addFragment(aElt);
 		}
 	}
-
 
 	/**
 	 * WARNING !! <br/>
@@ -257,6 +255,58 @@ public class ArtefactFactory {
 		
 	}
 
+	private void createExternalKnownLocations() {
+		
+		////// Papyrus related
+		ExternalLocationArtefact aPapyrus = new ExternalLocationArtefact("plugin/org.eclipse.papyrus", ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
+		addArtefact(aPapyrus);
+		ExternalLocationArtefact.addKnownLocation(aPapyrus);
+		
+		Artefact aPapUML = new Artefact("uml", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+		aPapUML.setProtocol(aPapyrus.getProtocol());
+		addArtefact(aPapUML);
+		aPapyrus.addFragment(aPapUML);
+		ExternalLocationArtefact.addKnownLocation(aPapUML);
+		
+		Artefact aPapInfra = new Artefact("infra", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+		aPapInfra.setProtocol(aPapyrus.getProtocol());
+		addArtefact(aPapInfra);
+		aPapyrus.addFragment(aPapInfra);
+		ExternalLocationArtefact.addKnownLocation(aPapInfra);
+		
+		Artefact aPapSys16 = new Artefact("sysml16", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+		aPapSys16.setProtocol(aPapyrus.getProtocol());
+		addArtefact(aPapSys16);
+		aPapyrus.addFragment(aPapSys16);
+		ExternalLocationArtefact.addKnownLocation(aPapSys16);
+		
+		Artefact aPapSys14 = new Artefact("sysml14", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+		aPapSys16.setProtocol(aPapyrus.getProtocol());
+		addArtefact(aPapSys14);
+		aPapyrus.addFragment(aPapSys14);
+		ExternalLocationArtefact.addKnownLocation(aPapSys14);
+		
+		
+		////// Glossary related
+		ExternalLocationArtefact aGlossary = new ExternalLocationArtefact("plugin/com.cea.papyrus.glossary", ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
+		addArtefact(aGlossary);
+		ExternalLocationArtefact.addKnownLocation(aGlossary);
+		
+
+		
+		
+//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
+//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
+		
+		String umlPluginLocation = "platform://org.eclipse.papyrus";
+		
+//		Artefact aSysml = new ExternalLocationArtefact("plugin/org.eclipse.papyrus", ArtefactTypeFactory.GHOST_TYPE_FOR_DEV, Protocol.platform);
+//		addArtefact(aPapyrus);
+//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
+		
+//		String umlPluginLocation = "platform://org.eclipse.papyrus";
+	}
+
 	/**
 	 * Instantiate {@link #projectRoot}
 	 */
@@ -271,8 +321,8 @@ public class ArtefactFactory {
 	 * Instantiate {@link #unresolvedsRoot}
 	 */
 	private void createUnresovledsStackArtefact() {
-		unresolvedsRoot = new Artefact("UnresolvedsStack", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT,
-				"nowhere", null, true);
+		unresolvedsRoot = new Artefact("UnresolvedsStack", ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, "nowhere", null,
+				true);
 		unresolvedsRoot.setProtocol(Protocol.no_protocol);
 		addArtefact(unresolvedsRoot);
 	}
@@ -413,7 +463,6 @@ public class ArtefactFactory {
 	private void buildExternalFilesArtefacts() {
 		for (Reference r : ReferenceFactory.getExternalReferences()) {
 			Artefact a = newExternalFileArtefact(r);
-			
 			boolean success = addArtefact(a);
 			if(success)
 				LOGGER.finer("new: " + a);
@@ -526,15 +575,22 @@ public class ArtefactFactory {
 		String location = r.getTargetFileArtefact();
 		String name = location.substring(location.lastIndexOf("/") + 1);
 		location = location.substring(0, location.length() - name.length());
-
+//		System.out.println("ArtefactFactory.newExternalFileArtefact()    "+name +"::"+ location);
+		
+		
+		Artefact parent = getExternalLocation(location, r.getProtocol());
+		
+//		name = name.substring(name.lastIndexOf(".") + 1);
+//		System.out.println("                                              p:"+parent);
+//		
+//		Artefact res = getArtefact(r.getProtocol(), parent.getLocation()+"."+parent.getName(), name);
 		Artefact res = getArtefact(r.getProtocol(), location, name);
 		if (res == null) {
 			res = new Artefact(name, ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, location, null, false);
 			res.setProtocol(r.getProtocol());//
 			addArtefact(res);
-			LOGGER.finest("new " + res);
+			LOGGER_EXT.finest("new " + res);
 		}
-		Artefact parent = getExternalLocation(location, r.getProtocol(), res);
 		parent.addFragment(res);
 		return res;
 	}
@@ -543,14 +599,35 @@ public class ArtefactFactory {
 	 * 
 	 * @param location
 	 * @param p
-	 * @param res fragment 
 	 */
-	private Artefact getExternalLocation(String location, Protocol p, Artefact res) {
+	private Artefact getExternalLocation(String location, Protocol p) {
+		
 		Artefact resParent = getArtefact(p, location, location);
-		if(resParent == null) {
+//		if (resParent == null) {
+//			
+//			
+//			
+//			
+//			// Check is parent exists in KnownLocations
+//			for (Artefact a : ExternalLocationArtefact.getKnownLocations()) {
+//				if (location.startsWith(a.getLocation())) {
+//					String nameExt = location.substring((a.getLocation()).length() + 1);
+//					String locationExt = location.substring(0, location.length() - nameExt.length());
+//					
+//					Artefact aExt = getArtefact(p, locationExt, nameExt);
+//					if(aExt == null)
+//						aExt = new Artefact(nameExt, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, locationExt, a);
+//					aExt.setProtocol(p);
+//					addArtefact(aExt);
+//					a.addFragment(aExt);
+//					resParent = a;
+//				}
+//			}
+//		}
+		if (resParent == null)
 			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
-			addArtefact(resParent);
-		}
+		addArtefact(resParent);
+
 		return resParent;
 	}
 
@@ -648,6 +725,49 @@ public class ArtefactFactory {
 		resFrag = "\"fragmentation\": [" + resFrag + "]";
 		
 		return resFrag;
+	}
+
+	/**
+	 * Browse each External_LOCATION_ARTEFACTs and attribute an EXTERNAL ROOT if there is one that fits the location.
+	 */
+	public void clusterExternalLocations() {
+		
+		for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT)) {
+			Artefact parent = null;
+			int maxSize = 0;
+			String test = "";
+			String parentCut = "";
+			for (Artefact aKnown : ExternalLocationArtefact.getKnownLocations()) {
+				test = aKnown.getLocation() + "." + aKnown.getName();
+				if(a.getLocation().startsWith(test)) {
+					if(test.length() > maxSize) {
+						maxSize = test.length();
+						parent = aKnown;
+						parentCut = aKnown.getLocation()+"."+aKnown.getName();
+					}
+				}
+				if(parent == null ) {
+					test = aKnown.getLocation();
+					if(a.getLocation().startsWith(test)) {
+						if(test.length() > maxSize) {
+							maxSize = test.length();
+							parent = aKnown;
+							parentCut = aKnown.getLocation();
+						}
+					}
+				}
+			}
+			
+			
+			
+			if(parent != null) {
+				parent.addFragment(a);
+				String newName = a.getName().substring(parentCut.length()+1); // +1 +1 for 'points'
+				// TODO a update of the keys in artefacts map ????¿¿¿¿
+				a.setName(newName);
+			}
+		}
+		
 	}
 
 	

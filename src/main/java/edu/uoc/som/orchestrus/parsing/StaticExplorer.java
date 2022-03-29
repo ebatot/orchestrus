@@ -76,7 +76,7 @@ public class StaticExplorer {
 	 * Get XMI elements with an HREF attribute (see {@link #getHrefs_Json()}) <br/>
 	 * and other elements with interdependencies (ctx.values) (see {@link #getJSonForCtxValues()}
 	 * 
-	 * Collects on the fly references for later processing.
+	 * <em> Collects on the fly references for later processing. </em>
 	 * 
 	 * (Note: ctx values are added in properties-editor-configurations under suffixed file name "Project.ctx-value")
 	 * @return JSON
