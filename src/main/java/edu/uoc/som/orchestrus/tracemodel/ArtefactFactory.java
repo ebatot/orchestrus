@@ -235,26 +235,6 @@ public class ArtefactFactory {
 		}
 	}
 
-	/**
-	 * WARNING !! <br/>
-	 * NOT IMPLEMENTED !!
-	 */
-	@SuppressWarnings("unused")
-	private void clusterExternalFilesIntoLocations() {
-		System.out.println("\nArtefactFactory.clusterExternalFilesIntoLocations()");
-		List<Artefact> extArts = subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT);
-		System.out.println("extArts before: "+extArts.size());
-		for (Artefact a : extArts) {
-			System.out.println(a + " :  " + a.getParent() +"["+a.getParent().getFragments().size()+ "]   /*/ " + a.getParent().getLocation().equals(a.getParent().getName()));
-			if (a.getParent().getName().equals(a.getLocation())) {
-				a.setType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT);
-			}
-		}
-		System.out.println("extArts after:  "+extArts.size());
-		throw new IllegalAccessError("NOT IMPLEMENTED !");
-		
-	}
-
 	private void createExternalKnownLocations() {
 		
 		////// Papyrus related
@@ -291,20 +271,6 @@ public class ArtefactFactory {
 		ExternalLocationArtefact aGlossary = new ExternalLocationArtefact("plugin/com.cea.papyrus.glossary", ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
 		addArtefact(aGlossary);
 		ExternalLocationArtefact.addKnownLocation(aGlossary);
-		
-
-		
-		
-//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
-//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
-		
-		String umlPluginLocation = "platform://org.eclipse.papyrus";
-		
-//		Artefact aSysml = new ExternalLocationArtefact("plugin/org.eclipse.papyrus", ArtefactTypeFactory.GHOST_TYPE_FOR_DEV, Protocol.platform);
-//		addArtefact(aPapyrus);
-//		ExternalLocationArtefact.addKnownLocation(aPapyrus);
-		
-//		String umlPluginLocation = "platform://org.eclipse.papyrus";
 	}
 
 	/**
