@@ -221,10 +221,11 @@ public class Artefact extends TypedArtefact {
 	}
 
 	public String renderFragmentation(boolean recursive, boolean renderElements) {
-		String res = "\"name\": \""+getName()+"\"," +
-				"\"type\": \""+getType().getName()+"\","+
-				"\"location\": \""+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation())+"\","+
-				"\"references\": [\"Todo\"]";
+		String res = "\"name\": \""+getName()+"\"" +
+				",\"type\": \""+getType().getName()+"\""+
+				",\"location\": \""+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation())+"\""+
+				"";
+//				",\"references\": [\"Todo\"]";
 		if(recursive) {
 			String resChild = "";
 			for (Artefact a : fragments) {
@@ -236,7 +237,6 @@ public class Artefact extends TypedArtefact {
 			resChild = ",\n\"children\": [" + resChild + "]";
 			res += resChild;
 		}
-		res += "\n";
 		return "{"+res+"}";
 	}
 }

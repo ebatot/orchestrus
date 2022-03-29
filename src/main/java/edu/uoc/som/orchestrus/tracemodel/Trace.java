@@ -337,7 +337,7 @@ public class Trace extends TracingElement {
 		///// Links
 		String resDep = "";
 		for (TraceLink tl : getTraceLinks())
-			resDep += "" + tl.getJSon() + ",\n";
+			resDep += "" + tl.getIdentificationJSon() + ",\n";
 		if (!resDep.isBlank())
 			resDep = resDep.substring(0, resDep.length() - 2);
 		resDep = "\"links\": [" + resDep + "]";

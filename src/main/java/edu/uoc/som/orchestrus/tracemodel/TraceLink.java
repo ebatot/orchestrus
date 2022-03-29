@@ -153,8 +153,8 @@ public class TraceLink extends TypedLink {
 	
 	public String getIdentificationJSon() {
 		String res = "{";
-		res += "\"id\": \"" + getID() + "\",";
-		res += "\"name\": \"" + getName() + "\",";
+		res += "\"id\": \"" + getID() + "\"";
+		res += ",\"name\": \"" + getName() + "\"";
 		
 		String resSources = "";
 		for (Artefact a : sources) 
@@ -162,16 +162,18 @@ public class TraceLink extends TypedLink {
 		if(!resSources.isBlank())
 			resSources = resSources.substring(0, resSources.length()-2);
 		resSources = ",\"sources\": [" + resSources + "]";
+		res += resSources;
 		
-		String resTarget = "";
+		String resTargets = "";
 		for (Artefact a : targets) 
-			resTarget += a.renderFragmentation(false, false)+",\n" ;
-		if(!resTarget.isBlank())
-			resTarget = resTarget.substring(0, resTarget.length()-2);
-		resTarget = ",\"targets\": [" + resTarget + "],";
+			resTargets += a.renderFragmentation(false, false)+",\n" ;
+		if(!resTargets.isBlank())
+			resTargets = resTargets.substring(0, resTargets.length()-2);
+		resTargets = ",\"targets\": [" + resTargets + "]";
+		res += resTargets;
 		
-		res += "\"confidence\": "+confidence+",";
-		res += "\"type\": \"" + getType().getName() + "\"";
+		res += ",\"confidence\": "+confidence+"";
+		res += ",\"type\": \"" + getType().getName() + "\"";
 		return res + "}";
 	}
 
