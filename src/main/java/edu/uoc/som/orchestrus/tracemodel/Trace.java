@@ -331,6 +331,30 @@ public class Trace extends TracingElement {
 				"}";
 	}
 
+	public String renderIdentificationJSon() {
+		String res = "";
+
+		///// Links
+		String resDep = "";
+		for (TraceLink tl : getTraceLinks())
+			resDep += "" + tl.getJSon() + ",\n";
+		if (!resDep.isBlank())
+			resDep = resDep.substring(0, resDep.length() - 2);
+		resDep = "\"links\": [" + resDep + "]";
+
+		///// Types
+		String resTypes = "";
+		for (LinkType t : getAllTraceLinkTypes())
+			resTypes += "" + t.getJSon() + ",\n";
+		if (!resTypes.isBlank())
+			resTypes = resTypes.substring(0, resTypes.length() - 2);
+		resTypes = "\"linkTypes\": [" + resTypes + "]";
+
+		res = resDep + "," + resTypes;
+
+		return "\"identification\": {" + res + "}";
+	}
+
 	private Set<Artefact> collectArtefacts() {
 		Set<Artefact> artCollect = new HashSet<>();
 		for (TraceLink tl : getTraceLinks()) {
@@ -349,6 +373,11 @@ public class Trace extends TracingElement {
 			}
 		}
 		return artCollect;
+	}
+
+	public String renderAnalysisJSon() {
+		// TODO Auto-generated method stub
+		return "";
 	}
 
 

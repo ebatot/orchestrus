@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
-import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
@@ -145,10 +144,34 @@ public class TraceLink extends TypedLink {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + getName() + "\",";
-		res += "\"sources\": " + Utils.getElementsIDsAsJsonCollection(sources) + ",";
-		res += "\"targets\": " + Utils.getElementsIDsAsJsonCollection(targets) + ",";
+		res += "\"sources\": " + edu.uoc.som.orchestrus.tracemodel.Utils.getElementsIDsAsJsonCollection(sources) + ",";
+		res += "\"targets\": " + edu.uoc.som.orchestrus.tracemodel.Utils.getElementsIDsAsJsonCollection(targets) + ",";
 		res += "\"confidence\": "+confidence+",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
+		return res + "}";
+	}
+	
+	public String getIdentificationJSon() {
+		String res = "{";
+		res += "\"id\": \"" + getID() + "\",";
+		res += "\"name\": \"" + getName() + "\",";
+		
+		String resSources = "";
+		for (Artefact a : sources) 
+			resSources += a.renderFragmentation(false, false)+",\n" ;
+		if(!resSources.isBlank())
+			resSources = resSources.substring(0, resSources.length()-2);
+		resSources = ",\"sources\": [" + resSources + "]";
+		
+		String resTarget = "";
+		for (Artefact a : targets) 
+			resTarget += a.renderFragmentation(false, false)+",\n" ;
+		if(!resTarget.isBlank())
+			resTarget = resTarget.substring(0, resTarget.length()-2);
+		resTarget = ",\"targets\": [" + resTarget + "],";
+		
+		res += "\"confidence\": "+confidence+",";
+		res += "\"type\": \"" + getType().getName() + "\"";
 		return res + "}";
 	}
 

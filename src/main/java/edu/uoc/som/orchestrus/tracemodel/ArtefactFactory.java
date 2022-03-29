@@ -630,6 +630,26 @@ public class ArtefactFactory {
 		return tls;
 	}
 
+	public static String renderFragmentationJSon(boolean renderElements) {
+		String resFrag = "";
+		
+		Set<Artefact> artsWithoutParents = new HashSet<>();
+		for (Artefact a : getArtefacts().values()) 
+			if(a.getParent() == null)
+				artsWithoutParents.add(a);
+		
+		
+		for (Artefact a : artsWithoutParents) {
+			if(renderElements || a.getType() != ArtefactTypeFactory.ELEMENT_ARTEFACT)
+				resFrag += a.renderFragmentation(true, renderElements)+",\n" ;
+		}
+		if(!resFrag.isBlank())
+			resFrag = resFrag.substring(0, resFrag.length()-2);
+		resFrag = "\"fragmentation\": [" + resFrag + "]";
+		
+		return resFrag;
+	}
+
 	
 
 }

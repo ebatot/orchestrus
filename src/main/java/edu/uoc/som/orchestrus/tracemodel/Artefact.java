@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
 public class Artefact extends TypedArtefact {
@@ -217,5 +218,25 @@ public class Artefact extends TypedArtefact {
 
 	public boolean isLocal() {
 		return protocol == Protocol.no_protocol || protocol == Protocol.local;
+	}
+
+	public String renderFragmentation(boolean recursive, boolean renderElements) {
+		String res = "\"name\": \""+getName()+"\"," +
+				"\"type\": \""+getType().getName()+"\","+
+				"\"location\": \""+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation())+"\","+
+				"\"references\": [\"Todo\"]";
+		if(recursive) {
+			String resChild = "";
+			for (Artefact a : fragments) {
+				if(renderElements || a.getType() != ArtefactTypeFactory.ELEMENT_ARTEFACT)
+					resChild += a.renderFragmentation(recursive, renderElements)+",\n";
+			}
+			if(!resChild.isBlank())
+				resChild = resChild.substring(0, resChild.length()-2);
+			resChild = ",\n\"children\": [" + resChild + "]";
+			res += resChild;
+		}
+		res += "\n";
+		return "{"+res+"}";
 	}
 }

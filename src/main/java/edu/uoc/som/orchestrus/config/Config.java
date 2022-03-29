@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
+import edu.uoc.som.orchestrus.utils.Utils;
 
 public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
@@ -363,6 +364,24 @@ public class Config {
 		res.put("di", getSpecificationModelsFolderFull() + File.separator + getProjectName() + LANGUAGE_REQ_SUFFIX + ".di");
 		res.put("notation", getSpecificationModelsFolderFull() + File.separator + getProjectName() + LANGUAGE_REQ_SUFFIX + ".notation");
 		return res;
+	}
+
+	public static String renderSetupJSon() {
+		String res = "\"setup\" : {" +
+				"\"projectName\": \""+getInstance().getProjectName()+"\","+
+				"\"projectFolder\": \""+"\","+
+				"\"projectURI\": \""+"\"";
+		
+		String resDep = "";
+		for (String d : getInstance().getProjectDependencies()) 
+			resDep += "\""+Utils.cleanUrlsForJson(d)+"\",\n" ;
+		if(!resDep.isBlank())
+			resDep = resDep.substring(0, resDep.length()-2);
+		resDep = ",\"dependencies\": [" + resDep + "]";
+		
+		res += resDep;
+		
+		return res + "}";
 	}
 
 }

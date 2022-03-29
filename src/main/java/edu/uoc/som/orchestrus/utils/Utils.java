@@ -69,6 +69,40 @@ public class Utils {
 		LOGGER.info(""+log);
 	}
 	
+	public static void storeSetupJSon(Trace t, boolean deploy) {
+		storeSetupJSon(t, deploy, "meta\\d3viewer\\data\\setup.json");
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void storeSetupJSon(Trace t, boolean deploy, String deployLocationPath) {
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.setup.json");
+		
+		
+		String setup = Config.renderSetupJSon();
+		String artefacts = ArtefactFactory.renderFragmentationJSon(true);
+		String identification = t.renderIdentificationJSon();
+//		String analysis = t.renderAnalysisJSon();
+		
+		String d3trace = "{"+ setup +"," + artefacts+ "," +identification+ /*","+analysis +*/"}";
+		String log = "";
+		try {
+			FileUtils.write(f, d3trace);
+			log += ("\n - Setup for '"+t.getName()+"' ("+Config.getInstance().getProjectName()+") stored as JSON in '"+f.getAbsolutePath()+"'");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(deploy) {
+			f = new File(deployLocationPath);
+			try {
+				FileUtils.write(f, d3trace);
+				log += ("\n - Setup '"+t.getName()+"' ("+Config.getInstance().getProjectName()+") deployed as JSON in '"+f.getAbsolutePath()+"'");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		LOGGER.info(""+log);
+	}
+	
 	public static void storeMatrixTracea(Trace t, boolean deploy, double acceptanceThreshold) {
 		storeMatrixTracea(t, deploy, "meta\\d3viewer\\data\\adjacencyMatrix.html", acceptanceThreshold);
 	}
