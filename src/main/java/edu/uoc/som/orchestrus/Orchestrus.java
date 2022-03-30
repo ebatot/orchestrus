@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.config.Config;
+import edu.uoc.som.orchestrus.graph.ShowGraph;
+import edu.uoc.som.orchestrus.graph.TraceGraph;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
@@ -51,10 +53,15 @@ public class Orchestrus {
 
 		Trace t = TraceFactory.buildReferencesTrace();
 		Utils.storeD3Tracea(t, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
-		Utils.storeMatrixTracea(t, false, 4/21);
+		//Utils.storeMatrixTracea(t, false, 4/21);
 		Utils.storeSetupJSon(t, true);
 		
 		
+		System.out.println("Graph work...");
+		TraceGraph tg = new TraceGraph(t);
+		tg.detectCycles();
+		ShowGraph show = new ShowGraph(tg);
+		show.createAndShowGui();
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 		

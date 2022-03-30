@@ -100,7 +100,8 @@ public class Artefact extends TypedArtefact {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 //		res += "\"name\": \"" + getProtocol() + "::"+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "::"+ edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
-		res += "\"name\": \"" +  edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+//		res += "\"name\": \"" +  edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+		res += "\"name\": \"" +  getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"size\": " + getFragments().size()*10 + ",";
 //		res += "\"size\": " + ArtefactTypeFactory.getD3Size(getType()) + ",";
