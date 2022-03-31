@@ -1,12 +1,14 @@
 package edu.uoc.som.orchestrus.tracemodel.typing;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
-public class LinkType extends TracingElement {
+public class LinkType extends TracingElement implements Serializable {
+	private static final long serialVersionUID = -5697906953500734703L;
 	public static LinkType untyped = new LinkType("untyped");
 	private static Map<String, LinkType> types = new HashMap<>();
 	
@@ -15,6 +17,14 @@ public class LinkType extends TracingElement {
 	private LinkType(String name) {
 		super(name);
 		this.number = counter ++;
+	}
+	
+	public LinkType() {
+		this(newName());
+	}
+	
+	private static String newName() {
+		return "L" + counter;
 	}
 
 	public String getJSon() {

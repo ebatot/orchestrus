@@ -1,6 +1,7 @@
 package edu.uoc.som.orchestrus.parsing;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +51,7 @@ public class ReferenceFactory {
 	 * Default for local files : no_protocol. <br/>
 	 * {@link Protocol#local} will be assignated when resolving a "no_protocol" href.
 	 */
-	public enum Protocol {
+	public enum Protocol implements Serializable {
 		http, pathmap, platform, ppe, bundleclass, local, no_protocol;
 
 		/**

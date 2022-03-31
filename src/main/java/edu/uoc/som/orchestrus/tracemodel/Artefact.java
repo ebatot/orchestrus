@@ -1,6 +1,7 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,8 +12,10 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedArtefact;
 
-public class Artefact extends TypedArtefact {
+public class Artefact extends TypedArtefact  implements Serializable{
 	
+	private static final long serialVersionUID = -671183405318232925L;
+
 	public final static Logger LOGGER = Logger.getLogger(Artefact.class.getName());
 
 	private String location;
@@ -26,8 +29,21 @@ public class Artefact extends TypedArtefact {
 
 //	private HashMap<String, Artefact> fragments = new HashMap<>();
 	private HashSet<Artefact> fragments = new HashSet<>();
-	private ArrayList<TraceLink> sourceOf;
-	private ArrayList<TraceLink> targetOf;
+	private ArrayList<TraceLink> sourceOf = new ArrayList<>();
+	private ArrayList<TraceLink> targetOf = new ArrayList<>();
+	
+	public Artefact() {
+		this(newName(), ArtefactType.getUntyped());
+		sourceOf = new ArrayList<>();
+		targetOf = new ArrayList<>();
+		location = "";
+		protocol = Protocol.no_protocol;
+	}
+	
+	static int counter =0;
+	private static String newName() {
+		return "A"+counter++;
+	}
 
 	public Artefact(String name, ArtefactType type, String location, Artefact parent, boolean resolved) {
 		super(name, type);
@@ -51,7 +67,8 @@ public class Artefact extends TypedArtefact {
 		if (!obj.getClass().equals(this.getClass()))
 			return false;
 		Artefact rObj = (Artefact) obj;
-		if (!rObj.getProtocol().toString().equals(this.getProtocol().toString()))
+		
+		if (!rObj.getProtocol().equals(this.getProtocol()))
 			return false;
 		if (!rObj.getLocation().equals(this.getLocation()))
 			return false;
@@ -91,7 +108,7 @@ public class Artefact extends TypedArtefact {
 		res += "\"name\": \"" + getName() + "\",";
 		res += "\"location\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "\",";
 		res += getParent() == null ? "" : "\"parent\": \"" + getParent().getID() + "\",";
-		res += "\"fragments\": " + Utils.getElementsIDsAsJsonCollection(fragments) + ",";
+		res += "\"fragments\": " + TraceUtils.getElementsIDsAsJsonCollection(fragments) + ",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
 	}

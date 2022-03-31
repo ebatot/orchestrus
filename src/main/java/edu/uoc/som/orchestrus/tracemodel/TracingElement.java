@@ -1,5 +1,6 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -7,7 +8,9 @@ import java.util.Set;
 
 import edu.uoc.som.orchestrus.parsing.Reference;
 
-public abstract class TracingElement {
+public abstract class TracingElement  implements Serializable{
+	private static final long serialVersionUID = -1638746559866381492L;
+
 	static String UNNAMED = "UNNAMED";
 
 	public static HashMap<String, TracingElement> elements = new HashMap<>();

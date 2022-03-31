@@ -3,7 +3,7 @@ package edu.uoc.som.orchestrus.tracemodel;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Utils {
+public class TraceUtils {
 	public static ArrayList<String> getElementsIDs(Collection<? extends TracingElement> tes){
 		ArrayList<String> res = new ArrayList<>(tes.size());
 		for (TracingElement te : tes) 

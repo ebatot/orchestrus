@@ -8,14 +8,14 @@ import org.jgrapht.ext.JGraphXAdapter;
 
 import com.mxgraph.layout.mxFastOrganicLayout;
 import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 
-import edu.uoc.som.orchestrus.graph.TraceGraph.WeightedEdge;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 
 public class ShowGraph {
 	TraceGraph graph;
-	public ShowGraph( TraceGraph tg) {
+	public ShowGraph(TraceGraph tg) {
 		this.graph = tg;
 	}
 	
@@ -26,7 +26,8 @@ public class ShowGraph {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 				Graph<Artefact, WeightedEdge> g = graph.getGraph();
-				JGraphXAdapter<Artefact, WeightedEdge> graphAdapter = new JGraphXAdapter<Artefact, WeightedEdge>(g);
+				JGraphXAdapter<Artefact, WeightedEdge> graphAdapter = new JGraphPerso(g);
+				
 
 				mxIGraphLayout layout = new mxFastOrganicLayout(graphAdapter);
 				layout.execute(graphAdapter.getDefaultParent());
@@ -41,4 +42,22 @@ public class ShowGraph {
     	});
 	
     }
+	
+	class JGraphPerso extends JGraphXAdapter<Artefact, WeightedEdge> {
+
+		public JGraphPerso(Graph<Artefact, WeightedEdge> graph) {
+			super(graph);
+		}
+		
+		@Override
+		public String convertValueToString(Object cell) {
+			mxCell c = ((mxCell)cell);
+			if(c.isEdge()) {
+				WeightedEdge we = (WeightedEdge)c.getValue();
+				return String.valueOf(we.getWeight());
+			}
+			return super.convertValueToString(cell);
+		}
+		
+	}
 }

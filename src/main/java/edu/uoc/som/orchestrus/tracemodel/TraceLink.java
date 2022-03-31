@@ -1,5 +1,6 @@
 package edu.uoc.som.orchestrus.tracemodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,8 +10,10 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
-public class TraceLink extends TypedLink {
+public class TraceLink extends TypedLink implements Serializable{
 	
+	private static final long serialVersionUID = 2849795385809634439L;
+
 	private double confidence = 100;
 
 	ArrayList<Artefact> sources = new ArrayList<>();
@@ -144,8 +147,8 @@ public class TraceLink extends TypedLink {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + getName() + "\",";
-		res += "\"sources\": " + edu.uoc.som.orchestrus.tracemodel.Utils.getElementsIDsAsJsonCollection(sources) + ",";
-		res += "\"targets\": " + edu.uoc.som.orchestrus.tracemodel.Utils.getElementsIDsAsJsonCollection(targets) + ",";
+		res += "\"sources\": " + edu.uoc.som.orchestrus.tracemodel.TraceUtils.getElementsIDsAsJsonCollection(sources) + ",";
+		res += "\"targets\": " + edu.uoc.som.orchestrus.tracemodel.TraceUtils.getElementsIDsAsJsonCollection(targets) + ",";
 		res += "\"confidence\": "+confidence+",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
