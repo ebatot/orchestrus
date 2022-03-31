@@ -227,7 +227,7 @@ public class Trace extends TracingElement {
 		boolean printEltIDs = false;
 		String res = "\t<tr>\n\t\t<th>nº</th><th></th>\n";
 		int iA = 0;
-		for (iA = 0; iA < compressedArtefacts.size(); iA++) {
+		for (iA = 0; iA < compressedArtefacts.size(); iA++) 
 			res += "\t\t<th class=\"linkName\">"+iA/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
 		res += "\t</tr>\n";
 		
