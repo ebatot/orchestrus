@@ -27,18 +27,17 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
 public class ArtefactFactory {
 	public final static Logger LOGGER = Logger.getLogger(ArtefactFactory.class.getName());
-	public final static Logger LOGGER_EXT = Logger.getLogger(ArtefactFactory.class.getName()+"_EXT");
+	public final static Logger LOGGER_EXT = Logger.getLogger(ArtefactFactory.class.getName() + "_EXT");
 
 	/**
 	 * Root to project source and folders
 	 */
 	private Artefact projectRoot;
-	
+
 	/**
 	 * Root to unresovleds and other weirdos of the cyber space.
 	 */
 	private Artefact unresolvedsRoot;
-
 
 	static ArtefactFactory instance;
 
@@ -53,21 +52,20 @@ public class ArtefactFactory {
 	 */
 	private Map<String, Artefact> artefacts;
 
-
 	public ArtefactFactory() {
 		artefacts = new HashMap<>();
 	}
 
 	/**
 	 * WARNING missing some ExternalFOlderArtefacts....
+	 * 
 	 * @return
 	 */
 	public static Map<String, Artefact> getArtefacts() {
 		return getInstance().artefacts;
 	}
-	
-	
-	public static HashSet<ArtefactType> getAllArtefactTypes() {	
+
+	public static HashSet<ArtefactType> getAllArtefactTypes() {
 		HashSet<ArtefactType> ats = new HashSet<>();
 		for (Artefact a : ArtefactFactory.getArtefacts().values()) {
 			ats.add(a.getType());
@@ -75,19 +73,24 @@ public class ArtefactFactory {
 		return ats;
 	}
 
-
 	public Artefact getArtefact(File f) {
 		String locationName = f.getParent() + f.getName();
 		Protocol p = Protocol.no_protocol;
-		if(f.exists())
+		if (f.exists())
 			p = Protocol.local;
 		return getArtefact(p + locationName);
 	}
 
 	/**
-	 * See <ul><li>{@link #newSourceFileArtefact(File)}</li><li>{@link #newLocalFileArtefact(Reference)}</li><li>{@link #newExternalFileArtefact(Reference)}</li></ul> 
+	 * See
+	 * <ul>
+	 * <li>{@link #newSourceFileArtefact(File)}</li>
+	 * <li>{@link #newLocalFileArtefact(Reference)}</li>
+	 * <li>{@link #newExternalFileArtefact(Reference)}</li>
+	 * </ul>
 	 * 
 	 * for precions/cohesion on keys of the artefacts map.
+	 * 
 	 * @param r
 	 * @return
 	 */
@@ -95,7 +98,7 @@ public class ArtefactFactory {
 		String locationName = "";
 		if (r.isLocal()) {
 			File f = new File(r.getTargetFileArtefact());
-			if(r.isResolved())
+			if (r.isResolved())
 				locationName = f.getParent() + f.getName();
 			else
 				locationName = r.getTargetFileArtefact() + f.getName();
@@ -107,12 +110,10 @@ public class ArtefactFactory {
 		}
 		return getArtefact(r.getProtocol() + locationName);
 	}
-	
+
 	public Artefact getArtefact(Protocol p, String location, String name) {
 		return getArtefact(p + location + name);
 	}
-
-
 
 	private Artefact getArtefact(String locationName) {
 		return artefacts.get(locationName);
@@ -127,7 +128,8 @@ public class ArtefactFactory {
 	}
 
 	/**
-	 * Builds artefacts from an instanciated static explorer (see {@link StaticExplorer}) 
+	 * Builds artefacts from an instanciated static explorer (see
+	 * {@link StaticExplorer})
 	 */
 	public void buildArtefacts() {
 		LOGGER.info("Building Artefacts ** Roots, Local, Files, Folders and Locations...");
@@ -135,8 +137,7 @@ public class ArtefactFactory {
 		createExternalKnownLocations();
 		createProjectRootArtefact();
 		createUnresovledsStackArtefact();
-		
-		
+
 		int deps = createLocalRootDependenciesArtefacts();
 		LOGGER.info(2 + deps + " root location dependencies found (" + deps + " local" + (deps > 1 ? "s" : "")
 				+ ", rootProject, and unresolvedsStack).");
@@ -164,7 +165,7 @@ public class ArtefactFactory {
 		LOGGER.info(unresolvedsRoot.getFragments().size() + " unresolved artefacts.");
 		for (Artefact a : unresolvedsRoot.getFragments())
 			LOGGER.finer("  - " + a + ": " + a.getHREF());
-		
+
 		/* build Artefact from source files found in project folder */
 		buildExternalFilesArtefacts();
 		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT).size() + " ExternalFile and "
@@ -176,23 +177,26 @@ public class ArtefactFactory {
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
-		
+
 		buildElementLevelArtefacts();
-		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT).size() + " Elements in " + ReferenceFactory.getReferences().size() + " references.");
+		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT).size() + " Elements in "
+				+ ReferenceFactory.getReferences().size() + " references.");
 		if (LOGGER.getLevel().equals(Level.FINE)) {
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.ELEMENT_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
-		
+
 		buildJavaCustomArtefacts();
-		LOGGER.info(subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT).size() + " CustomJava files in " + subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT).size() + " folders.");
+		LOGGER.info(
+				subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT).size() + " CustomJava files in "
+						+ subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT).size() + " folders.");
 		if (LOGGER.getLevel().equals(Level.FINE)) {
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FOLDER_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 			for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT))
 				LOGGER.finer("  - " + a + ": " + a.getHREF());
 		}
-		
+
 	}
 
 	private void buildJavaCustomArtefacts() {
@@ -236,39 +240,44 @@ public class ArtefactFactory {
 	}
 
 	private void createExternalKnownLocations() {
-		
+
 		////// Papyrus related
-		ExternalLocationArtefact aPapyrus = new ExternalLocationArtefact("plugin/org.eclipse.papyrus", ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
+		ExternalLocationArtefact aPapyrus = new ExternalLocationArtefact("plugin/org.eclipse.papyrus",
+				ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
 		addArtefact(aPapyrus);
 		ExternalLocationArtefact.addKnownLocation(aPapyrus);
-		
-		Artefact aPapUML = new Artefact("uml", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+
+		Artefact aPapUML = new Artefact("uml", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(),
+				aPapyrus);
 		aPapUML.setProtocol(aPapyrus.getProtocol());
 		addArtefact(aPapUML);
 		aPapyrus.addFragment(aPapUML);
 		ExternalLocationArtefact.addKnownLocation(aPapUML);
-		
-		Artefact aPapInfra = new Artefact("infra", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+
+		Artefact aPapInfra = new Artefact("infra", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(),
+				aPapyrus);
 		aPapInfra.setProtocol(aPapyrus.getProtocol());
 		addArtefact(aPapInfra);
 		aPapyrus.addFragment(aPapInfra);
 		ExternalLocationArtefact.addKnownLocation(aPapInfra);
-		
-		Artefact aPapSys16 = new Artefact("sysml16", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+
+		Artefact aPapSys16 = new Artefact("sysml16", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(),
+				aPapyrus);
 		aPapSys16.setProtocol(aPapyrus.getProtocol());
 		addArtefact(aPapSys16);
 		aPapyrus.addFragment(aPapSys16);
 		ExternalLocationArtefact.addKnownLocation(aPapSys16);
-		
-		Artefact aPapSys14 = new Artefact("sysml14", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(), aPapyrus);
+
+		Artefact aPapSys14 = new Artefact("sysml14", ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, aPapyrus.getLocation(),
+				aPapyrus);
 		aPapSys16.setProtocol(aPapyrus.getProtocol());
 		addArtefact(aPapSys14);
 		aPapyrus.addFragment(aPapSys14);
 		ExternalLocationArtefact.addKnownLocation(aPapSys14);
-		
-		
+
 		////// Glossary related
-		ExternalLocationArtefact aGlossary = new ExternalLocationArtefact("plugin/com.cea.papyrus.glossary", ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
+		ExternalLocationArtefact aGlossary = new ExternalLocationArtefact("plugin/com.cea.papyrus.glossary",
+				ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT, Protocol.platform);
 		addArtefact(aGlossary);
 		ExternalLocationArtefact.addKnownLocation(aGlossary);
 	}
@@ -308,6 +317,7 @@ public class ArtefactFactory {
 
 	/**
 	 * Returns existing {@link ArtefactTypeFactory#LOCAL_ROOT_ARTEFACT}s.
+	 * 
 	 * @return
 	 */
 	public List<Artefact> getLocalRootDependenciesArtefacts() {
@@ -317,7 +327,7 @@ public class ArtefactFactory {
 	}
 
 	private Artefact createLocalRootArtefact(String fullPath) {
-		String name = fullPath.substring(fullPath.lastIndexOf(File.separator)+1);
+		String name = fullPath.substring(fullPath.lastIndexOf(File.separator) + 1);
 		Artefact depRoot = new Artefact(name, ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT, fullPath, null, true);
 		depRoot.setProtocol(Protocol.local);
 		addArtefact(depRoot);
@@ -341,7 +351,7 @@ public class ArtefactFactory {
 			boolean added = addLocalFolderArtefact(a);
 			if (added)
 				iFolder++;
-			
+
 			affectsLocalParentIfExists(a);
 		}
 		LOGGER.fine(iFile + " SourceFile and " + iFolder + " LocalFolder found in "
@@ -353,11 +363,11 @@ public class ArtefactFactory {
 	 * ({@link ArtefactTypeFactory#LOCAL_FOLDER_ARTEFACT}) to a Source/Local File
 	 * artefact. <br/>
 	 * 
-	 * Warning. If parent does not resolve, the system will send an exception
-	 * and stop.
+	 * Warning. If parent does not resolve, the system will send an exception and
+	 * stop.
 	 * 
 	 * @param a
-	 * @param r  (null when calling for a SourceFile artefact)
+	 * @param r (null when calling for a SourceFile artefact)
 	 * @return
 	 */
 	private boolean addLocalFolderArtefact(Artefact a) {
@@ -375,7 +385,7 @@ public class ArtefactFactory {
 		if (res == null) {
 			res = new Artefact(f.getName(), ArtefactTypeFactory.LOCAL_FOLDER_ARTEFACT, f.getParent(), null, true);
 			addArtefact(res);
-			
+
 			// If the parent artefact exists, affects it.
 			affectsLocalParentIfExists(res);
 
@@ -386,15 +396,17 @@ public class ArtefactFactory {
 	}
 
 	/**
-	 * If a there exists an artefact at parent location (location-path/..), makes the fragment.<br/>
+	 * If a there exists an artefact at parent location (location-path/..), makes
+	 * the fragment.<br/>
 	 * Also associate an artefact with its Local root folder
+	 * 
 	 * @param artefact (Resolving !) (see {@link Artefact#isResolves()}
 	 * @return
 	 */
 	private Artefact affectsLocalParentIfExists(Artefact artefact) {
-		if(!artefact.isLocal()) 
-			throw new IllegalArgumentException(artefact+" is not local. Should not get here.");
-		
+		if (!artefact.isLocal())
+			throw new IllegalArgumentException(artefact + " is not local. Should not get here.");
+
 		Artefact parent = null;
 		if (artefact.isResolves()) {
 			parent = getArtefact(new File(artefact.getLocation()));
@@ -408,14 +420,14 @@ public class ArtefactFactory {
 				}
 			}
 		} else {
-			LOGGER.fine(artefact+" does not resolves. It is stored in the unresolveds stack.");
+			LOGGER.fine(artefact + " does not resolves. It is stored in the unresolveds stack.");
 			unresolvedsRoot.addFragment(artefact);
 		}
-		if(parent != null)
+		if (parent != null)
 			parent.addFragment(artefact);
 		return parent;
 	}
-	
+
 	/**
 	 * Browse {@link ReferenceFactory#getExternalReferences()} and create
 	 * ExternalFiles artefacts accordingly
@@ -430,7 +442,7 @@ public class ArtefactFactory {
 		for (Reference r : ReferenceFactory.getExternalReferences()) {
 			Artefact a = newExternalFileArtefact(r);
 			boolean success = addArtefact(a);
-			if(success)
+			if (success)
 				LOGGER.finer("new: " + a);
 		}
 	}
@@ -450,15 +462,15 @@ public class ArtefactFactory {
 			boolean success = addArtefact(a);
 			if (success)
 				artefactsAdded++;
-			if(r.isResolved()) {
+			if (r.isResolved()) {
 				boolean added = addLocalFolderArtefact(a);
-				if(added) 
+				if (added)
 					folderAdded++;
 			}
 			affectsLocalParentIfExists(a);
 		}
-		LOGGER.fine(artefactsAdded + " LocalFile and "+folderAdded+" LocalFolder found in " + ReferenceFactory.getReferences().size()
-				+ " references.");
+		LOGGER.fine(artefactsAdded + " LocalFile and " + folderAdded + " LocalFolder found in "
+				+ ReferenceFactory.getReferences().size() + " references.");
 	}
 
 	/**
@@ -500,8 +512,7 @@ public class ArtefactFactory {
 
 		File f = new File(r.getTargetFileArtefact());
 		String name = f.getName();
-		
-		
+
 		if (r.isResolved()) {
 			// Resolved means that the ancestry of the file exists, we can use the parent to
 			// precise the location
@@ -512,7 +523,7 @@ public class ArtefactFactory {
 			} else {
 				LOGGER.finest("Artefact '" + res + "' already exists.");
 			}
-			
+
 		} else { // R is not resolved
 			String location = r.getTargetFileArtefact(); // Location is the target - we keep it full.
 
@@ -541,15 +552,9 @@ public class ArtefactFactory {
 		String location = r.getTargetFileArtefact();
 		String name = location.substring(location.lastIndexOf("/") + 1);
 		location = location.substring(0, location.length() - name.length());
-//		System.out.println("ArtefactFactory.newExternalFileArtefact()    "+name +"::"+ location);
-		
-		
+
 		Artefact parent = getExternalLocation(location, r.getProtocol());
-		
-//		name = name.substring(name.lastIndexOf(".") + 1);
-//		System.out.println("                                              p:"+parent);
-//		
-//		Artefact res = getArtefact(r.getProtocol(), parent.getLocation()+"."+parent.getName(), name);
+
 		Artefact res = getArtefact(r.getProtocol(), location, name);
 		if (res == null) {
 			res = new Artefact(name, ArtefactTypeFactory.EXTERNAL_FILE_ARTEFACT, location, null, false);
@@ -567,29 +572,7 @@ public class ArtefactFactory {
 	 * @param p
 	 */
 	private Artefact getExternalLocation(String location, Protocol p) {
-		
 		Artefact resParent = getArtefact(p, location, location);
-//		if (resParent == null) {
-//			
-//			
-//			
-//			
-//			// Check is parent exists in KnownLocations
-//			for (Artefact a : ExternalLocationArtefact.getKnownLocations()) {
-//				if (location.startsWith(a.getLocation())) {
-//					String nameExt = location.substring((a.getLocation()).length() + 1);
-//					String locationExt = location.substring(0, location.length() - nameExt.length());
-//					
-//					Artefact aExt = getArtefact(p, locationExt, nameExt);
-//					if(aExt == null)
-//						aExt = new Artefact(nameExt, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, locationExt, a);
-//					aExt.setProtocol(p);
-//					addArtefact(aExt);
-//					a.addFragment(aExt);
-//					resParent = a;
-//				}
-//			}
-//		}
 		if (resParent == null)
 			resParent = new ExternalLocationArtefact(location, ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT, p);
 		addArtefact(resParent);
@@ -626,13 +609,15 @@ public class ArtefactFactory {
 	public static List<Artefact> subsetsArtefactsByTypeName(String typeName) {
 		return getArtefacts().values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
 	}
-	
+
 	public static List<Artefact> subsetsArtefactsByProtocol(Protocol p) {
 		return getArtefacts().values().stream().filter(a -> a.getProtocol() == p).collect(Collectors.toList());
 	}
 
 	/**
-	 * Wrong behavior - wrong start, ensues duplicate entries (descendants present in the list)
+	 * Wrong behavior - wrong start, ensues duplicate entries (descendants present
+	 * in the list)
+	 * 
 	 * @return
 	 */
 	public static Set<Artefact> getAncestors() {
@@ -642,11 +627,11 @@ public class ArtefactFactory {
 		}
 		return res;
 	}
-	
+
 	public boolean addArtefact(Artefact a) {
 		int size = artefacts.size();
 		artefacts.put(a.getProtocol() + a.getLocation() + a.getName(), a);
-		if(size != artefacts.size() - 1) {
+		if (size != artefacts.size() - 1) {
 			LOGGER.finest(a + " was not added.");
 		}
 		return size == artefacts.size() - 1;
@@ -675,29 +660,29 @@ public class ArtefactFactory {
 
 	public static String renderFragmentationJSon(boolean renderElements) {
 		String resFrag = "";
-		
+
 		Set<Artefact> artsWithoutParents = new HashSet<>();
-		for (Artefact a : getArtefacts().values()) 
-			if(a.getParent() == null)
+		for (Artefact a : getArtefacts().values())
+			if (a.getParent() == null)
 				artsWithoutParents.add(a);
-		
-		
+
 		for (Artefact a : artsWithoutParents) {
-			if(renderElements || a.getType() != ArtefactTypeFactory.ELEMENT_ARTEFACT)
-				resFrag += a.renderFragmentation(true, renderElements)+",\n" ;
+			if (renderElements || a.getType() != ArtefactTypeFactory.ELEMENT_ARTEFACT)
+				resFrag += a.renderFragmentation(true, renderElements) + ",\n";
 		}
-		if(!resFrag.isBlank())
-			resFrag = resFrag.substring(0, resFrag.length()-2);
+		if (!resFrag.isBlank())
+			resFrag = resFrag.substring(0, resFrag.length() - 2);
 		resFrag = "\"fragmentation\": [" + resFrag + "]";
-		
+
 		return resFrag;
 	}
 
 	/**
-	 * Browse each External_LOCATION_ARTEFACTs and attribute an EXTERNAL ROOT if there is one that fits the location.
+	 * Browse each External_LOCATION_ARTEFACTs and attribute an EXTERNAL ROOT if
+	 * there is one that fits the location.
 	 */
 	public void clusterExternalLocations() {
-		
+
 		for (Artefact a : subsetsArtefactsByType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT)) {
 			Artefact parent = null;
 			int maxSize = 0;
@@ -705,17 +690,17 @@ public class ArtefactFactory {
 			String parentCut = "";
 			for (Artefact aKnown : ExternalLocationArtefact.getKnownLocations()) {
 				test = aKnown.getLocation() + "." + aKnown.getName();
-				if(a.getLocation().startsWith(test)) {
-					if(test.length() > maxSize) {
+				if (a.getLocation().startsWith(test)) {
+					if (test.length() > maxSize) {
 						maxSize = test.length();
 						parent = aKnown;
-						parentCut = aKnown.getLocation()+"."+aKnown.getName();
+						parentCut = aKnown.getLocation() + "." + aKnown.getName();
 					}
 				}
-				if(parent == null ) {
+				if (parent == null) {
 					test = aKnown.getLocation();
-					if(a.getLocation().startsWith(test)) {
-						if(test.length() > maxSize) {
+					if (a.getLocation().startsWith(test)) {
+						if (test.length() > maxSize) {
 							maxSize = test.length();
 							parent = aKnown;
 							parentCut = aKnown.getLocation();
@@ -723,21 +708,17 @@ public class ArtefactFactory {
 					}
 				}
 			}
-			
-			
-			
-			if(parent != null) {
+
+			if (parent != null) {
 				parent.addFragment(a);
-				String newName = a.getName().substring(parentCut.length()+1); // +1 +1 for 'points'
-				if(!parent.isOfType(ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT))
+				String newName = a.getName().substring(parentCut.length() + 1); // +1 +1 for 'points'
+				if (!parent.isOfType(ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT))
 					parent.setType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT);
 				// TODO a update of the keys in artefacts map ????¿¿¿¿
 				a.setName(newName);
 			}
 		}
-		
-	}
 
-	
+	}
 
 }
