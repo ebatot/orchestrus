@@ -13,12 +13,14 @@ import java.util.logging.Logger;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.DijkstraShortestPath;
-import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
+import org.jgrapht.alg.clustering.GirvanNewmanClustering;
+import org.jgrapht.alg.clustering.KSpanningTreeClustering;
+import org.jgrapht.alg.clustering.LabelPropagationClustering;
 import org.jgrapht.alg.cycle.HawickJamesSimpleCycles;
 import org.jgrapht.alg.cycle.PatonCycleBase;
+import org.jgrapht.alg.interfaces.ClusteringAlgorithm.Clustering;
 import org.jgrapht.alg.interfaces.CycleBasisAlgorithm.CycleBasis;
-import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
-import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.AsUndirectedGraph;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -40,7 +42,7 @@ public class TraceGraph {
 	public TraceGraph(Trace t) {
 		this.trace = t;
 		this.graph = buildGraph(t, false);
-		detectCycles();
+		detectCycles(true);
 		
 //		-4787022384348844445
 //		-2221988569368117268
@@ -53,45 +55,113 @@ public class TraceGraph {
 
 		getPath( a1,  a2);
 		
+		
 		renderAsJSon(true);
+		
+//		clusterKSpan(2, true);
+//		clusterLabelPropagation(50, true);
+		clusterLabelPropagation(5, true);
+		
+		
 	}
 	
+	public void clusterLabelPropagation(int maxIterations, boolean forceUndirected) {
+		LabelPropagationClustering<Artefact, WeightedEdge> ks = null;
+		if(forceUndirected)
+			ks = new LabelPropagationClustering<>(asUndirectedGraph(), maxIterations);
+		else if(graph.getType().isUndirected())
+			ks = new LabelPropagationClustering<>(graph, maxIterations);
+		else {
+			LOGGER.warning("Graph must be undirected (try to force?).");
+			return;
+		}
+		
+		
+		int i = 0;
+		for (Set<Artefact> c : ks.getClustering()) {
+			System.out.println("Cluster "+ i ++);
+			for (Artefact a : c) {
+				System.out.println("   " + a);
+			}
+		};
+	}
+	
+	public void clusterGirvanNewman(int k, boolean forceUndirected) {
+		GirvanNewmanClustering<Artefact, WeightedEdge> ks = null;
+		if(forceUndirected)
+			ks = new GirvanNewmanClustering<>(asUndirectedGraph(), k);
+		else if(graph.getType().isUndirected())
+			ks = new GirvanNewmanClustering<>(graph, k);
+		else {
+			LOGGER.warning("Graph must be undirected (try to force?).");
+			return;
+		}
+		
+		
+		int i = 0;
+		for (Set<Artefact> c : ks.getClustering()) {
+			System.out.println("Cluster "+ i ++);
+			for (Artefact a : c) {
+				System.out.println("   " + a);
+			}
+		};
+	}
+	
+
+	
+	public void clusterKSpan(int kNumber, boolean forceUndirected) {
+		KSpanningTreeClustering<Artefact, WeightedEdge> ks = null;
+		if(forceUndirected)
+			ks = new KSpanningTreeClustering<>(asUndirectedGraph(), kNumber);
+		else if(graph.getType().isUndirected())
+			ks = new KSpanningTreeClustering<>(graph, kNumber);
+		else {
+			LOGGER.warning("Graph must be undirected (try to force?).");
+			return;
+		}
+		
+		
+		int i = 0;
+		for (Set<Artefact> c : ks.getClustering()) {
+			System.out.println("Cluster "+ i ++);
+			for (Artefact a : c) {
+				System.out.println("   " + a);
+			}
+		};
+	}
+
 	public Graph<Artefact, WeightedEdge> getGraph() {
 		return graph;
 	}
-	
+
 	public String renderAsJSon(boolean printFile) {
 
-		//Define a vertex attribute provider
+		// Define a vertex attribute provider
 
+		// Create a JSON graph exporter with a vertexIdProvider which tells
+		// the exporter how to name each vertex
+		JSONExporter<Artefact, WeightedEdge> exporter = new JSONExporter<>(v -> v.getID());
+		exporter.setVertexAttributeProvider(getArtefactVertexAttributeProvider());
+		exporter.setEdgeAttributeProvider(WeightedEdge.getAttributeProvider());
 
+		if (printFile) {
+			// Export the graph
+			File f = new File("data/out/tmp/jgrapht.json");
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Graph written in: " + f.getAbsolutePath());
+			exporter.exportGraph(graph, f);
+		}
 
-				//Create a JSON graph exporter with a vertexIdProvider which tells
-				//the exporter how to name each vertex
-				JSONExporter<Artefact, WeightedEdge> exporter = new JSONExporter<>(v -> v.getID());
-				exporter.setVertexAttributeProvider(getArtefactVertexAttributeProvider());
-				exporter.setEdgeAttributeProvider(WeightedEdge.getAttributeProvider());
-				
-				
-				if(printFile) {
-					//Export the graph
-					File f =  new File("data/out/tmp/jgrapht.json");
-					try {
-						f.createNewFile();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					System.out.println("Graph written in: "+f.getAbsolutePath());
-					exporter.exportGraph(graph, f);
-				}
-				
-				
-				StringWriter sw = new StringWriter();
-				exporter.exportGraph(graph, sw);
-				return sw.getBuffer().toString();
+		StringWriter sw = new StringWriter();
+		exporter.exportGraph(graph, sw);
+		return sw.getBuffer().toString();
 	}
-	
+
 	public static Function<Artefact, Map<String, Attribute>> getArtefactVertexAttributeProvider() {
 		Function<Artefact, Map<String, Attribute>> vertexAttributeProvider = v -> {
 		    Map<String, Attribute> map = new LinkedHashMap<>();
@@ -137,25 +207,47 @@ public class TraceGraph {
 				+ weightTotal + ")");
 		return g;
 	}
-
-	public boolean detectCycles() {
-		if (graph.getType().isUndirected()) {
-			CycleBasis<Artefact, WeightedEdge> cb = new PatonCycleBase<>(graph).getCycleBasis();
+	
+	public boolean detectCycles(boolean forceUndirected) {
+		if (forceUndirected || graph.getType().isUndirected()) {
+			
+			
+			boolean change = false;
+			if(forceUndirected && graph.getType().isDirected()) {
+				graph.getType().asUndirected();
+				change = true;
+			}
+			CycleBasis<Artefact, WeightedEdge> cb = null;
+			if (graph.getType().isUndirected()) {
+				cb = new PatonCycleBase<>(graph).getCycleBasis();
+			} else if (forceUndirected) {
+				LOGGER.warning("FORCE UNDIRECTED.");
+				cb = new PatonCycleBase<>(asUndirectedGraph()).getCycleBasis();
+			} else {
+				LOGGER.warning("Graph is directed - undirected required.");
+				return false;
+			}
+			
 			cycles = cb.getCycles();
 			LOGGER.fine(cycles.size() + " loops found.");
-			if (LOGGER.getLevel() != null && LOGGER.getLevel().intValue() > Level.FINER.intValue())
-				for (List<WeightedEdge> cycle : cycles) {
-					LOGGER.finer(cycle.size() + " edges loop:");
-					for (WeightedEdge e : cycle) {
-						LOGGER.finer("  " + e);
-					}
+			for (List<WeightedEdge> cycle : cycles) {
+				LOGGER.finer(cycle.size() + " edges loop:");
+				for (WeightedEdge e : cycle) {
+					LOGGER.finer("  " + e);
 				}
+			}
+			if(change)
+				graph.getType().asDirected();
 			return !cycles.isEmpty();
 		} else {
 			HawickJamesSimpleCycles<Artefact, WeightedEdge> hjsc = new HawickJamesSimpleCycles<>(graph);
 			hjsc.printSimpleCycles();
 			return hjsc.countSimpleCycles() > 0;
 		}
+	}
+	
+	public  AsUndirectedGraph<Artefact, WeightedEdge> asUndirectedGraph() {
+		return  new AsUndirectedGraph<Artefact, WeightedEdge>(graph);
 	}
 
 	/**

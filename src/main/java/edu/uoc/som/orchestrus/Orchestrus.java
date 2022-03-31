@@ -61,7 +61,7 @@ public class Orchestrus {
 		
 		System.out.println("Graph work...");
 		TraceGraph tg = new TraceGraph(t);
-		tg.detectCycles();
+		//tg.detectCycles();
 		ShowGraph show = new ShowGraph(tg);
 		show.createAndShowGui();
 		System.err.flush();
