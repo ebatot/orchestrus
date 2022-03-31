@@ -4,10 +4,11 @@ import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public abstract class TypedLink extends TracingElement {
 	
+	private static final long serialVersionUID = -7006125672753582575L;
 	LinkType type;
 	
 	public TypedLink() {
-		super();
+		this(LinkType.untyped.getName());
 	}
 	
 	public TypedLink(String name) {

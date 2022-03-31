@@ -15,6 +15,8 @@ import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class Trace extends TracingElement {
+	private static final long serialVersionUID = -5048951060615549631L;
+
 	public final static Logger LOGGER = Logger.getLogger(Trace.class.getName());
 
 	HashSet<TraceLink> traceLinks = new HashSet<TraceLink>();
