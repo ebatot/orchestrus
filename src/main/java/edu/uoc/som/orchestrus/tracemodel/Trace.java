@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -226,8 +227,8 @@ public class Trace extends TracingElement {
 		boolean printEltIDs = false;
 		String res = "\t<tr>\n\t\t<th>nº</th><th></th>\n";
 		int iA = 0;
-		for (Artefact a : compressedArtefacts) 
-			res += "\t\t<th class=\"linkName\">"+iA++/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
+		for (iA = 0; iA < compressedArtefacts.size(); iA++) {
+			res += "\t\t<th class=\"linkName\">"+iA/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
 		res += "\t</tr>\n";
 		
 		String res2 = "";
