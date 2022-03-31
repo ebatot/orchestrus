@@ -17,7 +17,12 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	private static final long serialVersionUID = -671183405318232925L;
 
 	public final static Logger LOGGER = Logger.getLogger(Artefact.class.getName());
-
+	public final static PrintOptions D3_PRINT_LABEL_OPTION = PrintOptions.NAME;
+	
+	enum PrintOptions {
+		FULL, NAME, ID;
+	}
+	
 	private String location;
 	private Artefact parent;
 	private boolean resolves;
@@ -67,7 +72,6 @@ public class Artefact extends TypedArtefact  implements Serializable{
 		if (!obj.getClass().equals(this.getClass()))
 			return false;
 		Artefact rObj = (Artefact) obj;
-		
 		if (!rObj.getProtocol().equals(this.getProtocol()))
 			return false;
 		if (!rObj.getLocation().equals(this.getLocation()))
@@ -116,11 +120,25 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	public String getD3JSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
-//		res += "\"name\": \"" + getProtocol() + "::"+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "::"+ edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
-//		res += "\"name\": \"" +  edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
-		res += "\"name\": \"" +  getID() + "\",";
+
+		switch (D3_PRINT_LABEL_OPTION) {
+		case FULL:
+			res += "\"name\": \"" + getProtocol() + "::"
+					+ edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation()) + "::"
+					+ edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+			break;
+		case ID:
+			res += "\"name\": \"" + getID() + "\",";
+			break;
+
+		case NAME:
+		default:
+			res += "\"name\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+			break;
+		}
+
 		res += "\"type\": \"" + getType().getName() + "\",";
-		res += "\"size\": " + getFragments().size()*10 + ",";
+		res += "\"size\": " + getFragments().size() * 10 + ",";
 //		res += "\"size\": " + ArtefactTypeFactory.getD3Size(getType()) + ",";
 		res += "\"group\": \"" + getType().getNumber() + "\"";
 		return res + "}";

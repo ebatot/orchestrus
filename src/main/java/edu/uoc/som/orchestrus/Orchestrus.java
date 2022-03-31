@@ -45,6 +45,7 @@ public class Orchestrus {
 		
 		Trace tFrag = TraceFactory.buildFragmentationTrace();
 		Utils.storeD3Tracea(tFrag, false, true);
+		Utils.storeD3Tracea(tFrag, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data_wth_elements.json");
 		
 		// TODO resolve IDs from target file.
 //		ppse.resolveElementIDs();
@@ -53,6 +54,7 @@ public class Orchestrus {
 
 		Trace t = TraceFactory.buildReferencesTrace();
 		Utils.storeD3Tracea(t, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
+		Utils.storeD3Tracea(t, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
 		//Utils.storeMatrixTracea(t, false, 4/21);
 		Utils.storeSetupJSon(t, true);
 		

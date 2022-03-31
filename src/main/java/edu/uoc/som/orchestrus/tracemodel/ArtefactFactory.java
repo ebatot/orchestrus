@@ -729,6 +729,8 @@ public class ArtefactFactory {
 			if(parent != null) {
 				parent.addFragment(a);
 				String newName = a.getName().substring(parentCut.length()+1); // +1 +1 for 'points'
+				if(!parent.isOfType(ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT))
+					parent.setType(ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT);
 				// TODO a update of the keys in artefacts map ????¿¿¿¿
 				a.setName(newName);
 			}
