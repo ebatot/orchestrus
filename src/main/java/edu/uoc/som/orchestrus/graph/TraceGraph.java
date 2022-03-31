@@ -13,8 +13,11 @@ import java.util.logging.Logger;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.alg.connectivity.KosarajuStrongConnectivityInspector;
+import org.jgrapht.alg.cycle.HawickJamesSimpleCycles;
 import org.jgrapht.alg.cycle.PatonCycleBase;
 import org.jgrapht.alg.interfaces.CycleBasisAlgorithm.CycleBasis;
+import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.nio.Attribute;
@@ -102,7 +105,7 @@ public class TraceGraph {
 
 	public Graph<Artefact, WeightedEdge> buildGraph(Trace t, boolean includeElements) {
 
-		Graph<Artefact, WeightedEdge> g = GraphTypeBuilder.<Artefact, WeightedEdge>undirected()
+		Graph<Artefact, WeightedEdge> g = GraphTypeBuilder.<Artefact, WeightedEdge>directed()
 				.allowingMultipleEdges(false).allowingSelfLoops(false).edgeClass(WeightedEdge.class).weighted(true)
 				.buildGraph();
 
@@ -135,20 +138,24 @@ public class TraceGraph {
 		return g;
 	}
 
-
-
 	public boolean detectCycles() {
-		CycleBasis<Artefact, WeightedEdge> cb = new PatonCycleBase<>(graph).getCycleBasis();
-		cycles = cb.getCycles();
-		LOGGER.fine(cycles.size()+" loops found.");
-		if (LOGGER.getLevel() != null && LOGGER.getLevel().intValue() > Level.FINER.intValue())
-			for (List<WeightedEdge> cycle : cycles) {
-				LOGGER.finer(cycle.size()+" edges loop:");
-				for (WeightedEdge e : cycle) {
-					LOGGER.finer("  " + e);
+		if (graph.getType().isUndirected()) {
+			CycleBasis<Artefact, WeightedEdge> cb = new PatonCycleBase<>(graph).getCycleBasis();
+			cycles = cb.getCycles();
+			LOGGER.fine(cycles.size() + " loops found.");
+			if (LOGGER.getLevel() != null && LOGGER.getLevel().intValue() > Level.FINER.intValue())
+				for (List<WeightedEdge> cycle : cycles) {
+					LOGGER.finer(cycle.size() + " edges loop:");
+					for (WeightedEdge e : cycle) {
+						LOGGER.finer("  " + e);
+					}
 				}
-			}
-		return !cycles.isEmpty();
+			return !cycles.isEmpty();
+		} else {
+			HawickJamesSimpleCycles<Artefact, WeightedEdge> hjsc = new HawickJamesSimpleCycles<>(graph);
+			hjsc.printSimpleCycles();
+			return hjsc.countSimpleCycles() > 0;
+		}
 	}
 
 	/**
@@ -160,8 +167,8 @@ public class TraceGraph {
 //            new KosarajuStrongConnectivityInspector<>(graph);
 //        List<Graph<Artefact, WeightedEdge>> stronglyConnectedSubgraphs =
 //            scAlg.getStronglyConnectedComponents();
-//
-//        // prints the strongly connected components
+
+        // prints the strongly connected components
 //        System.out.println("Strongly connected components:");
 //        for (int i = 0; i < stronglyConnectedSubgraphs.size(); i++) {
 //            System.out.println(stronglyConnectedSubgraphs.get(i));
@@ -170,12 +177,14 @@ public class TraceGraph {
 
         // Prints the shortest path from vertex i to vertex c. This certainly
         // exists for our particular directed graph.
-        System.out.println("Shortest path from i to c:");
+        System.out.println("Shortest path from "+a1+" to "+a2+":");
         DijkstraShortestPath<Artefact, WeightedEdge> dijkstraAlg =
             new DijkstraShortestPath<Artefact, WeightedEdge>(graph, a1, a2);
         List<WeightedEdge> iPaths = dijkstraAlg.getPathEdgeList();
-        System.out.println(iPaths.toString().replace(", ", ",\n "));
-
+        if(iPaths != null)
+        	System.out.println(iPaths.toString().replace(", ", ",\n "));
+        else 
+        	System.out.println("No path.");
 	}
 
 }
