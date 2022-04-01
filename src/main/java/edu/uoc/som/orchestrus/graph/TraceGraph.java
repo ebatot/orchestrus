@@ -134,19 +134,22 @@ public class TraceGraph {
 		}
 
 	public List<Trace> getLabelPropagationClusters(int maxIterations) {
+		LOGGER.fine("maxIteration: "+maxIterations);
 		if (labelPropagationClusters == null) {
 			String prefix = "LPCluster_";
 			List<Set<Artefact>> clusters = clusterLabelPropagation(maxIterations, true);
-			getClustersAsTraces(clusters, prefix);
+			labelPropagationClusters = getClustersAsTraces(clusters, prefix);
+			
 		}
 		return labelPropagationClusters;
 	}
 
 	public List<Trace> getGirvanNewmanClusters(int k) {
+		LOGGER.fine("k: "+k);
 		if (GirvanNewmanClusters == null) {
 			String prefix = "GCCluster_";
 			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);
-			getClustersAsTraces(clusters, prefix);
+			GirvanNewmanClusters = getClustersAsTraces(clusters, prefix);
 		}
 		return GirvanNewmanClusters;
 	}
@@ -155,21 +158,21 @@ public class TraceGraph {
 		if (KSpanClusters == null) {
 			String prefix = "KSCluster_";
 			List<Set<Artefact>> clusters = clusterKSpan(kNumber, true);
-			getClustersAsTraces(clusters, prefix);
+			KSpanClusters = getClustersAsTraces(clusters, prefix);
 		}
 		return KSpanClusters;
 	}
 
 
-	private void getClustersAsTraces(List<Set<Artefact>> clusters, String prefix) {
-		labelPropagationClusters = new ArrayList<Trace>();
-		
+	private List<Trace> getClustersAsTraces(List<Set<Artefact>> clusters, String prefix) {
+		ArrayList<Trace> res = new ArrayList<Trace>();
 		int i = 0;
 		for (Set<Artefact> c : clusters) {
 			Trace t = getTraceFromArtefactSet(c);
 			t.setName(prefix+i++);
-			labelPropagationClusters.add(t);
+			res.add(t);
 		}
+		return res;
 	}
 	
 	

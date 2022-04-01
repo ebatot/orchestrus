@@ -1,6 +1,7 @@
 package edu.uoc.som.orchestrus;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.config.Config;
@@ -61,6 +62,20 @@ public class Orchestrus {
 		
 		System.out.println("Graph work...");
 		TraceGraph tg = new TraceGraph(t);
+		
+		System.out.println("Clustering...");
+		List<Trace> traceClusters = tg.getGirvanNewmanClusters(5);
+		System.out.println(traceClusters.size());
+		for (Trace tc : traceClusters) {
+			if (tc.getTraceLinks().size() > 3) {
+				String filePath = "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\tmp\\"
+						+ Config.getInstance().getProjectName() + "_" + t.getName() + ".trace.d3.json";
+
+				Utils.writeJSon(filePath, tc.renderD3JSon(false));
+			}
+		}
+		
+		System.out.println("Rendering...");
 		//tg.detectCycles();
 		ShowGraph show = new ShowGraph(tg);
 		show.createAndShowGui();

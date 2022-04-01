@@ -142,8 +142,8 @@ public class Utils {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static File writeTmpJson_HC(String json) {
-		File f = new File("data\\out\\junk\\tmp.json");
+	public static File writeJSon(String filePath, String json) {
+		File f = new File(filePath);
 		try {
 			FileUtils.write(f, json);
 			LOGGER.info("JSon stored in '"+f.getAbsolutePath()+"'");
