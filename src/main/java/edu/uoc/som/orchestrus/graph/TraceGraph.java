@@ -3,12 +3,13 @@ package edu.uoc.som.orchestrus.graph;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jgrapht.Graph;
@@ -18,7 +19,6 @@ import org.jgrapht.alg.clustering.KSpanningTreeClustering;
 import org.jgrapht.alg.clustering.LabelPropagationClustering;
 import org.jgrapht.alg.cycle.HawickJamesSimpleCycles;
 import org.jgrapht.alg.cycle.PatonCycleBase;
-import org.jgrapht.alg.interfaces.ClusteringAlgorithm.Clustering;
 import org.jgrapht.alg.interfaces.CycleBasisAlgorithm.CycleBasis;
 import org.jgrapht.graph.AsUndirectedGraph;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
@@ -39,6 +39,11 @@ public class TraceGraph {
 	Graph<Artefact, WeightedEdge> graph;
 	Set<List<WeightedEdge>> cycles;
 
+	List<Trace> KSpanClusters;
+	List<Trace> GirvanNewmanClusters;
+	List<Trace> labelPropagationClusters;
+	
+
 	public TraceGraph(Trace t) {
 		this.trace = t;
 		this.graph = buildGraph(t, false);
@@ -48,88 +53,142 @@ public class TraceGraph {
 //		-2221988569368117268
 //		-94187287130004140
 
-		Artefact a1 = ArtefactFactory.getInstance().getArtefactWithID("-4787022384348844445");
-		Artefact a2 = ArtefactFactory.getInstance().getArtefactWithID("5392703102889984549");
 //		Artefact a3 = ArtefactFactory.getInstance().getArtefactWithID("-94187287130004140");
 
-
-		getPath( a1,  a2);
-		
-		
 		renderAsJSon(true);
 		
 //		clusterKSpan(2, true);
 //		clusterLabelPropagation(50, true);
-		clusterLabelPropagation(5, true);
-		
-		
 	}
 	
-	public void clusterLabelPropagation(int maxIterations, boolean forceUndirected) {
+	public boolean testPaths() {
+		Artefact a1 = ArtefactFactory.getInstance().getArtefactWithID("-4787022384348844445");
+		Artefact a2 = ArtefactFactory.getInstance().getArtefactWithID("5392703102889984549");
+		getPath( a1,  a2);
+		return true;
+	}
+	
+	List<Trace> clusters = new ArrayList<>();
+	
+	public List<Set<Artefact>> clusterLabelPropagation(int maxIterations, boolean forceUndirected) {
 		LabelPropagationClustering<Artefact, WeightedEdge> ks = null;
-		if(forceUndirected)
+		if (forceUndirected)
 			ks = new LabelPropagationClustering<>(asUndirectedGraph(), maxIterations);
-		else if(graph.getType().isUndirected())
+		else if (graph.getType().isUndirected())
 			ks = new LabelPropagationClustering<>(graph, maxIterations);
 		else {
 			LOGGER.warning("Graph must be undirected (try to force?).");
-			return;
+			return Collections.emptyList();
 		}
-		
-		
-		int i = 0;
-		for (Set<Artefact> c : ks.getClustering()) {
-			System.out.println("Cluster "+ i ++);
-			for (Artefact a : c) {
-				System.out.println("   " + a);
-			}
-		};
+
+//		int i = 0;
+//		for (Set<Artefact> c : ks.getClustering()) {
+//			System.out.println("Cluster " + i++);
+//			for (Artefact a : c) {
+//				System.out.println("   " + a);
+//			}
+//		}
+		return ks.getClustering().getClusters();
 	}
-	
-	public void clusterGirvanNewman(int k, boolean forceUndirected) {
+
+	public List<Set<Artefact>> clusterGirvanNewman(int k, boolean forceUndirected) {
 		GirvanNewmanClustering<Artefact, WeightedEdge> ks = null;
-		if(forceUndirected)
+		if (forceUndirected)
 			ks = new GirvanNewmanClustering<>(asUndirectedGraph(), k);
-		else if(graph.getType().isUndirected())
+		else if (graph.getType().isUndirected())
 			ks = new GirvanNewmanClustering<>(graph, k);
 		else {
 			LOGGER.warning("Graph must be undirected (try to force?).");
-			return;
+			return Collections.emptyList();
 		}
-		
-		
-		int i = 0;
-		for (Set<Artefact> c : ks.getClustering()) {
-			System.out.println("Cluster "+ i ++);
-			for (Artefact a : c) {
-				System.out.println("   " + a);
-			}
-		};
-	}
-	
 
-	
-	public void clusterKSpan(int kNumber, boolean forceUndirected) {
-		KSpanningTreeClustering<Artefact, WeightedEdge> ks = null;
-		if(forceUndirected)
-			ks = new KSpanningTreeClustering<>(asUndirectedGraph(), kNumber);
-		else if(graph.getType().isUndirected())
-			ks = new KSpanningTreeClustering<>(graph, kNumber);
-		else {
-			LOGGER.warning("Graph must be undirected (try to force?).");
-			return;
-		}
-		
-		
-		int i = 0;
-		for (Set<Artefact> c : ks.getClustering()) {
-			System.out.println("Cluster "+ i ++);
-			for (Artefact a : c) {
-				System.out.println("   " + a);
-			}
-		};
+//		int i = 0;
+//		for (Set<Artefact> c : ks.getClustering()) {
+//			System.out.println("Cluster " + i++);
+//			for (Artefact a : c) {
+//				System.out.println("   " + a);
+//			}
+//		}
+		return ks.getClustering().getClusters();
 	}
 
+	public List<Set<Artefact>> clusterKSpan(int kNumber, boolean forceUndirected) {
+			KSpanningTreeClustering<Artefact, WeightedEdge> ks = null;
+			if (forceUndirected)
+				ks = new KSpanningTreeClustering<>(asUndirectedGraph(), kNumber);
+			else if (graph.getType().isUndirected())
+				ks = new KSpanningTreeClustering<>(graph, kNumber);
+			else {
+				LOGGER.warning("Graph must be undirected (try to force?).");
+				return Collections.emptyList();
+			}
+	
+	//		int i = 0;
+	//		for (Set<Artefact> c : ks.getClustering()) {
+	//			System.out.println("Cluster " + i++);
+	//			for (Artefact a : c) {
+	//				System.out.println("   " + a);
+	//			}
+	//		}
+			return ks.getClustering().getClusters();
+		}
+
+	public List<Trace> getLabelPropagationClusters(int maxIterations) {
+		if (labelPropagationClusters == null) {
+			String prefix = "LPCluster_";
+			List<Set<Artefact>> clusters = clusterLabelPropagation(maxIterations, true);
+			getClustersAsTraces(clusters, prefix);
+		}
+		return labelPropagationClusters;
+	}
+
+	public List<Trace> getGirvanNewmanClusters(int k) {
+		if (GirvanNewmanClusters == null) {
+			String prefix = "GCCluster_";
+			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);
+			getClustersAsTraces(clusters, prefix);
+		}
+		return GirvanNewmanClusters;
+	}
+
+	public List<Trace> getKSpanClusters(int kNumber) {
+		if (KSpanClusters == null) {
+			String prefix = "KSCluster_";
+			List<Set<Artefact>> clusters = clusterKSpan(kNumber, true);
+			getClustersAsTraces(clusters, prefix);
+		}
+		return KSpanClusters;
+	}
+
+
+	private void getClustersAsTraces(List<Set<Artefact>> clusters, String prefix) {
+		labelPropagationClusters = new ArrayList<Trace>();
+		
+		int i = 0;
+		for (Set<Artefact> c : clusters) {
+			Trace t = getTraceFromArtefactSet(c);
+			t.setName(prefix+i++);
+			labelPropagationClusters.add(t);
+		}
+	}
+	
+	
+	public Trace getTraceFromArtefactSet(Set<Artefact> cluster) {
+		Trace tc = new Trace();
+		for (Artefact as : cluster) {
+			for (Artefact at : cluster) {
+				Set<WeightedEdge> clusterEdges = graph.getAllEdges(as, at);
+				for (WeightedEdge edge : clusterEdges) {
+					tc.addTraceLink((TraceLink) Trace.getElement(edge.getID()));
+				}
+			}
+		}
+		return tc;
+	}
+	
+	
+	
+	
 	public Graph<Artefact, WeightedEdge> getGraph() {
 		return graph;
 	}
@@ -189,7 +248,7 @@ public class TraceGraph {
 				if (includeElements || !at.isOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)) {
 					for (Artefact as : tl.getSources()) {
 						if (includeElements || !as.isOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)) {
-							boolean b = g.addEdge(as, at, new WeightedEdge());
+							boolean b = g.addEdge(as, at, new WeightedEdge(tl.getID()));
 							if (!b) // The link already exists, increment weight
 								g.setEdgeWeight(as, at, g.getEdgeWeight(g.getEdge(as, at)) + 1);
 						}

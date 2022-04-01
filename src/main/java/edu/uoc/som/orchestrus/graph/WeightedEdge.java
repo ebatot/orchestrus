@@ -12,13 +12,11 @@ import org.jgrapht.nio.DefaultAttribute;
 class WeightedEdge extends DefaultWeightedEdge {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected double getWeight() {
-		return super.getWeight();
-	}
-
-	public WeightedEdge() {
+	
+	String ID;
+	public WeightedEdge(String id) {
 		super();
+		this.ID = id;
 	}
 
 	@Override
@@ -29,13 +27,22 @@ class WeightedEdge extends DefaultWeightedEdge {
 	public static Function<WeightedEdge, Map<String, Attribute>> getAttributeProvider() {
 		Function<WeightedEdge, Map<String, Attribute>> edgeAttributeProvider = v -> {
 		    Map<String, Attribute> map = new LinkedHashMap<>();
-		    map.put("weight", DefaultAttribute.createAttribute(v.getWeight()));
+		    map.put("confidence", DefaultAttribute.createAttribute(v.getWeight()));
+		    map.put("id", DefaultAttribute.createAttribute(v.getID()));
 		    return map;
 		};
 		return edgeAttributeProvider;
 	}
 	
-	//Define a vertex attribute provider
+	
+	@Override
+	protected double getWeight() {
+		return super.getWeight();
+	}
+	
+	public String getID() {
+		return ID;
+	}
 	
 
 }
