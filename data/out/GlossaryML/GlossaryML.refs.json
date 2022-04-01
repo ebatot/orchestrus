@@ -1911,14 +1911,21 @@
   },
   "src-custom": {
     "R:/Coding/Git/orchestrus/data/GlossaryML-ReferenceML/com.cea.papyrus.glossary/src-custom": {
-      "com.cea.papyrus.glossary.preference.custom.impl.GlossaryCustomPreferenceInitializer": {
-        "package": "com.cea.papyrus.glossary.preference.custom.impl",
+      "com.cea.papyrus.glossary.profile.commands.impl.CreateGlossaryMLCommand": {
+        "package": "com.cea.papyrus.glossary.profile.commands.impl",
         "hardCodedStrings": [
-          "-"
+          "platform:/plugin/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml",
+          "platform:/plugin/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml"
         ],
         "imports": [
-          "org.eclipse.jface.preference.IPreferenceStore",
-          "org.eclipse.papyrus.infra.nattable.preferences.pages.CellPreferencePage"
+          "org.eclipse.emf.common.util.URI",
+          "org.eclipse.emf.ecore.EObject",
+          "org.eclipse.papyrus.infra.architecture.commands.IModelCreationCommand",
+          "org.eclipse.papyrus.uml.diagram.common.commands.ModelCreationCommandBase",
+          "org.eclipse.papyrus.uml.tools.utils.PackageUtil",
+          "org.eclipse.uml2.uml.Package",
+          "org.eclipse.uml2.uml.Profile",
+          "org.eclipse.uml2.uml.UMLFactory"
         ]
       },
       "com.cea.papyrus.glossary.profile.custom.impl.GlossaryCustomImpl": {
@@ -1940,29 +1947,22 @@
           "GlossaryML.impl.GlossaryMLFactoryImpl"
         ]
       },
+      "com.cea.papyrus.glossary.preference.custom.impl.GlossaryCustomPreferenceInitializer": {
+        "package": "com.cea.papyrus.glossary.preference.custom.impl",
+        "hardCodedStrings": [
+          "-"
+        ],
+        "imports": [
+          "org.eclipse.jface.preference.IPreferenceStore",
+          "org.eclipse.papyrus.infra.nattable.preferences.pages.CellPreferencePage"
+        ]
+      },
       "com.cea.papyrus.glossary.preference.custom.impl.GlossaryMLActivator": {
         "package": "com.cea.papyrus.glossary.preference.custom.impl",
         "hardCodedStrings": [],
         "imports": [
           "org.osgi.framework.BundleActivator",
           "org.osgi.framework.BundleContext"
-        ]
-      },
-      "com.cea.papyrus.glossary.profile.commands.impl.CreateGlossaryMLCommand": {
-        "package": "com.cea.papyrus.glossary.profile.commands.impl",
-        "hardCodedStrings": [
-          "platform:/plugin/com.cea.papyrus.glossary/uml-profiles/GlossaryML.profile.uml",
-          "platform:/plugin/com.cea.papyrus.referencemanagement/uml-profiles/ReferencesML.profile.uml"
-        ],
-        "imports": [
-          "org.eclipse.emf.common.util.URI",
-          "org.eclipse.emf.ecore.EObject",
-          "org.eclipse.papyrus.infra.architecture.commands.IModelCreationCommand",
-          "org.eclipse.papyrus.uml.diagram.common.commands.ModelCreationCommandBase",
-          "org.eclipse.papyrus.uml.tools.utils.PackageUtil",
-          "org.eclipse.uml2.uml.Package",
-          "org.eclipse.uml2.uml.Profile",
-          "org.eclipse.uml2.uml.UMLFactory"
         ]
       },
       "com.cea.papyrus.glossary.profile.custom.impl.TermCustomImpl": {

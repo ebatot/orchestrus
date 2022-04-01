@@ -1048,3 +1048,5 @@ function showError(datapath) {
 	d3.select("svg").remove();
 	d3.select("button").remove();
 }
+
+//data = Object.assign(d3.csvParse(await FileAttachment("cars-2.csv").text(), ({Name: name, Miles_per_Gallon: x, Horsepower: y}) => ({name, x: +x, y: +y})), {x: "Miles per Gallon", y: "Horsepower"})
