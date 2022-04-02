@@ -90,9 +90,9 @@ public class ClusteringSetup {
 	 * @param deployFolderPath
 	 * @throws IllegalAccessError
 	 */
-	public static void deployClustering(TraceGraph tg, String outputFolderPath, String deployFolderPath)
+	public static void storeClustering(TraceGraph tg, String outputFolderPath, String deployFolderPath)
 			throws IllegalAccessError {
-		LOGGER.info("\noutput:" + outputFolderPath + "\ndeploy:" + deployFolderPath);
+		LOGGER.info("\n  output: " + outputFolderPath + "\n  deploy: " + deployFolderPath);
 		File outputFolder = cleanFolder(outputFolderPath);
 		if (deployFolderPath != null)
 			cleanFolder(deployFolderPath);
@@ -179,8 +179,8 @@ public class ClusteringSetup {
 		String clusters = "\"clusters\": [";
 
 		for (Trace tc : traceClusters) {
-			clusters += "{ \"" + tc.getName() + ".tracea.d3.json\": ";
-			clusters += "  {";
+			clusters += "{ \"name\": \"" + tc.getName() + "\", ";
+			clusters += "  ";
 			clusters += "\"size\":\"" + tc.getArtefacts().size() + "\",";
 			clusters += "\"artefacts\": [ ";
 			for (Artefact a : tc.getArtefacts())
@@ -188,7 +188,7 @@ public class ClusteringSetup {
 						+ Utils.cleanUrlsForJson(a.getLocation()) + "\"},";
 			if (clusters.endsWith(","))
 				clusters = clusters.substring(0, clusters.length() - 1);
-			clusters += "]" + "}";
+			clusters += "]" + "";
 			clusters += "},";
 			String filePath = clusterFolderPath + File.separator + tc.getName() + ".tracea.d3.json";
 			Utils.writeJSon(filePath, tc.renderD3JSon(false));

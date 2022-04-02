@@ -382,7 +382,7 @@ public class Utils {
 	}
 	
 	public static void storeClustering(TraceGraph tg, String deployLocation) {
-		ClusteringSetup.deployClustering(tg, "data\\out\\"+Config.getInstance().getProjectName()+"\\clusters", deployLocation + File.separator +Config.getInstance().getProjectName()+"\\clusters");
+		ClusteringSetup.storeClustering(tg, "data\\out\\"+Config.getInstance().getProjectName()+"\\clusters", deployLocation + File.separator +Config.getInstance().getProjectName()+"\\clusters");
 	}
 	
 	
