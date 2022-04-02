@@ -47,7 +47,7 @@ var onLoad = function() {
     // 1. HTML document title
     
     
-    var dataPath = "data/clusters/GlossaryML/LabelPropagation.tracea.setup.json"
+    var dataPath = "data/GlossaryML/clusters/clustering.tracea.json"
     if ( getUrlVars()['imf'] != null )
         dataPath = getUrlVars()['imf']; 
     

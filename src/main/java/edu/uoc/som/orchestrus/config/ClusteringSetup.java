@@ -98,6 +98,10 @@ public class ClusteringSetup {
 		if (deployFolderPath != null)
 			cleanFolder(deployFolderPath);
 		String clusterResults = "";
+		
+		clusterResults += "\"setup\": {"
+				+"\"projectName\": \""+Config.getInstance().getProjectName()+"\""
+						+ "},";
 
 		File clusterSetupFile = new File(Config.getClusteringSetupLocation());
 		ClusteringSetup clusteringSetup = new ClusteringSetup(clusterSetupFile);
