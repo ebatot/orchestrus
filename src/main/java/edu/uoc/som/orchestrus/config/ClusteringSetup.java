@@ -161,16 +161,19 @@ public class ClusteringSetup {
 		setup += "}";
 
 		String clusters = "\"clusters\": [";
+		
 		for (Trace tc : traceClusters) {
-			clusters += "{ \"filename\": \"" + tc.getName() + ".tracea.d3.json\", ";
-			clusters += "  \"artefacts\": [ ";
-
+			clusters += "{ \"" + tc.getName() + ".tracea.d3.json\": ";
+			clusters += "  {";
+			clusters += "\"size\":\""+tc.getArtefacts().size()+"\",";
+			clusters += "\"artefacts\": [ ";
 			for (Artefact a : tc.getArtefacts())
 				clusters += "{\"name\":" + "\"" + a.getName() + "\"," + "\"location\":" + " \""
 						+ Utils.cleanUrlsForJson(a.getLocation()) + "\"},";
 			if (clusters.endsWith(","))
 				clusters = clusters.substring(0, clusters.length() - 1);
-			clusters += "]";
+			clusters += "]"
+					+ "}";
 			clusters += "},";
 			String filePath = folderPath + tc.getName() + ".tracea.d3.json";
 			Utils.writeJSon(filePath, tc.renderD3JSon(false));

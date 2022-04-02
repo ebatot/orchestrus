@@ -1,11 +1,11 @@
 {
-"links": [{"id": "537636544750983178","name": "1.0","source_id": "7608878906930592940","target_id": "5392703102889984549","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
-{"id": "-2660337053613893624","name": "1.0","source_id": "7608878906930592940","target_id": "-5594470500394967494","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
-{"id": "8944136989158422899","name": "1.0","source_id": "-934136432924416325","target_id": "947406905975435208","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
-{"id": "723648541720698038","name": "1.0","source_id": "-934136432924416325","target_id": "7608878906930592940","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100}],
-"nodes": [{"id": "5392703102889984549","name": "SysML.profile.uml","type": "ExternalFile","size": 30,"group": "0"},
-{"id": "-5594470500394967494","name": "SysML","type": "ExternalFile","size": 30,"group": "0"},
-{"id": "-934136432924416325","name": "GlossaryML.LanguageReqModel.notation","type": "SourceFile","size": 0,"group": "4"},
-{"id": "947406905975435208","name": "generic.nattableconfiguration","type": "ExternalFile","size": 10,"group": "0"},
-{"id": "7608878906930592940","name": "GlossaryML.LanguageReqModel.uml","type": "SourceFile","size": 10,"group": "4"}]
+"links": [{"id": "-7054564469019205971","name": "1.0","source_id": "-8648279696612050209","target_id": "-5137015281226191458","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100},
+{"id": "-5820146792419083221","name": "1.0","source_id": "-8648279696612050209","target_id": "7411910766693346359","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "4515887688766405296","name": "1.0","source_id": "-8648279696612050209","target_id": "-1111343598442236142","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "-3977499954545293245","name": "1.0","source_id": "-5137015281226191458","target_id": "7806941514492271995","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "-1111343598442236142","name": "ReferencesML.elementtypesconfigurations","type": "LocalFile","size": 30,"group": "3"},
+{"id": "-8648279696612050209","name": "GlossaryML.creationmenumodel","type": "SourceFile","size": 10,"group": "4"},
+{"id": "-5137015281226191458","name": "GlossaryML_Semantic.elementtypesconfigurations","type": "SourceFile","size": 30,"group": "4"},
+{"id": "7806941514492271995","name": "uml.elementtypesconfigurations","type": "ExternalFile","size": 40,"group": "0"},
+{"id": "7411910766693346359","name": "SysML16.elementtypesconfigurations","type": "LocalFile","size": 10,"group": "3"}]
 }

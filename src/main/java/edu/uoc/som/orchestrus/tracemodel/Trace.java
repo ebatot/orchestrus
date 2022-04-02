@@ -212,9 +212,12 @@ public class Trace extends TracingElement {
 		}
 		return lts;
 	}
-	
+	Set<Artefact> artefacts;
 	public Set<Artefact> getArtefacts() {
-		return collectArtefacts();
+		if(artefacts == null) {
+			artefacts = collectArtefacts();
+		}
+		return artefacts;
 	}
 
 	public String renderHTMLMatrix() {
