@@ -1,9 +1,0 @@
-{
-"links": [{"id": "-7054564469019205971","name": "1.0","source_id": "-8648279696612050209","target_id": "-5137015281226191458","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100},
-{"id": "-5820146792419083221","name": "1.0","source_id": "-8648279696612050209","target_id": "7411910766693346359","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
-{"id": "4515887688766405296","name": "1.0","source_id": "-8648279696612050209","target_id": "-1111343598442236142","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100}],
-"nodes": [{"id": "-1111343598442236142","name": "ReferencesML.elementtypesconfigurations","type": "LocalFile","size": 30,"group": "3"},
-{"id": "-8648279696612050209","name": "GlossaryML.creationmenumodel","type": "SourceFile","size": 10,"group": "4"},
-{"id": "-5137015281226191458","name": "GlossaryML_Semantic.elementtypesconfigurations","type": "SourceFile","size": 30,"group": "4"},
-{"id": "7411910766693346359","name": "SysML16.elementtypesconfigurations","type": "LocalFile","size": 10,"group": "3"}]
-}
