@@ -59,7 +59,6 @@ public class ClusteringSetup {
 		public int getParameterAsInt(String key) {
 			return Integer.parseInt((String) parameters.get(key));
 		}
-
 	}
 
 	public ClusteringSetup(File clusterSetupFile) {
@@ -98,15 +97,12 @@ public class ClusteringSetup {
 		if (deployFolderPath != null)
 			cleanFolder(deployFolderPath);
 		String clusterResults = "";
-		
-		clusterResults += "\"setup\": {"
-				+"\"projectName\": \""+Config.getInstance().getProjectName()+"\""
-						+ "},";
+
+		clusterResults += "\"setup\": {" + "\"projectName\": \"" + Config.getInstance().getProjectName() + "\"" + "},";
 
 		File clusterSetupFile = new File(Config.getClusteringSetupLocation());
 		ClusteringSetup clusteringSetup = new ClusteringSetup(clusterSetupFile);
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
-
 			List<Trace> traceClusters = null;
 			switch (ca.getName()) {
 			case "LabelPropagation":
@@ -122,24 +118,27 @@ public class ClusteringSetup {
 			default:
 				throw new IllegalAccessError("Unrecognized algorithm name for clustering.");
 			}
+			
 			String clusterRes = printClusters(outputFolder.getAbsolutePath(), traceClusters, ca);
 			clusterResults += "\"" + ca.getParameterAsString("algorithm") + "\":" + clusterRes + ",";
-			Utils.writeJSon(
-					outputFolderPath + File.separator + ca.getParameterAsString("algorithm") + ".tracea.setup.json",
-					clusterRes);
+			String algo = ca.getParameterAsString("algorithm");
+			String fileName = algo + ".tracea.setup.json";
+			Utils.writeJSon(outputFolderPath + File.separator + fileName, clusterRes);
+			LOGGER.finer(algo + " stored in '" + outputFolderPath + File.separator + fileName + "'");
 			if (deployFolderPath != null) {
 				printClusters(deployFolderPath, traceClusters, ca);
-				Utils.writeJSon(
-						deployFolderPath + File.separator + ca.getParameterAsString("algorithm") + ".tracea.setup.json",
-						clusterRes);
+				Utils.writeJSon(deployFolderPath + File.separator + fileName, clusterRes);
+				LOGGER.finer(algo + " deployed in '" + deployFolderPath + File.separator + fileName + "'");
 			}
 
 		}
 		if (clusterResults.endsWith(","))
 			clusterResults = clusterResults.substring(0, clusterResults.length() - 1);
 		Utils.writeJSon(outputFolderPath + File.separator + "clustering.tracea.json", "{" + clusterResults + "}");
+		LOGGER.finer("Clustering stored in '" + outputFolderPath + File.separator + "clustering.tracea.json" + "'");
 		if (deployFolderPath != null) {
 			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json", "{" + clusterResults + "}");
+			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering.tracea.json" + "'");
 		}
 	}
 
@@ -166,7 +165,7 @@ public class ClusteringSetup {
 		traceClusters = traceClusters.stream().filter(t -> t.getTraceLinks().size() >= minSizeCluster)
 				.collect(Collectors.toList());
 		;
-		LOGGER.fine(sClusters + " clusters found. " + traceClusters.size() + " with size >= " + minSizeCluster);
+		LOGGER.finer(sClusters + " clusters. " + traceClusters.size() + " with size >= " + minSizeCluster);
 		String setup = "\"setup\": {";
 		setup += "\"totalClusters\": \"" + sClusters + "\",";
 		setup += "\"relevantClusters\": \"" + traceClusters.size() + "\",";
@@ -193,6 +192,7 @@ public class ClusteringSetup {
 			clusters += "},";
 			String filePath = clusterFolderPath + File.separator + tc.getName() + ".tracea.d3.json";
 			Utils.writeJSon(filePath, tc.renderD3JSon(false));
+			LOGGER.finer(tc.getName() + " written in '" + filePath + "'");
 		}
 		if (clusters.endsWith(","))
 			clusters = clusters.substring(0, clusters.length() - 1);

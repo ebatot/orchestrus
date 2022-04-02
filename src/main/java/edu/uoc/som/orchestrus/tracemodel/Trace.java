@@ -331,7 +331,7 @@ public class Trace extends TracingElement {
 	}
 
 	public String renderD3JSon(boolean showElements, boolean printUnreferencedArtefacts) {
-		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") in Tracea D3 JSon");
+		LOGGER.fine("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") in Tracea D3 JSon");
 		Set<Artefact> artCollect = collectArtefacts();
 		if(!showElements) {
 			Artefact[] artCollectTmp = (Artefact[]) artCollect.toArray(new Artefact[artCollect.size()]);

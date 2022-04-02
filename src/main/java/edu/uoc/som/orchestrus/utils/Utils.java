@@ -151,7 +151,7 @@ public class Utils {
 		File f = new File(filePath);
 		try {
 			FileUtils.write(f, json);
-			LOGGER.info("JSon stored in '"+f.getAbsolutePath()+"'");
+			LOGGER.fine("JSon written in '"+f.getAbsolutePath()+"'");
 			return f;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -55,7 +55,7 @@ public class TraceGraph {
 
 //		Artefact a3 = ArtefactFactory.getInstance().getArtefactWithID("-94187287130004140");
 
-		renderAsJSon(true);
+//		renderAsJSon(true);
 		
 //		clusterKSpan(2, true);
 //		clusterLabelPropagation(50, true);
@@ -81,13 +81,6 @@ public class TraceGraph {
 			return Collections.emptyList();
 		}
 
-//		int i = 0;
-//		for (Set<Artefact> c : ks.getClustering()) {
-//			System.out.println("Cluster " + i++);
-//			for (Artefact a : c) {
-//				System.out.println("   " + a);
-//			}
-//		}
 		return ks.getClustering().getClusters();
 	}
 
@@ -102,13 +95,6 @@ public class TraceGraph {
 			return Collections.emptyList();
 		}
 
-//		int i = 0;
-//		for (Set<Artefact> c : ks.getClustering()) {
-//			System.out.println("Cluster " + i++);
-//			for (Artefact a : c) {
-//				System.out.println("   " + a);
-//			}
-//		}
 		return ks.getClustering().getClusters();
 	}
 
@@ -123,33 +109,26 @@ public class TraceGraph {
 				return Collections.emptyList();
 			}
 	
-	//		int i = 0;
-	//		for (Set<Artefact> c : ks.getClustering()) {
-	//			System.out.println("Cluster " + i++);
-	//			for (Artefact a : c) {
-	//				System.out.println("   " + a);
-	//			}
-	//		}
 			return ks.getClustering().getClusters();
 		}
 
 	public List<Trace> getLabelPropagationClusters(int maxIterations) {
-		LOGGER.fine("maxIteration: "+maxIterations);
 		if (labelPropagationClusters == null) {
 			String prefix = "LabelPropagation_";
 			List<Set<Artefact>> clusters = clusterLabelPropagation(maxIterations, true);
 			labelPropagationClusters = getClustersAsTraces(clusters, prefix);
-			
+			LOGGER.info("LabelPropagation: " + labelPropagationClusters.size() + " clusters found with maxIteration: "
+					+ maxIterations);
 		}
 		return labelPropagationClusters;
 	}
 
 	public List<Trace> getGirvanNewmanClusters(int k) {
-		LOGGER.fine("k: "+k);
 		if (GirvanNewmanClusters == null) {
 			String prefix = "GirvanNewman_";
 			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);
 			GirvanNewmanClusters = getClustersAsTraces(clusters, prefix);
+			LOGGER.info("GirvanNewman: " + GirvanNewmanClusters.size()+" clusters found with k: "+k);
 		}
 		return GirvanNewmanClusters;
 	}
@@ -159,6 +138,7 @@ public class TraceGraph {
 			String prefix = "KSpan_";
 			List<Set<Artefact>> clusters = clusterKSpan(kNumber, true);
 			KSpanClusters = getClustersAsTraces(clusters, prefix);
+			LOGGER.info("KSpan: "+KSpanClusters.size()+" clusters found with k: "+kNumber);
 		}
 		return KSpanClusters;
 	}
