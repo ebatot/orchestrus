@@ -221,8 +221,8 @@ public class Utils {
 		try {
 			i = countLOC(new File("./src"));
 			System.out.println("Main.main(src:"+i[0]+") ("+i[1]+" classes)");
-			i = countLOC(new File("./meta/d3viewer/"));
-			System.out.println("Main.main(meta/d3viewer/:"+i[0]+")");
+			i = countLOC(new File("./meta/d3viewer/scripts"));
+			System.out.println("Main.main(meta/d3viewer/scripts:"+i[0]+")");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
