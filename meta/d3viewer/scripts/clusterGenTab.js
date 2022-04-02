@@ -2,7 +2,7 @@
 
 var selected;
 var showFocus = function () {
-    selected.firstElementChild.style.color = "SlateBlue";
+   // selected.firstElementChild.style.color = "SlateBlue";
 }
 var hideFocus = function () {
     selected.firstElementChild.style.color = "";
@@ -75,8 +75,9 @@ var onLoad = function() {
     // 2. render tree structure -- you may make number of sections dynamic insteaf of fixed
     section1 = document.getElementById('section1');
     var json = JSON.parse(JSON.stringify(jsonContent));
-    section1.innerHTML = renderJSON_test_table(json);
+    section1.innerHTML = renderClusterList(json);
     
+    console.log(renderClusterList(json))
     //Organize sections and content display.
 
    
@@ -152,27 +153,18 @@ var actExpandCollapse = function() {
     }
 };
 
-function renderJSON_test_table(obj) {
+function renderClusterList(json) {
     var keys = [];
-    var objIsArray = Array.isArray(obj); // check if [..] array. Otherwise, it is an ordinary {..} object
+    var objIsArray = Array.isArray(json); // check if [..] array. Otherwise, it is an ordinary {..} object
     jsonText = "";
-    for (var key in obj) {
-        if (typeof obj[key] === 'object') {
-            if (objIsArray === false) { jsonText += "<open1>" + key + "<open2>"; }
-            jsonText += renderJSON(obj[key]);
-            if (objIsArray === false) { jsonText += "</open2></open1>"; }
-        } else { // obj[key] not object, e.g. just a number or string, or empty
-            if (objIsArray === false) {
-                jsonText += "<open1>>" + key;
-                if (obj[key]) { jsonText += ": " + obj[key]; }
-                jsonText += "</open1>";
-            } else {
-                jsonText += "<open1>";
-                if (obj[key]) { jsonText += obj[key]; } else { jsonText += "(empty)"; }
-                jsonText += "</open1>";
-            }
+    for (var algorithm in json) {
+        // KSpan, Label, Newman...
+        jsonText += '<ul>' + algorithm//.setup.algorithm;
+        for(var cluster in json[algorithm].clusters) {
+            clusterName = json[algorithm].clusters[cluster].name;
+            jsonText += "<li><a href='#'>"+clusterName+'</a></li>'
         }
-        keys.push(key);
+        jsonText += '</ul>'
     }
     return jsonText;
 }
