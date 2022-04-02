@@ -82,26 +82,21 @@ public class ClusteringSetup {
 			e.printStackTrace();
 		}
 	}
-	/*
-	 * public static Map<String, Map<String, Object> > getClusteringSetupMap(File
-	 * clusterSetupFile) { Map<String, Map<String, Object> > clusteringSetup = new
-	 * HashMap<>();
-	 * 
-	 * @SuppressWarnings("deprecation") JSONParser parser = new JSONParser(); try {
-	 * JSONArray a = (JSONArray) parser.parse(new
-	 * FileReader(clusterSetupFile.getAbsoluteFile())); for (Object o : a) {
-	 * JSONObject run = (JSONObject) o;
-	 * clusteringSetup.put(run.getAsString("algorithm"), new HashMap<>()); for
-	 * (String s : run.keySet())
-	 * clusteringSetup.get(run.getAsString("algorithm")).put(s, run.getAsString(s));
-	 * } } catch (FileNotFoundException e) { e.printStackTrace(); } catch
-	 * (ParseException e) { e.printStackTrace(); } return clusteringSetup; }
+
+	/**
+	 * Specify deployFOlderPath for deployment. If left null, means no deployement.
+	 * @param tg
+	 * @param outputFolderPath
+	 * @param deployFolderPath
+	 * @throws IllegalAccessError
 	 */
-
-	public static void deployClustering(TraceGraph tg, String outputFolder) throws IllegalAccessError {
-		File folder = cleanOutputFolder(outputFolder);
-
-		File clusterSetupFile = new File("src\\main\\resources\\clustering.json");
+	public static void deployClustering(TraceGraph tg, String outputFolderPath, String deployFolderPath) throws IllegalAccessError {
+		File outputFolder = cleanFolder(outputFolderPath);
+		if(deployFolderPath != null) 
+			cleanFolder(deployFolderPath);
+		
+		
+		File clusterSetupFile = new File(Config.getClusteringSetupLocation());
 		ClusteringSetup clusteringSetup = new ClusteringSetup(clusterSetupFile);
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
 
@@ -120,11 +115,14 @@ public class ClusteringSetup {
 			default:
 				throw new IllegalAccessError("Unrecognized algorithm name for clustering.");
 			}
-			printClusters(folder.getAbsolutePath(), traceClusters, ca);
+			printClusters(outputFolder.getAbsolutePath(), traceClusters, ca);
+			if(deployFolderPath != null) {
+				printClusters(deployFolderPath, traceClusters, ca);
+			}
 		}
 	}
 
-	private static File cleanOutputFolder(String outputFolder) {
+	private static File cleanFolder(String outputFolder) {
 		File folder = new File(outputFolder);
 		if (folder.list() != null && folder.list().length != 0)
 			for (File f : folder.listFiles()) {

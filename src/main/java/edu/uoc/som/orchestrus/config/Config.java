@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -382,6 +381,10 @@ public class Config {
 		res += resDep;
 		
 		return res + "}";
+	}
+
+	public static String getClusteringSetupLocation() {
+		return "src\\main\\resources\\clustering.json";
 	}
 
 }

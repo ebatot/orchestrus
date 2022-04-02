@@ -8,6 +8,8 @@ import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.TracingElement;
 
 public class Reference extends TracingElement {
+	private static final long serialVersionUID = 4378110576331371165L;
+
 	public final static Logger LOGGER = Logger.getLogger(Reference.class.getName());
 
 	private boolean resolved = false;

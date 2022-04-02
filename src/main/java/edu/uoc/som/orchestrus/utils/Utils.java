@@ -2,7 +2,6 @@ package edu.uoc.som.orchestrus.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,16 +24,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.mxgraph.util.svg.ParseException;
 
+import edu.uoc.som.orchestrus.config.ClusteringSetup;
 import edu.uoc.som.orchestrus.config.Config;
+import edu.uoc.som.orchestrus.graph.TraceGraph;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
 import net.thisptr.jackson.jq.BuiltinFunctionLoader;
 import net.thisptr.jackson.jq.JsonQuery;
 import net.thisptr.jackson.jq.Scope;
@@ -378,6 +375,14 @@ public class Utils {
 	    }
 
 	    return jsonMap;
+	}
+
+	public static void storeClustering(TraceGraph tg) {
+		storeClustering(tg, null);
+	}
+	
+	public static void storeClustering(TraceGraph tg, String deployLocation) {
+		ClusteringSetup.deployClustering(tg, "data\\out\\"+Config.getInstance().getProjectName()+"\\clusters", deployLocation);
 	}
 	
 	
