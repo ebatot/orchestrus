@@ -1,0 +1,13 @@
+{
+"links": [{"id": "8640198957499146226","name": "1.0","source_id": "6883113373614244644","target_id": "-7815809082296616977","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "6211394895726629954","name": "1.0","source_id": "6883113373614244644","target_id": "7430493277149599813","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "3930384760970204129","name": "1.0","source_id": "6883113373614244644","target_id": "-3074722789246360287","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "486044560462114397","name": "1.0","source_id": "6883113373614244644","target_id": "6666015931596736387","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "7330203040336083623","name": "1.0","source_id": "6883113373614244644","target_id": "5371260547779316133","type": "SourceFile-LocalFolder","group": 17,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "6666015931596736387","name": "src-gen","type": "LocalFile","size": 10,"group": "3"},
+{"id": "-3074722789246360287","name": "com.cea.papyrus.glossary","type": "LocalFile","size": 10,"group": "3"},
+{"id": "6883113373614244644","name": "glossaryml.genmodel","type": "SourceFile","size": 0,"group": "4"},
+{"id": "7430493277149599813","name": "org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container","type": "LocalFile","size": 10,"group": "3"},
+{"id": "5371260547779316133","name": "uml-profiles","type": "LocalFolder","size": 60,"group": "5"},
+{"id": "-7815809082296616977","name": "GlossaryML.ecore","type": "LocalFile","size": 30,"group": "3"}]
+}

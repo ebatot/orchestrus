@@ -1,0 +1,15 @@
+{
+"links": [{"id": "1133359178040479502","name": "1.0","source_id": "1072306077061511071","target_id": "3467329551260634708","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "-3143209471772100667","name": "1.0","source_id": "1072306077061511071","target_id": "-8648279696612050209","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100},
+{"id": "-5820146792419083221","name": "1.0","source_id": "-8648279696612050209","target_id": "7411910766693346359","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "4515887688766405296","name": "1.0","source_id": "-8648279696612050209","target_id": "-1111343598442236142","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "-7830526127179836894","name": "1.0","source_id": "1072306077061511071","target_id": "-3070688518157112907","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-1216862461270286426","name": "1.0","source_id": "1072306077061511071","target_id": "3264908416820472267","type": "SourceFile-LocalFolder","group": 17,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "3264908416820472267","name": "com.cea.papyrus.glossary","type": "LocalFolder","size": 50,"group": "5"},
+{"id": "-1111343598442236142","name": "ReferencesML.elementtypesconfigurations","type": "LocalFile","size": 30,"group": "3"},
+{"id": "-8648279696612050209","name": "GlossaryML.creationmenumodel","type": "SourceFile","size": 10,"group": "4"},
+{"id": "1072306077061511071","name": "plugin.xml","type": "SourceFile","size": 0,"group": "4"},
+{"id": "3467329551260634708","name": "GlossaryShape.png","type": "LocalFile","size": 10,"group": "3"},
+{"id": "-3070688518157112907","name": "GlossaryML.profile.uml","type": "ExternalFile","size": 10,"group": "0"},
+{"id": "7411910766693346359","name": "SysML16.elementtypesconfigurations","type": "LocalFile","size": 10,"group": "3"}]
+}

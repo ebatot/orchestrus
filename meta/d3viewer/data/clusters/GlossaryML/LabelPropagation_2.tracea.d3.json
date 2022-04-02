@@ -1,0 +1,20 @@
+{
+"links": [{"id": "-6466645678464640657","name": "1.0","source_id": "-94187287130004140","target_id": "322846005174511008","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-622753269211651387","name": "1.0","source_id": "-2221988569368117268","target_id": "-2669015473904755310","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "5334880729399018268","name": "1.0","source_id": "-94187287130004140","target_id": "-7497975980136432009","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "7740080569807846451","name": "1.0","source_id": "-7511655587566459175","target_id": "-4787022384348844445","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-30273998721586947","name": "1.0","source_id": "-94187287130004140","target_id": "-6784398378578189479","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "4073428211282756006","name": "1.0","source_id": "-94187287130004140","target_id": "-2669015473904755310","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "2591140318642946506","name": "1.0","source_id": "-94187287130004140","target_id": "-4787022384348844445","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "925916273867234048","name": "1.0","source_id": "-7511655587566459175","target_id": "-3045182938295608968","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "4962782894064117476","name": "1.0","source_id": "-7511655587566459175","target_id": "-94187287130004140","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "-94187287130004140","name": "GlossaryML.profile.uml","type": "SourceFile","size": 250,"group": "4"},
+{"id": "322846005174511008","name": "Types","type": "ExternalFile","size": 20,"group": "0"},
+{"id": "-2221988569368117268","name": "glossary_tree_table.nattableconfiguration","type": "SourceFile","size": 0,"group": "4"},
+{"id": "-7511655587566459175","name": "GlossaryML.profile.notation","type": "SourceFile","size": 0,"group": "4"},
+{"id": "-3045182938295608968","name": "ReferencesML.profile.uml","type": "ExternalFile","size": 40,"group": "0"},
+{"id": "-7497975980136432009","name": "Ecore.profile.uml","type": "ExternalFile","size": 20,"group": "0"},
+{"id": "-4787022384348844445","name": "UML.metamodel.uml","type": "ExternalFile","size": 70,"group": "0"},
+{"id": "-2669015473904755310","name": "UML","type": "ExternalFile","size": 80,"group": "0"},
+{"id": "-6784398378578189479","name": "ReferencesML.profile.uml","type": "LocalFile","size": 40,"group": "3"}]
+}
