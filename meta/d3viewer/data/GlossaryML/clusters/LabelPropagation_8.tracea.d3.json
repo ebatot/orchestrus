@@ -1,0 +1,17 @@
+{
+"links": [{"id": "537636544750983178","name": "1.0","source_id": "7608878906930592940","target_id": "5392703102889984549","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-2667924248760958065","name": "1.0","source_id": "7608878906930592940","target_id": "8371004470249050606","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-2660337053613893624","name": "1.0","source_id": "7608878906930592940","target_id": "-5594470500394967494","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-4048666454762884880","name": "1.0","source_id": "-1065719142118609324","target_id": "-7026508440249642555","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100},
+{"id": "8944136989158422899","name": "1.0","source_id": "-934136432924416325","target_id": "947406905975435208","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-4404010327959529452","name": "1.0","source_id": "-7026508440249642555","target_id": "8371004470249050606","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "723648541720698038","name": "1.0","source_id": "-934136432924416325","target_id": "7608878906930592940","type": "SourceFile-SourceFile","group": 15,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "5392703102889984549","name": "SysML.profile.uml","type": "ExternalFile","size": 30,"group": "0"},
+{"id": "-5594470500394967494","name": "SysML","type": "ExternalFile","size": 30,"group": "0"},
+{"id": "-1065719142118609324","name": "GlossaryML.domainmodel.notation","type": "SourceFile","size": 0,"group": "4"},
+{"id": "-934136432924416325","name": "GlossaryML.LanguageReqModel.notation","type": "SourceFile","size": 0,"group": "4"},
+{"id": "-7026508440249642555","name": "GlossaryML.domainmodel.uml","type": "SourceFile","size": 160,"group": "4"},
+{"id": "8371004470249050606","name": "UMLPrimitiveTypes.library.uml","type": "ExternalFile","size": 30,"group": "0"},
+{"id": "947406905975435208","name": "generic.nattableconfiguration","type": "ExternalFile","size": 10,"group": "0"},
+{"id": "7608878906930592940","name": "GlossaryML.LanguageReqModel.uml","type": "SourceFile","size": 10,"group": "4"}]
+}

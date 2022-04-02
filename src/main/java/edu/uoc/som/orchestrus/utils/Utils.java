@@ -71,7 +71,7 @@ public class Utils {
 				e.printStackTrace();
 			}
 		}
-		LOGGER.info(""+log);
+		LOGGER.fine(""+log);
 	}
 	
 	public static void storeSetupJSon(Trace t, boolean deploy) {
@@ -105,7 +105,7 @@ public class Utils {
 				e.printStackTrace();
 			}
 		}
-		LOGGER.info(""+log);
+		LOGGER.fine(""+log);
 	}
 	
 	public static void storeMatrixTracea(Trace t, boolean deploy, double acceptanceThreshold) {
@@ -132,7 +132,7 @@ public class Utils {
 				e.printStackTrace();
 			}
 		}
-		LOGGER.info(""+log);
+		LOGGER.fine(""+log);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -140,7 +140,7 @@ public class Utils {
 		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+".refs.json");
 		try {
 			FileUtils.write(f, interArtDependencies_JSON);
-			LOGGER.info("References stored in '"+f.getAbsolutePath()+"'");
+			LOGGER.fine("References stored in '"+f.getAbsolutePath()+"'");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -382,7 +382,7 @@ public class Utils {
 	}
 	
 	public static void storeClustering(TraceGraph tg, String deployLocation) {
-		ClusteringSetup.deployClustering(tg, "data\\out\\"+Config.getInstance().getProjectName()+"\\clusters", deployLocation);
+		ClusteringSetup.deployClustering(tg, "data\\out\\"+Config.getInstance().getProjectName()+"\\clusters", deployLocation + File.separator +Config.getInstance().getProjectName()+"\\clusters");
 	}
 	
 	
