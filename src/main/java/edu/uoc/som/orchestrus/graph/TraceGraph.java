@@ -136,7 +136,7 @@ public class TraceGraph {
 	public List<Trace> getLabelPropagationClusters(int maxIterations) {
 		LOGGER.fine("maxIteration: "+maxIterations);
 		if (labelPropagationClusters == null) {
-			String prefix = "LPCluster_";
+			String prefix = "LabelPropagation_";
 			List<Set<Artefact>> clusters = clusterLabelPropagation(maxIterations, true);
 			labelPropagationClusters = getClustersAsTraces(clusters, prefix);
 			
@@ -147,7 +147,7 @@ public class TraceGraph {
 	public List<Trace> getGirvanNewmanClusters(int k) {
 		LOGGER.fine("k: "+k);
 		if (GirvanNewmanClusters == null) {
-			String prefix = "GCCluster_";
+			String prefix = "GirvanNewman_";
 			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);
 			GirvanNewmanClusters = getClustersAsTraces(clusters, prefix);
 		}
@@ -156,7 +156,7 @@ public class TraceGraph {
 
 	public List<Trace> getKSpanClusters(int kNumber) {
 		if (KSpanClusters == null) {
-			String prefix = "KSCluster_";
+			String prefix = "KSpan_";
 			List<Set<Artefact>> clusters = clusterKSpan(kNumber, true);
 			KSpanClusters = getClustersAsTraces(clusters, prefix);
 		}

@@ -2,11 +2,15 @@ package edu.uoc.som.orchestrus.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -21,12 +25,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.mxgraph.util.svg.ParseException;
 
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import net.thisptr.jackson.jq.BuiltinFunctionLoader;
 import net.thisptr.jackson.jq.JsonQuery;
 import net.thisptr.jackson.jq.Scope;
@@ -328,4 +336,49 @@ public class Utils {
 		}
 		return res.toLowerCase().equals("y");
 	}
+	
+	public static void deleteFolder(File file){
+		if(file == null || !file.exists())
+			return;
+		if(file.list() != null)
+	      for (File subFile : file.listFiles()) {
+	         if(subFile.isDirectory()) {
+	            deleteFolder(subFile);
+	         } else {
+	            subFile.delete();
+	         }
+	      }
+	      file.delete();
+	   }
+	
+	public static Map<String, String> transformJsonToMap(JsonNode node, String prefix){
+
+	    Map<String,String> jsonMap = new HashMap<>();
+
+	    if(node.isArray()) {
+	        //Iterate over all array nodes
+	        int i = 0;
+	        for (JsonNode arrayElement : node) {
+	            jsonMap.putAll(transformJsonToMap(arrayElement, prefix+"[" + i + "]"));
+	            i++;
+	        }
+	    }else if(node.isObject()){
+	        Iterator<String> fieldNames = node.fieldNames();
+	        String curPrefixWithDot = (prefix==null || prefix.trim().length()==0) ? "" : prefix+".";
+	        //list all keys and values
+	        while(fieldNames.hasNext()){
+	            String fieldName = fieldNames.next();
+	            JsonNode fieldValue = node.get(fieldName);
+	            jsonMap.putAll(transformJsonToMap(fieldValue, curPrefixWithDot+fieldName));
+	        }
+	    }else {
+	        //basic type
+	        jsonMap.put(prefix,node.asText());
+//	        System.out.println(prefix+"="+node.asText());
+	    }
+
+	    return jsonMap;
+	}
+	
+	
 }

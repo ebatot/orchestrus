@@ -1,9 +1,16 @@
 package edu.uoc.som.orchestrus;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import edu.uoc.som.orchestrus.config.ClusteringSetup;
 import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.graph.ShowGraph;
 import edu.uoc.som.orchestrus.graph.TraceGraph;
@@ -13,11 +20,16 @@ import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 public class Orchestrus {
 	public final static Logger LOGGER = Logger.getLogger(Orchestrus.class.getName());
 
 	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		System.out.println("    --  o· o - O ~ o - o ~ o · O ·--");
 		System.out.println("    --                            --");
@@ -53,27 +65,20 @@ public class Orchestrus {
 		// TODO Decompose artefacts with XPath patterns.
 
 
-		Trace t = TraceFactory.buildReferencesTrace();
-		Utils.storeD3Tracea(t, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
-		Utils.storeD3Tracea(t, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
+		Trace tLinks = TraceFactory.buildReferencesTrace();
+		Utils.storeD3Tracea(tLinks, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
+		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
 		//Utils.storeMatrixTracea(t, false, 4/21);
-		Utils.storeSetupJSon(t, true);
+		Utils.storeSetupJSon(tLinks, true);
 		
 		
 		System.out.println("Graph work...");
-		TraceGraph tg = new TraceGraph(t);
+		TraceGraph tg = new TraceGraph(tLinks);
 		
 		System.out.println("Clustering...");
-		List<Trace> traceClusters = tg.getGirvanNewmanClusters(5);
-		System.out.println(traceClusters.size());
-		for (Trace tc : traceClusters) {
-			if (tc.getTraceLinks().size() > 3) {
-				String filePath = "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\tmp\\"
-						+ Config.getInstance().getProjectName() + "_" + t.getName() + ".trace.d3.json";
-
-				Utils.writeJSon(filePath, tc.renderD3JSon(false));
-			}
-		}
+		//TODO deploy vs store !!
+		ClusteringSetup.deployClustering(tg, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\clusters\\");
+		
 		
 		System.out.println("Rendering...");
 		//tg.detectCycles();
@@ -83,6 +88,7 @@ public class Orchestrus {
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 		
 	}
+
 	/*
 	 *  Arguments:
 	 *  - Config file

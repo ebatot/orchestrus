@@ -212,6 +212,10 @@ public class Trace extends TracingElement {
 		}
 		return lts;
 	}
+	
+	public Set<Artefact> getArtefacts() {
+		return collectArtefacts();
+	}
 
 	public String renderHTMLMatrix() {
 		return renderHTMLMatrix(Config.MATRIX_DEFAULT_THRESHOLD);
