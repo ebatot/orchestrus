@@ -1,0 +1,17 @@
+{
+"links": [{"id": "-6729924992966033291","name": "1.0","source_id": "2514343226117629319","target_id": "8843852096945526213","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "6000519767976978288","name": "1.0","source_id": "2514343226117629319","target_id": "728586250621324436","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "3714714566724979113","name": "1.0","source_id": "2514343226117629319","target_id": "1143101010786680429","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-7819666560441197675","name": "1.0","source_id": "2514343226117629319","target_id": "5080606314316693739","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "2767019668274053671","name": "1.0","source_id": "2514343226117629319","target_id": "9038335254401083926","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100},
+{"id": "-5731518589030429655","name": "1.0","source_id": "2514343226117629319","target_id": "5404242951196403807","type": "SourceFile-LocalFile","group": 16,"confidence": 1.0,"energy": 100},
+{"id": "-2675762022133730112","name": "1.0","source_id": "2514343226117629319","target_id": "1880661030975368292","type": "SourceFile-ExternalFile","group": 14,"confidence": 1.0,"energy": 100}],
+"nodes": [{"id": "8843852096945526213","name": "SysML-Standard-Library.uml","type": "ExternalFile","size": 10,"group": "0"},
+{"id": "728586250621324436","name": "GlossaryML.profile.uml","type": "LocalFile","size": 20,"group": "3"},
+{"id": "1143101010786680429","name": "Standard","type": "ExternalFile","size": 10,"group": "0"},
+{"id": "2514343226117629319","name": "GlossaryML_ToolReqModel.uml","type": "SourceFile","size": 90,"group": "4"},
+{"id": "5080606314316693739","name": "Standard.profile.uml","type": "ExternalFile","size": 10,"group": "0"},
+{"id": "1880661030975368292","name": "SysML","type": "ExternalFile","size": 90,"group": "0"},
+{"id": "5404242951196403807","name": "PapyrusGlossary.uml","type": "LocalFile","size": 10,"group": "3"},
+{"id": "9038335254401083926","name": "SysML.profile.uml","type": "ExternalFile","size": 90,"group": "0"}]
+}
