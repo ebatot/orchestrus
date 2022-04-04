@@ -151,7 +151,10 @@ var actExpandCollapse = function() {
 function renderClusterList(json) {
     var keys = [];
     var objIsArray = Array.isArray(json); // check if [..] array. Otherwise, it is an ordinary {..} object
-    jsonText = "";
+    jsonText = '<ul> GlossaryML';
+    jsonText += "<li> <a href='index.html'>Trace links</a><li>"
+    jsonText +=  "<li><a href='index.html?imf=data/input_data.json'>Fragmentation</a></li>"
+    jsonText +=  "</ul>"
     for (var algorithm in json) {
         // KSpan, Label, Newman...
         if(algorithm === 'setup')
@@ -159,7 +162,13 @@ function renderClusterList(json) {
         jsonText += '<ul>' + algorithm//.setup.algorithm;
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
-            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a></li>'
+
+/*"data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
+	//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()*/
+
+            var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
+
+            jsonText += "<li><a href='"+target+"' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a></li>'
         }
         jsonText += '</ul>'
     }

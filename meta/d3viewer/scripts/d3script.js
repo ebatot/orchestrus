@@ -147,7 +147,7 @@ var simulation = this.force = d3.forceSimulation();
 
 
 /// LOAD INPUT MODEL FILE 
-var dataPath = "data/input_data.json"
+var dataPath = "data/input_trace_data.json"
 if ( getUrlVars()['imf'] != null )
 	dataPath = getUrlVars()['imf'];
 
@@ -1079,12 +1079,23 @@ function loadCluster(clusterName, projectName, algorithm) {
 	selectedArtefacts = []
 
 	clusters = json[algorithm].clusters;
-	for (i = 0; i < clusters.length; i++) {
+	for (i = 0; i < clusters.length; i++) {//Check all clusters
 		nameC = clusters[i].name;
-		if (nameC == clusterName) {
+		if (nameC == clusterName) {//get the right one
 			for(var art in clusters[i].artefacts) {
 				artId = clusters[i].artefacts[art].id
-				selectedArtefacts.push(artId)
+				console.log("#n"+artId) ; //Use the artefact ID to get the node object
+				var x = d3.select("#n"+artId);
+				x.attr("background-color", "black")
+
+				selectedArtefacts.push(x)
+				x.text("ca aussi ca passessssssssss"
+				+"ssssssssssssssssssssssssssssssssss"
+				+"ssssssssssssssssssssssssssssssssss"
+				+"ssssssssssssssssssssssssssssssssss"
+				+"ssssssssssssssssssssssssssssssssss"
+				)
+				selectNode(x)
 			}
 		} 	
 	}
