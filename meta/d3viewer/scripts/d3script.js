@@ -282,7 +282,7 @@ function updateDrawing() {
 		.style("pointer-events", "none")
 		.attrs({
 			'class': 'edgelabel',
-			'id': function (d) {return 'el' + d.id;},
+			'id': function (d) {return 'el' + d.id;},//linkid idlink
 			'font-size': 12
 		});
 
@@ -291,7 +291,7 @@ function updateDrawing() {
 		.attr("startOffset", "50%")
 		.style("text-anchor", "middle")
 		.style("pointer-events", "none")
-		.text(function (d) {return d.name + '\n' +d.confidence;});
+		//.text(function (d) {return d.name + '\n' +d.confidence;}); //linklabel labellink
 
 	node = gNodes.selectAll(".node")
 		.data(filteredNodes(nodes))
