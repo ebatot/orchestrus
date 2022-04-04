@@ -2,10 +2,10 @@
 
 var selected;
 var showFocus = function () {
-   // selected.firstElementChild.style.color = "SlateBlue";
+    // selected.firstElementChild.style.color = "SlateBlue";
 }
 var hideFocus = function () {
-    selected.firstElementChild.style.color = "";
+    //selected.firstElementChild.style.color = "";
 }
 var clickSelected = function () {
     selected.firstElementChild.click();
@@ -44,7 +44,6 @@ var gotoParent = function () {
     showFocus();
 }
 var onLoad = function() {
-    // 1. HTML document title
     
     
     var dataPath = "data/GlossaryML/clusters/clustering.tracea.json"
@@ -70,7 +69,8 @@ var onLoad = function() {
 
     var projectName = jsonContent.setup.projectName;
 
-    document.getElementById('title').innerHTML = "Tracing (" + projectName + ")";
+    document.getElementById('title').innerHTML = "Clusters (" + projectName + ")";
+    //document.getElementById('projectname').innerHTML =  projectName ;
     
     // 2. render tree structure -- you may make number of sections dynamic insteaf of fixed
     section1 = document.getElementById('section1');
@@ -82,11 +82,11 @@ var onLoad = function() {
 
    
     // 3. selection box, default on the first item on the tree
-    selected = document.getElementById('tree').firstElementChild.getElementsByTagName("li")[0];
+    selected = document.getElementById('clustertree').firstElementChild.getElementsByTagName("li")[0];
     showFocus();
 
     // 4. click handlers
-    var treeListItems = document.querySelectorAll('ul.tree a');
+    var treeListItems = document.querySelectorAll('ul.clustertree a');
     for (var i = 0; i < treeListItems.length; i++) {
         // click handler
         treeListItems[i].addEventListener('click', function(e) {
@@ -129,10 +129,12 @@ var onLoad = function() {
                     break;
             }
         });
-};
+
+
+ };
 
 var expandAll = function() {
-    var allListItems = document.querySelectorAll('ul.tree li');
+    var allListItems = document.querySelectorAll('ul.clustertree li');
     for (var k = 0; k < allListItems.length; k++) {
         allListItems[k].classList.add("open");
     }
@@ -162,37 +164,18 @@ function renderClusterList(json) {
         jsonText += '<ul>' + algorithm//.setup.algorithm;
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
-            jsonText += "<li><a href='#'>"+clusterName+'</a></li>'
+            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\")'>"+clusterName+'</a></li>'
         }
         jsonText += '</ul>'
     }
     return jsonText;
 }
 
-function renderJSON(obj) {
-    var keys = [];
-    var objIsArray = Array.isArray(obj); // check if [..] array. Otherwise, it is an ordinary {..} object
-    jsonText = "";
-    for (var key in obj) {
-        if (typeof obj[key] === 'object') {
-            if (objIsArray === false) { jsonText += "<li><a href='#'>" + key + "</a><ul>"; }
-            jsonText += renderJSON(obj[key]);
-            if (objIsArray === false) { jsonText += "</ul></li>"; }
-        } else { // obj[key] not object, e.g. just a number or string, or empty
-            if (objIsArray === false) {
-                jsonText += "<li><a href='#'>" + key;
-                if (obj[key]) { jsonText += ": " + obj[key]; }
-                jsonText += "</a></li>";
-            } else {
-                jsonText += "<li><a href='#'>";
-                if (obj[key]) { jsonText += obj[key]; } else { jsonText += "(empty)"; }
-                jsonText += "</a></li>";
-            }
-        }
-        keys.push(key);
-    }
-    return jsonText;
+function loadCluster(clusterName) {
+    console.log(clusterName + " to load...")
 }
+
+
 
 
 
