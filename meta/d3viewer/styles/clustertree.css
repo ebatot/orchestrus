@@ -1,17 +1,8 @@
 #clustertree {
     font-family: Courier, Arial;
     padding-left: 3px;
-    border: solid 1px rgb(91, 26, 220);  
+    /*border: solid 1px rgb(91, 26, 220);  */
     font-size: 65%;
-}
-
-#clusterviz {
-    padding-left: 3px;
-    border: solid 1px rgb(25, 166, 79);
-
-    width: 68%;
-    height: 100%;
-    float:right;
 }
 
 a.control:link,
@@ -21,15 +12,24 @@ a.control:visited {
     color: blue;
 }
 
-#clustertree, #clustertree ul {
+#clustertree {
+    margin-top:10px;
+    padding: 0px 3px 0px 3px;
+}
+#clustertree ul {
     margin:0px;
-    padding-left: 10px;;
+    padding: 0px 3px 5px 10px;
+    font-weight: bold;
+    font-style: oblique;
+   /* margin-left: 10px;;*/
 }
 
 #clustertree li {
     list-style-type: none;
     position: relative;
-    padding-left: 15px;
+    margin-left: 15px;
+    font-weight: normal;
+    font-style: normal;
 }
 
 #clustertree li ul {
@@ -58,12 +58,12 @@ a.control:visited {
 }
 
 #clustertree li>a:not(:last-child):before {
-    content: '⊞';
+    content: '+';
     font-weight: bold;
 }
 
 #clustertree li.open>a:not(:last-child):before {
-    content: '⊟';
+    content: '-';
     font-weight: normal;
 }
 
