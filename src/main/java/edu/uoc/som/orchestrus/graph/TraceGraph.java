@@ -32,6 +32,28 @@ import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 
+
+/*
+ * Clustering sample
+ * 
+ * {
+        "algorithm": "KSpan",
+        "k": "5",
+        "minSizeCluster": "3"
+    },
+    {
+        "algorithm": "GirvenNewman",
+        "k": "2",
+        "minSizeCluster": "3"
+    },
+    {
+        "algorithm": "LabelPropagation",
+        "maxIterations": "4",
+        "minSizeCluster": "3"
+    }
+ */
+
+
 public class TraceGraph {
 	public final static Logger LOGGER = Logger.getLogger(TraceGraph.class.getName());
 
@@ -124,6 +146,7 @@ public class TraceGraph {
 	}
 
 	public List<Trace> getGirvanNewmanClusters(int k) {
+		LOGGER.info("GirvanNewman: Launched with k= "+k);
 		if (GirvanNewmanClusters == null) {
 			String prefix = "GirvanNewman_";
 			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);

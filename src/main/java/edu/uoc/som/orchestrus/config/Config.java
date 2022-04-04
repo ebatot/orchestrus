@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,16 +19,32 @@ public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
 
 	
-	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-	String project = "com.cea.papyrus.glossary";
-	String projectName = "GlossaryML";
-	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
-
 //	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-//	String project = "com.cea.papyrus.referencemanagement";
-//	String projectName = "ReferencesML";
-//	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
+//	String project = "com.cea.papyrus.glossary";
+//	String projectName = "GlossaryML";
+//	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
+
+	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+	String project = "com.cea.papyrus.referencemanagement";
+	String projectName = "ReferencesML";
+	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
 	List<String> javaSourceFolders = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
+	
+	
+	
+	/**************************+
+	 * 
+	 * 
+	 * 
+	 * DEPLOY OPTIONS !!!!!!!!!!!!
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 
 	/*
 	 * Hard coded config files (in project root folder)
