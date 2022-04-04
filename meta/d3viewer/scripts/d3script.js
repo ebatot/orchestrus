@@ -55,6 +55,7 @@ sliderBox = d3.select('#sliderBox')
 dragBox(document.getElementById('sliderBox'))
 dragBox(document.getElementById('controlBox'))//force properties sliders
 dragBox(document.getElementById('searchBox'))
+dragBox(document.getElementById('clusterBox'))
 
 
 var nodeSelection = []
@@ -207,6 +208,7 @@ function collapseNode(d){
 }
 
 
+
 var nodeById, bilinks
 d3.json(dataPath, function(error, _graph) {
 	if (error) {
@@ -222,8 +224,6 @@ d3.json(dataPath, function(error, _graph) {
 	
 	nodeById = d3.map(nodes, function(d) { return d.id; }),
 	//addIntermediatePointInLinks(links, nodes) // For curved paths arcs
-
-	log.text(links.length + "  " + nodes.length)
 		
 	edgesize = getConfidenceLinearScale(links, EDGES_SIZE[0], EDGES_SIZE[1]);
 	nodesize = getSizeLinearScale(filteredNodes(nodes), NODES_SIZE[0], NODES_SIZE[1]);
@@ -753,6 +753,7 @@ function ticked() {
 		.attr("y1", function(d) { return d.source.y; })
 		.attr("x2", function(d) { return d.target.x; })
 		.attr("y2", function(d) { return d.target.y; });
+
 
 	node
 		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });

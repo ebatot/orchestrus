@@ -34,7 +34,7 @@ html {
   .node circle {  stroke: black;}
   
   .controls {
-    height: 480px;
+    height: 240px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -68,8 +68,15 @@ html {
   #searchBox  {  right: 10px;  top: 50px;  width: 200px;}
   #sliderBox  {  right: 10px;  top: 102px;  width: 200px;}
   #legendBox  {  right: 10px;  top: 160px;  width: 200px;}
+  #clusterBox  {  right: 10px;  top: 300px;  width: 200px; left: 10px;}
   
-  #sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader {
+
+  #clusterBox {
+      
+      overflow-y: scroll;
+  }
+
+ #clusterBoxHeader, #sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader {
     background-color: rgb(205 190 205);
     cursor: move;
     font-weight: bold;

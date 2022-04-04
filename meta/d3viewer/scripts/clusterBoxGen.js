@@ -1,11 +1,10 @@
 
-
 var selected;
 var showFocus = function () {
-    // selected.firstElementChild.style.color = "SlateBlue";
+    selected.firstElementChild.style.color = "SlateBlue";
 }
 var hideFocus = function () {
-    //selected.firstElementChild.style.color = "";
+    selected.firstElementChild.style.color = "";
 }
 var clickSelected = function () {
     selected.firstElementChild.click();
@@ -43,12 +42,12 @@ var gotoParent = function () {
     }
     showFocus();
 }
-var onLoad = function() {
+//var onLoad = function() {
     
     
     var dataPath = "data/GlossaryML/clusters/clustering.tracea.json"
-    if ( getUrlVars()['imf'] != null )
-        dataPath = getUrlVars()['imf']; 
+    //if ( getUrlVars()['imf'] != null )
+    //    dataPath = getUrlVars()['imf']; 
     
     
     
@@ -66,21 +65,15 @@ var onLoad = function() {
         return json;
     })(); 
 
-
     var projectName = jsonContent.setup.projectName;
-
-    document.getElementById('title').innerHTML = "Clusters (" + projectName + ")";
+    //document.getElementById('title').innerHTML = "Clusters (" + projectName + ")";
     //document.getElementById('projectname').innerHTML =  projectName ;
     
     // 2. render tree structure -- you may make number of sections dynamic insteaf of fixed
     clustertree = document.getElementById('clustertree');
     var json = JSON.parse(JSON.stringify(jsonContent));
     clustertree.innerHTML = renderClusterList(json);
-    
-    console.log(renderClusterList(json))
-    //Organize sections and content display.
-
-   
+ 
     // 3. selection box, default on the first item on the tree
     selected = document.getElementById('clustertree').firstElementChild.getElementsByTagName("li")[0];
     showFocus();
@@ -131,7 +124,7 @@ var onLoad = function() {
         });
 
 
- };
+// };
 
 var expandAll = function() {
     var allListItems = document.querySelectorAll('ul.clustertree li');
@@ -156,12 +149,13 @@ var actExpandCollapse = function() {
 };
 
 function renderClusterList(json) {
-    console.log("render")
     var keys = [];
     var objIsArray = Array.isArray(json); // check if [..] array. Otherwise, it is an ordinary {..} object
     jsonText = "";
     for (var algorithm in json) {
         // KSpan, Label, Newman...
+        if(algorithm === 'setup')
+            continue;
         jsonText += '<ul>' + algorithm//.setup.algorithm;
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
@@ -175,7 +169,7 @@ function renderClusterList(json) {
 
 function loadCluster(clusterName) {
     console.log(clusterName + " to load...")
-    
+    window.open("index.html?imf=data/GlossaryML/clusters/"+clusterName+".tracea.d3.json", '_blank').focus();
 }
 
 

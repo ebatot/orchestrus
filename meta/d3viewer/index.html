@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>TraceaML D3 </title>
-<style>
 
-
-/*
- .rangeslider{background-color:#000; width:80%; margin:1em auto; height:60px}
-fieldset{margin:0 auto; width:80%; padding:20px 0}
-input[type="range"]{-webkit-appearance:none; -moz-apperance:none; width:100%; height:4px;}
-.rangeslider input::-webkit-slider-thumb{-webkit-appearance:none; -moz-apperance:none; width:10px; height:10px;
--webkit-border-radius:10px; -moz-border-radius:10px; -ms-border-radius:10px; -o-border-radius:10px; border-radius:10px;
-background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #fefefe), color-stop(0.49, #dddddd), color-stop(0.51, #d1d1d1), color-stop(1, #a1a1a1) );
-}*/
-
-
-</style>
-
+  <!-- Load styles -->
+  <link rel="stylesheet" href="styles/w3.css"> 
+  <link rel="stylesheet" href="styles/styles.css"> 
+  <link rel="stylesheet" href="styles/clustertree.css"> 
 </meta>
 
 <body>
@@ -32,7 +22,6 @@ background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #
   <center>
     <svg width="800" height="500" style="border:1px black solid; background-color: #fdffda;"></svg><br />
   </center>
-  </div>
  
   <div class="controls box" id="controlBox">
     <div id="controlBoxHeader"> D3 Control Board</div>
@@ -180,17 +169,22 @@ background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #
   <div id="legendBox" class="box"> 
     <div id="legendBoxHeader"> Legend</div>
   </div>
+  <div id="clusterBox" class="box"> 
+    <div id="clusterBoxHeader"> Clusters</div>
+    <div id="clustertree"></div>
+  </div>
+  
 
-  <!-- Load W3 -->
-  <link rel="stylesheet" href="styles/w3.css"> 
-  <link rel="stylesheet" href="styles/styles.css"> 
   <!-- Load D3 -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="http://d3js.org/d3-selection-multi.v1.js"></script>
+  <!-- Load JQuery -->
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <!-- Load bootstrap -->
   <!--link href="scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
   <!--script src="scripts/bootstrap/js/bootstrap.bundle.min.js"></script-->
 
   <!-- Load D3-Tracea -->
   <script src="scripts/d3script.js"></script>
+  <script src="scripts/clusterBoxGen.js"></script>
 </body>

@@ -1,25 +1,8 @@
-.clusterbox {
-    font-family: Courier, Arial;
-    font-size: 65%;
-    border: solid 1px rgb(222, 24, 24);
-    width: 800px;
-    height: 400px;
-}
-.clustertreeHeader {
-    background-color: rgb(205 190 205);
-    cursor: move;
-    font-weight: bold;
-    font-size: 70%;
-}
-
 #clustertree {
-
+    font-family: Courier, Arial;
     padding-left: 3px;
-    border: solid 1px rgb(91, 26, 220);
-
-    width: 30%;
-    height: 100%;
-    float:left;
+    border: solid 1px rgb(91, 26, 220);  
+    font-size: 65%;
 }
 
 #clusterviz {
@@ -38,34 +21,33 @@ a.control:visited {
     color: blue;
 }
 
-ul.clustertree, ul.clustertree ul {
+#clustertree, #clustertree ul {
     margin:0px;
     padding-left: 10px;;
 }
 
-ul.clustertree li {
+#clustertree li {
     list-style-type: none;
     position: relative;
     padding-left: 15px;
-
 }
 
-ul.clustertree li ul {
+#clustertree li ul {
     display: none;
     padding-left: 15px;
 }
 
-ul.clustertree li.open>ul {
+#clustertree li.open>ul {
     display: block;
     padding-left: 15px;
 }
 
-ul.clustertree li a {
+#clustertree li a {
     color: black;
     text-decoration: none;
 }
 
-ul.clustertree li a:before {
+#clustertree li a:before {
     /* the expand/collapse symbols before each item */
     height: 1em;
     font-size: .8em;
@@ -75,23 +57,23 @@ ul.clustertree li a:before {
     top: .05em;
 }
 
-ul.clustertree li>a:not(:last-child):before {
+#clustertree li>a:not(:last-child):before {
     content: '⊞';
     font-weight: bold;
 }
 
-ul.clustertree li.open>a:not(:last-child):before {
+#clustertree li.open>a:not(:last-child):before {
     content: '⊟';
     font-weight: normal;
 }
 
-ul.clustertree li.open>a:last-child:before {
+#clustertree li.open>a:last-child:before {
     content: '';
     font-weight: bold;
 }
 
-ul.clustertree li:before,
-ul.clustertree li:after {
+#clustertree li:before,
+#clustertree li:after {
     position: absolute;
     left: -0.7em;
     border-style: dotted;
@@ -99,7 +81,7 @@ ul.clustertree li:after {
     border-width: 0px;
 }
 
-ul.clustertree li:before {
+#clustertree li:before {
     content: "";
     border-top-width: 1px;
     height: 0;
@@ -107,7 +89,7 @@ ul.clustertree li:before {
     top: 9px;
 }
 
-ul.clustertree li:after {
+#clustertree li:after {
     content: "";
     border-left-width: 1px;
     height: 100%;
@@ -115,14 +97,14 @@ ul.clustertree li:after {
     top: 2px;
 }
 
-ul.clustertree>li::before {
+#clustertree>li::before {
     width: 0px;
 }
 
-ul.clustertree>li::after {
+#clustertree>li::after {
     height: 0px;
 }
 
-ul.clustertree>li li:last-child:after {
+#clustertree>li li:last-child:after {
     height: 8px;
 }
