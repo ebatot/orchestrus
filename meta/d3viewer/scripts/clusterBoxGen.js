@@ -159,21 +159,12 @@ function renderClusterList(json) {
         jsonText += '<ul>' + algorithm//.setup.algorithm;
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
-            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\")'>"+clusterName+'</a></li>'
+            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a></li>'
         }
         jsonText += '</ul>'
     }
     return jsonText;
 }
-
-
-function loadCluster(clusterName) {
-    console.log(clusterName + " to load...")
-    window.open("index.html?imf=data/GlossaryML/clusters/"+clusterName+".tracea.d3.json", '_blank').focus();
-}
-
-
-
 
 function getUrlVars() {
     var vars = {};

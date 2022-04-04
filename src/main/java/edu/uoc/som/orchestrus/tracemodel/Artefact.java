@@ -258,6 +258,7 @@ public class Artefact extends TypedArtefact  implements Serializable{
 
 	public String renderFragmentation(boolean recursive, boolean renderElements) {
 		String res = "\"name\": \""+getName()+"\"" +
+				",\"id\": \""+getID()+"\""+
 				",\"type\": \""+getType().getName()+"\""+
 				",\"location\": \""+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation())+"\""+
 				"";

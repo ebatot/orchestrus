@@ -1051,3 +1051,43 @@ function showError(datapath) {
 }
 
 //data = Object.assign(d3.csvParse(await FileAttachment("cars-2.csv").text(), ({Name: name, Miles_per_Gallon: x, Horsepower: y}) => ({name, x: +x, y: +y})), {x: "Miles per Gallon", y: "Horsepower"})
+
+
+
+function loadCluster(clusterName, projectName, algorithm) {
+    console.log(clusterName + " to load...")
+	var urlClusterD3 = "data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json";
+	var urlClusterData = "data/"+projectName+"/clusters/"+algorithm+".tracea.setup.json";
+
+	var jsonCluster = (function () {
+		var json = null;
+        $.ajax({
+			'async': false,
+            'global': false,
+            'url': urlClusterData,
+            'dataType': "json",
+            'success': function (data) {
+				json = data;
+            }
+        });
+        return json;
+    })(); 
+	
+	//console.log(json[algorithm])
+	//console.log(json[algorithm].clusters)
+
+	selectedArtefacts = []
+
+	clusters = json[algorithm].clusters;
+	for (i = 0; i < clusters.length; i++) {
+		nameC = clusters[i].name;
+		if (nameC == clusterName) {
+			for(var art in clusters[i].artefacts) {
+				artId = clusters[i].artefacts[art].id
+				selectedArtefacts.push(artId)
+			}
+		} 	
+	}
+	console.log(selectedArtefacts)
+	//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()
+}

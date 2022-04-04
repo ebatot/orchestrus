@@ -207,6 +207,7 @@ public class TraceGraph {
 	public static Function<Artefact, Map<String, Attribute>> getArtefactVertexAttributeProvider() {
 		Function<Artefact, Map<String, Attribute>> vertexAttributeProvider = v -> {
 		    Map<String, Attribute> map = new LinkedHashMap<>();
+		    map.put("id", DefaultAttribute.createAttribute(v.getID()));
 		    map.put("name", DefaultAttribute.createAttribute(v.getName()));
 		    map.put("location", DefaultAttribute.createAttribute(v.getLocation()));
 		    map.put("type", DefaultAttribute.createAttribute(v.getType().getName()));

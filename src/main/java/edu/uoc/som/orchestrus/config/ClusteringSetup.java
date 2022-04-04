@@ -184,8 +184,10 @@ public class ClusteringSetup {
 			clusters += "\"size\":\"" + tc.getArtefacts().size() + "\",";
 			clusters += "\"artefacts\": [ ";
 			for (Artefact a : tc.getArtefacts())
-				clusters += "{\"name\":" + "\"" + a.getName() + "\"," + "\"location\":" + " \""
-						+ Utils.cleanUrlsForJson(a.getLocation()) + "\"},";
+				clusters += "{"
+						+ "\"name\":" + "\"" + a.getName() + "\"," 
+						+ "\"id\":" + "\"" + a.getID() + "\"," 
+						+ "\"location\":" + " \""+ Utils.cleanUrlsForJson(a.getLocation()) + "\"},";
 			if (clusters.endsWith(","))
 				clusters = clusters.substring(0, clusters.length() - 1);
 			clusters += "]" + "";
