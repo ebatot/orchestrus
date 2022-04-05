@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
+import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
 import edu.uoc.som.orchestrus.utils.Utils;
 import net.minidev.json.JSONArray;
@@ -64,9 +65,9 @@ public class Config {
 			
 			JSONObject config = (JSONObject) configJSon.get("config");
 			
-			projectURI = config.getAsString("projectURI");
-			projectFolder = config.getAsString("projectFolder");
-			projectName = config.getAsString("projectName");
+			projectURI = config.getAsString("project.uri");
+			projectFolder = config.getAsString("project.folder");
+			projectName = config.getAsString("project.name");
 			
 			projectDependencies = getProjectDependenciesFromConfigJSonObject(config);
 			javaSourceFolders = getProjectSourceFoldersFromConfigJSonObject(config);
@@ -91,18 +92,21 @@ public class Config {
 			JSONObject display = (JSONObject) configJSon.get("display");
 			Artefact.D3_PRINT_LABEL_OPTION = Artefact.PrintLabelOptions.valueOf(display.getAsString("label.artefact").toUpperCase());
 			TraceLink.D3_PRINT_LABEL_OPTION = TraceLink.PrintLabelOptions.valueOf(display.getAsString("label.link").toUpperCase());
+			Trace.PRINT_ELEMENTS = display.getAsString("show.elements").toLowerCase().equals("true");
 
 			
 			
 			LOGGER.info(""
-					+ "\n  project name:    "+projectName
-					+ "\n  project URI:     "+projectURI
-					+ "\n  project folder:  "+projectFolder
-					+ "\n  dependencies:    "+projectDependencies
-					+ "\n  source folders:  "+javaSourceFolders
-					+ "\n"
-					+ "\n  clustering file:     "+clusteringSetupLocation
-					+ "\n  deployment location: "+deploymentLocation
+					+ "\n   project name:    "+projectName
+					+ "\n   project URI:     "+projectURI
+					+ "\n   project folder:  "+projectFolder
+					+ "\n   dependencies:    "+projectDependencies
+					+ "\n   source folders:  "+javaSourceFolders
+					+ "\n "
+					+ "\n   clustering file:     "+clusteringSetupLocation
+					+ "\n   deployment location: "+deploymentLocation
+					+ "\n "
+					+ "\n   leaf elements: "+(Trace.PRINT_ELEMENTS?"Displayed":"Hidden")
 					+ "\n"
 					);
 
