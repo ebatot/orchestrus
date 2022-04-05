@@ -1104,27 +1104,28 @@ function loadCluster(clusterName, projectName, algorithm) {
 	}
 
 
-	var selected = container.selectAll('.node').filter(function (d, i) {
+	var deselected = container.selectAll('.node').filter(function (d, i) {
 		return selectedArtefactsIDs.indexOf(d.id) <= -1;
+	});
+
+	var deselectedEdges = container.selectAll('.edgepath').filter(function (d, i) {
+		console.log("source: "+d.source_id)
+		return selectedArtefactsIDs.indexOf(d.source_id) > -1 && selectedArtefactsIDs.indexOf(d.target_id) > -1;
 	});
 
 
 	resetOpacity()
-	selected.style('opacity', '0.2');
+	deselected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
-	transitionToOpaque(2500)
+	deselectedEdges.style('opacity', '1');
+	transitionToOpaque()
 
-	for( var s in selected) {
-		addNodeToSelection(selected[s])
+	for( var s in deselected) {
+		addNodeToSelection(deselected[s])
 	}
 
-	
-	
 	var numberAffected = (selectedArtefacts.length) 
 	log.text("Selected "+ numberAffected + " elements")
-
-	//console.log(nodeSelection)
-	//console.log(selectedArtefacts)
 }
 		
 	
