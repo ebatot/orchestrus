@@ -1073,21 +1073,31 @@ function loadCluster(clusterName, projectName, algorithm) {
         return json;
     })(); 
 	
-	//console.log(json[algorithm])
-	//console.log(json[algorithm].clusters)
+
+
+	//TRYING catch artefact ids to use them 
+	//       to catch their respective nodes 
+	//       in d3 representations (#nID)
+	
 
 	selectedArtefacts = []
+	for(var c in jsonCluster.clusters) {
+		//console.log("c: "+c)
+		for(var a in jsonCluster.clusters[c].artefacts) {
 
-	clusters = json[algorithm].clusters;
-	for (i = 0; i < clusters.length; i++) {//Check all clusters
-		nameC = clusters[i].name;
-		if (nameC == clusterName) {//get the right one
-			for(var art in clusters[i].artefacts) {
-				artId = clusters[i].artefacts[art].id
-				console.log("#n"+artId) ; //Use the artefact ID to get the node object
-				var x = d3.select("#n"+artId);
+			//console.log(jsonCluster.clusters[c].artefacts[a].id)
+			artId = jsonCluster.clusters[c].artefacts[a].id
+			var nodeId = "#n"+artId;
+
+			console.log(nodeId) ; 
+
+				var x = d3.select(nodeId+".node"); //Use the artefact ID to get the node object
+
+				d3.select(nodeId+".node").style('fill', 'red');
+
+				
 				x.attr("background-color", "black")
-
+				//console.log(x)
 				selectedArtefacts.push(x)
 				x.text("ca aussi ca passessssssssss"
 				+"ssssssssssssssssssssssssssssssssss"
@@ -1095,10 +1105,12 @@ function loadCluster(clusterName, projectName, algorithm) {
 				+"ssssssssssssssssssssssssssssssssss"
 				+"ssssssssssssssssssssssssssssssssss"
 				)
-				selectNode(x)
+				addNodeToSelection(x)
 			}
-		} 	
+			
+		}
+		//console.log(selectedArtefacts)
 	}
-	console.log(selectedArtefacts)
-	//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()
-}
+		
+	
+//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()	
