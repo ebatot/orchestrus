@@ -2,17 +2,20 @@
     {
         "algorithm": "KSpan",
         "k": "5",
-        "minSizeCluster": "3"
+        "minSizeCluster": "3",
+        "timeout": "none"
     },
     {
         "algorithm": "LabelPropagation",
         "maxIterations": "4",
-        "minSizeCluster": "3"
+        "minSizeCluster": "3",
+        "timeout": "none"
     },
     {
         "algorithm": "GirvenNewman",
         "k": "2",
-        "minSizeCluster": "3"
+        "minSizeCluster": "3",
+        "timeout": "10"
     }
 ]
 

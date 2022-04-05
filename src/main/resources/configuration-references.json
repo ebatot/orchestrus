@@ -12,5 +12,9 @@
     "deploy" : {
         "location": "meta\\d3viewer\\data\\reftes\\",
         "frag":""
+    },
+    "display" : {
+        "label.artefact": "none",
+        "label.link": "none"
     }
 }

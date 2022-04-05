@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
+import edu.uoc.som.orchestrus.tracemodel.TraceLink;
 import edu.uoc.som.orchestrus.utils.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -85,6 +86,12 @@ public class Config {
 				deploymentLocation = DEFAULT_DEPLOY_LOCATION;
 			if(new File(deploymentLocation).exists() == false) 
 				throw new IllegalArgumentException("Deployment location not found: '+"+clusteringSetupLocation+"'");
+			
+			
+			JSONObject display = (JSONObject) configJSon.get("display");
+			Artefact.D3_PRINT_LABEL_OPTION = Artefact.PrintLabelOptions.valueOf(display.getAsString("label.artefact").toUpperCase());
+			TraceLink.D3_PRINT_LABEL_OPTION = TraceLink.PrintLabelOptions.valueOf(display.getAsString("label.link").toUpperCase());
+
 			
 			
 			LOGGER.info(""

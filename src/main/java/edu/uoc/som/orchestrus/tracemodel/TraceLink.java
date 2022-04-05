@@ -14,8 +14,8 @@ public class TraceLink extends TypedLink implements Serializable{
 	
 	private static final long serialVersionUID = 2849795385809634439L;
 
-	public final static PrintLabelOptions D3_PRINT_LABEL_OPTION = PrintLabelOptions.NONE;
-	enum PrintLabelOptions {
+	public static PrintLabelOptions D3_PRINT_LABEL_OPTION = PrintLabelOptions.NONE;
+	public enum PrintLabelOptions {
 		FULL, NAME, ID, NONE;
 	}
 

@@ -17,8 +17,8 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	private static final long serialVersionUID = -671183405318232925L;
 
 	public final static Logger LOGGER = Logger.getLogger(Artefact.class.getName());
-	public final static PrintLabelOptions D3_PRINT_LABEL_OPTION = PrintLabelOptions.NAME;
-	enum PrintLabelOptions {
+	public static PrintLabelOptions D3_PRINT_LABEL_OPTION = PrintLabelOptions.NAME;
+	public enum PrintLabelOptions {
 		FULL, NAME, ID, NONE;
 	}
 	
