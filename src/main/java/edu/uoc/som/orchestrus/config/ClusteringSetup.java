@@ -100,7 +100,7 @@ public class ClusteringSetup {
 
 		clusterResults += "\"setup\": {" + "\"projectName\": \"" + Config.getInstance().getProjectName() + "\"" + "},";
 
-		File clusterSetupFile = new File(Config.getClusteringSetupLocation());
+		File clusterSetupFile = new File(Config.getInstance().getClusteringSetupLocation());
 		ClusteringSetup clusteringSetup = new ClusteringSetup(clusterSetupFile);
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
 			List<Trace> traceClusters = null;

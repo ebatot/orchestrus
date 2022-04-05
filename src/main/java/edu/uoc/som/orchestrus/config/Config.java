@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
-import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -36,12 +35,21 @@ public class Config {
 	List<String> javaSourceFolders;// = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
 	
 	File configurationFile;// = new File("src/main/resources/configuration-glossary.json");
+
+
+
+
+	private String deploymentLocation;
 	static String DEFAULT_CONFIGURATION_FILE = "src/main/resources/configuration-glossary.json";
+	static String DEFAULT_CLUSTERING_FILE = "src\\main\\resources\\clustering.json";
+	static String DEFAULT_DEPLOY_LOCATION = "meta\\d3viewer\\data\\";
 
 	public File getConfigurationFile() {
 		return configurationFile;
 	}
-	
+	public String getDeploymentLocation() {
+		return deploymentLocation;
+	}
 	private void loadConfiguration(String configurationFilePath) {
 		configurationFile = new File(configurationFilePath);
 		LOGGER.info("Loading configuration from '"+configurationFilePath+"'");
@@ -51,9 +59,9 @@ public class Config {
 		@SuppressWarnings("deprecation")
 		JSONParser parser = new JSONParser();
 		try {
-			JSONObject a = (JSONObject) parser.parse(new FileReader(configurationFile.getAbsoluteFile()));
+			JSONObject configJSon = (JSONObject) parser.parse(new FileReader(configurationFile.getAbsoluteFile()));
 			
-			JSONObject config = (JSONObject) a.get("config");
+			JSONObject config = (JSONObject) configJSon.get("config");
 			
 			projectURI = config.getAsString("projectURI");
 			projectFolder = config.getAsString("projectFolder");
@@ -62,12 +70,28 @@ public class Config {
 			projectDependencies = getProjectDependenciesFromConfigJSonObject(config);
 			javaSourceFolders = getProjectSourceFoldersFromConfigJSonObject(config);
 	
+			
+			JSONObject clustering = (JSONObject) configJSon.get("clustering");
+			clusteringSetupLocation = clustering.getAsString("file");
+			if(clusteringSetupLocation == null)
+				clusteringSetupLocation = DEFAULT_CLUSTERING_FILE;
+			
+			JSONObject deploy = (JSONObject) configJSon.get("deploy");
+			deploymentLocation = clustering.getAsString("location");
+			if(deploymentLocation == null)
+				deploymentLocation = DEFAULT_DEPLOY_LOCATION;
+			
+			
 			LOGGER.info(""
-					+ "\nproject name:   "+projectName
-					+ "\nproject URI:    "+projectURI
-					+ "\nproject folder: "+projectFolder
-					+ "\ndependencies:   "+projectDependencies
-					+ "\nsource folders: "+javaSourceFolders
+					+ "\n  project name:    "+projectName
+					+ "\n  project URI:     "+projectURI
+					+ "\n  project folder:  "+projectFolder
+					+ "\n  dependencies:    "+projectDependencies
+					+ "\n  source folders:  "+javaSourceFolders
+					+ "\n"
+					+ "\n  clustering file:     "+clusteringSetupLocation
+					+ "\n  deployment location: "+deploymentLocation
+					+ "\n"
 					);
 
 			
@@ -97,20 +121,6 @@ public class Config {
 		return  getStringListFromJSonOArray((JSONArray) config.get("sourceFolders"));
 	}
 	
-	/**************************+
-	 * 
-	 * 
-	 * 
-	 * DEPLOY OPTIONS !!!!!!!!!!!!
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-
 	/*
 	 * Hard coded config files (in project root folder)
 	 */
@@ -156,36 +166,24 @@ public class Config {
 	public static final double MATRIX_DEFAULT_THRESHOLD = 0.5;
 
 	static Config instance;
+
+
+	private String clusteringSetupLocation;
 	public static Config getInstance() {
 		if(instance == null)
 			instance = new Config();
 		return instance;
 	}
 	
-	ArtefactTypeFactory atFactory;
 	
-	HashMap<String, String> values = new HashMap<>();
 	/** Name -> Artefact */
 	HashMap<String, Artefact> artefacts = new HashMap<>();
 
 
 	
 	private Config() {
-		atFactory = ArtefactTypeFactory.getInstance();
-		
 		
 		loadConfiguration(DEFAULT_CONFIGURATION_FILE);
-		
-		values.put("projectRoot", projectFolder);
-		values.put("project", projectURI);
-		values.put("projectDependencies", projectDependencies.toString());
-		values.put("projectName", projectName);
-
-		
-		LOGGER.info(""
-				+ projectName +"\n"
-				+ "  - project     : " + projectURI + "\n"
-	  		  	+ "  - dependencies: "+ projectDependencies.toString());
 		
 		boolean check = checkFolderNames();
 		if(!check) {
@@ -248,7 +246,6 @@ public class Config {
 		for (String sf : contentFolders) 
 			res &= checkExistsAndDirectory(getProjectFullPath() + File.separator + sf);
 		
-		
 		return res;
 	}
 
@@ -262,9 +259,6 @@ public class Config {
 		return res;
 	}
 
-	public String getValue(String key) {
-		return values.get(key);
-	}
 	
 	public List<String> getContentFoldersName() {
 		return contentFolders;
@@ -452,8 +446,8 @@ public class Config {
 		return res + "}";
 	}
 
-	public static String getClusteringSetupLocation() {
-		return "src\\main\\resources\\clustering.json";
+	public String getClusteringSetupLocation() {
+		return clusteringSetupLocation;
 	}
 
 }

@@ -43,7 +43,6 @@ public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
 
 	
-	public static String DEPLOY_FOLDER = "meta\\d3viewer\\data\\";
 	
 //	public static void main(String[] args) {
 //		 printLOC();
@@ -51,7 +50,7 @@ public class Utils {
 //	}
 	
 	public static void storeD3Tracea(Trace t, boolean renderElements, boolean deploy) {
-		storeD3Tracea(t, renderElements, deploy, DEPLOY_FOLDER + "input_data.json");
+		storeD3Tracea(t, renderElements, deploy, Config.getInstance().getDeploymentLocation() + "input_data.json");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -78,7 +77,7 @@ public class Utils {
 	}
 	
 	public static void storeSetupJSon(Trace t, boolean deploy) {
-		storeSetupJSon(t, deploy, DEPLOY_FOLDER + "setup.json");
+		storeSetupJSon(t, deploy, Config.getInstance().getDeploymentLocation() + "setup.json");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -112,7 +111,7 @@ public class Utils {
 	}
 	
 	public static void storeMatrixTracea(Trace t, boolean deploy, double acceptanceThreshold) {
-		storeMatrixTracea(t, deploy, DEPLOY_FOLDER + "adjacencyMatrix.html", acceptanceThreshold);
+		storeMatrixTracea(t, deploy, Config.getInstance().getDeploymentLocation() + "adjacencyMatrix.html", acceptanceThreshold);
 	}
 	
 	@SuppressWarnings("deprecation")

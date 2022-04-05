@@ -5,5 +5,12 @@
         "projectURI":"com.cea.papyrus.referencemanagement",
         "depencencies" : [],
         "sourceFolders" : ["src-custom"]
+    },
+    "clustering" : {
+        "file": "src/main/resources/clustering-references.json"
+    },
+    "deploy" : {
+        "trace":"",
+        "frag":""
     }
 }

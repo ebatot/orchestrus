@@ -7,7 +7,7 @@
         "sourceFolders" : ["src-custom"]
     },
     "clustering" : {
-        "file": "src/main/resources/configuration-glossary.json"
+        "file": "src/main/resources/clustering-glossary.json"
     },
     "deploy" : {
         "trace":"",
