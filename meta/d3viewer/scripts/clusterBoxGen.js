@@ -169,7 +169,10 @@ function renderClusterList(json) {
 
             var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
 
-            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a>' + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a></li>"
+            jsonText += "<li>"
+                + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a>' 
+                + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a>"
+                + "</li>"
         }
         jsonText += '</ul>'
     }
