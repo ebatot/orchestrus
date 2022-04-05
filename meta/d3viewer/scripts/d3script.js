@@ -1079,9 +1079,11 @@ function loadCluster(clusterName, projectName, algorithm) {
 	
 
 
-	//TRYING catch artefact ids to use them 
-	//       to catch their respective nodes 
+	// catch artefact ids to use them 
+	//    to catch their respective nodes 
 	//       in d3 representations (#nID)
+	//          to exhibit artefacts and links of a cluster
+
 	
 	updateDisplayColors();
 	
@@ -1103,7 +1105,7 @@ function loadCluster(clusterName, projectName, algorithm) {
 		}
 	}
 
-
+	//Select D3 elements (nodes and edges) from collected IDs
 	var deselected = container.selectAll('.node').filter(function (d, i) {
 		return selectedArtefactsIDs.indexOf(d.id) <= -1;
 	});
@@ -1113,7 +1115,7 @@ function loadCluster(clusterName, projectName, algorithm) {
 		return selectedArtefactsIDs.indexOf(d.source_id) > -1 && selectedArtefactsIDs.indexOf(d.target_id) > -1;
 	});
 
-
+// Change opacity of selection 
 	resetOpacity()
 	deselected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
@@ -1124,6 +1126,7 @@ function loadCluster(clusterName, projectName, algorithm) {
 		addNodeToSelection(deselected[s])
 	}
 
+	//LOG
 	var numberAffected = (selectedArtefacts.length) 
 	log.text("Selected "+ numberAffected + " elements")
 }
