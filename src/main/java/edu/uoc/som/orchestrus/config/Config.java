@@ -77,7 +77,7 @@ public class Config {
 				clusteringSetupLocation = DEFAULT_CLUSTERING_FILE;
 			
 			JSONObject deploy = (JSONObject) configJSon.get("deploy");
-			deploymentLocation = clustering.getAsString("location");
+			deploymentLocation = deploy.getAsString("location");
 			if(deploymentLocation == null)
 				deploymentLocation = DEFAULT_DEPLOY_LOCATION;
 			
@@ -169,21 +169,36 @@ public class Config {
 
 
 	private String clusteringSetupLocation;
-	public static Config getInstance() {
+	public static Config getInstance(String configurationFilePath) {
 		if(instance == null)
-			instance = new Config();
+			instance = new Config(configurationFilePath);
 		return instance;
 	}
+	
+	public static Config getInstance() {
+		if(instance == null)
+			instance = new Config(DEFAULT_CONFIGURATION_FILE);
+		return instance;
+	}
+	
 	
 	
 	/** Name -> Artefact */
 	HashMap<String, Artefact> artefacts = new HashMap<>();
 
 
-	
 	private Config() {
+		this(DEFAULT_CONFIGURATION_FILE);
+	}
+	
+	
+	private Config(String configurationFilePath) {
+		this.configurationFile = new File(configurationFilePath);
 		
-		loadConfiguration(DEFAULT_CONFIGURATION_FILE);
+		if(!this.configurationFile.exists())
+			throw new IllegalArgumentException("Configuration file not found: '"+configurationFilePath+"'");
+		
+		loadConfiguration(configurationFile.getAbsolutePath());
 		
 		boolean check = checkFolderNames();
 		if(!check) {
