@@ -8,5 +8,11 @@
         "algorithm": "LabelPropagation",
         "maxIterations": "4",
         "minSizeCluster": "3"
+    },
+    {
+        "algorithm": "GirvenNewman",
+        "k": "2",
+        "minSizeCluster": "3"
     }
 ]
+

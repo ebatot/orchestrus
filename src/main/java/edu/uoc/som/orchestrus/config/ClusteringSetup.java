@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -21,6 +28,8 @@ import net.minidev.json.parser.ParseException;
 
 public class ClusteringSetup {
 	public final static Logger LOGGER = Logger.getLogger(ClusteringSetup.class.getName());
+
+	private static final long MAX_CLUSTERING_TIMEOUT = 1000; // ms
 
 	Map<String, ClusteringAlgo> algos = new HashMap<>();
 
@@ -113,24 +122,32 @@ public class ClusteringSetup {
 				traceClusters = tg.getKSpanClusters(Integer.parseInt((String) ca.parameters.get("k")));
 				break;
 			case "GirvenNewman":
-				traceClusters = tg.getGirvanNewmanClusters(Integer.parseInt((String) ca.parameters.get("k")));
+				try {
+					traceClusters = getGirvanNewmanClustersResult(tg, Integer.parseInt((String) ca.parameters.get("k")));
+				} catch (NumberFormatException | TimeoutException e) {
+					// traceClusters remains NULL, LOGGED below 
+				} 
 				break;
 			default:
 				throw new IllegalAccessError("Unrecognized algorithm name for clustering.");
 			}
-			
-			String clusterRes = printClusters(outputFolder.getAbsolutePath(), traceClusters, ca);
-			clusterResults += "\"" + ca.getParameterAsString("algorithm") + "\":" + clusterRes + ",";
-			String algo = ca.getParameterAsString("algorithm");
-			String fileName = algo + ".tracea.setup.json";
-			Utils.writeJSon(outputFolderPath + File.separator + fileName, clusterRes);
-			LOGGER.finer(algo + " stored in '" + outputFolderPath + File.separator + fileName + "'");
-			if (deployFolderPath != null) {
-				printClusters(deployFolderPath, traceClusters, ca);
-				Utils.writeJSon(deployFolderPath + File.separator + fileName, clusterRes);
-				LOGGER.finer(algo + " deployed in '" + deployFolderPath + File.separator + fileName + "'");
-			}
 
+			if (traceClusters != null) {// we passed the time out.
+				String clusterRes = printClusters(outputFolder.getAbsolutePath(), traceClusters, ca);
+				
+				String algo = ca.getParameterAsString("algorithm");
+				clusterResults += "\"" + algo + "\":" + clusterRes + ",";
+				String fileName = algo + ".tracea.setup.json";
+				Utils.writeJSon(outputFolderPath + File.separator + fileName, clusterRes);
+				LOGGER.finer(algo + " stored in '" + outputFolderPath + File.separator + fileName + "'");
+				if (deployFolderPath != null) {
+					printClusters(deployFolderPath, traceClusters, ca);
+					Utils.writeJSon(deployFolderPath + File.separator + fileName, clusterRes);
+					LOGGER.finer(algo + " deployed in '" + deployFolderPath + File.separator + fileName + "'");
+				}
+			} else {
+				LOGGER.warning(ca.getName() + " clustering algorithm timed out (" + MAX_CLUSTERING_TIMEOUT + ").");
+			}
 		}
 		if (clusterResults.endsWith(","))
 			clusterResults = clusterResults.substring(0, clusterResults.length() - 1);
@@ -140,6 +157,27 @@ public class ClusteringSetup {
 			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json", "{" + clusterResults + "}");
 			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering.tracea.json" + "'");
 		}
+	}
+	
+	static ExecutorService threadPool = Executors.newCachedThreadPool();
+	
+	public static List<Trace> getGirvanNewmanClustersResult(final TraceGraph tg, int k) throws TimeoutException {
+	    // should be a field, not a local variable
+
+	    // Java 8:
+	    Callable<List<Trace>> callable = () -> tg.getGirvanNewmanClusters(k);
+
+
+	    Future<List<Trace>> future = threadPool.submit(callable);
+	    try {
+	        // throws a TimeoutException after 1000 ms
+	        return future.get(MAX_CLUSTERING_TIMEOUT, TimeUnit.MILLISECONDS);
+	    } catch (ExecutionException e) {
+	        throw new RuntimeException(e.getCause());
+	    } catch (InterruptedException e) {
+	        Thread.currentThread().interrupt();
+	        throw new TimeoutException();
+	    }
 	}
 
 	private static File cleanFolder(String outputFolder) {
