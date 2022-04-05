@@ -231,7 +231,7 @@ public class ClusteringSetup {
 			clusters += "]" + "";
 			clusters += "},";
 			String filePath = clusterFolderPath + File.separator + tc.getName() + ".tracea.d3.json";
-			Utils.writeJSon(filePath, tc.renderD3JSon(false));
+			Utils.writeJSon(filePath, tc.renderD3JSon(Trace.PRINT_ELEMENTS));
 			LOGGER.finer(tc.getName() + " written in '" + filePath + "'");
 		}
 		if (clusters.endsWith(","))

@@ -1,20 +1,23 @@
 {
     "config": {
-        "projectName":"ReferenceML",
-        "projectFolder":"R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML",
-        "projectURI":"com.cea.papyrus.referencemanagement",
-        "depencencies" : [],
-        "sourceFolders" : ["src-custom"]
+        "project.name": "ReferenceML",
+        "project.folder": "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML",
+        "project.uri": "com.cea.papyrus.referencemanagement",
+        "depencencies": [],
+        "sourceFolders": [
+            "src-custom"
+        ]
     },
-    "clustering" : {
+    "clustering": {
         "file": "src/main/resources/clustering-references.json"
     },
-    "deploy" : {
+    "deploy": {
         "location": "meta\\d3viewer\\data\\reftes\\",
-        "frag":""
+        "frag": ""
     },
-    "display" : {
+    "display": {
         "label.artefact": "none",
-        "label.link": "none"
+        "label.link": "none",
+        "show.elements": "true"
     }
 }

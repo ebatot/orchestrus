@@ -18,6 +18,8 @@ public class Trace extends TracingElement {
 	private static final long serialVersionUID = -5048951060615549631L;
 
 	public final static Logger LOGGER = Logger.getLogger(Trace.class.getName());
+	
+	public static boolean PRINT_ELEMENTS = false;
 
 	HashSet<TraceLink> traceLinks = new HashSet<TraceLink>();
 	

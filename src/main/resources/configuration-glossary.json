@@ -1,8 +1,8 @@
 {
     "config": {
-        "projectName": "GlossaryML",
-        "projectFolder": "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML",
-        "projectURI": "com.cea.papyrus.glossary",
+        "project.name": "GlossaryML",
+        "project.folder": "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML",
+        "project.uri": "com.cea.papyrus.glossary",
         "dependencies": [
             "com.cea.papyrus.referencemanagement"
         ],
@@ -19,6 +19,7 @@
     },
     "display" : {
         "label.artefact": "none",
-        "label.link": "none"
+        "label.link": "none",
+        "show.elements": "true"
     }
 }
