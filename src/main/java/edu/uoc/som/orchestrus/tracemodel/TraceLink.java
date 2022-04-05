@@ -15,7 +15,7 @@ public class TraceLink extends TypedLink implements Serializable{
 	private static final long serialVersionUID = 2849795385809634439L;
 
 	private double confidence = 100;
-
+	private int numberOfOccurences = 1;
 	ArrayList<Artefact> sources = new ArrayList<>();
 	ArrayList<Artefact> targets = new ArrayList<>();
 
@@ -40,6 +40,18 @@ public class TraceLink extends TypedLink implements Serializable{
 	private static int counter = 0;
 	private static String newName() {
 		return "L" + counter++;
+	}
+	
+	public int getNumberOfOccurences() {
+		return numberOfOccurences;
+	}
+	
+	public void incrementNumberOfOccurences() {
+		numberOfOccurences++;
+	}
+
+	public void decrementNumberOfOccurences() {
+		numberOfOccurences--;
 	}
 
 	public ArrayList<Artefact> getSources() {
@@ -182,6 +194,9 @@ public class TraceLink extends TypedLink implements Serializable{
 
 	/**
 	 * ONLY MONO ENDED !! Only first source and first target considered ! WARNING !
+	 * 
+	 * Confidence is tweaked with the number of occurence found.
+	 * TODO Change "confidence" to "intensity"
 	 * @return
 	 */
 	public String getD3Json() {
@@ -192,7 +207,7 @@ public class TraceLink extends TypedLink implements Serializable{
 		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"group\": " + getType().getNumber() + ",";
-		res += "\"confidence\": " + confidence + ",";
+		res += "\"confidence\": " + numberOfOccurences /*confidence*/ + ",";
 		res += "\"energy\": 100";
 		return res + "}";
 	}

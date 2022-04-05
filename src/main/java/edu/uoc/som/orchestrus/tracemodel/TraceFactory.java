@@ -52,7 +52,7 @@ public class TraceFactory {
 
 			Artefact target = ArtefactFactory.getInstance().getArtefact(r);
 			if (target == null)
-				throw new IllegalAccessError("Should not get there. Artefact not recognized from ref: " + r.getHREF());
+				throw new IllegalAccessError("¡ DEV ! Should not get there. Artefact not recognized from ref: " + r.getHREF());
 
 			HashMap<Source, ArrayList<Reference>> sourcesToRef = StaticExplorer.getReferencesSourcesReversed();
 			for (Source sSource : sourcesToRef.keySet()) {
@@ -61,7 +61,7 @@ public class TraceFactory {
 					// l'ajouter au lien
 					Artefact a = ArtefactFactory.getInstance().getArtefact(new File(sSource.getPath()));
 
-					/// TODO What about xpath etc. -> for TraceLink types ??
+					/// TODO ElementResolution: What about xpath etc. -> for TraceLink types ??
 					LinkType lType = LinkType.getType(a, target);
 					TraceLink tl = new TraceLink(lType);
 
@@ -72,7 +72,20 @@ public class TraceFactory {
 					tl.addTarget(target);
 					LOGGER.finer("Link added:" + tl + " sources:" + tl.getSources().size() + " targets:"
 							+ tl.getTargets().size());
-					t.addTraceLink(tl);
+
+					boolean found = false;
+					TraceLink tlFound = null;
+					for (TraceLink tll : t.getTraceLinks()) {
+						if (tll.getSources().containsAll(tl.getSources())
+								&& tll.getTargets().containsAll(tl.getTargets())) {
+							found = true;
+							tlFound = tll;
+						}
+					}
+					if (!found)
+						t.addTraceLink(tl);
+					else
+						tlFound.incrementNumberOfOccurences();
 				}
 			}
 
