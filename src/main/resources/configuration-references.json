@@ -10,7 +10,7 @@
         "file": "src/main/resources/clustering-references.json"
     },
     "deploy" : {
-        "trace":"",
+        "location": "meta\\d3viewer\\data\\reftes\\",
         "frag":""
     }
 }

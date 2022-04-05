@@ -30,7 +30,8 @@ public class Orchestrus {
  * builds references from source files, 
  * then builds artefacts as sources and targets of these references.		
  */
-		Config config = Config.getInstance();
+//		Config config = Config.getInstance("src/main/resources/configuration-references.json");
+		Config config = Config.getInstance("src/main/resources/configuration-glossary.json");
 		StaticExplorer ppse = new StaticExplorer(config);
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 		Utils.storeDependencies_HC(interArtDependencies_JSON);
