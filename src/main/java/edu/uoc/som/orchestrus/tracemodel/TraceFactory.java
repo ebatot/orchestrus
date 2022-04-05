@@ -70,9 +70,7 @@ public class TraceFactory {
 					}
 					tl.addSource(a);
 					tl.addTarget(target);
-					LOGGER.finer("Link added:" + tl + " sources:" + tl.getSources().size() + " targets:"
-							+ tl.getTargets().size());
-
+					
 					boolean found = false;
 					TraceLink tlFound = null;
 					for (TraceLink tll : t.getTraceLinks()) {
@@ -82,15 +80,20 @@ public class TraceFactory {
 							tlFound = tll;
 						}
 					}
-					if (!found)
+					if (!found) {
 						t.addTraceLink(tl);
-					else
+						LOGGER.finer("Link added:" + tl + " sources:" + tl.getSources().size() + " targets:"
+								+ tl.getTargets().size());
+					} else {
 						tlFound.incrementNumberOfOccurences();
+						LOGGER.finer("Link alreday exists:" + tl + " increment number of occurences to "
+								+ tl.getNumberOfOccurences() + ".");
+					}
 				}
 			}
 
 		}
-		LOGGER.info(t.getTraceLinks().size() + " trace link added.");
+		LOGGER.info(t.getTraceLinks().size() + " trace links added.");
 		return t;
 	}
 
