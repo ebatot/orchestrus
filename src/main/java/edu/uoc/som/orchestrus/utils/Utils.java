@@ -379,13 +379,9 @@ public class Utils {
 	    return jsonMap;
 	}
 
-	public static void storeClustering(TraceGraph tg) {
-		storeClustering(tg, null);
-	}
-
-	public static void storeClustering(TraceGraph tg, String deployLocation) {
-		ClusteringSetup.storeClustering(tg, "data\\out\\" + Config.getInstance().getProjectName() + "\\clusters",
-				deployLocation + File.separator + Config.getInstance().getProjectName() + "\\clusters");
+	public static void storeAndDeployClustering(TraceGraph tg) {
+		ClusteringSetup.storeAndDeployClustering(tg, "data\\out\\" + Config.getInstance().getProjectName() + "\\clusters",
+				Config.getInstance().getDeploymentLocation() + File.separator + Config.getInstance().getProjectName() + "\\clusters");
 	}
 
 }

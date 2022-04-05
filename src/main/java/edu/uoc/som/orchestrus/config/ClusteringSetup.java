@@ -96,10 +96,10 @@ public class ClusteringSetup {
 	 * 
 	 * @param tg
 	 * @param outputFolderPath
-	 * @param deployFolderPath
+	 * @param deployFolderPath Can be null - ignored in such case
 	 * @throws IllegalAccessError
 	 */
-	public static void storeClustering(TraceGraph tg, String outputFolderPath, String deployFolderPath)
+	public static void storeAndDeployClustering(TraceGraph tg, String outputFolderPath, String deployFolderPath)
 			throws IllegalAccessError {
 		LOGGER.info("\n  output: " + outputFolderPath + "\n  deploy: " + deployFolderPath);
 		File outputFolder = cleanFolder(outputFolderPath);

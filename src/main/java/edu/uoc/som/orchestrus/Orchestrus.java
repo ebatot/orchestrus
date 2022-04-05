@@ -64,7 +64,7 @@ public class Orchestrus {
 		TraceGraph tg = new TraceGraph(tLinks);
 		
 		System.out.println("Clustering...");
-		Utils.storeClustering(tg, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\");
+		Utils.storeAndDeployClustering(tg);
 		
 		
 		System.out.println("Rendering...");
