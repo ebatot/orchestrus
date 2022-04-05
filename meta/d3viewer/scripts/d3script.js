@@ -42,7 +42,7 @@ var thresholdsMergeOperator;
 if(d3 == null)
 	showError("Could not load d3, check internet connection.");
 
-d3.json("data/thresholds.json", function(data) {
+d3.json("setup/thresholds.json", function(data) {
 	Object.keys(data.values).forEach(function (k) {
 		thresholdsMergeOperator = data.mergeOperator
 		thresholds[k] = data.values[k]
