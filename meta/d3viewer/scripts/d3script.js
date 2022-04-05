@@ -382,9 +382,11 @@ function resetOpacity() {
 	d3.selectAll('.edgepath').style('opacity', '1');
 }
 
-function transitionToOpaque(){
-	d3.selectAll('.node').transition().duration(4000).style('opacity', '1');
-	d3.selectAll('.edgepath').transition().duration(4000).style('opacity', '1');
+function transitionToOpaque(ms){
+	if(!ms)
+		ms = 4000
+	d3.selectAll('.node').transition().duration(ms).style('opacity', '1');
+	d3.selectAll('.edgepath').transition().duration(ms).style('opacity', '1');
  
 }
 
@@ -895,6 +897,8 @@ function addNodeToSelection(d) {
 	const index = nodeSelection.indexOf(d);
 	if (index > -1) {
 		nodeSelection.splice(index, 1);
+	} else {
+		nodeSelection.push(d)
 	}
 	updateVisualNodeSelection()
 }
@@ -1079,38 +1083,49 @@ function loadCluster(clusterName, projectName, algorithm) {
 	//       to catch their respective nodes 
 	//       in d3 representations (#nID)
 	
-
+	updateDisplayColors();
+	
 	selectedArtefacts = []
-	for(var c in jsonCluster.clusters) {
-		//console.log("c: "+c)
-		for(var a in jsonCluster.clusters[c].artefacts) {
-
-			//console.log(jsonCluster.clusters[c].artefacts[a].id)
-			artId = jsonCluster.clusters[c].artefacts[a].id
-			var nodeId = "#n"+artId;
-
-			console.log(nodeId) ; 
-
-				var x = d3.select(nodeId+".node"); //Use the artefact ID to get the node object
-
-				d3.select(nodeId+".node").style('fill', 'red');
-
-				
-				x.attr("background-color", "black")
-				//console.log(x)
+	selectedArtefactsIDs = []
+	for (var c in jsonCluster.clusters) {
+		
+		//console.log(jsonCluster.clusters[c].name)
+		var cname = jsonCluster.clusters[c].name;
+		if (clusterName == cname) {
+			console.log("c: " + c + ":  " + jsonCluster.clusters[c].artefacts.length)
+			for (var a in jsonCluster.clusters[c].artefacts) {
+				artId = jsonCluster.clusters[c].artefacts[a].id
+				var nodeId = "#n" + artId;
+				var x = d3.select(nodeId); //Use the artefact ID to get the node object
 				selectedArtefacts.push(x)
-				x.text("ca aussi ca passessssssssss"
-				+"ssssssssssssssssssssssssssssssssss"
-				+"ssssssssssssssssssssssssssssssssss"
-				+"ssssssssssssssssssssssssssssssssss"
-				+"ssssssssssssssssssssssssssssssssss"
-				)
-				addNodeToSelection(x)
+				selectedArtefactsIDs.push(artId)
 			}
-			
 		}
-		//console.log(selectedArtefacts)
 	}
+
+
+	var selected = container.selectAll('.node').filter(function (d, i) {
+		return selectedArtefactsIDs.indexOf(d.id) <= -1;
+	});
+
+
+	resetOpacity()
+	selected.style('opacity', '0.2');
+	container.selectAll('.edgepath').style('opacity', '0');
+	transitionToOpaque(2500)
+
+	for( var s in selected) {
+		addNodeToSelection(selected[s])
+	}
+
+	
+	
+	var numberAffected = (selectedArtefacts.length) 
+	log.text("Selected "+ numberAffected + " elements")
+
+	//console.log(nodeSelection)
+	//console.log(selectedArtefacts)
+}
 		
 	
 //window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()	

@@ -4,7 +4,6 @@
         "k": "5",
         "minSizeCluster": "3"
     },
-    
     {
         "algorithm": "LabelPropagation",
         "maxIterations": "4",

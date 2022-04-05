@@ -167,11 +167,9 @@ function renderClusterList(json) {
 /*"data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
 	//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()*/
 
-            var target = "#"
-            if(CLUSTER_REDIRECTION)
-                target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
+            var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
 
-            jsonText += "<li><a href='"+target+"' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a></li>'
+            jsonText += "<li><a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a>' + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a></li>"
         }
         jsonText += '</ul>'
     }
