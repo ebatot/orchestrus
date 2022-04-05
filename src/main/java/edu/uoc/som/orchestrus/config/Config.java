@@ -72,14 +72,19 @@ public class Config {
 	
 			
 			JSONObject clustering = (JSONObject) configJSon.get("clustering");
-			clusteringSetupLocation = clustering.getAsString("file");
+			clusteringSetupLocation = new File(clustering.getAsString("file"));
 			if(clusteringSetupLocation == null)
-				clusteringSetupLocation = DEFAULT_CLUSTERING_FILE;
+				clusteringSetupLocation = new File(DEFAULT_CLUSTERING_FILE);
+			if(clusteringSetupLocation.exists() == false) 
+				throw new IllegalArgumentException("Clustering file not found: '+"+clusteringSetupLocation+"'");
+			clusteringSetup = new ClusteringSetup(clusteringSetupLocation);
 			
 			JSONObject deploy = (JSONObject) configJSon.get("deploy");
 			deploymentLocation = deploy.getAsString("location");
 			if(deploymentLocation == null)
 				deploymentLocation = DEFAULT_DEPLOY_LOCATION;
+			if(new File(deploymentLocation).exists() == false) 
+				throw new IllegalArgumentException("Deployment location not found: '+"+clusteringSetupLocation+"'");
 			
 			
 			LOGGER.info(""
@@ -168,7 +173,8 @@ public class Config {
 	static Config instance;
 
 
-	private String clusteringSetupLocation;
+	private File clusteringSetupLocation;
+	
 	public static Config getInstance(String configurationFilePath) {
 		if(instance == null)
 			instance = new Config(configurationFilePath);
@@ -461,8 +467,16 @@ public class Config {
 		return res + "}";
 	}
 
-	public String getClusteringSetupLocation() {
+	public File getClusteringSetupLocation() {
 		return clusteringSetupLocation;
+	}
+	
+	ClusteringSetup clusteringSetup;
+	
+	public ClusteringSetup getClusteringSetup() {
+		if(clusteringSetup == null)
+			clusteringSetup = new ClusteringSetup(clusteringSetupLocation);
+		return clusteringSetup;
 	}
 
 }
