@@ -29,7 +29,7 @@ import net.minidev.json.parser.ParseException;
 public class ClusteringSetup {
 	public final static Logger LOGGER = Logger.getLogger(ClusteringSetup.class.getName());
 
-	private static final long MAX_CLUSTERING_TIMEOUT = 1000; // ms
+	private static final long DEFAULT_MAX_CLUSTERING_TIMEOUT = 1000; // ms
 
 	Map<String, ClusteringAlgo> algos = new HashMap<>();
 
@@ -109,8 +109,8 @@ public class ClusteringSetup {
 
 		clusterResults += "\"setup\": {" + "\"projectName\": \"" + Config.getInstance().getProjectName() + "\"" + "},";
 
-		File clusterSetupFile = new File(Config.getInstance().getClusteringSetupLocation());
-		ClusteringSetup clusteringSetup = new ClusteringSetup(clusterSetupFile);
+		//File clusterSetupFile = Config.getInstance().getClusteringSetupLocation();
+		ClusteringSetup clusteringSetup = Config.getInstance().getClusteringSetup();
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
 			List<Trace> traceClusters = null;
 			switch (ca.getName()) {
@@ -123,7 +123,7 @@ public class ClusteringSetup {
 				break;
 			case "GirvenNewman":
 				try {
-					traceClusters = getGirvanNewmanClustersResult(tg, Integer.parseInt((String) ca.parameters.get("k")));
+					traceClusters = getGirvanNewmanClustersResult(tg, ca);
 				} catch (NumberFormatException | TimeoutException e) {
 					// traceClusters remains NULL, LOGGED below 
 				} 
@@ -146,7 +146,7 @@ public class ClusteringSetup {
 					LOGGER.finer(algo + " deployed in '" + deployFolderPath + File.separator + fileName + "'");
 				}
 			} else {
-				LOGGER.warning(ca.getName() + " clustering algorithm timed out (" + MAX_CLUSTERING_TIMEOUT + ").");
+				LOGGER.warning(ca.getName() + " clustering algorithm timed out (" + ca.getParameterAsString("timeout") + "s).");
 			}
 		}
 		if (clusterResults.endsWith(","))
@@ -161,17 +161,17 @@ public class ClusteringSetup {
 	
 	static ExecutorService threadPool = Executors.newCachedThreadPool();
 	
-	public static List<Trace> getGirvanNewmanClustersResult(final TraceGraph tg, int k) throws TimeoutException {
+	public static List<Trace> getGirvanNewmanClustersResult(final TraceGraph tg, ClusteringAlgo ca) throws TimeoutException {
 	    // should be a field, not a local variable
 
 	    // Java 8:
-	    Callable<List<Trace>> callable = () -> tg.getGirvanNewmanClusters(k);
+	    Callable<List<Trace>> callable = () -> tg.getGirvanNewmanClusters(ca.getParameterAsInt("k"));
 
 
 	    Future<List<Trace>> future = threadPool.submit(callable);
 	    try {
 	        // throws a TimeoutException after 1000 ms
-	        return future.get(MAX_CLUSTERING_TIMEOUT, TimeUnit.MILLISECONDS);
+	        return future.get(ca.getParameterAsInt("timeout"), TimeUnit.SECONDS);
 	    } catch (ExecutionException e) {
 	        throw new RuntimeException(e.getCause());
 	    } catch (InterruptedException e) {
