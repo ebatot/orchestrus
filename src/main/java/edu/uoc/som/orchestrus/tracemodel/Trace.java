@@ -341,6 +341,11 @@ public class Trace extends TracingElement {
 			}
 		}
 		
+		String setup = "\"setup\": {"
+				+ "\"project\": \"" + Config.getInstance().getProjectName()+"\","
+				+ "\"trace\": \"" + getName()+"\""
+				+ "}";
+		
 		String links = "" ;
 		
 		//Link sizes attribution
@@ -365,6 +370,7 @@ public class Trace extends TracingElement {
 		nodes = "\"nodes\": [" + nodes + "]";
 		
 		return "{\n"+
+					setup+",\n"+
 					links+",\n"+
 					nodes+"\n"+
 				"}";

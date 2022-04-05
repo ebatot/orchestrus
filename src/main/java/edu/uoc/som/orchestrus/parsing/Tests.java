@@ -55,9 +55,9 @@ public class Tests {
 		TraceFactory tFactory = TraceFactory.getInstance();
 
 		// TODONE Connect fragments.
-		tFactory.fragmentSourcesAndFolders();
+		TraceFactory.fragmentSourcesAndFolders();
 		// TODONE connect artefacts with links.
-		Trace t = tFactory.buildReferencesTrace();
+		Trace t = TraceFactory.buildReferencesTrace();
 		
 		
 

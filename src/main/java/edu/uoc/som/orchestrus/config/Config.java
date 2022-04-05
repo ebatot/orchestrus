@@ -1,10 +1,11 @@
 package edu.uoc.som.orchestrus.config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,10 @@ import java.util.logging.Logger;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.utils.Utils;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 public class Config {
 	public final static Logger LOGGER = Logger.getLogger(Config.class.getName());
@@ -24,13 +29,73 @@ public class Config {
 //	String projectName = "GlossaryML";
 //	List<String> projectDependencies = Arrays.asList("com.cea.papyrus.referencemanagement");
 
-	String projectRoot = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
-	String project = "com.cea.papyrus.referencemanagement";
-	String projectName = "ReferencesML";
-	List<String> projectDependencies = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
-	List<String> javaSourceFolders = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
+	String projectFolder;// = "R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML";
+	String projectURI;// = "com.cea.papyrus.referencemanagement";
+	String projectName;// = "ReferencesML";
+	List<String> projectDependencies;// = Collections.emptyList();//Arrays.asList("com.cea.papyrus.referencemanagement");
+	List<String> javaSourceFolders;// = Arrays.asList("src-custom");//Arrays.asList("com.cea.papyrus.referencemanagement");
 	
+	File configurationFile;// = new File("src/main/resources/configuration-glossary.json");
+	static String DEFAULT_CONFIGURATION_FILE = "src/main/resources/configuration-glossary.json";
+
+	public File getConfigurationFile() {
+		return configurationFile;
+	}
 	
+	private void loadConfiguration(String configurationFilePath) {
+		configurationFile = new File(configurationFilePath);
+		LOGGER.info("Loading configuration from '"+configurationFilePath+"'");
+		if(!configurationFile.exists())
+			throw new IllegalArgumentException("Configuration file not found: '"+configurationFilePath+"'");
+		
+		@SuppressWarnings("deprecation")
+		JSONParser parser = new JSONParser();
+		try {
+			JSONObject a = (JSONObject) parser.parse(new FileReader(configurationFile.getAbsoluteFile()));
+			
+			JSONObject config = (JSONObject) a.get("config");
+			
+			projectURI = config.getAsString("projectURI");
+			projectFolder = config.getAsString("projectFolder");
+			projectName = config.getAsString("projectName");
+			
+			projectDependencies = getProjectDependenciesFromConfigJSonObject(config);
+			javaSourceFolders = getProjectSourceFoldersFromConfigJSonObject(config);
+	
+			LOGGER.info(""
+					+ "\nproject name:   "+projectName
+					+ "\nproject URI:    "+projectURI
+					+ "\nproject folder: "+projectFolder
+					+ "\ndependencies:   "+projectDependencies
+					+ "\nsource folders: "+javaSourceFolders
+					);
+
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private List<String> getStringListFromJSonOArray(JSONArray jsonArr) {
+//		JSONArray arrDependencies = (JSONArray) config.get("dependencies");
+		List<String> res = new ArrayList<>(jsonArr.size());
+		for (Object o : jsonArr) {
+			String d = (String) o;
+			//String dep = d.toJSONString();
+			res.add(d);
+		}
+		return res;
+	}
+
+	private List<String> getProjectDependenciesFromConfigJSonObject(JSONObject config) {
+		return  getStringListFromJSonOArray((JSONArray) config.get("dependencies"));
+	}
+	
+	private List<String> getProjectSourceFoldersFromConfigJSonObject(JSONObject config) {
+		return  getStringListFromJSonOArray((JSONArray) config.get("sourceFolders"));
+	}
 	
 	/**************************+
 	 * 
@@ -108,15 +173,18 @@ public class Config {
 	private Config() {
 		atFactory = ArtefactTypeFactory.getInstance();
 		
-		values.put("projectRoot", projectRoot);
-		values.put("project", project);
+		
+		loadConfiguration(DEFAULT_CONFIGURATION_FILE);
+		
+		values.put("projectRoot", projectFolder);
+		values.put("project", projectURI);
 		values.put("projectDependencies", projectDependencies.toString());
 		values.put("projectName", projectName);
 
 		
 		LOGGER.info(""
 				+ projectName +"\n"
-				+ "  - project     : " + project + "\n"
+				+ "  - project     : " + projectURI + "\n"
 	  		  	+ "  - dependencies: "+ projectDependencies.toString());
 		
 		boolean check = checkFolderNames();
@@ -135,23 +203,7 @@ public class Config {
 		} else {
 			LOGGER.fine("Config files correct.");
 		}
-		/*
-		 * Artefacts typing
-		 */
-//		initArtefactTypes();
 
-		/*
-		 * Link typing
-		 */
-//		initLinkTypes();
-		
-		/*
-		 * Fragments bags: elements (nodes), labels (leafs)
-		 */
-//		HashMap<String, Artefact> xmlElts = new HashMap<>();
-//		HashMap<String, Artefact> labels = new HashMap<>();
-		
-		
 		
 		
 		// Fragments instanciation 
@@ -233,11 +285,11 @@ public class Config {
 	
 	
 	public String getProjectRoot() {
-		return projectRoot;
+		return projectFolder;
 	}
 	
 	public String getProject() {
-		return project;
+		return projectURI;
 	}
 	
 	public String getProjectName() {
@@ -245,7 +297,7 @@ public class Config {
 	}
 	
 	public String getProjectFullPath() {
-		return projectRoot+ File.separator+ project;
+		return projectFolder+ File.separator+ projectURI;
 	}
 	
 	public List<String> getProjectDependencies() {
@@ -255,7 +307,7 @@ public class Config {
 	public List<String> getProjectDependenciesFull() {
 		List<String> res = new ArrayList<>(projectDependencies.size());
 		for (String pd : projectDependencies) {
-			res.add(projectRoot + File.separator + pd);
+			res.add(projectFolder + File.separator + pd);
 		}
 		return res;
 	}
@@ -288,14 +340,14 @@ public class Config {
 	}
 	
 	public File getConfigFile(String fileName) {
-		File f = new File(projectRoot + File.separator+project+File.separator + fileName);
+		File f = new File(projectFolder + File.separator+projectURI+File.separator + fileName);
 		return f;
 	}
 
 	public Set<File> getJavaCustomFolders() {
 		HashSet<File> res = new HashSet<>(javaSourceFolders.size());
 		for (String folder : javaSourceFolders) {
-			File f = new File(projectRoot + File.separator+project+File.separator + folder);
+			File f = new File(projectFolder + File.separator+projectURI+File.separator + folder);
 			res.add(f);
 		}
 		return res;

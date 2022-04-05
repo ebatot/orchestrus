@@ -120,7 +120,7 @@ public class StaticExplorer {
 
 		
 		// Added extra context references
-		String contextFileName = config.getProjectName() + ".ctx";
+		String contextFileName = Config.getInstance().getProjectName() + ".ctx";
 		String ctxValues = getJSonForCtxValues();
 		JsonElement elCtx = parser.parse(ctxValues);
 		JsonObject obEditorProperties = obRoot.getAsJsonObject(Config.getPropertiesEditorConfiguration());

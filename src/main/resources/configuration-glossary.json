@@ -1,0 +1,17 @@
+{
+    "config": {
+        "projectName":"GlossaryML",
+        "projectFolder":"R:\\Coding\\Git\\orchestrus\\data\\GlossaryML-ReferenceML",
+        "projectURI":"com.cea.papyrus.glossary",
+        "dependencies" : ["com.cea.papyrus.referencemanagement"],
+        "sourceFolders" : ["src-custom"]
+    },
+    "clustering" : {
+        "file": "src/main/resources/configuration-glossary.json"
+    },
+    "deploy" : {
+        "trace":"",
+        "frag":""
+    }
+    
+}
