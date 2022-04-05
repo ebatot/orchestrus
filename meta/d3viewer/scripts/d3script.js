@@ -1111,7 +1111,6 @@ function loadCluster(clusterName, projectName, algorithm) {
 	});
 
 	var deselectedEdges = container.selectAll('.edgepath').filter(function (d, i) {
-		console.log("source: "+d.source_id)
 		return selectedArtefactsIDs.indexOf(d.source_id) > -1 && selectedArtefactsIDs.indexOf(d.target_id) > -1;
 	});
 

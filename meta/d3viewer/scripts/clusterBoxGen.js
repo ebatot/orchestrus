@@ -164,11 +164,7 @@ function renderClusterList(json) {
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
 
-/*"data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
-	//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()*/
-
             var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
-
             jsonText += "<li>"
                 + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a>' 
                 + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a>"
