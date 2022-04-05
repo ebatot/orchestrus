@@ -72,7 +72,8 @@ html {
   
 
   #clusterBox {
-      overflow-y: scroll;
+      overflow-x: hidden;
+      overflow-y: auto;
   }
 
  #clusterBoxHeader, #sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader {

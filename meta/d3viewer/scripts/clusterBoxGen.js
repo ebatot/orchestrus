@@ -43,7 +43,7 @@ var gotoParent = function () {
     }
     showFocus();
 }
-//var onLoad = function() {
+
     
     
     var dataPath = "data/GlossaryML/clusters/clustering.tracea.json"
@@ -164,9 +164,11 @@ function renderClusterList(json) {
         for(var cluster in json[algorithm].clusters) {
             clusterName = json[algorithm].clusters[cluster].name;
 
+            nArtefacts = json[algorithm].clusters[cluster].artefacts.length;
+
             var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
             jsonText += "<li>"
-                + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'</a>' 
+                + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'&nbsp; ('+nArtefacts+')</a>' 
                 + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a>"
                 + "</li>"
         }
