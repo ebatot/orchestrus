@@ -14,6 +14,12 @@ public class TraceLink extends TypedLink implements Serializable{
 	
 	private static final long serialVersionUID = 2849795385809634439L;
 
+	public final static PrintLabelOptions D3_PRINT_LABEL_OPTION = PrintLabelOptions.NONE;
+	enum PrintLabelOptions {
+		FULL, NAME, ID, NONE;
+	}
+
+	
 	private double confidence = 100;
 	private int numberOfOccurences = 1;
 	ArrayList<Artefact> sources = new ArrayList<>();
@@ -200,9 +206,31 @@ public class TraceLink extends TypedLink implements Serializable{
 	 * @return
 	 */
 	public String getD3Json() {
-	String res = "{";
+		String label = "";
+		switch (D3_PRINT_LABEL_OPTION) {
+		case FULL:
+			label += "\"label\": \"" +  getID() + " - " + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+			break;
+		case ID:
+			label += "\"label\": \"" + getID() + "\",";
+			break;
+
+		case NONE:
+			label += "\"label\": \"\",";
+			break;
+
+		case NAME:
+		default:
+			label += "\"label\": \"" + edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getName()) + "\",";
+			break;
+		}
+		
+		
+		
+		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + confidence + "\",";
+		res += label;	
 		res += "\"source_id\": \"" + sources.get(0).getID() + "\",";
 		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";

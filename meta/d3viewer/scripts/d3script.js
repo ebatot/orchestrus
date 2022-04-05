@@ -291,7 +291,7 @@ function updateDrawing() {
 		.attr("startOffset", "50%")
 		.style("text-anchor", "middle")
 		.style("pointer-events", "none")
-		//.text(function (d) {return d.name + '\n' +d.confidence;}); //linklabel labellink
+		.text(function (d) {return d.label;}); //linklabel labellink
 
 	node = gNodes.selectAll(".node")
 		.data(filteredNodes(nodes))
@@ -928,7 +928,7 @@ forceProperties = {
     },
     charge: {
         enabled: true,
-        strength: -200,
+        strength: -100,
         distanceMin: 20,
         distanceMax: 100
     },
@@ -1059,7 +1059,7 @@ function showError(datapath) {
 
 
 function loadCluster(clusterName, projectName, algorithm) {
-    console.log(clusterName + " to load...")
+    //console.log(clusterName + " to load...")
 	var urlClusterD3 = "data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json";
 	var urlClusterData = "data/"+projectName+"/clusters/"+algorithm+".tracea.setup.json";
 
@@ -1090,11 +1090,8 @@ function loadCluster(clusterName, projectName, algorithm) {
 	selectedArtefacts = []
 	selectedArtefactsIDs = []
 	for (var c in jsonCluster.clusters) {
-		
-		//console.log(jsonCluster.clusters[c].name)
-		var cname = jsonCluster.clusters[c].name;
+				var cname = jsonCluster.clusters[c].name;
 		if (clusterName == cname) {
-			console.log("c: " + c + ":  " + jsonCluster.clusters[c].artefacts.length)
 			for (var a in jsonCluster.clusters[c].artefacts) {
 				artId = jsonCluster.clusters[c].artefacts[a].id
 				var nodeId = "#n" + artId;
