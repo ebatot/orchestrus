@@ -56,7 +56,7 @@ public class Orchestrus {
 		Trace tLinks = TraceFactory.buildReferencesTrace();
 		Utils.storeD3Tracea(tLinks, Trace.PRINT_ELEMENTS, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
 		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
-		//Utils.storeMatrixTracea(t, false, 4/21);
+		Utils.storeMatrixTracea(tLinks, true, 0);
 		Utils.storeSetupJSon(tLinks, true);
 		
 		

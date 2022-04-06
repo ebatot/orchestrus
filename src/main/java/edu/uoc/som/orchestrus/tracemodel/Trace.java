@@ -83,7 +83,7 @@ public class Trace extends TracingElement {
 	public void computeLinksSize(boolean normalize) {
 		computeArtefactsOrdered();
 		computeArtefactsIndex();
-		computeAdgacencyMatrix();
+		computeAdgacencyMatrixForWeightedLinks();
 		
 		if(normalize) {
 			normalizeAdjacencymatrix();
@@ -115,7 +115,7 @@ public class Trace extends TracingElement {
 		}
 	}
 	
-	private void computeAdgacencyMatrix() {
+	private void computeAdgacencyMatrixForMultipleUniqueLinks() {
 		Artefact[] arts = (Artefact[]) artefactsOrdered.toArray(new Artefact[artefactsOrdered.size()]);
 		adjacencyMatrix = new double[arts.length][arts.length];
 		for (TraceLink tl : traceLinks) {
@@ -131,6 +131,23 @@ public class Trace extends TracingElement {
 			}
 		}
 	}
+	
+	private void computeAdgacencyMatrixForWeightedLinks() {
+		Artefact[] arts = (Artefact[]) artefactsOrdered.toArray(new Artefact[artefactsOrdered.size()]);
+		adjacencyMatrix = new double[arts.length][arts.length];
+		
+		for (int i = 0; i < arts.length; i++) {
+			for (int j = 0; j < arts.length; j++) {
+				for (TraceLink tl : traceLinks) {
+					if(tl.getSources().contains(arts[j]) && tl.getTargets().contains(arts[i])) 
+						adjacencyMatrix[i][j] = tl.getNumberOfOccurences();
+					if(tl.getSources().contains(arts[i]) && tl.getTargets().contains(arts[j])) 
+						adjacencyMatrix[i][j] = tl.getNumberOfOccurences();
+				}
+			}
+		}
+	}
+
 	
 	private void assignLinksSize() {
 		setTraceConfidence(0);
@@ -264,16 +281,17 @@ public class Trace extends TracingElement {
 
 				double color = 200 - (value * 200);
 				res2 += "\t\t<td class=\"linkCell\" ";
+				if(i==++j) 
+					res2 += "style=\"background-color:rgb(100,100,100); \"";
+				
 				if (value > 0)
 					if(linksIn.isEmpty())
 						res2 += "style=\"background-color:rgb(" + color + ",250,250); \"";
 					else 
 						res2 += "style=\"background-color:rgb(250," + color + ",250); \"";
-				if(i==++j) {
-					res2 += "style=\"background-color:rgb(100,100,100); \"";
-				}
 				res2 += ">";
 				res2 += linksIn.size() + " / " + linksOut.size();
+				
 				res2 += "</td>\n";
 			}
 			res2 += "\t</tr>\n";
@@ -315,6 +333,12 @@ public class Trace extends TracingElement {
 		return  HEADER + table + "\n\t</div>\n</body>" ;
 	}
 
+	/**
+	 * Keep artefacts with strength superior to threshold.<br/>
+	 * Threshold to zero if no compression.
+	 * @param threshold
+	 * @return
+	 */
 	private List<Artefact> compressedArtefacts(double threshold) {
 		List<Artefact> res = new ArrayList<>();
 		for (Artefact a : artefactsOrdered) {
@@ -348,6 +372,14 @@ public class Trace extends TracingElement {
 				+ "\"trace\": \"" + getName()+"\""
 				+ "}";
 		
+//		}
+//		String tracesToRoot = "";
+//		for (Artefact a : rootArtefacts) {
+//			tracesToRoot += "\""+a.getID()+"\",\n";
+//		}
+//		if(!tracesToRoot.isBlank())
+//			tracesToRoot = tracesToRoot.substring(0, tracesToRoot.length()-2);
+
 		String links = "" ;
 		
 		//Link sizes attribution
@@ -373,6 +405,7 @@ public class Trace extends TracingElement {
 		
 		return "{\n"+
 					setup+",\n"+
+//					tracesToRoot+",\n"+
 					links+",\n"+
 					nodes+"\n"+
 				"}";
