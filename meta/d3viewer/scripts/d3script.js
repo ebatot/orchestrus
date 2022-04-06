@@ -16,6 +16,8 @@
 var log = d3.select("body").select("center").append("label").style('color', '#900').attr("id", "logger")
 .text("Logger");
 
+var ANIMATIONS_TIMEOUT_DURATION = 2500
+
 
 var showImages = false
 var SORT_LEGEND = true
@@ -384,7 +386,7 @@ function resetOpacity() {
 
 function transitionToOpaque(ms){
 	if(!ms)
-		ms = 4000
+		ms = ANIMATIONS_TIMEOUT_DURATION
 	d3.selectAll('.node').transition().duration(ms).style('opacity', '1');
 	d3.selectAll('.edgepath').transition().duration(ms).style('opacity', '1');
  
@@ -1054,10 +1056,6 @@ function showError(datapath) {
 	d3.select("button").remove();
 }
 
-//data = Object.assign(d3.csvParse(await FileAttachment("cars-2.csv").text(), ({Name: name, Miles_per_Gallon: x, Horsepower: y}) => ({name, x: +x, y: +y})), {x: "Miles per Gallon", y: "Horsepower"})
-
-
-
 function loadCluster(clusterName, projectName, algorithm) {
     //console.log(clusterName + " to load...")
 	var urlClusterD3 = "data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json";
@@ -1090,8 +1088,15 @@ function loadCluster(clusterName, projectName, algorithm) {
 	selectedArtefacts = []
 	selectedArtefactsIDs = []
 	for (var c in jsonCluster.clusters) {
-				var cname = jsonCluster.clusters[c].name;
+		var cname = jsonCluster.clusters[c].name;
+		
+		
 		if (clusterName == cname) {
+			// Put selection into bold and timeout back to normal
+			d3.selectAll(".clusterName").style("font-weight", "normal");
+			d3.select("#cluster"+cname).style("font-weight", "bold");
+			d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1.5).style("font-weight", "normal");
+
 			for (var a in jsonCluster.clusters[c].artefacts) {
 				artId = jsonCluster.clusters[c].artefacts[a].id
 				var nodeId = "#n" + artId;
@@ -1117,6 +1122,8 @@ function loadCluster(clusterName, projectName, algorithm) {
 	container.selectAll('.edgepath').style('opacity', '0');
 	deselectedEdges.style('opacity', '1');
 	transitionToOpaque()
+
+	
 
 	for( var s in deselected) {
 		addNodeToSelection(deselected[s])

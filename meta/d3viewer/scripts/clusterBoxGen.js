@@ -1,4 +1,5 @@
 CLUSTER_REDIRECTION = false;
+ANIMATIONS_TIMEOUT_DURATION = 2500;
 
 var selected;
 var showFocus = function () {
@@ -153,8 +154,8 @@ function renderClusterList(json) {
     var keys = [];
     var objIsArray = Array.isArray(json); // check if [..] array. Otherwise, it is an ordinary {..} object
     jsonText = '<ul> GlossaryML';
-    jsonText += "<li> <a href='index.html'>Trace links</a><li>"
-    jsonText +=  "<li><a href='index.html?imf=data/input_data.json'>Fragmentation</a></li>"
+    jsonText += "<li><a id='traceLinksName' href='index.html' onClick='selectTraceLinksInClusterBox()'>Trace links</a><li>"
+    jsonText +=  "<li><a id='traceFragName' href='index.html?imf=data/input_data.json' onClick='selectTraceFragInClusterBox()'>Fragmentation</a></li>"
     jsonText +=  "</ul>"
     for (var algorithm in json) {
         // KSpan, Label, Newman...
@@ -167,7 +168,7 @@ function renderClusterList(json) {
             nArtefacts = json[algorithm].clusters[cluster].artefacts.length;
 
             var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
-            jsonText += "<li>"
+            jsonText += "<li id=\"cluster"+clusterName+"\" class=\"clusterName\">"
                 + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'&nbsp; ('+nArtefacts+')</a>' 
                 + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a>"
                 + "</li>"
