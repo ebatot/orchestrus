@@ -340,6 +340,8 @@ public class Trace extends TracingElement {
 	 * @return
 	 */
 	private List<Artefact> compressedArtefacts(double threshold) {
+		if(threshold == 0)
+			return artefactsOrdered;
 		List<Artefact> res = new ArrayList<>();
 		for (Artefact a : artefactsOrdered) {
 			boolean keep = false;
