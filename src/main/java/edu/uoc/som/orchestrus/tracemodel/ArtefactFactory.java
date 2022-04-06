@@ -605,14 +605,24 @@ public class ArtefactFactory {
 	public static List<Artefact> subsetsArtefactsByType(ArtefactType type) {
 		return getArtefacts().values().stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
 	}
+	public static List<Artefact> subsetsArtefactsByType(Collection<Artefact> artefacts, ArtefactType type) {
+		return artefacts.stream().filter(a -> a.isOfType(type)).collect(Collectors.toList());
+	}
 
 	public static List<Artefact> subsetsArtefactsByTypeName(String typeName) {
 		return getArtefacts().values().stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
 	}
+	public static List<Artefact> subsetsArtefactsByTypeName(Collection<Artefact> artefacts, String typeName) {
+		return artefacts.stream().filter(a -> a.isOfType(typeName)).collect(Collectors.toList());
+	}
 
 	public static List<Artefact> subsetsArtefactsByProtocol(Protocol p) {
 		return getArtefacts().values().stream().filter(a -> a.getProtocol() == p).collect(Collectors.toList());
+	}	
+	public static List<Artefact> subsetsArtefactsByProtocol(Collection<Artefact> artefacts, Protocol p) {
+		return artefacts.stream().filter(a -> a.getProtocol() == p).collect(Collectors.toList());
 	}
+
 
 	/**
 	 * Wrong behavior - wrong start, ensues duplicate entries (descendants present

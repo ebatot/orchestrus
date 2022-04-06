@@ -115,6 +115,7 @@ public class Trace extends TracingElement {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void computeAdgacencyMatrixForMultipleUniqueLinks() {
 		Artefact[] arts = (Artefact[]) artefactsOrdered.toArray(new Artefact[artefactsOrdered.size()]);
 		adjacencyMatrix = new double[arts.length][arts.length];
@@ -374,20 +375,10 @@ public class Trace extends TracingElement {
 				+ "\"trace\": \"" + getName()+"\""
 				+ "}";
 		
-//		}
-//		String tracesToRoot = "";
-//		for (Artefact a : rootArtefacts) {
-//			tracesToRoot += "\""+a.getID()+"\",\n";
-//		}
-//		if(!tracesToRoot.isBlank())
-//			tracesToRoot = tracesToRoot.substring(0, tracesToRoot.length()-2);
-
-		String links = "" ;
-		
 		//Link sizes attribution
 		computeLinksSize(false);
 		
-		
+		String links = "" ;
 		for (TraceLink tl : getTraceLinks()) 
 				if(showElements || (!showElements && !tl.touchElementOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)))
 					links += tl.getD3Json()+",\n";

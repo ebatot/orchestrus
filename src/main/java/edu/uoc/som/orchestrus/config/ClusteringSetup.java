@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import edu.uoc.som.orchestrus.graph.TraceGraph;
+import edu.uoc.som.orchestrus.graph.TraceGraph.Cluster;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.utils.Utils;
@@ -112,7 +113,7 @@ public class ClusteringSetup {
 		//File clusterSetupFile = Config.getInstance().getClusteringSetupLocation();
 		ClusteringSetup clusteringSetup = Config.getInstance().getClusteringSetup();
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
-			List<Trace> traceClusters = null;
+			List<Cluster> traceClusters = null;
 			switch (ca.getName()) {
 			case "LabelPropagation":
 				traceClusters = tg
@@ -161,14 +162,14 @@ public class ClusteringSetup {
 	
 	static ExecutorService threadPool = Executors.newCachedThreadPool();
 	
-	public static List<Trace> getGirvanNewmanClustersResult(final TraceGraph tg, ClusteringAlgo ca) throws TimeoutException {
+	public static List<Cluster> getGirvanNewmanClustersResult(final TraceGraph tg, ClusteringAlgo ca) throws TimeoutException {
 	    // should be a field, not a local variable
 
 	    // Java 8:
-	    Callable<List<Trace>> callable = () -> tg.getGirvanNewmanClusters(ca.getParameterAsInt("k"));
+	    Callable<List<Cluster>> callable = () -> tg.getGirvanNewmanClusters(ca.getParameterAsInt("k"));
 
 
-	    Future<List<Trace>> future = threadPool.submit(callable);
+	    Future<List<Cluster>> future = threadPool.submit(callable);
 	    try {
 	        // throws a TimeoutException after 1000 ms
 	        return future.get(ca.getParameterAsInt("timeout"), TimeUnit.SECONDS);
@@ -197,10 +198,10 @@ public class ClusteringSetup {
 	 * @param traceClusters
 	 * @param minSizeCluster
 	 */
-	private static String printClusters(String clusterFolderPath, List<Trace> traceClusters, ClusteringAlgo ca) {
+	private static String printClusters(String clusterFolderPath, List<Cluster> traceClusters, ClusteringAlgo ca) {
 		int sClusters = traceClusters.size();
 		int minSizeCluster = ca.getParameterAsInt("minSizeCluster");
-		traceClusters = traceClusters.stream().filter(t -> t.getTraceLinks().size() >= minSizeCluster)
+		traceClusters = traceClusters.stream().filter(t -> t.getTrace().getTraceLinks().size() >= minSizeCluster)
 				.collect(Collectors.toList());
 		;
 		LOGGER.finer(sClusters + " clusters. " + traceClusters.size() + " with size >= " + minSizeCluster);
@@ -216,23 +217,35 @@ public class ClusteringSetup {
 
 		String clusters = "\"clusters\": [";
 
-		for (Trace tc : traceClusters) {
-			clusters += "{ \"name\": \"" + tc.getName() + "\", ";
+		for (Cluster tc : traceClusters) {
+			clusters += "{ \"name\": \"" + tc.getTrace().getName() + "\", ";
 			clusters += "  ";
 			clusters += "\"size\":\"" + tc.getArtefacts().size() + "\",";
+			
 			clusters += "\"artefacts\": [ ";
-			for (Artefact a : tc.getArtefacts())
+			for (Artefact a : tc.getArtefacts()) {
 				clusters += "{"
 						+ "\"name\":" + "\"" + a.getName() + "\"," 
 						+ "\"id\":" + "\"" + a.getID() + "\"," 
-						+ "\"location\":" + " \""+ Utils.cleanUrlsForJson(a.getLocation()) + "\"},";
+						+ "\"location\":" + " \""+ Utils.cleanUrlsForJson(a.getLocation()) + "\",";
+			
+//			clusters += "\"traceToRoot\": { ";
+//			for (Artefact t : tc.getTracesToRoots().keySet()) {
+				clusters += "\"tracetoroot\": " + tc.getTracesToRoots().get(a).stream()
+						.map(at -> "\"" + at.getID() + "\"").collect(Collectors.joining(",", "[", "]")) ;
+//			}
+				clusters += "},";
+			}
 			if (clusters.endsWith(","))
 				clusters = clusters.substring(0, clusters.length() - 1);
-			clusters += "]" + "";
+			clusters += "]";
+		
+			
 			clusters += "},";
-			String filePath = clusterFolderPath + File.separator + tc.getName() + ".tracea.d3.json";
-			Utils.writeJSon(filePath, tc.renderD3JSon(Trace.PRINT_ELEMENTS));
-			LOGGER.finer(tc.getName() + " written in '" + filePath + "'");
+
+			String filePath = clusterFolderPath + File.separator + tc.getTrace().getName() + ".tracea.d3.json";
+			Utils.writeJSon(filePath, tc.getTrace().renderD3JSon(Trace.PRINT_ELEMENTS));
+			LOGGER.finer(tc.getTrace().getName() + " written in '" + filePath + "'");
 		}
 		if (clusters.endsWith(","))
 			clusters = clusters.substring(0, clusters.length() - 1);

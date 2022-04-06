@@ -61,7 +61,7 @@ public class Orchestrus {
 		
 		
 		System.out.println("Graph work...");
-		TraceGraph tg = new TraceGraph(tLinks);
+		TraceGraph tg = new TraceGraph(tLinks, tFrag);
 		
 		System.out.println("Clustering...");
 		Utils.storeAndDeployClustering(tg);
