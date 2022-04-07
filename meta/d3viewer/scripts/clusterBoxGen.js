@@ -68,20 +68,15 @@ var gotoParent = function () {
     })(); 
 
     var projectName = jsonContent.setup.projectName;
-    //document.getElementById('title').innerHTML = "Clusters (" + projectName + ")";
-    //document.getElementById('projectname').innerHTML =  projectName ;
     
     // 2. render tree structure -- you may make number of sections dynamic insteaf of fixed
     clustertree = document.getElementById('clustertree');
     var json = JSON.parse(JSON.stringify(jsonContent));
     clustertree.innerHTML = renderClusterList(json);
  
-    // 3. selection box, default on the first item on the tree
-    selected = document.getElementById('clustertree').firstElementChild.getElementsByTagName("li")[0];
-    showFocus();
 
     // 4. click handlers
-    var treeListItems = document.querySelectorAll('ul.clustertree a');
+    /*var treeListItems = document.querySelectorAll('ul.clustertree a');
     for (var i = 0; i < treeListItems.length; i++) {
         // click handler
         treeListItems[i].addEventListener('click', function(e) {
@@ -100,10 +95,10 @@ var gotoParent = function () {
                 classList.add('open');
             }
         });
-    }
+    }*/
 
     // 5. keyboard handler
-    document.addEventListener('keydown', function(e) {
+    /*document.addEventListener('keydown', function(e) {
             switch (e.key) {
                 case "Enter": case " ":
                     actExpandCollapse();
@@ -123,10 +118,8 @@ var gotoParent = function () {
                     gotoParent();
                     break;
             }
-        });
+        });*/
 
-
-// };
 
 var expandAll = function() {
     var allListItems = document.querySelectorAll('ul.clustertree li');
@@ -151,14 +144,12 @@ var actExpandCollapse = function() {
 };
 
 function renderClusterList(json) {
-    var keys = [];
-    var objIsArray = Array.isArray(json); // check if [..] array. Otherwise, it is an ordinary {..} object
-    jsonText = '<ul> GlossaryML';
-    jsonText += "<li><a id='traceLinksName' href='index.html' onClick='selectTraceLinksInClusterBox()'>Trace links</a><li>"
-    jsonText +=  "<li><a id='traceFragName' href='index.html?imf=data/input_data.json' onClick='selectTraceFragInClusterBox()'>Fragmentation</a></li>"
-    jsonText +=  "</ul>"
+    jsonText =  '<ul> GlossaryML';
+    jsonText +=  "<li><a id='traceLinksName' href='index.html' >Trace links</a><li>"
+    jsonText +=  "<li><a id='traceFragName' href='index.html?imf=data/input_data.json'>Fragmentation</a></li>"
+    jsonText += "</ul>"
     for (var algorithm in json) {
-        // KSpan, Label, Newman...
+        // KSpan, Label, Newman... Or setup ! Avoid setup.
         if(algorithm === 'setup')
             continue;
         jsonText += '<ul>' + algorithm//.setup.algorithm;
@@ -169,7 +160,7 @@ function renderClusterList(json) {
 
             var target = "index.html?imf=data/"+projectName+"/clusters/"+clusterName+".tracea.d3.json"
             jsonText += "<li id=\"cluster"+clusterName+"\" class=\"clusterName\">"
-                + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'&nbsp; ('+nArtefacts+')</a>' 
+                + "<a href='#' onClick='loadCluster(\""+clusterName+"\", \""+projectName+"\", \""+algorithm+"\")'>"+clusterName+'&nbsp;('+nArtefacts+')</a>' 
                 + "<a href='"+target+"' target='_blank' rel='noopener noreferrer'>&nbsp;⇗</a>"
                 + "</li>"
         }
