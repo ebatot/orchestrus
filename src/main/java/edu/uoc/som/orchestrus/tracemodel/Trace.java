@@ -18,8 +18,10 @@ public class Trace extends TracingElement {
 	private static final long serialVersionUID = -5048951060615549631L;
 
 	public final static Logger LOGGER = Logger.getLogger(Trace.class.getName());
+
 	
 	public static boolean PRINT_ELEMENTS = false;
+	public static double ADJACENCY_THRESHOLD = 0;
 
 	HashSet<TraceLink> traceLinks = new HashSet<TraceLink>();
 	
@@ -244,94 +246,103 @@ public class Trace extends TracingElement {
 		return renderHTMLMatrix(Config.MATRIX_DEFAULT_THRESHOLD);
 	}
 	
+	private String RENDER_ADJ_MATRIX = null;
+	private double RENDER_ACCEPTANCE_THRESHOLD = 00;
 	public String renderHTMLMatrix(double acceptanceThreshold) {
 		LOGGER.info("Printing "+getName() + " ("+Config.getInstance().getProjectName()+") matrix adjacency in HTML.");
 		
-		computeLinksSize(true);
-
-		List<Artefact> compressedArtefacts = compressedArtefacts(acceptanceThreshold);
-		boolean printEltIDs = false;
-		String res = "\t<tr>\n\t\t<th>nº</th><th></th>\n";
-		int iA = 0;
-		for (iA = 0; iA < compressedArtefacts.size(); iA++) 
-			res += "\t\t<th class=\"linkName\">"+iA/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
-		res += "\t</tr>\n";
-		
-		String res2 = "";
-		int i = 0;
-		for (Artefact a : compressedArtefacts) {
-			res2 += "\t<tr>\n";
-			res2 += "\t\t<td >"+ i++ + "</td>";
-			res2 += "\t\t<td class=\"linkName\" width=\"150px\">" 
-					+ edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)
-					+ (printEltIDs ? "<br/>" + a.getID() : "") + "</td>\n";
-			int j = 0;
-			for (Artefact a2 : compressedArtefacts) {
-				double value = adjacencyMatrix[artefactsIndex.get(a)][artefactsIndex.get(a2)];
-				
-				Set<TraceLink> linksIn = new HashSet<>();
-				Set<TraceLink> linksOut = new HashSet<>();
-				for (TraceLink tl : a2.getSourceOf()) {
-					if(tl.getTargets().contains(a))
-						linksOut.add(tl);
+		if(RENDER_ADJ_MATRIX == null || acceptanceThreshold != RENDER_ACCEPTANCE_THRESHOLD) {
+			RENDER_ACCEPTANCE_THRESHOLD = acceptanceThreshold;
+			
+			computeLinksSize(true);
+	
+			List<Artefact> compressedArtefacts = compressedArtefacts(acceptanceThreshold);
+			boolean printEltIDs = false;
+			String res = "\t<tr>\n\t\t<th>nº</th><th></th>\n";
+			int iA = 0;
+			for (iA = 0; iA < compressedArtefacts.size(); iA++) 
+				res += "\t\t<th class=\"linkName\">"+iA/*+edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)+(printEltIDs?"<br/>"+a.getID():"")*/+"</th>\n";
+			res += "\t</tr>\n";
+			
+			String res2 = "";
+			int i = 0;
+			for (Artefact a : compressedArtefacts) {
+				res2 += "\t<tr>\n";
+				res2 += "\t\t<td >"+ i++ + "</td>";
+				res2 += "\t\t<td class=\"linkName\" width=\"150px\">" 
+						+ edu.uoc.som.orchestrus.utils.Utils.limitStringSize(a.getName(), 20)
+						+ (printEltIDs ? "<br/>" + a.getID() : "") + "</td>\n";
+				int j = 0;
+				for (Artefact a2 : compressedArtefacts) {
+					double value = adjacencyMatrix[artefactsIndex.get(a)][artefactsIndex.get(a2)];
+					
+					Set<TraceLink> linksIn = new HashSet<>();
+					Set<TraceLink> linksOut = new HashSet<>();
+					for (TraceLink tl : a2.getSourceOf()) {
+						if(tl.getTargets().contains(a))
+							linksOut.add(tl);
+					}
+					for (TraceLink tl : a2.getTargetOf()) {
+						if(tl.getSources().contains(a))
+							linksIn.add(tl);
+					}
+	
+					double color = 200 - (value * 200);
+					res2 += "\t\t<td class=\"linkCell\" ";
+					if(i==++j) 
+						res2 += "style=\"background-color:rgb(100,100,100); \"";
+					
+					if (value > 0)
+						if(linksIn.isEmpty())
+							res2 += "style=\"background-color:rgb(" + color + ",250,250); \"";
+						else 
+							res2 += "style=\"background-color:rgb(250," + color + ",250); \"";
+					res2 += ">";
+					res2 += linksIn.size() + " / " + linksOut.size();
+					
+					res2 += "</td>\n";
 				}
-				for (TraceLink tl : a2.getTargetOf()) {
-					if(tl.getSources().contains(a))
-						linksIn.add(tl);
-				}
-
-				double color = 200 - (value * 200);
-				res2 += "\t\t<td class=\"linkCell\" ";
-				if(i==++j) 
-					res2 += "style=\"background-color:rgb(100,100,100); \"";
-				
-				if (value > 0)
-					if(linksIn.isEmpty())
-						res2 += "style=\"background-color:rgb(" + color + ",250,250); \"";
-					else 
-						res2 += "style=\"background-color:rgb(250," + color + ",250); \"";
-				res2 += ">";
-				res2 += linksIn.size() + " / " + linksOut.size();
-				
-				res2 += "</td>\n";
+				res2 += "\t</tr>\n";
 			}
-			res2 += "\t</tr>\n";
+			
+			res2 += "\n";
+			String table = "<table border=1 style=\"border-collapse: collapse;\">\n" + res + res2 + "</table>";
+			String HEADER  = "<html>\r\n"
+					+ "<head>\r\n"
+					+ "<style>\r\n"
+					+ "table {\r\n"
+					+ "  width: 100%;\r\n"
+					+ "  border: 1px solid black;\r\n"
+					+ "  border-collapse: collapse;\r\n"
+					+ "}\r\n"
+					+ "th {\r\n"
+					+ "  background-color: #04AA6D;\r\n"
+					+ "  color: white;\r\n"
+					+ "}\r\n"
+					+ "tr { width:100px; }\r\n"
+					+ "tr:hover {background-color: yellow;}\r\n"
+					+ "tr:nth-child(even) {background-color: #f2f2f2;}\r\n"
+					+ ".linkName{\r\n"
+					+ "  font-family: verdana;\r\n"
+					+ "  font-size: 15px;\r\n"
+					+ "  font-style: bold;\r\n"
+					+ "}\r\n"
+					+ "td {  "
+					+ "  width:30px; "
+					+ "  background-color:rgb(250,250,250);"
+					+ " }"
+					+ ".linkCell { border: none;}"
+					+ "\r\n"
+					+ "</style>\r\n"
+					+ "</head>\r\n"
+					+ "<body>\n"
+					+ "<h1>Trace matrix</h1>\n"
+					+ "<p>Adjacency threshold: "+Trace.ADJACENCY_THRESHOLD+"</p>"
+					+ "\t<div style=\"overflow-x:auto;\">\n";
+			RENDER_ADJ_MATRIX =  HEADER + table + "\n\t</div>\n</body></html>" ;
 		}
+		return RENDER_ADJ_MATRIX;
 		
-		res2 += "\n";
-		String table = "<table border=1 style=\"border-collapse: collapse;\">\n" + res + res2 + "</table>";
-		String HEADER  = "<html>\r\n"
-				+ "<head>\r\n"
-				+ "<style>\r\n"
-				+ "table {\r\n"
-				+ "  width: 100%;\r\n"
-				+ "  border: 1px solid black;\r\n"
-				+ "  border-collapse: collapse;\r\n"
-				+ "}\r\n"
-				+ "th {\r\n"
-				+ "  background-color: #04AA6D;\r\n"
-				+ "  color: white;\r\n"
-				+ "}\r\n"
-				+ "tr { width:100px; }\r\n"
-				+ "tr:hover {background-color: yellow;}\r\n"
-				+ "tr:nth-child(even) {background-color: #f2f2f2;}\r\n"
-				+ ".linkName{\r\n"
-				+ "  font-family: verdana;\r\n"
-				+ "  font-size: 15px;\r\n"
-				+ "  font-style: bold;\r\n"
-				+ "}\r\n"
-				+ "td {  "
-				+ "  width:30px; "
-				+ "  background-color:rgb(250,250,250);"
-				+ " }"
-				+ ".linkCell { border: none;}"
-				+ "\r\n"
-				+ "</style>\r\n"
-				+ "</head>\r\n"
-				+ "<body>\n"
-				+ "<h1>Trace matrix</h1>\n"
-				+ "\t<div style=\"overflow-x:auto;\">\n";
-		return  HEADER + table + "\n\t</div>\n</body>" ;
 	}
 
 	/**

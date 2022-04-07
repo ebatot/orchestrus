@@ -49,8 +49,11 @@ public class Utils {
 //		 System.exit(1);
 //	}
 	
-	public static void storeD3Tracea(Trace t, boolean renderElements, boolean deploy) {
-		storeD3Tracea(t, renderElements, deploy, Config.getInstance().getDeploymentLocation() + "input_data.json");
+	public static void storeD3Tracea(Trace t, boolean deploy) {
+		storeD3Tracea(t, Trace.PRINT_ELEMENTS, deploy, 
+				Config.getInstance().getDeploymentLocation() + File.separator + 
+				Config.getInstance().getProjectName()+"\\"+
+				Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.d3.json");
 	}
 
 	@SuppressWarnings("deprecation")
@@ -76,13 +79,17 @@ public class Utils {
 		LOGGER.fine(""+log);
 	}
 	
-	public static void storeSetupJSon(Trace t, boolean deploy) {
-		storeSetupJSon(t, deploy, Config.getInstance().getDeploymentLocation() + "setup.json");
+	public static void storeFullTraceJSon(Trace t, boolean deploy) {
+		storeFullTraceJSon(t, deploy, Config.getInstance().getDeploymentLocation() + File.separator 
+				+ Config.getInstance().getProjectName()+File.separator+Config.getInstance().getProjectName()+".tracea.json");
+		
+		storeFullTraceJSon(t, deploy, Config.getInstance().getDeploymentLocation() + File.separator 
+				+ "tracing.tracea.json");
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void storeSetupJSon(Trace t, boolean deploy, String deployLocationPath) {
-		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+"\\"+Config.getInstance().getProjectName()+"_"+t.getName()+".tracea.setup.json");
+	public static void storeFullTraceJSon(Trace t, boolean deploy, String deployLocationPath) {
+		File f = new File("data\\out\\"+Config.getInstance().getProjectName()+File.separator+Config.getInstance().getProjectName()+".tracea.json");
 		
 		
 		String setup = Config.renderSetupJSon();
@@ -90,10 +97,10 @@ public class Utils {
 		String identification = t.renderIdentificationJSon();
 //		String analysis = t.renderAnalysisJSon();
 		
-		String d3trace = "{"+ setup +"," + artefacts+ "," +identification+ /*","+analysis +*/"}";
+		String fulltrace = "{"+ setup +"," + artefacts+ "," +identification+ /*","+analysis +*/"}";
 		String log = "";
 		try {
-			FileUtils.write(f, d3trace);
+			FileUtils.write(f, fulltrace);
 			log += ("\n - Setup for '"+t.getName()+"' ("+Config.getInstance().getProjectName()+") stored as JSON in '"+f.getAbsolutePath()+"'");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -101,7 +108,7 @@ public class Utils {
 		if(deploy) {
 			f = new File(deployLocationPath);
 			try {
-				FileUtils.write(f, d3trace);
+				FileUtils.write(f, fulltrace);
 				log += ("\n - Setup '"+t.getName()+"' ("+Config.getInstance().getProjectName()+") deployed as JSON in '"+f.getAbsolutePath()+"'");
 			} catch (IOException e) {
 				e.printStackTrace();

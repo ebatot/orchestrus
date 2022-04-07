@@ -20,10 +20,12 @@
     "display" : {
         "label.artefact": "none",
         "label.link": "none",
-        "show.elements": "true",
+        "show.elements": "false",
         "size.nodes.min": "10",
         "size.nodes.max": "100",
         "size.links.min": "10",
-        "size.links.max": "50"
+        "size.links.max": "50",
+
+        "matrix.adjacency.threshold": "0.0"
     }
 }

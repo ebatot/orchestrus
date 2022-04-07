@@ -44,21 +44,25 @@ public class Orchestrus {
 		TraceFactory.fragmentSourcesAndFolders();
 		LOGGER.info(ArtefactFactory.getArtefacts().size()+ " artefacts found.");
 		
-		Trace tFrag = TraceFactory.buildFragmentationTrace();
-		Utils.storeD3Tracea(tFrag, Trace.PRINT_ELEMENTS, true);
-		Utils.storeD3Tracea(tFrag, Trace.PRINT_ELEMENTS, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data_wth_elements.json");
-		
 		// TODO resolve IDs from target file.
 //		ppse.resolveElementIDs();
 		// TODO Decompose artefacts with XPath patterns.
-
-
-		Trace tLinks = TraceFactory.buildReferencesTrace();
-		Utils.storeD3Tracea(tLinks, Trace.PRINT_ELEMENTS, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
-		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
-		Utils.storeMatrixTracea(tLinks, true, 0);
-		Utils.storeSetupJSon(tLinks, true);
 		
+		// Store and deploy fragmentation
+		Trace tFrag = TraceFactory.buildFragmentationTrace();
+		Utils.storeD3Tracea(tFrag, true);
+		Utils.storeD3Tracea(tFrag, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data.json");
+		Utils.storeD3Tracea(tFrag, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data_wth_elements.json");
+
+		// Store and deploy tracelinks
+		Trace tLinks = TraceFactory.buildReferencesTrace();
+		Utils.storeD3Tracea(tLinks, true);
+		Utils.storeD3Tracea(tLinks, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
+		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
+		
+		//Store and deploy setup and adjacency matrix
+		Utils.storeMatrixTracea(tLinks, true, Trace.ADJACENCY_THRESHOLD);
+		Utils.storeFullTraceJSon(tLinks, true);
 		
 		System.out.println("Graph work...");
 		TraceGraph tg = new TraceGraph(tLinks, tFrag);
@@ -69,8 +73,8 @@ public class Orchestrus {
 		
 		System.out.println("Rendering...");
 		//tg.detectCycles();
-		ShowGraph show = new ShowGraph(tg);
-		show.createAndShowGui();
+//		ShowGraph show = new ShowGraph(tg);
+//		show.createAndShowGui();
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
 		

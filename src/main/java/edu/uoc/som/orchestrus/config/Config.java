@@ -93,7 +93,7 @@ public class Config {
 			Artefact.D3_PRINT_LABEL_OPTION = Artefact.PrintLabelOptions.valueOf(display.getAsString("label.artefact").toUpperCase());
 			TraceLink.D3_PRINT_LABEL_OPTION = TraceLink.PrintLabelOptions.valueOf(display.getAsString("label.link").toUpperCase());
 			Trace.PRINT_ELEMENTS = display.getAsString("show.elements").toLowerCase().equals("true");
-
+			Trace.ADJACENCY_THRESHOLD = Double.parseDouble(display.getAsString("matrix.adjacency.threshold"));
 			
 			
 			LOGGER.info(""
@@ -460,22 +460,41 @@ public class Config {
 		return res;
 	}
 
+	private static String RENDER_JSON = null;
 	public static String renderSetupJSon() {
-		String res = "\"setup\" : {" +
-				"\"projectName\": \""+getInstance().getProjectName()+"\","+
-				"\"projectFolder\": \""+"\","+
-				"\"projectURI\": \""+"\"";
-		
-		String resDep = "";
-		for (String d : getInstance().getProjectDependencies()) 
-			resDep += "\""+Utils.cleanUrlsForJson(d)+"\",\n" ;
-		if(!resDep.isBlank())
-			resDep = resDep.substring(0, resDep.length()-2);
-		resDep = ",\"dependencies\": [" + resDep + "]";
-		
-		res += resDep;
-		
-		return res + "}";
+		if(RENDER_JSON == null) {
+			
+			String res = "\"setup\" : {" +
+					"\"project.name\": \""+getInstance().getProjectName()+"\","+
+					"\"project.folder\": \""+getInstance().getProjectFullPath()+"\","+
+					"\"project.uri\": \""+getInstance().projectURI+"\"";
+			@SuppressWarnings("deprecation")
+			JSONParser parser = new JSONParser();
+			try {
+				JSONObject configJSon = (JSONObject) parser.parse(new FileReader(getInstance().getConfigurationFile().getAbsoluteFile()));
+				res = "\"setup\" : " + configJSon.toJSONString();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+
+//			String resDep = "";
+//			for (String d : getInstance().getProjectDependencies())
+//				resDep += "\"" + Utils.cleanUrlsForJson(d) + "\",\n";
+//			if (!resDep.isBlank())
+//				resDep = resDep.substring(0, resDep.length() - 2);
+//			resDep = ",\"dependencies\": [" + resDep + "]";
+//
+//			res += resDep;
+
+			RENDER_JSON = res + "";
+		}
+		return RENDER_JSON;
 	}
 
 	public File getClusteringSetupLocation() {
