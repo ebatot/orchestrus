@@ -21,74 +21,44 @@ var log = d3.select("body").select("center").append("label").style('color', '#90
 .text("Logger");
 
 
-/// INPUT MODEL FILE 
+/// URL arguments 
 var dataPath = "data/input_trace_data.json"
 if (getUrlVars()['imf'] != null)
 	dataPath = getUrlVars()['imf'];
 
+var colorSchemeCategory = "schemeCategory20"
+if ( getUrlVars()['colorScheme'] != null )
+	colorSchemeCategory = getUrlVars()['colorScheme'];
 
-var FORCE_ANCESTRY_TRACE = false;
+var nColorSlice = 4;
+if ( getUrlVars()['nc'] != null )
+	nColorSlice = getUrlVars()['nc'];
+var colorNodes = getColorSlices(nColorSlice);
 
-checkFatOption()
-
-function checkFatOption() {
-	if (getUrlVars()['fat'] != null) {//force ascendency trace
-		forceAncestryTrace(getUrlVars()['fat'].indexOf("t") == 0);
-	}
-
-	if (dataPath.indexOf("Frag") >= 0 ||
-		dataPath.indexOf("data/input_data.json") >= 0 ||
-		dataPath.indexOf("data/input_data_wth_elements.json") >= 0) {
-		forceAncestryTrace(true);
-	}
-
-	if (getUrlVars()['fat'] != null && getUrlVars()['fat'].indexOf("f") == 0) {
-		forceAncestryTrace(false);
-	}
-}
-
-function toggleAncestryTrace() {
-	forceAncestryTrace(!FORCE_ANCESTRY_TRACE);
-}
-
-function forceAncestryTrace(b) {
-	FORCE_ANCESTRY_TRACE = b;
-	if(FORCE_ANCESTRY_TRACE) {
-		d3.select("#fatOn") .attr("class", "selected")
-		d3.select("#fatOff").attr("class", "unselected")
-	} else {
-		d3.select("#fatOn") .attr("class", "unselected")
-		d3.select("#fatOff").attr("class", "selected")
-	}
-}
-
-d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("font-weight", "bold")
-d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("color", "DarkBlue")
-
+var lColorSlice = 4;
+if ( getUrlVars()['lc'] != null )
+	lColorSlice = getUrlVars()['lc'];
+var colorLinks = getColorSlices(lColorSlice);
 
 var ANIMATIONS_TIMEOUT_DURATION = 10000
-var SORT_LEGEND = true
-var NODES_SIZE = [20, 60];
-var EDGES_SIZE = [10, 30];
+if (getUrlVars()['atd'] != null)
+	ANIMATIONS_TIMEOUT_DURATION = getUrlVars()['atd'];
 
-var moving = true;
-
-var MIN = "MIN",
- 	MAX = "MAX",
-	OR  = "OR",
-	AND = "AND",
-	OFF = "OFF"
+var FORCE_ANCESTRY_TRACE = false;
+checkFatOption()
 
 thresholds = [] ;
 thresholdsCheckboxesValues = []
 var thresholdsMergeOperator;
-d3.json("setup/thresholds.json", function(data) {
-	Object.keys(data.values).forEach(function (k) {
-		thresholdsMergeOperator = data.mergeOperator
-		thresholds[k] = data.values[k]
-		thresholdsCheckboxesValues[k] = "on"
-	})
-});
+var MIN = "MIN",
+	MAX = "MAX",
+	OR = "OR",
+	AND = "AND",
+	OFF = "OFF"
+loadThresHolds()
+
+
+
 
 // Ornament adjacency thresholds sliders
 sliderBox = d3.select('#sliderBox')
@@ -98,11 +68,25 @@ dragBox(document.getElementById('searchBox'))
 dragBox(document.getElementById('clusterBox'))
 
 
-
 var svg =    d3.select("svg"),
     width =  +svg.attr("width"),
-    height = +svg.attr("height"),
-	graph,
+    height = +svg.attr("height");
+var container = svg.append('g');
+var gLines = container.append('g').attr("id", "lines");
+var gNodes = container.append('g').attr("id", "nodes");
+
+// Call zoom for svg container.
+svg.call(d3.zoom().on('zoom', zoomed));
+svg.on('click', function(d, i) {
+	stopMoving();
+});
+
+// force simulator
+var simulation = this.force = d3.forceSimulation();
+
+
+
+var	graph,
 	links,
 	node,
 	edgelabels,
@@ -111,22 +95,16 @@ var svg =    d3.select("svg"),
 	legendNamesNodes, nGroups,
 	legendNamesLinks, lGroups,
 	linkedByIndex;
-var container = svg.append('g');
 
-var gLines = container.append('g').attr("id", "lines");
-var gNodes = container.append('g').attr("id", "nodes");
+var SORT_LEGEND = true
+var NODES_SIZE = [20, 60];
+var EDGES_SIZE = [10, 30];
 
-svg.on('click', function(d, i) {
-	stopMoving();
-});
-
+var moving = true;
+	
+	
 
 ////////////// COLORING NODES AND LINKS   ///////////
-
-var colorSchemeCategory = "schemeCategory20"
-if ( getUrlVars()['colorScheme'] != null )
-	colorSchemeCategory = getUrlVars()['colorScheme'];
-
 function getColorSlices(colorSlice) {
 	if(typeof d3[colorSchemeCategory] !== 'undefined')
 		return d3.scaleOrdinal(d3[colorSchemeCategory].slice(colorSlice))
@@ -142,16 +120,6 @@ function getColorSlices(colorSlice) {
 			return d3.scaleOrdinal(d3.schemeCategory20.slice(colorSlice))
 	}
 }
-
-var nColorSlice = 4;
-if ( getUrlVars()['nc'] != null )
-	nColorSlice = getUrlVars()['nc'];
-var colorNodes = getColorSlices(nColorSlice);
-
-var lColorSlice = 4;
-if ( getUrlVars()['lc'] != null )
-	lColorSlice = getUrlVars()['lc'];
-var colorLinks = getColorSlices(lColorSlice);
 
 function setColorLinks(linkColorSLice){
 	colorLinks = getColorSlices(linkColorSLice);
@@ -176,42 +144,12 @@ function  getConfidenceLinearScale(nodes, min, max) {
 		.range([min,max]);
 }
 
-// Call zoom for svg container.
-svg.call(d3.zoom().on('zoom', zoomed));
-
-// force simulator
-var simulation = this.force = d3.forceSimulation();
-
-
-
-
-/*//////////////       Arc edges preprocesses
-function addIntermediatePointInLinks(links, nodes) {
-	links.forEach(function(link) {
-		var s = link.source = nodeById.get(link.source),
-			t = link.target = nodeById.get(link.target),
-			i = {"size":0}; // intermediate node SIZE is compulsory.
-		nodes.push(i);
-		links.push({source: s, target: i}, {source: i, target: t});
-		bilinks.push([s, i, t]);
-	  });
-}
-
-function positionLink(d) {
-	return "M" + d['s'].x + "," + d[0].y
-		 + "S" + d['t'].x + "," + d[1].y
-		 + " " + d['i'].x + "," + d[2].y;
-}
-*/
-
 function neighboring(a, b) {
 	return linkedByIndex[a.index + ',' + b.index];
 }
 
 
-
-
-var nodeById, bilinks
+var nodeById
 d3.json(dataPath, function(error, _graph) {
 	if (error) {
 		showError(dataPath);
@@ -222,7 +160,6 @@ d3.json(dataPath, function(error, _graph) {
 	links = graph.links;
 	nodes = graph.nodes;
 	addChildren(nodes)
-	bilinks = [];
 	
 	nodeById = d3.map(nodes, function(d) { return d.id; }),
 	//addIntermediatePointInLinks(links, nodes) // For curved paths arcs
@@ -256,9 +193,6 @@ d3.json(dataPath, function(error, _graph) {
 	})
 
 	addlegend(legendNamesNodes, legendNamesLinks)
-
-	if(showImages)
-		addIconsToLegend()
 
 /***  Simulation update  ***/
 	initializeSimulation(nodes, links);
@@ -949,7 +883,7 @@ forceProperties = {
     },
     collide: {
         enabled: true,
-        strength: .04,
+        strength: .25,
         iterations: 2,
         radius: 50
     },
@@ -1158,6 +1092,75 @@ function emphasizeClusterName(cname) {
 	d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1).style("color", "black");
 }
 
+///////////////// Force ancestry trace visualization /////////////////
+function checkFatOption() {
+	if (getUrlVars()['fat'] != null) {//force ascendency trace
+		forceAncestryTrace(getUrlVars()['fat'].indexOf("t") == 0);
+	}
+
+	if (dataPath.indexOf("Frag") >= 0 ||
+		dataPath.indexOf("data/input_data.json") >= 0 ||
+		dataPath.indexOf("data/input_data_wth_elements.json") >= 0) {
+		forceAncestryTrace(true);
+	}
+
+	if (getUrlVars()['fat'] != null && getUrlVars()['fat'].indexOf("f") == 0) {
+		forceAncestryTrace(false);
+	}
+	updateTraceNameSelection();
+}
+
+function toggleAncestryTrace() {
+	forceAncestryTrace(!FORCE_ANCESTRY_TRACE);
+}
+
+function forceAncestryTrace(b) {
+	FORCE_ANCESTRY_TRACE = b;
+	if(FORCE_ANCESTRY_TRACE) {
+		d3.select("#fatOn") .attr("class", "selected")
+		d3.select("#fatOff").attr("class", "unselected")
+	} else {
+		d3.select("#fatOn") .attr("class", "unselected")
+		d3.select("#fatOff").attr("class", "selected")
+	}
+}
+
+function updateTraceNameSelection() {
+	d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("font-weight", "bold")
+	d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("color", "DarkBlue")
+}
+
+function loadThresHolds() {
+	d3.json("setup/thresholds.json", function(data) {
+		Object.keys(data.values).forEach(function (k) {
+			thresholdsMergeOperator = data.mergeOperator
+			thresholds[k] = data.values[k]
+			thresholdsCheckboxesValues[k] = "on"
+		})
+	});
+}
+
+
+
+
+function buildUrlArgs() {
+	fat = "fat='" + (FORCE_ANCESTRY_TRACE ? "t" : "f") + "'";
+	lColor = "lc='" + lColorSlice + "'"
+	nColor = "nc='" + nColorSlice + "'"
+	imf = "imf='" + dataPath + "'"
+	atd = "atd='" + ANIMATIONS_TIMEOUT_DURATION + "'"
+	cs = "colorScheme='"+colorSchemeCategory+"'"
+	
+	url = "index.html?" 
+	+ fat + "&"
+	+ lColor + "&"
+	+ nColor + "&"
+	+ imf + "&"
+	+ atd + "&"
+	+ cs + ""
+}
+
+
 
 
 
@@ -1233,3 +1236,4 @@ function addIconsToLegend() {
 			.attr("stroke-width", d => nodeSelection.includes(d)?"3.0":"1.0")
 		})
 }
+
