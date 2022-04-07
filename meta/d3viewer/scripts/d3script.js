@@ -27,14 +27,14 @@ if ( getUrlVars()['imf'] != null )
 	dataPath = getUrlVars()['imf'];
 
 var FRAGMENTATION_TRACE = false;
-if(dataPath.indexOf("Frag") >= 0 || dataPath.indexOf("data/input_data.json") >= 0)
+if(dataPath.indexOf("Frag") >= 0 || dataPath.indexOf("data/input_data.json") >= 0 || dataPath.indexOf("data/input_data_wth_elements.json") >= 0)
 	FRAGMENTATION_TRACE = true;
 
 	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("font-weight", "bold")
 	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("color", "DarkBlue")
 
 
-var ANIMATIONS_TIMEOUT_DURATION = 1000
+var ANIMATIONS_TIMEOUT_DURATION = 10000
 var SORT_LEGEND = true
 var NODES_SIZE = [20, 60];
 var EDGES_SIZE = [10, 30];
@@ -367,8 +367,9 @@ function addSlider(attribute) {
 	var initValue = thresholds[attribute][2]
 
 	// A slider that removes nodes below the input threshold.
-	var slider = sliderBox
+	var slider = sliderBox.append("div").attr("class", "boxContent")
 		.append('div')
+
 		.style('font-size', '60%')
 		.style('width', '190px')
 
@@ -490,7 +491,7 @@ var legendNodes
 var legendLinks
 
 function addlegend(legendNamesNodes, legendNamesLinks) {
-	legend = d3.select("#legendBox");
+	legend = d3.select("#legendBox").append("div").attr("class", "boxContent");
 	
 	//Make it draggable
 	dragBox(document.getElementById('legendBox'))
@@ -773,6 +774,8 @@ function dragendedOnNode(d) {
 ///////////////////    BOXING DRAGGABLE HTML ELEMENT  /////////////
 function dragBox(elmnt) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	var dragFlag = 0;
+
 	if (document.getElementById(elmnt.id + "Header")) {
 		// if present, the header is where you move the DIV from:
 		document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
@@ -787,12 +790,7 @@ function dragBox(elmnt) {
 		e.preventDefault();
 		var idHeaderClicked = e.srcElement.getAttribute("id");
 		var idBoxClicked = idHeaderClicked.substring(0, idHeaderClicked.indexOf("Header"))
-		//console.log(e.srcElement.getAttribute("id").substring(0, str.indexOf("Header")))
-
-
 		var classClosed = d3.select("#"+idBoxClicked+ " .boxContent").attr("class");
-		console.log(classClosed)
-
 		d3.select("#"+idBoxClicked+ " .boxContent").attr("class", (classClosed.indexOf("closed") >= 0) ? "boxContent open":"boxContent closed")
 
 	}
@@ -803,9 +801,10 @@ function dragBox(elmnt) {
 		// get the mouse cursor position at startup:
 		pos3 = e.clientX;
 		pos4 = e.clientY;
-		document.onmouseup = closeDragBox;
 		// call a function whenever the cursor moves:
 		document.onmousemove = elementDrag;
+		//Ends drag
+		document.onmouseup = closeDragBox;
 	}
 
 	function elementDrag(e) {
@@ -1117,14 +1116,9 @@ function emphasizeClusterName(cname) {
 }
 
 
-/*
-
-Working space...
 
 
-
-
-*/
+/////////////        Working space...      ///////////
 
 
 

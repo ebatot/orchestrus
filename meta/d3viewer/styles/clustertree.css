@@ -11,12 +11,14 @@ a.control:hover {
 }
 
 #clustertree {
-    margin-top:10px;
+   /* margin-top:10px;*/
     padding: 0px 3px 0px 3px;
 }
 #clustertree ul {
     margin:0px;
-    padding: 0px 3px 5px 7px;
+    padding-top: 7px;
+    padding-left: 3px;
+    padding-right: 3px;
     font-weight: bold;
     font-style: oblique;
    /* margin-left: 10px;;*/
@@ -43,7 +45,7 @@ a.control:hover {
 
 #clustertree li a {
     text-decoration: none;
-    padding-top: 3px;
+    padding-top: 3px;padding-right: 0px;
 }
 
 #clustertree li a:before {

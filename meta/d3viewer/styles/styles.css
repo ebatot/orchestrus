@@ -34,7 +34,7 @@ html {
   .node circle {  stroke: black;}
   
   .controls {
-    height: 240px;
+    max-height: 240px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -72,6 +72,7 @@ html {
   
 
   #clusterBox {
+      max-height: 240px;
       overflow-x: hidden;
       overflow-y: auto;
   }
@@ -81,6 +82,7 @@ html {
     cursor: move;
     font-weight: bold;
     font-size: 70%;
+    padding-left: 2px;
   }
   
   #searchBox button {
