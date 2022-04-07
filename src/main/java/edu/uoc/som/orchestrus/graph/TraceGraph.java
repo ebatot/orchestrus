@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import edu.uoc.som.orchestrus.tracemodel.ArtefactFactory;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 /*
  * Clustering sample
@@ -56,15 +58,17 @@ public class TraceGraph {
 	public final static Logger LOGGER = Logger.getLogger(TraceGraph.class.getName());
 
 	Trace trace;
+	Trace frag;
 	Graph<Artefact, WeightedEdge> graph;
 	Set<List<WeightedEdge>> cycles;
 
-	List<Trace> KSpanClusters;
-	List<Trace> GirvanNewmanClusters;
-	List<Trace> labelPropagationClusters;
+	List<Cluster> KSpanClusters;
+	List<Cluster> GirvanNewmanClusters;
+	List<Cluster> labelPropagationClusters;
 
-	public TraceGraph(Trace t) {
+	public TraceGraph(Trace t, Trace fragmentation) {
 		this.trace = t;
+		this.frag = fragmentation;
 		this.graph = buildGraph(t, false);
 		detectCycles(true);
 
@@ -87,9 +91,9 @@ public class TraceGraph {
 		return true;
 	}
 
-	List<Trace> clusters = new ArrayList<>();
+	//List<Trace> clusters = new ArrayList<>();
 
-	public List<Set<Artefact>> clusterLabelPropagation(int maxIterations, boolean forceUndirected) {
+	public List<Set<Artefact>> applyClusterLabelPropagation(int maxIterations, boolean forceUndirected) {
 		LabelPropagationClustering<Artefact, WeightedEdge> ks = null;
 		if (forceUndirected)
 			ks = new LabelPropagationClustering<>(asUndirectedGraph(), maxIterations);
@@ -103,7 +107,7 @@ public class TraceGraph {
 		return ks.getClustering().getClusters();
 	}
 
-	public List<Set<Artefact>> clusterGirvanNewman(int k, boolean forceUndirected) {
+	public List<Set<Artefact>> applyClusterAlgoGirvanNewman(int k, boolean forceUndirected) {
 		GirvanNewmanClustering<Artefact, WeightedEdge> ks = null;
 		if (forceUndirected)
 			ks = new GirvanNewmanClustering<>(asUndirectedGraph(), k);
@@ -117,7 +121,7 @@ public class TraceGraph {
 		return ks.getClustering().getClusters();
 	}
 
-	public List<Set<Artefact>> clusterKSpan(int kNumber, boolean forceUndirected) {
+	public List<Set<Artefact>> applyClusterKSpan(int kNumber, boolean forceUndirected) {
 		KSpanningTreeClustering<Artefact, WeightedEdge> ks = null;
 		if (forceUndirected)
 			ks = new KSpanningTreeClustering<>(asUndirectedGraph(), kNumber);
@@ -131,45 +135,91 @@ public class TraceGraph {
 		return ks.getClustering().getClusters();
 	}
 
-	public List<Trace> getLabelPropagationClusters(int maxIterations) {
+	public class Cluster {
+		Set<Artefact> artefacts ;
+		Trace trace;
+		Trace frag;
+		Map<Artefact, List<Artefact>> tracesToRoots;
+		
+		public Cluster(Trace t, Trace frag) {
+			this.trace = t;
+			this.frag = frag;
+			this.artefacts = t.getArtefacts();
+			
+		}
+		
+		public Trace getTrace() {
+			return trace;
+		}
+		
+		public Map<Artefact, List<Artefact>> getTracesToRoots() {
+			if(tracesToRoots == null)
+				tracesToRoots = computeTracesToRoots();
+			return tracesToRoots;
+		}
+		
+		public Set<Artefact> getArtefacts() {
+			return artefacts;
+		}
+		
+		Map<Artefact, List<Artefact>> computeTracesToRoots() {
+			Map<Artefact, List<Artefact>> res = new HashMap<>();
+			for (Artefact a : artefacts) {
+				List<Artefact> sequenceToRoot = new ArrayList<>();
+				sequenceToRoot.add(a);
+				Artefact ap = a;
+				while ((ap) != null) {
+					sequenceToRoot.add(ap);
+					ap = ap.getParent();
+				}
+				sequenceToRoot.remove(0);
+//				Collections.reverse(sequenceToRoot);
+				res.put(a, sequenceToRoot);
+			}
+			return res;
+		}
+	}
+
+	public List<Cluster> getLabelPropagationClusters(int maxIterations) {
 		if (labelPropagationClusters == null) {
 			String prefix = "LabelPropagation_";
-			List<Set<Artefact>> clusters = clusterLabelPropagation(maxIterations, true);
-			labelPropagationClusters = getClustersAsTraces(clusters, prefix);
+			List<Set<Artefact>> clusters = applyClusterLabelPropagation(maxIterations, true);
+			labelPropagationClusters = modelClusters(clusters, prefix);
 			LOGGER.info("LabelPropagation: " + labelPropagationClusters.size() + " clusters found with maxIteration: "
 					+ maxIterations);
 		}
 		return labelPropagationClusters;
 	}
 
-	public List<Trace> getGirvanNewmanClusters(int k) {
+	public List<Cluster> getGirvanNewmanClusters(int k) {
 		LOGGER.info("GirvanNewman: Launched with k= " + k);
 		if (GirvanNewmanClusters == null) {
 			String prefix = "GirvanNewman_";
-			List<Set<Artefact>> clusters = clusterGirvanNewman(k, true);
-			GirvanNewmanClusters = getClustersAsTraces(clusters, prefix);
+			List<Set<Artefact>> clusters = applyClusterAlgoGirvanNewman(k, true);
+			GirvanNewmanClusters = modelClusters(clusters, prefix);
 			LOGGER.info("GirvanNewman: " + GirvanNewmanClusters.size() + " clusters found with k: " + k);
 		}
 		return GirvanNewmanClusters;
 	}
 
-	public List<Trace> getKSpanClusters(int kNumber) {
+	public List<Cluster> getKSpanClusters(int kNumber) {
 		if (KSpanClusters == null) {
 			String prefix = "KSpan_";
-			List<Set<Artefact>> clusters = clusterKSpan(kNumber, true);
-			KSpanClusters = getClustersAsTraces(clusters, prefix);
+			List<Set<Artefact>> clusters = applyClusterKSpan(kNumber, true);
+			KSpanClusters = modelClusters(clusters, prefix);
 			LOGGER.info("KSpan: " + KSpanClusters.size() + " clusters found with k: " + kNumber);
 		}
 		return KSpanClusters;
 	}
 
-	private List<Trace> getClustersAsTraces(List<Set<Artefact>> clusters, String prefix) {
-		ArrayList<Trace> res = new ArrayList<Trace>();
+	private List<Cluster> modelClusters(List<Set<Artefact>> clusters, String prefix) {
+		ArrayList<Cluster> res = new ArrayList<Cluster>();
 		int i = 0;
-		for (Set<Artefact> c : clusters) {
-			Trace t = getTraceFromArtefactSet(c);
+		for (Set<Artefact> sa : clusters) {
+			Trace t = getTraceFromArtefactSet(sa);
 			t.setName(prefix + i++);
-			res.add(t);
+			Cluster c = new Cluster(t, frag);
+			res.add(c);
 		}
 		return res;
 	}
@@ -310,7 +360,7 @@ public class TraceGraph {
 	/**
 	 * DEV method, used to show Algorithms results in Sysout
 	 */
-	public void getPath(Artefact a1, Artefact a2) {
+	public Trace getPath(Artefact a1, Artefact a2) {
 		// computes all the strongly connected components of the directed graph
 //        StrongConnectivityAlgorithm<Artefact, WeightedEdge> scAlg =
 //            new KosarajuStrongConnectivityInspector<>(graph);
@@ -331,9 +381,22 @@ public class TraceGraph {
 				graph, a1, a2);
 		List<WeightedEdge> iPaths = dijkstraAlg.getPathEdgeList();
 		if (iPaths != null)
-			System.out.println(iPaths.toString().replace(", ", ",\n "));
-		else
+			System.out.println("\n\n\n\n"+iPaths.toString().replace(", ", ",\n "));
+		else {
 			System.out.println("No path.");
+			return null;
+		}
+		
+		Trace t = new Trace(a1.getName()+"-2-"+a2.getName());
+		for (WeightedEdge we : iPaths) {
+			Artefact source = graph.getEdgeSource(we);
+			Artefact target = graph.getEdgeSource(we);
+			LinkType lt = LinkType.getType(source.getName()+"-"+target.getName());
+			TraceLink tl = new TraceLink(lt);
+			tl.addEnds(source, target);
+			t.addTraceLink(tl);
+		}
+		return t;
 	}
 
 }
