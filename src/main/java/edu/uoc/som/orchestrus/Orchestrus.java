@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 
 import edu.uoc.som.orchestrus.config.Config;
-import edu.uoc.som.orchestrus.graph.ShowGraph;
 import edu.uoc.som.orchestrus.graph.TraceGraph;
 import edu.uoc.som.orchestrus.parsing.StaticExplorer;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;

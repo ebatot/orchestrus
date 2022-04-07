@@ -30,8 +30,6 @@ import net.minidev.json.parser.ParseException;
 public class ClusteringSetup {
 	public final static Logger LOGGER = Logger.getLogger(ClusteringSetup.class.getName());
 
-	private static final long DEFAULT_MAX_CLUSTERING_TIMEOUT = 1000; // ms
-
 	Map<String, ClusteringAlgo> algos = new HashMap<>();
 
 	public Map<String, ClusteringAlgo> getAlgos() {

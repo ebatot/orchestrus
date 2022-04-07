@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import edu.uoc.som.orchestrus.tracemodel.Artefact;
 import edu.uoc.som.orchestrus.tracemodel.Trace;
 import edu.uoc.som.orchestrus.tracemodel.TraceLink;
-import edu.uoc.som.orchestrus.utils.Utils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -468,6 +467,7 @@ public class Config {
 					"\"project.name\": \""+getInstance().getProjectName()+"\","+
 					"\"project.folder\": \""+getInstance().getProjectFullPath()+"\","+
 					"\"project.uri\": \""+getInstance().projectURI+"\"";
+			
 			@SuppressWarnings("deprecation")
 			JSONParser parser = new JSONParser();
 			try {
@@ -480,8 +480,6 @@ public class Config {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 
 //			String resDep = "";
 //			for (String d : getInstance().getProjectDependencies())
