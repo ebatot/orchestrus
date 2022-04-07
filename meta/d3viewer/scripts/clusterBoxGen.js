@@ -145,8 +145,10 @@ var actExpandCollapse = function() {
 
 function renderClusterList(json) {
     jsonText =  '<ul> GlossaryML';
-    jsonText +=  "<li><a id='traceLinksName' href='index.html' >Trace links</a><li>"
-    jsonText +=  "<li><a id='traceFragName' href='index.html?imf=data/input_data.json'>Fragmentation</a></li>"
+    jsonText +=  "<li><a id='traceLinksName' href='index.html' >Trace links</a> <li>"
+    jsonText +=  "<li><a id='traceFragName' href='index.html?imf=data/input_data.json'>Fragmentation</a>"
+    + "&nbsp;<span id='fatOn' onClick='toggleAncestryTrace()'>(Paths)</a></span>"
+                +"</li>"
     jsonText += "</ul>"
     for (var algorithm in json) {
         // KSpan, Label, Newman... Or setup ! Avoid setup.

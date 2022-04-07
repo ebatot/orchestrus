@@ -2,9 +2,8 @@
     font-family: Courier, Arial;
     padding-left: 3px;
     /*border: solid 1px rgb(91, 26, 220);  */
-    font-size: 65%;
+    font-size: 70%;
 }
-
 
 a.control:hover {
     color: blue;
@@ -14,6 +13,7 @@ a.control:hover {
    /* margin-top:10px;*/
     padding: 0px 3px 0px 3px;
 }
+
 #clustertree ul {
     margin:0px;
     padding-top: 7px;
@@ -42,10 +42,10 @@ a.control:hover {
     padding-left: 15px;
 }
 
-
 #clustertree li a {
     text-decoration: none;
-    padding-top: 3px;padding-right: 0px;
+    padding-top: 3px;
+    padding-right: 0px;
 }
 
 #clustertree li a:before {
@@ -121,4 +121,14 @@ a #traceFragName,
 
 #clustertree>li li:last-child:after {
     height: 8px;
+}
+
+
+#fatOn { /* forceAncestryTrace*/
+    cursor: pointer;
+}
+
+#fatOn.selected { /* forceAncestryTrace*/
+    font-weight: bold;
+    color: darkblue;
 }

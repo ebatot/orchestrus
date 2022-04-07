@@ -23,15 +23,47 @@ var log = d3.select("body").select("center").append("label").style('color', '#90
 
 /// INPUT MODEL FILE 
 var dataPath = "data/input_trace_data.json"
-if ( getUrlVars()['imf'] != null )
+if (getUrlVars()['imf'] != null)
 	dataPath = getUrlVars()['imf'];
 
-var FRAGMENTATION_TRACE = false;
-if(dataPath.indexOf("Frag") >= 0 || dataPath.indexOf("data/input_data.json") >= 0 || dataPath.indexOf("data/input_data_wth_elements.json") >= 0)
-	FRAGMENTATION_TRACE = true;
 
-	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("font-weight", "bold")
-	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("color", "DarkBlue")
+var FORCE_ANCESTRY_TRACE = false;
+
+checkFatOption()
+
+function checkFatOption() {
+	if (getUrlVars()['fat'] != null) {//force ascendency trace
+		forceAncestryTrace(getUrlVars()['fat'].indexOf("t") == 0);
+	}
+
+	if (dataPath.indexOf("Frag") >= 0 ||
+		dataPath.indexOf("data/input_data.json") >= 0 ||
+		dataPath.indexOf("data/input_data_wth_elements.json") >= 0) {
+		forceAncestryTrace(true);
+	}
+
+	if (getUrlVars()['fat'] != null && getUrlVars()['fat'].indexOf("f") == 0) {
+		forceAncestryTrace(false);
+	}
+}
+
+function toggleAncestryTrace() {
+	forceAncestryTrace(!FORCE_ANCESTRY_TRACE);
+}
+
+function forceAncestryTrace(b) {
+	FORCE_ANCESTRY_TRACE = b;
+	if(FORCE_ANCESTRY_TRACE) {
+		d3.select("#fatOn") .attr("class", "selected")
+		d3.select("#fatOff").attr("class", "unselected")
+	} else {
+		d3.select("#fatOn") .attr("class", "unselected")
+		d3.select("#fatOff").attr("class", "selected")
+	}
+}
+
+d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("font-weight", "bold")
+d3.select(FORCE_ANCESTRY_TRACE ? "#traceFragName" : "#traceLinksName").style("color", "DarkBlue")
 
 
 var ANIMATIONS_TIMEOUT_DURATION = 10000
@@ -695,6 +727,7 @@ function getUrlVars() {
     return vars;
 }
 
+
 function stopMoving() {
 	force.stop();
 }
@@ -910,7 +943,7 @@ forceProperties = {
     },
     charge: {
         enabled: true,
-        strength: -50,
+        strength: -100,
         distanceMin: 100,
         distanceMax: 500
     },
@@ -932,7 +965,7 @@ forceProperties = {
     },
     link: {
         enabled: true,
-        distance: 100,
+        distance: 200,
         iterations: 2
     }
 }
@@ -1078,11 +1111,10 @@ function loadCluster(clusterName, projectName, algorithm) {
 				var x = d3.select(nodeId); //Use the artefact ID to get the node object
 				selectedArtefactsIDs.push(artId)
 
-				if(FRAGMENTATION_TRACE)//We only show the path to root element in case of Fragmentation vizualization
-					for(var at in jsonCluster.clusters[c].artefacts[a].tracetoroot) {
-						//console.log(jsonCluster.clusters[c].artefacts[a].tracetoroot[at])
+				if(FORCE_ANCESTRY_TRACE)
+					//We only show the path to root element in case of Fragmentation vizualization
+					for(var at in jsonCluster.clusters[c].artefacts[a].tracetoroot) 
 						selectedArtefactsIDs.push(jsonCluster.clusters[c].artefacts[a].tracetoroot[at])
-					}
 			}
 		}
 	}
