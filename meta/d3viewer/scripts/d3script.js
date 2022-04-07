@@ -666,6 +666,18 @@ function searchNodesByType(term) {
 	var selected = container.selectAll('.node').filter(function (d, i) {
 		return d.type.toLowerCase().search(term.toLowerCase()) == -1;
 	});
+	
+	/*/TODO get the ids to filter nodes to select with setNodeSelection()
+	var selectedIDs = d3.values(d3.values(container.selectAll('.node').filter(function (d, i) {
+		return d.type.toLowerCase().search(term.toLowerCase()) > -1;
+	}))[0]);
+
+	setNodeSelection(selectedIDs)
+	
+	console.log(selectedIDs)
+	*/
+
+
 	selected.style('opacity', '0.2');
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque()
@@ -774,7 +786,6 @@ function dragendedOnNode(d) {
 ///////////////////    BOXING DRAGGABLE HTML ELEMENT  /////////////
 function dragBox(elmnt) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-	var dragFlag = 0;
 
 	if (document.getElementById(elmnt.id + "Header")) {
 		// if present, the header is where you move the DIV from:
