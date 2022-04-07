@@ -16,7 +16,17 @@
 var log = d3.select("body").select("center").append("label").style('color', '#900').attr("id", "logger")
 .text("Logger");
 
-var ANIMATIONS_TIMEOUT_DURATION = 2500
+
+/// INPUT MODEL FILE 
+var dataPath = "data/input_trace_data.json"
+if ( getUrlVars()['imf'] != null )
+	dataPath = getUrlVars()['imf'];
+
+var FRAGMENTATION_TRACE = false;
+if(dataPath.indexOf("Frag") >= 0 || dataPath.indexOf("data/input_data.json") >= 0)
+	FRAGMENTATION_TRACE = true;
+
+var ANIMATIONS_TIMEOUT_DURATION = 10000
 
 
 var showImages = false
@@ -148,16 +158,6 @@ svg.call(d3.zoom().on('zoom', zoomed));
 var simulation = this.force = d3.forceSimulation();
 
 
-/// LOAD INPUT MODEL FILE 
-var dataPath = "data/input_trace_data.json"
-if ( getUrlVars()['imf'] != null )
-	dataPath = getUrlVars()['imf'];
-
-
-
-function neighboring(a, b) {
-	return linkedByIndex[a.index + ',' + b.index];
-}
 
 
 /*//////////////       Arc edges preprocesses
@@ -179,35 +179,10 @@ function positionLink(d) {
 }
 */
 
-//Filter nodes that have a valid ID
-function filteredNodes(nodes) {
-	// intermediary nodes (for curved paths) do not have IDs
-	return nodes.filter(function(d) { return d.id; });
+function neighboring(a, b) {
+	return linkedByIndex[a.index + ',' + b.index];
 }
 
-
-function addChildren(nodes) {
-	nodes.forEach(function(el) {
-		el.children = links.filter(item => item.source_id == el.id);
-	})
-}
-
-function collapseNode(d){
-	/*/console.log("collapse"+d)
-	if (!d3.event.defaultPrevented) {
-		// if there children, move them to _children and clear data in children
-		if (d.children) {
-			d._children = d.children;
-			d.children = null;
-		} else {
-			// if no children, move data from _children to children and clear data in _children
-			d.children = d._children;
-			d._children = null;
-		}
-	}
-	node.data(filteredNodes(nodes))
-	console.log(d)*/
-}
 
 
 
@@ -905,6 +880,10 @@ function addNodeToSelection(d) {
 	updateVisualNodeSelection()
 }
 
+function setNodeSelection(selection) {
+	nodeSelection = selection;
+	updateVisualNodeSelection()
+}
 
 //////////// FORCE SIMULATION //////////// 
 
@@ -916,12 +895,23 @@ function initializeSimulation(nodes) {
 	simulation.on("tick", ticked);
 }
 
-/*var forceProperties;
-d3.json("data/forceProperties.json", function(data) {
-	forceProperties = data;
-});
-console.log(forceProperties)*/
+/* 
 
+var forceProperties = (function () {
+	var json = null;
+	$.ajax({
+		'async': false,
+		'global': false,
+		'url': "../setup/forceProperties.json",
+		'dataType': "json",
+		'success': function (data) {
+			json = data;
+		}
+	});
+	console.log(json)
+	return json;
+})(); 
+*/
 
 forceProperties = {
     center: {
@@ -930,14 +920,14 @@ forceProperties = {
     },
     charge: {
         enabled: true,
-        strength: -100,
-        distanceMin: 20,
-        distanceMax: 100
+        strength: -50,
+        distanceMin: 100,
+        distanceMax: 500
     },
     collide: {
         enabled: true,
-        strength: .11,
-        iterations: 1,
+        strength: .04,
+        iterations: 2,
         radius: 50
     },
     forceX: {
@@ -953,7 +943,7 @@ forceProperties = {
     link: {
         enabled: true,
         distance: 100,
-        iterations: 1
+        iterations: 2
     }
 }
 updateForcePropertiesValues()
@@ -1085,7 +1075,6 @@ function loadCluster(clusterName, projectName, algorithm) {
 	
 	updateDisplayColors();
 	
-	selectedArtefacts = []
 	selectedArtefactsIDs = []
 	for (var c in jsonCluster.clusters) {
 		var cname = jsonCluster.clusters[c].name;
@@ -1101,9 +1090,16 @@ function loadCluster(clusterName, projectName, algorithm) {
 				artId = jsonCluster.clusters[c].artefacts[a].id
 				var nodeId = "#n" + artId;
 				var x = d3.select(nodeId); //Use the artefact ID to get the node object
-				selectedArtefacts.push(x)
 				selectedArtefactsIDs.push(artId)
+
+				if(FRAGMENTATION_TRACE)//We only show the path to root element in case of Fragmentation vizualization
+					for(var at in jsonCluster.clusters[c].artefacts[a].tracetoroot) {
+						//console.log(jsonCluster.clusters[c].artefacts[a].tracetoroot[at])
+						selectedArtefactsIDs.push(jsonCluster.clusters[c].artefacts[a].tracetoroot[at])
+					}
 			}
+
+
 		}
 	}
 
@@ -1116,6 +1112,12 @@ function loadCluster(clusterName, projectName, algorithm) {
 		return selectedArtefactsIDs.indexOf(d.source_id) > -1 && selectedArtefactsIDs.indexOf(d.target_id) > -1;
 	});
 
+	var selNode = nodes.filter(function (d, i) {
+		return selectedArtefactsIDs.indexOf(d.id) > -1;
+	});
+
+	setNodeSelection(selNode)
+
 // Change opacity of selection 
 	resetOpacity()
 	deselected.style('opacity', '0.2');
@@ -1123,16 +1125,37 @@ function loadCluster(clusterName, projectName, algorithm) {
 	deselectedEdges.style('opacity', '1');
 	transitionToOpaque()
 
-	
-
-	for( var s in deselected) {
-		addNodeToSelection(deselected[s])
-	}
-
 	//LOG
-	var numberAffected = (selectedArtefacts.length) 
+	var numberAffected = (selectedArtefactsIDs.length) 
 	log.text("Selected "+ numberAffected + " elements")
 }
 		
-	
-//window.open("index.html?imf="+urlClusterD3, '_blank'); //.focus()	
+	//Filter nodes that have a valid ID
+function filteredNodes(nodes) {
+	// intermediary nodes (for curved paths) do not have IDs
+	return nodes.filter(function(d) { return d.id; });
+}
+
+function addChildren(nodes) {
+	nodes.forEach(function(el) {
+		el.children = links.filter(item => item.source_id == el.id);
+	})
+}
+
+function collapseNode(d){
+	/*/console.log("collapse"+d)
+	if (!d3.event.defaultPrevented) {
+		// if there children, move them to _children and clear data in children
+		if (d.children) {
+			d._children = d.children;
+			d.children = null;
+		} else {
+			// if no children, move data from _children to children and clear data in _children
+			d.children = d._children;
+			d._children = null;
+		}
+	}
+	node.data(filteredNodes(nodes))
+	console.log(d)*/
+}
+
