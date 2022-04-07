@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -119,6 +120,8 @@ public class Config {
 	
 	private List<String> getStringListFromJSonOArray(JSONArray jsonArr) {
 //		JSONArray arrDependencies = (JSONArray) config.get("dependencies");
+		if(jsonArr == null || jsonArr.size() == 0)
+			return Collections.emptyList();
 		List<String> res = new ArrayList<>(jsonArr.size());
 		for (Object o : jsonArr) {
 			String d = (String) o;
