@@ -18,7 +18,7 @@
         "frag": ""
     },
     "display" : {
-        "label.artefact": "none",
+        "label.artefact": "name",
         "label.link": "none",
         "show.elements": "false",
         "size.nodes.min": "10",

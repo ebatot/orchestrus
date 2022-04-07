@@ -13,6 +13,45 @@
 * Edouard Batot (UOC SOM) ebatot@uoc.edu 
 *****************************************************************************/
 
+forceProperties = {
+    center: {
+        x: 0.5,
+        y: 0.5
+    },
+    charge: {
+        enabled: true,
+        strength: -50,
+        distanceMin: 10,
+        distanceMax: 60
+    },
+    collide: {
+        enabled: true,
+        strength: .13,
+        iterations: 2,
+        radius: 20
+    },
+    forceX: {
+        enabled: false,
+        strength: .1,
+        x: .5
+    },
+    forceY: {
+        enabled: false,
+        strength: .1,
+        y: .5
+    },
+    link: {
+        enabled: true,
+        distance: 40,
+        iterations: 2
+    }
+}
+
+var NODES_SIZE = [8, 25];
+var EDGES_SIZE = [2, 16];
+
+
+
 
 if(d3 == null)
 	showError("Could not load d3, check internet connection.");
@@ -97,8 +136,6 @@ var	graph,
 	linkedByIndex;
 
 var SORT_LEGEND = true
-var NODES_SIZE = [20, 60];
-var EDGES_SIZE = [10, 30];
 
 var moving = true;
 	
@@ -824,7 +861,7 @@ function removeNodeFromSelection(d) {
 
 function updateVisualNodeSelection(){
 	nodes.forEach(dd => d3.select('#n' + dd.id).attr('stroke-width', "1.0"))
-	nodeSelection.forEach(dd => d3.select('#n' + dd.id).attr('stroke-width', "3.0"))
+	nodeSelection.forEach(dd => d3.select('#n' + dd.id).attr('stroke-width', "2.0"))
 }
 
 function addNodeToSelection(d) {
@@ -870,39 +907,6 @@ var forceProperties = (function () {
 })(); 
 */
 
-forceProperties = {
-    center: {
-        x: 0.5,
-        y: 0.5
-    },
-    charge: {
-        enabled: true,
-        strength: -100,
-        distanceMin: 100,
-        distanceMax: 500
-    },
-    collide: {
-        enabled: true,
-        strength: .25,
-        iterations: 2,
-        radius: 50
-    },
-    forceX: {
-        enabled: false,
-        strength: .1,
-        x: .5
-    },
-    forceY: {
-        enabled: false,
-        strength: .1,
-        y: .5
-    },
-    link: {
-        enabled: true,
-        distance: 200,
-        iterations: 2
-    }
-}
 updateForcePropertiesValues()
 
 
