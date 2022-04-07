@@ -1,5 +1,5 @@
 /*****************************************************************************
-* Copyright (c) 2015, 2022 CEA LIST, Edouard Batot
+* Copyright (c) 2015, 2022 UOC SOM - CEA LIST, Edouard Batot
 *
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,10 @@
 * UOC - SOM 
 * Edouard Batot (UOC SOM) ebatot@uoc.edu 
 *****************************************************************************/
+
+
+if(d3 == null)
+	showError("Could not load d3, check internet connection.");
 
 var log = d3.select("body").select("center").append("label").style('color', '#900').attr("id", "logger")
 .text("Logger");
@@ -26,20 +30,15 @@ var FRAGMENTATION_TRACE = false;
 if(dataPath.indexOf("Frag") >= 0 || dataPath.indexOf("data/input_data.json") >= 0)
 	FRAGMENTATION_TRACE = true;
 
-var ANIMATIONS_TIMEOUT_DURATION = 10000
+	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("font-weight", "bold")
+	d3.select(FRAGMENTATION_TRACE?"#traceFragName":"#traceLinksName").style("color", "DarkBlue")
 
 
-var showImages = false
+var ANIMATIONS_TIMEOUT_DURATION = 1000
 var SORT_LEGEND = true
+var NODES_SIZE = [20, 60];
+var EDGES_SIZE = [10, 30];
 
-var imgs = [
-	{"type":"Component", "img": "trotting.png"}, 
-	{"type":"Feature", "img":  "monster.png"}, 
-	{"type":"Requirement", "img":  "icons-72.png"}
-]
-
-var EDGES_SIZE = [3, 20];
-var NODES_SIZE = [10, 30];
 var moving = true;
 
 var MIN = "MIN",
@@ -51,9 +50,6 @@ var MIN = "MIN",
 thresholds = [] ;
 thresholdsCheckboxesValues = []
 var thresholdsMergeOperator;
-if(d3 == null)
-	showError("Could not load d3, check internet connection.");
-
 d3.json("setup/thresholds.json", function(data) {
 	Object.keys(data.values).forEach(function (k) {
 		thresholdsMergeOperator = data.mergeOperator
@@ -70,7 +66,6 @@ dragBox(document.getElementById('searchBox'))
 dragBox(document.getElementById('clusterBox'))
 
 
-var nodeSelection = []
 
 var svg =    d3.select("svg"),
     width =  +svg.attr("width"),
@@ -127,12 +122,10 @@ if ( getUrlVars()['lc'] != null )
 var colorLinks = getColorSlices(lColorSlice);
 
 function setColorLinks(linkColorSLice){
-	//console.log("1."+colorLinks(1))
 	colorLinks = getColorSlices(linkColorSLice);
 	updateDisplayColors();
-	// TODO
-	//console.log("2."+colorLinks(1))
 }
+
 function setColorNodes(nodeColorSlice){
 	colorNodes = getColorSlices(nodeColorSlice);
 	updateDisplayColors();
@@ -144,12 +137,12 @@ function  getSizeLinearScale(nodes, min, max) {
 		.domain([d3.min(nodes, function(d) {return d.size; }),d3.max(nodes, function(d) {return d.size; })])
 		.range([min,max]);
 }
+
 function  getConfidenceLinearScale(nodes, min, max) {
 	return d3.scaleLinear()
 		.domain([d3.min(nodes, function(d) {return d.confidence; }),d3.max(nodes, function(d) {return d.confidence; })])
 		.range([min,max]);
 }
-
 
 // Call zoom for svg container.
 svg.call(d3.zoom().on('zoom', zoomed));
@@ -491,38 +484,6 @@ function testThresholds(link) {
 	}
 }
 
-function addIconsToLegend() {
-
-	/*
-	 *				Not working, ON TRIAL !
-	 */
-
-	console.log("addIconsToLegend " + edgesize(100))
-    // add photos to legend names except
-	
-    var imgPath = './imgs/icons/'
-    imgs.forEach(function (i) {
-		node.filter(x => x.type === i.type)
-            .append("defs")
-            .append("pattern")
-            .attr('id', d => 'image-' + i.type)
-            .attr('patternUnits', 'userSpaceOnUse')
-           // .attr('x', d => -edgesize(d.size)/2)
-           // .attr('y', d => -edgesize(d.size)/2)
-            .attr('height', d => nodesize(d.size))
-            .attr('width', d => nodesize(d.size))
-            .append("image")
-            .attr('xlink:href', d => imgPath + i.img.toLowerCase() )
-			
-		container.selectAll("circle.node")
-			.filter(function() {
-				return d3.select(this).attr("type") == i.type; // filter by single attribute
-			})
-			.attr('r', d => 0.9 * nodesize(d.size))
-			.attr('fill', d => 'url(#image-' + i.type + ')')
-			.attr("stroke-width", d => nodeSelection.includes(d)?"3.0":"1.0")
-		})
-}
 
 var legend
 var legendNodes 
@@ -708,6 +669,7 @@ function searchNodesByType(term) {
 	container.selectAll('.edgepath').style('opacity', '0');
 	transitionToOpaque()
 
+
 	var numberAffected = (container.selectAll('.node').filter(x => x.id).size() -  selected.size())/2 // /2 because of intermediary ghost nodes for arcs
 	log.text(term+" "+ numberAffected + " elements")
 }
@@ -814,9 +776,25 @@ function dragBox(elmnt) {
 	if (document.getElementById(elmnt.id + "Header")) {
 		// if present, the header is where you move the DIV from:
 		document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+		document.getElementById(elmnt.id + "Header").onclick = clickHeader;
 	} else {
 		// otherwise, move the DIV from anywhere inside the DIV:
 		elmnt.onmousedown = dragMouseDown;
+	}
+
+	function clickHeader(e) {
+		e = e || window.event;
+		e.preventDefault();
+		var idHeaderClicked = e.srcElement.getAttribute("id");
+		var idBoxClicked = idHeaderClicked.substring(0, idHeaderClicked.indexOf("Header"))
+		//console.log(e.srcElement.getAttribute("id").substring(0, str.indexOf("Header")))
+
+
+		var classClosed = d3.select("#"+idBoxClicked+ " .boxContent").attr("class");
+		console.log(classClosed)
+
+		d3.select("#"+idBoxClicked+ " .boxContent").attr("class", (classClosed.indexOf("closed") >= 0) ? "boxContent open":"boxContent closed")
+
 	}
 
 	function dragMouseDown(e) {
@@ -854,6 +832,8 @@ function dragBox(elmnt) {
 
 
 //////////// NODE SELECTION //////////// 
+var nodeSelection = []
+
 function selectNode(d) {
 	nodeSelection = []
 	nodeSelection.push(d)
@@ -1034,7 +1014,6 @@ function updateAll() {
     updateForces();
 }
 
-
 function showError(datapath) {
 	d3.select("body").select("center").append("h2").style('color', '#900')
 	.text("Error loading the file '" + dataPath + "'");
@@ -1079,12 +1058,9 @@ function loadCluster(clusterName, projectName, algorithm) {
 	for (var c in jsonCluster.clusters) {
 		var cname = jsonCluster.clusters[c].name;
 		
-		
 		if (clusterName == cname) {
 			// Put selection into bold and timeout back to normal
-			d3.selectAll(".clusterName").style("font-weight", "normal");
-			d3.select("#cluster"+cname).style("font-weight", "bold");
-			d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1.5).style("font-weight", "normal");
+			emphasizeClusterName(cname)
 
 			for (var a in jsonCluster.clusters[c].artefacts) {
 				artId = jsonCluster.clusters[c].artefacts[a].id
@@ -1098,8 +1074,6 @@ function loadCluster(clusterName, projectName, algorithm) {
 						selectedArtefactsIDs.push(jsonCluster.clusters[c].artefacts[a].tracetoroot[at])
 					}
 			}
-
-
 		}
 	}
 
@@ -1130,6 +1104,30 @@ function loadCluster(clusterName, projectName, algorithm) {
 	log.text("Selected "+ numberAffected + " elements")
 }
 		
+function emphasizeClusterName(cname) {
+	//Re-init to black and no bold.
+	d3.selectAll(".clusterName").style("font-weight", "normal");
+	d3.selectAll(".clusterName").style("color", "black");
+
+	//Change color and bold until timeout
+	d3.select("#cluster"+cname).style("font-weight", "bold");
+	d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1.2).style("font-weight", "normal");
+	d3.select("#cluster"+cname).style("color", "DarkBlue");
+	d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1).style("color", "black");
+}
+
+
+/*
+
+Working space...
+
+
+
+
+*/
+
+
+
 	//Filter nodes that have a valid ID
 function filteredNodes(nodes) {
 	// intermediary nodes (for curved paths) do not have IDs
@@ -1159,3 +1157,42 @@ function collapseNode(d){
 	console.log(d)*/
 }
 
+var showImages = false
+var imgs = [
+	{"type":"Component", "img": "trotting.png"}, 
+	{"type":"Feature", "img":  "monster.png"}, 
+	{"type":"Requirement", "img":  "icons-72.png"}
+]
+
+function addIconsToLegend() {
+
+	/*
+	 *				Not working, ON TRIAL !
+	 */
+
+	console.log("addIconsToLegend " + edgesize(100))
+    // add photos to legend names except
+	
+    var imgPath = './imgs/icons/'
+    imgs.forEach(function (i) {
+		node.filter(x => x.type === i.type)
+            .append("defs")
+            .append("pattern")
+            .attr('id', d => 'image-' + i.type)
+            .attr('patternUnits', 'userSpaceOnUse')
+           // .attr('x', d => -edgesize(d.size)/2)
+           // .attr('y', d => -edgesize(d.size)/2)
+            .attr('height', d => nodesize(d.size))
+            .attr('width', d => nodesize(d.size))
+            .append("image")
+            .attr('xlink:href', d => imgPath + i.img.toLowerCase() )
+			
+		container.selectAll("circle.node")
+			.filter(function() {
+				return d3.select(this).attr("type") == i.type; // filter by single attribute
+			})
+			.attr('r', d => 0.9 * nodesize(d.size))
+			.attr('fill', d => 'url(#image-' + i.type + ')')
+			.attr("stroke-width", d => nodeSelection.includes(d)?"3.0":"1.0")
+		})
+}

@@ -40,9 +40,10 @@ a.control:hover {
     padding-left: 15px;
 }
 
+
 #clustertree li a {
-    color: black;
     text-decoration: none;
+    padding-top: 3px;
 }
 
 #clustertree li a:before {
@@ -51,18 +52,18 @@ a.control:hover {
     font-size: .8em;
     display: block;
     position: absolute;
-    left: -0.2em;
+    left: 0.2em;
     top: .05em;
 }
 
 #clustertree li>a:not(:last-child):before {
-    content: '+';
+    content: '';
     font-weight: bold;
 }
 
 #clustertree li.open>a:not(:last-child):before {
-    content: '-';
-    font-weight: normal;
+    content: '';
+
 }
 
 #clustertree li.open>a:last-child:before {
@@ -79,9 +80,22 @@ a.control:hover {
     border-width: 0px;
 }
 
+a #traceLinksName, 
+a #traceFragName, 
+.clusterName {
+    margin-top: -4px;
+    padding-top: 3px;
+}
+
+.boxContent.closed {
+    height:0px;
+    overflow-y: hidden;
+    visibility: hidden;
+}
+
 #clustertree li:before {
     content: "";
-    border-top-width: 1px;
+    border-bottom-width: 1px;
     height: 0;
     width: 8px;
     top: 9px;
@@ -89,7 +103,7 @@ a.control:hover {
 
 #clustertree li:after {
     content: "";
-    border-left-width: 1px;
+    border-right-width: 1px;
     height: 100%;
     width: 0px;
     top: 2px;
