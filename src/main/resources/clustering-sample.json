@@ -1,16 +1,16 @@
 [
     {
-        "algorithm": "KSpan",
+        "algorithm.name": "KSpan",
         "k": "5",
         "minSizeCluster": "3"
     },
     {
-        "algorithm": "LabelPropagation",
+        "algorithm.name": "LabelPropagation",
         "maxIterations": "4",
         "minSizeCluster": "3"
     },
     {
-        "algorithm": "GirvenNewman",
+        "algorithm.name": "GirvenNewman",
         "k": "2",
         "minSizeCluster": "3"
     }

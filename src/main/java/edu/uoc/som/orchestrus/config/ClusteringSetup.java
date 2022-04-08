@@ -77,7 +77,7 @@ public class ClusteringSetup {
 			JSONArray a = (JSONArray) parser.parse(new FileReader(clusterSetupFile.getAbsoluteFile()));
 			for (Object o : a) {
 				JSONObject run = (JSONObject) o;
-				String algoName = run.getAsString("algorithm");
+				String algoName = run.getAsString("algorithm.name");
 				ClusteringAlgo ca = new ClusteringAlgo(algoName);
 				algos.put(algoName, ca);
 				for (String s : run.keySet())
@@ -106,9 +106,10 @@ public class ClusteringSetup {
 			cleanFolder(deployFolderPath);
 		String clusterResults = "";
 
-		clusterResults += "\"setup\": {" + "\"projectName\": \"" + Config.getInstance().getProjectName() + "\"" + "},";
+		String setup = "\"setup\": {" 
+				+ "\"projectName\": \"" + Config.getInstance().getProjectName() + "\","
+				+ "\"algos\": [";
 
-		//File clusterSetupFile = Config.getInstance().getClusteringSetupLocation();
 		ClusteringSetup clusteringSetup = Config.getInstance().getClusteringSetup();
 		for (ClusteringAlgo ca : clusteringSetup.getAlgos().values()) {
 			List<Cluster> traceClusters = null;
@@ -116,6 +117,10 @@ public class ClusteringSetup {
 			case "LabelPropagation":
 				traceClusters = tg
 						.getLabelPropagationClusters(Integer.parseInt((String) ca.parameters.get("maxIterations")));
+//				setup += "{"
+//							+ "\"name\": \"" + ca.getName()+ "\","
+//							+ "\"maxIterations\": \"" + ca.parameters.get("maxIterations")+ "\""
+//						+ "},";
 				break;
 			case "KSpan":
 				traceClusters = tg.getKSpanClusters(Integer.parseInt((String) ca.parameters.get("k")));
@@ -123,6 +128,10 @@ public class ClusteringSetup {
 			case "GirvenNewman":
 				try {
 					traceClusters = getGirvanNewmanClustersResult(tg, ca);
+//					setup += "{"
+//							+ "\"name\": \"" + ca.getName()+ "\","
+//							+ "\"k\": \"" + ca.parameters.get("k")+ "\""
+//						+ "},";
 				} catch (NumberFormatException | TimeoutException e) {
 					// traceClusters remains NULL, LOGGED below 
 				} 
@@ -130,11 +139,18 @@ public class ClusteringSetup {
 			default:
 				throw new IllegalAccessError("Unrecognized algorithm name for clustering.");
 			}
-
+			
+			String parameters = "";
+			for (String k : ca.getParameters().keySet()) 
+				parameters += "\"" + k + "\": \""+ca.getParameter(k)+"\",";
+			if (parameters.endsWith(","))
+				parameters = parameters.substring(0, parameters.length() - 1);
+			setup += "{" + parameters + "},";
+			
 			if (traceClusters != null) {// we passed the time out.
 				String clusterRes = printClusters(outputFolder.getAbsolutePath(), traceClusters, ca);
 				
-				String algo = ca.getParameterAsString("algorithm");
+				String algo = ca.getParameterAsString("algorithm.name");
 				clusterResults += "\"" + algo + "\":" + clusterRes + ",";
 				String fileName = algo + ".tracea.setup.json";
 				Utils.writeJSon(outputFolderPath + File.separator + fileName, clusterRes);
@@ -148,12 +164,19 @@ public class ClusteringSetup {
 				LOGGER.warning(ca.getName() + " clustering algorithm timed out (" + ca.getParameterAsString("timeout") + "s).");
 			}
 		}
+
 		if (clusterResults.endsWith(","))
 			clusterResults = clusterResults.substring(0, clusterResults.length() - 1);
-		Utils.writeJSon(outputFolderPath + File.separator + "clustering.tracea.json", "{" + clusterResults + "}");
+		if (setup.endsWith(","))
+			setup = setup.substring(0, setup.length() - 1);
+		setup += "]}";
+
+		clusterResults = "{" + setup + "," + clusterResults + "}";
+
+		Utils.writeJSon(outputFolderPath + File.separator + "clustering.tracea.json", clusterResults );
 		LOGGER.finer("Clustering stored in '" + outputFolderPath + File.separator + "clustering.tracea.json" + "'");
 		if (deployFolderPath != null) {
-			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json", "{" + clusterResults + "}");
+			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json",  clusterResults );
 			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering.tracea.json" + "'");
 		}
 	}
