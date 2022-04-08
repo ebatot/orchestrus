@@ -102,12 +102,13 @@ public class ClusteringSetup {
 			throws IllegalAccessError {
 		LOGGER.info("\n  output: " + outputFolderPath + "\n  deploy: " + deployFolderPath);
 		File outputFolder = cleanFolder(outputFolderPath);
-		if (deployFolderPath != null)
-			cleanFolder(deployFolderPath);
+		String deployFolderClusters = deployFolderPath + File.separator + Config.getInstance().getProjectName() + "\\clusters";
+		if (deployFolderPath != null) {
+			cleanFolder(deployFolderClusters);
+		}
 		String clusterResults = "";
 
-		String setup = "\"setup\": {" 
-				+ "\"projectName\": \"" + Config.getInstance().getProjectName() + "\","
+		String setup =  "\"project.name\": \"" + Config.getInstance().getProjectName() + "\","
 				+ "\"algos\": [";
 
 		ClusteringSetup clusteringSetup = Config.getInstance().getClusteringSetup();
@@ -155,9 +156,9 @@ public class ClusteringSetup {
 				String fileName = algo + ".tracea.setup.json";
 				Utils.writeJSon(outputFolderPath + File.separator + fileName, clusterRes);
 				LOGGER.finer(algo + " stored in '" + outputFolderPath + File.separator + fileName + "'");
-				if (deployFolderPath != null) {
-					printClusters(deployFolderPath, traceClusters, ca);
-					Utils.writeJSon(deployFolderPath + File.separator + fileName, clusterRes);
+				if (deployFolderClusters != null) {
+					printClusters(deployFolderClusters, traceClusters, ca);
+					Utils.writeJSon(deployFolderClusters + File.separator + fileName, clusterRes);
 					LOGGER.finer(algo + " deployed in '" + deployFolderPath + File.separator + fileName + "'");
 				}
 			} else {
@@ -169,15 +170,18 @@ public class ClusteringSetup {
 			clusterResults = clusterResults.substring(0, clusterResults.length() - 1);
 		if (setup.endsWith(","))
 			setup = setup.substring(0, setup.length() - 1);
-		setup += "]}";
+		
+		setup += "]";
 
-		clusterResults = "{" + setup + "," + clusterResults + "}";
+		clusterResults = "{" +"\"setup\": {" 
+				+  setup + "}," + clusterResults + "}";
 
 		Utils.writeJSon(outputFolderPath + File.separator + "clustering.tracea.json", clusterResults );
 		LOGGER.finer("Clustering stored in '" + outputFolderPath + File.separator + "clustering.tracea.json" + "'");
 		if (deployFolderPath != null) {
 			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json",  clusterResults );
-			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering.tracea.json" + "'");
+			Utils.writeJSon(deployFolderPath + File.separator + "setup.tracea.json", "{" + setup + "}" );
+			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering/setup.tracea.json" + "'");
 		}
 	}
 	
