@@ -1,12 +1,28 @@
 
 ANIMATIONS_TIMEOUT_DURATION = 2500;
- 
+var setuptPath = "data/tracing.tracea.json"
+var setupContent = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': setuptPath,
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})(); 
+
+var projectName = setupContent.setup.config['project.name'];
+
+
+
     
-var dataPath = "data/GlossaryML/clusters/clustering.tracea.json"
+var dataPath = "data/ReferenceML/clusters/clustering.tracea.json"
 //if ( getUrlVars()['clust'] != null )
 //    dataPath = getUrlVars()['clust']; 
-
-
 
 var jsonContent = (function () {
     var json = null;
@@ -22,13 +38,14 @@ var jsonContent = (function () {
     return json;
 })(); 
 
-var projectName = jsonContent.setup.projectName;
+
 
 // 2. render tree structure -- you may make number of sections dynamic insteaf of fixed
 clustertree = document.getElementById('clustertree');
 var json = JSON.parse(JSON.stringify(jsonContent));
 clustertree.innerHTML = renderClusterList(json);
- 
+
+console.log(json['setup']['projectName'])
 
 function renderClusterList(json) {
     jsonText =  '<ul> GlossaryML';
