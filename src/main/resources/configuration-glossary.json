@@ -19,17 +19,15 @@
     },
     "display" : {
         "show.elements": "false",
+        "matrix.adjacency.threshold": "0.0",
+
+        "color.links": "12",
+        "color.artefacts": "7",
         "label.artefact": "name",
         "label.link": "none",
-
-        "colors.artefacts": "6",
-        "colors.link": "4",
-
+        
+        "size.artefacts.max": "30",
         "size.artefacts.min": "10",
-        "size.artefacts.max": "100",
-        "size.links.min": "10",
-        "size.links.max": "50",
-
-        "matrix.adjacency.threshold": "0.0"
-    }
+        "size.links.max": "18",
+        "size.links.min": "5"    }
 }

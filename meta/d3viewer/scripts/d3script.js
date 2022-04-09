@@ -21,7 +21,7 @@ var forceProperties = {
         enabled: true,
         strength: -50,
         distanceMin: 30,
-        distanceMax: 100
+        distanceMax: 200
     },
     collide: {
 		enabled: true,
@@ -96,13 +96,15 @@ var setup = (function () {
     });
     return json;
 })(); 
-
-var projectName = setup.setup.config['project.name'];
+setup = setup.setup;
+var projectName = setup.config['project.name'];
 console.log(projectName)
 
 
-var NODES_SIZE = [8, 25];
-var EDGES_SIZE = [2, 16];
+
+
+var NODES_SIZE = [setup.display['size.artefacts.min'], setup.display['size.artefacts.max']];
+var EDGES_SIZE = [setup.display['size.links.min'], setup.display['size.links.max']];
 var SORT_LEGEND = false
 var moving = true;
 
@@ -124,17 +126,22 @@ var colorSchemeCategory = "schemeCategory20"
 if ( getUrlVars()['colorScheme'] != null )
 	colorSchemeCategory = getUrlVars()['colorScheme'];
 
-var nColorSlice = 4;
+var nColorSlice = setup.display['color.artefacts'];
 if ( getUrlVars()['nc'] != null )
 	nColorSlice = getUrlVars()['nc'];
+d3.select('#colorNodesOutput').text(nColorSlice); 
+d3.select('#colorNodesInput').attr("value", nColorSlice); 
 var colorNodes = getColorSlices(nColorSlice);
 
-var lColorSlice = 4;
+
+var lColorSlice = setup.display['color.links'];
 if ( getUrlVars()['lc'] != null )
 	lColorSlice = getUrlVars()['lc'];
+d3.select('#colorLinksOutput').text(lColorSlice); 
+d3.select('#colorLinksInput').attr("value", lColorSlice); 
 var colorLinks = getColorSlices(lColorSlice);
 
-var ANIMATIONS_TIMEOUT_DURATION = 10000
+var ANIMATIONS_TIMEOUT_DURATION = setup.display['animation.duration'];
 if (getUrlVars()['atd'] != null)
 	ANIMATIONS_TIMEOUT_DURATION = getUrlVars()['atd'];
 
@@ -174,13 +181,12 @@ var toggleAnimation = 1;
 svg.call(d3.zoom().on('zoom', zoomed));
 svg.on('click', function(d, i) {
 	if(toggleAnimation) {
-		//d3.selectAll('.node').interrupt();
-		//d3.selectAll('.edgepath').interrupt();
+		d3.selectAll('.node').interrupt();
+		d3.selectAll('.edgepath').interrupt();
 		force.stop();
 		toggleAnimation = ! toggleAnimation;
 	} else {
-		//d3.selectAll('.node').restart();
-		//d3.selectAll('.edgepath').restart();
+		transitionToOpaque();
 		toggleAnimation = ! toggleAnimation;
 		force.restart()
 	}

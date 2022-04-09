@@ -16,7 +16,7 @@ var setup = (function () {
 })(); 
 
 var projectName = setup.setup.config['project.name'];
-console.log(projectName)
+
 
 var dataPath = "data/clustering.tracea.json"
 //if ( getUrlVars()['clust'] != null )
