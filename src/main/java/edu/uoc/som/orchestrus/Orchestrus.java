@@ -49,6 +49,7 @@ public class Orchestrus {
 		
 		// Store and deploy fragmentation
 		Trace tFrag = TraceFactory.buildFragmentationTrace();
+		tFrag.computeLinksTypesBasedDualityLocalVsExternal();
 		tFrag.computeArtefactsTypesBasedOnSourceFolders();
 		Utils.storeD3Tracea(tFrag, true);
 		Utils.storeD3Tracea(tFrag, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data.json");
@@ -56,13 +57,16 @@ public class Orchestrus {
 
 		// Store and deploy tracelinks
 		Trace tLinks = TraceFactory.buildReferencesTrace();
+		tLinks.computeLinksTypesBasedDualityLocalVsExternal();
 		//tLinks.computeArtefactsTypesBasedOnSourceFolders();
 		Utils.storeD3Tracea(tLinks, true);
 		Utils.storeD3Tracea(tLinks, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
 		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
 		
 		//Store and deploy setup and adjacency matrix
-		Utils.storeMatrixTracea(tLinks, true, Trace.ADJACENCY_THRESHOLD);
+		//Utils.storeMatrixTracea(tLinks, true, Trace.ADJACENCY_THRESHOLD);
+		
+		//Store full trace
 		Utils.storeFullTraceJSon(tLinks, true);
 		
 		System.out.println("Graph work...");
@@ -71,6 +75,7 @@ public class Orchestrus {
 		System.out.println("Clustering...");
 		Utils.storeAndDeployClustering(tg);
 		
+		Utils.storeSetup();
 		
 		System.out.println("Rendering...");
 		//tg.detectCycles();

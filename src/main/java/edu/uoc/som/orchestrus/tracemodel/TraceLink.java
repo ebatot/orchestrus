@@ -253,5 +253,14 @@ public class TraceLink extends TypedLink implements Serializable{
 		return false;
 	}
 
+	public void computeTypeBasedDualityLocalVsExternal() {
+		String sType = getType().getName();
+		if(sType.endsWith("ExternalFile"))
+			setType(LinkType.getType("Extern"));
+		else {
+			setType(LinkType.getType("Intern"));
+		}
+	}
+
 
 }
