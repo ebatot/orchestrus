@@ -165,7 +165,7 @@ public class Config {
 	static final String specificationModelsFolder = "specification-models";
 	static final String tabularEditorConfiguration = "tabular-editors-configurations";
 	static final String umlProfilesFolder = "uml-profiles";
-	static final String rootFolder = ".";
+//	static final String rootFolder = ".";
 	List<String> contentFolders = Arrays.asList(
 			architectureFramework, 
 			elementTypeConfiguration,
@@ -173,8 +173,8 @@ public class Config {
 			propertiesEditorConfiguration, 
 			specificationModelsFolder,
 			tabularEditorConfiguration, 
-			umlProfilesFolder,
-			rootFolder
+			umlProfilesFolder
+//			rootFolder
 		);
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";

@@ -1,8 +1,8 @@
-package edu.uoc.som.orchestrus.tracemodel.typing;
+package edu.uoc.som.orchestrus.tracemodel;
 
-import edu.uoc.som.orchestrus.tracemodel.Artefact;
-import edu.uoc.som.orchestrus.tracemodel.Trace;
-import edu.uoc.som.orchestrus.tracemodel.TraceLink;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
+import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 
 public class TestingTracemodel {
 
@@ -25,10 +25,10 @@ public class TestingTracemodel {
 		
 		Trace t = new Trace("TestClosure");
 		
-		ArtefactType typeCode    = ArtefactTypeFactory.addType("CodeType");
-		ArtefactType typeDesign  = ArtefactTypeFactory.addType("DesignType");
-		ArtefactType typePalette = ArtefactTypeFactory.addType("PaletteType");
-		ArtefactType typeEltType = ArtefactTypeFactory.addType("ETCType");
+		ArtefactType typeCode    = ArtefactTypeFactory.getType("CodeType");
+		ArtefactType typeDesign  = ArtefactTypeFactory.getType("DesignType");
+		ArtefactType typePalette = ArtefactTypeFactory.getType("PaletteType");
+		ArtefactType typeEltType = ArtefactTypeFactory.getType("ETCType");
 		
 		
 		/*
@@ -116,8 +116,8 @@ public class TestingTracemodel {
 	public void testTrace_1() {
 		Trace t = new Trace("TestTrace");
 		
-		ArtefactType atCode = ArtefactTypeFactory.addType("Code");
-		ArtefactType atDesign = ArtefactTypeFactory.addType("Design");
+		ArtefactType atCode = ArtefactTypeFactory.getType("Code");
+		ArtefactType atDesign = ArtefactTypeFactory.getType("Design");
 		
 		
 		Artefact artCode1 = new Artefact("artCode1", atCode);

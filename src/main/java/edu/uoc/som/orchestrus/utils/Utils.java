@@ -311,7 +311,7 @@ public class Utils {
 		String nodes = "";
 		artCollect.addAll(ArtefactFactory.getArtefacts().values());
 		for (Artefact a : artCollect) 
-			nodes += a.getD3JSon()+",\n";
+			nodes += a.renderD3JSon()+",\n";
 		if(!nodes.isBlank())
 			nodes = nodes.substring(0, nodes.length()-2);
 		nodes = "\"nodes\": [" + nodes + "]";

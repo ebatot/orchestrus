@@ -5,18 +5,18 @@ import java.util.HashMap;
 
 public class ArtefactTypeFactory {
 
-	public static final ArtefactType EXTERNAL_FILE_ARTEFACT = addType("ExternalFile");
-	public static final ArtefactType EXTERNAL_LOCATION_ARTEFACT = addType("ExternalLocation");
-	public static final ArtefactType EXTERNAL_ROOT_ARTEFACT = addType("ExternalRoot");
-	public static final ArtefactType LOCAL_FILE_ARTEFACT = addType("LocalFile");
-	public static final ArtefactType SOURCE_FILE_ARTEFACT = addType("SourceFile");
-	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = addType("LocalFolder");
-	public static final ArtefactType LOCAL_ROOT_ARTEFACT = addType("LocalRoot");
-	public static final ArtefactType ELEMENT_ARTEFACT = addType("Element");
-	public static final ArtefactType CUSTOM_JAVA_FOLDER_ARTEFACT =  addType("JavaCustomFolder");
-	public static final ArtefactType CUSTOM_JAVA_FILE_ARTEFACT =  addType("JavaCustomFile");
+	public static final ArtefactType EXTERNAL_FILE_ARTEFACT = getType("ExternalFile");
+	public static final ArtefactType EXTERNAL_LOCATION_ARTEFACT = getType("ExternalLocation");
+	public static final ArtefactType EXTERNAL_ROOT_ARTEFACT = getType("ExternalRoot");
+	public static final ArtefactType LOCAL_FILE_ARTEFACT = getType("LocalFile");
+	public static final ArtefactType SOURCE_FILE_ARTEFACT = getType("SourceFile");
+	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = getType("LocalFolder");
+	public static final ArtefactType LOCAL_ROOT_ARTEFACT = getType("LocalRoot");
+	public static final ArtefactType ELEMENT_ARTEFACT = getType("Element");
+	public static final ArtefactType CUSTOM_JAVA_FOLDER_ARTEFACT =  getType("JavaCustomFolder");
+	public static final ArtefactType CUSTOM_JAVA_FILE_ARTEFACT =  getType("JavaCustomFile");
 	
-	public static final ArtefactType GHOST_TYPE_FOR_DEV =  addType("DEV_TYPE");
+	public static final ArtefactType GHOST_TYPE_FOR_DEV =  getType("DEV_TYPE");
 
 	static ArtefactTypeFactory instance;
 
@@ -28,18 +28,15 @@ public class ArtefactTypeFactory {
 
 	HashMap<String, ArtefactType> types = new HashMap<>();
 
-	public static ArtefactType addType(String typeName) {
-		ArtefactType add = new ArtefactType(typeName);
-		getInstance().getTypes().put(typeName, add);
+	public static ArtefactType getType(String typeName) {
+		ArtefactType add = getInstance().getTypes().get(typeName);
+		if(add == null) {
+			add = new ArtefactType(typeName);
+			getInstance().getTypes().put(typeName, add);
+		}
 		return add;
 	}
-
-	public static ArtefactType getType(String typeName) {
-		if (getInstance().getTypes().get(typeName) == null)
-			addType(typeName);
-		return getInstance().getTypes().get(typeName);
-	}
-
+	
 	public Collection<ArtefactType> getTypesValues() {
 		return types.values();
 	}

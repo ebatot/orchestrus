@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
+import edu.uoc.som.orchestrus.config.Config;
 import edu.uoc.som.orchestrus.parsing.ReferenceFactory.Protocol;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
@@ -31,39 +32,15 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	private Protocol protocol = Protocol.no_protocol;
 
 
-//	private HashMap<String, Artefact> fragments = new HashMap<>();
 	private HashSet<Artefact> fragments = new HashSet<>();
 	private ArrayList<TraceLink> sourceOf = new ArrayList<>();
 	private ArrayList<TraceLink> targetOf = new ArrayList<>();
-	
-	public Artefact() {
-		this(newName(), ArtefactType.getUntyped());
-		sourceOf = new ArrayList<>();
-		targetOf = new ArrayList<>();
-		location = "";
-		protocol = Protocol.no_protocol;
-	}
 	
 	static int counter =0;
 	private static String newName() {
 		return "A"+counter++;
 	}
 
-	public Artefact(String name, ArtefactType type, String location, Artefact parent, boolean resolved) {
-		super(name, type);
-		this.parent = parent;
-//		if(parent != null)
-//			addFragment(parent);
-		this.location = location;
-		sourceOf = new ArrayList<>();
-		targetOf = new ArrayList<>();
-		this.resolves = resolved;
-		if(resolves)
-			protocol = Protocol.local;
-		
-		hashCode = (getProtocol()+getLocation()+getName()).hashCode();
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -85,14 +62,45 @@ public class Artefact extends TypedArtefact  implements Serializable{
 		return hashCode;
 	}
 
+	protected Artefact() {
+		this(newName(), ArtefactType.getUntyped());
+		sourceOf = new ArrayList<>();
+		targetOf = new ArrayList<>();
+		location = "";
+		protocol = Protocol.no_protocol;
+	}
+
+	protected Artefact(String name, ArtefactType type, String location, Artefact parent, boolean resolved) {
+		super(name, type);
+		this.parent = parent;
+		// if(parent != null)
+		// addFragment(parent);
+		this.location = location;
+		sourceOf = new ArrayList<>();
+		targetOf = new ArrayList<>();
+		this.resolves = resolved;
+		if (resolves)
+			protocol = Protocol.local;
+
+		hashCode = (getProtocol() + getLocation() + getName()).hashCode();
+		computeTypeBasedOnSourceFolder();
+	}
+
+	protected void computeTypeBasedOnSourceFolder() {
+		for (String cf : Config.getInstance().getContentFoldersName()) {
+			if(location.contains(cf)) {
+				setType(ArtefactTypeFactory.getType(cf));
+			}
+		}
+	}
+
 	/**
-	 * TEST PURPOSE.
 	 * @param name
 	 * @param type
 	 * @param location
 	 * @param parent
 	 */
-	public Artefact(String name, ArtefactType type, String location, Artefact parent) {
+	protected Artefact(String name, ArtefactType type, String location, Artefact parent) {
 		this(name, type, location, parent, false);
 	}
 
@@ -101,7 +109,7 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	 * @param name
 	 * @param type
 	 */
-	public Artefact(String name, ArtefactType type) {
+	protected Artefact(String name, ArtefactType type) {
 		this(name, type, null, null, false);
 	}
 	
@@ -116,7 +124,7 @@ public class Artefact extends TypedArtefact  implements Serializable{
 		return res + "}";
 	}
 	
-	public String getD3JSon() {
+	public String renderD3JSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 
