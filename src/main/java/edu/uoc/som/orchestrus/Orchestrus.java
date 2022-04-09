@@ -49,12 +49,14 @@ public class Orchestrus {
 		
 		// Store and deploy fragmentation
 		Trace tFrag = TraceFactory.buildFragmentationTrace();
+		tFrag.computeArtefactsTypesBasedOnSourceFolders();
 		Utils.storeD3Tracea(tFrag, true);
 		Utils.storeD3Tracea(tFrag, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data.json");
 		Utils.storeD3Tracea(tFrag, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_data_wth_elements.json");
 
 		// Store and deploy tracelinks
 		Trace tLinks = TraceFactory.buildReferencesTrace();
+		//tLinks.computeArtefactsTypesBasedOnSourceFolders();
 		Utils.storeD3Tracea(tLinks, true);
 		Utils.storeD3Tracea(tLinks, false, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data.json");
 		Utils.storeD3Tracea(tLinks, true, true, "R:\\Coding\\Git\\orchestrus\\meta\\d3viewer\\data\\input_trace_data_wth_elements.json");
