@@ -1,4 +1,4 @@
- {
+{"forceProperties": {
     "center": {
         "x": "0.5",
         "y": "0.5"
@@ -30,4 +30,4 @@
         "distance": "100",
         "iterations": "1"
     }
-}
+}}

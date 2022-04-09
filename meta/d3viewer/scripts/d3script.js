@@ -45,7 +45,6 @@ var forceProperties = {
         iterations: 2
     }
 }
-
 /*
 // Attempt to load forceProperties from file.
 forceProperties = (function () {
@@ -64,26 +63,31 @@ forceProperties = (function () {
 	return json;
 })(); 
 
+
 var forceProperties
-function setUpProperties(properties) {
-	return properties;
-}
 function getForceProperties() {
-    return $.ajax({
-        url: "./setup/forceProperties.json",
-        dataType: "json"
+	return $.ajax({
+		global: false,
+		url: "./setup/forceProperties.json",
+		dataType: "json",
+		success: function (data) {
+			json = data;
+		}
     });
 }
 forceProperties = getForceProperties().done(function (data) {
-    // use the data somehow, e.g. in d3
-});*/
+	return data
+});
+forceProperties = forceProperties['forceProperties']
 
 console.log(forceProperties.center.x)
-
+*/
 
 
 var NODES_SIZE = [8, 25];
 var EDGES_SIZE = [2, 16];
+var SORT_LEGEND = false
+var moving = true;
 
 
 
@@ -158,8 +162,6 @@ svg.on('click', function(d, i) {
 // force simulator
 var simulation = this.force = d3.forceSimulation();
 
-
-
 var	graph,
 	links,
 	node,
@@ -170,11 +172,6 @@ var	graph,
 	legendNamesLinks, lGroups,
 	linkedByIndex;
 
-var SORT_LEGEND = true
-
-var moving = true;
-	
-	
 
 ////////////// COLORING NODES AND LINKS   ///////////
 function getColorSlices(colorSlice) {

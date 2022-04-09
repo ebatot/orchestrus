@@ -17,9 +17,6 @@ var setup = (function () {
 
 var projectName = setup['project.name'];
 
-
-
-    
 var dataPath = "data/clustering.tracea.json"
 //if ( getUrlVars()['clust'] != null )
 //    dataPath = getUrlVars()['clust']; 
