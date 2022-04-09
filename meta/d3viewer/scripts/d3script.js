@@ -12,26 +12,25 @@
 * UOC - SOM 
 * Edouard Batot (UOC SOM) ebatot@uoc.edu 
 *****************************************************************************/
-
-forceProperties = {
-    center: {
+var forceProperties = {
+	center: {
         x: 0.5,
         y: 0.5
     },
     charge: {
         enabled: true,
         strength: -50,
-        distanceMin: 10,
-        distanceMax: 60
+        distanceMin: 30,
+        distanceMax: 100
     },
     collide: {
-        enabled: true,
+		enabled: true,
         strength: .13,
         iterations: 2,
         radius: 20
     },
     forceX: {
-        enabled: false,
+		enabled: false,
         strength: .1,
         x: .5
     },
@@ -42,10 +41,46 @@ forceProperties = {
     },
     link: {
         enabled: true,
-        distance: 40,
+        distance: 100,
         iterations: 2
     }
 }
+
+/*
+// Attempt to load forceProperties from file.
+forceProperties = (function () {
+	var json = null;
+	$.ajax({
+		'async': false,
+		'global': false,
+		'url': "./setup/forceProperties.json",
+		'dataType': "json",
+		'success': function (data) {
+			json = data;
+		},
+		'error': function (data) {
+		}
+	});
+	return json;
+})(); 
+
+var forceProperties
+function setUpProperties(properties) {
+	return properties;
+}
+function getForceProperties() {
+    return $.ajax({
+        url: "./setup/forceProperties.json",
+        dataType: "json"
+    });
+}
+forceProperties = getForceProperties().done(function (data) {
+    // use the data somehow, e.g. in d3
+});*/
+
+console.log(forceProperties.center.x)
+
+
 
 var NODES_SIZE = [8, 25];
 var EDGES_SIZE = [2, 16];
@@ -462,7 +497,6 @@ function updateThresholdValue(value, attribute, links) {
 
 function testThresholds(link) {
 	var toInclude = (thresholdsMergeOperator == AND) ? true : false;
-	//Object.keys(obj).forEach(key => console.log(key, obj[key]))
 	Object.keys(thresholds).forEach(function (k) {
 		t = thresholds[k];
 		if(thresholdsCheckboxesValues[k] ) {// Ticked box
@@ -677,7 +711,6 @@ function searchNodesByType(term) {
 
 	setNodeSelection(selectedIDs)
 	
-	console.log(selectedIDs)
 	*/
 
 
@@ -889,27 +922,10 @@ function initializeSimulation(nodes) {
 	simulation.on("tick", ticked);
 }
 
-/* 
 
-var forceProperties = (function () {
-	var json = null;
-	$.ajax({
-		'async': false,
-		'global': false,
-		'url': "../setup/forceProperties.json",
-		'dataType': "json",
-		'success': function (data) {
-			json = data;
-		}
-	});
-	console.log(json)
-	return json;
-})(); 
-*/
+
 
 updateForcePropertiesValues()
-
-
 function updateForcePropertiesValues() {
 	//console.log(forceProperties)
 	d3.select('#link_DistanceSliderOutput').text(forceProperties.link.distance); 
