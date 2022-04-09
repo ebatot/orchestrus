@@ -180,7 +180,7 @@ public class ClusteringSetup {
 		LOGGER.finer("Clustering stored in '" + outputFolderPath + File.separator + "clustering.tracea.json" + "'");
 		if (deployFolderPath != null) {
 			Utils.writeJSon(deployFolderPath + File.separator + "clustering.tracea.json",  clusterResults );
-			Utils.writeJSon(deployFolderPath + File.separator + "setup.tracea.json", "{" + setup + "}" );
+			//Utils.writeJSon(deployFolderPath + File.separator + "setup.tracea.json", "{" + setup + "}" );
 			LOGGER.finer("Clustering deployed in '" + deployFolderPath + File.separator + "clustering/setup.tracea.json" + "'");
 		}
 	}

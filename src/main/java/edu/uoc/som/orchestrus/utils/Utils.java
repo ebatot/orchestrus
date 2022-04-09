@@ -41,6 +41,7 @@ import net.thisptr.jackson.jq.module.loaders.BuiltinModuleLoader;
 
 public class Utils {
 	final static java.util.logging.Logger LOGGER = java.util.logging.Logger.getLogger(Utils.class.getName());
+	final static java.util.logging.Logger LOGGER_FILE_WRITE = java.util.logging.Logger.getLogger(Utils.class.getName()+".fw");
 
 	
 	
@@ -160,6 +161,7 @@ public class Utils {
 		File f = new File(filePath);
 		try {
 			FileUtils.write(f, json);
+			LOGGER_FILE_WRITE.fine("JSon written in '"+f.getAbsolutePath()+"'");
 			LOGGER.fine("JSon written in '"+f.getAbsolutePath()+"'");
 			return f;
 		} catch (IOException e) {
@@ -389,6 +391,11 @@ public class Utils {
 	public static void storeAndDeployClustering(TraceGraph tg) {
 		ClusteringSetup.storeAndDeployClustering(tg, "data\\out\\" + Config.getInstance().getProjectName() + "\\clusters",
 				Config.getInstance().getDeploymentLocation() );
+	}
+
+	public static void storeSetup() {
+		String setup = Config.renderSetupJSon();
+		Utils.writeJSon(Config.getInstance().getDeploymentLocation() + File.separator + "setup.tracea.json", "{" + setup + "}" );
 	}
 
 }

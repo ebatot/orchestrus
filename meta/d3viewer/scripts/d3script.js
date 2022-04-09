@@ -82,13 +82,29 @@ forceProperties = forceProperties['forceProperties']
 
 console.log(forceProperties.center.x)
 */
+var setuptPath = "data/setup.tracea.json"
+var setup = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': setuptPath,
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+})(); 
+
+var projectName = setup.setup.config['project.name'];
+console.log(projectName)
 
 
 var NODES_SIZE = [8, 25];
 var EDGES_SIZE = [2, 16];
 var SORT_LEGEND = false
 var moving = true;
-
 
 
 
@@ -101,7 +117,7 @@ var log = d3.select("body").select("center").append("label").style('color', '#90
 
 /// URL arguments 
 var dataPath = "data/input_trace_data.json"
-if (getUrlVars()['imf'] != null)
+if (getUrlVars()['imf'] != null) 
 	dataPath = getUrlVars()['imf'];
 
 var colorSchemeCategory = "schemeCategory20"
@@ -153,10 +169,21 @@ var container = svg.append('g');
 var gLines = container.append('g').attr("id", "lines");
 var gNodes = container.append('g').attr("id", "nodes");
 
+var toggleAnimation = 1;
 // Call zoom for svg container.
 svg.call(d3.zoom().on('zoom', zoomed));
 svg.on('click', function(d, i) {
-	stopMoving();
+	if(toggleAnimation) {
+		//d3.selectAll('.node').interrupt();
+		//d3.selectAll('.edgepath').interrupt();
+		force.stop();
+		toggleAnimation = ! toggleAnimation;
+	} else {
+		//d3.selectAll('.node').restart();
+		//d3.selectAll('.edgepath').restart();
+		toggleAnimation = ! toggleAnimation;
+		force.restart()
+	}
 });
 
 // force simulator
@@ -730,7 +757,7 @@ function getUrlVars() {
 
 
 function stopMoving() {
-	force.stop();
+	
 }
 
 

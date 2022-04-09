@@ -18,11 +18,15 @@
         "frag": ""
     },
     "display" : {
+        "show.elements": "false",
         "label.artefact": "name",
         "label.link": "none",
-        "show.elements": "false",
-        "size.nodes.min": "10",
-        "size.nodes.max": "100",
+
+        "colors.artefacts": "6",
+        "colors.link": "4",
+
+        "size.artefacts.min": "10",
+        "size.artefacts.max": "100",
         "size.links.min": "10",
         "size.links.max": "50",
 
