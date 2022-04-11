@@ -14,8 +14,7 @@
         "file": "src/main/resources/clustering-glossary.json"
     },
     "deploy": {
-        "location": "meta/d3viewer/data/",
-        "frag": ""
+        "location": "meta/d3viewer/data/"
     },
     "display": {
         "size.artefacts.max": "100",
