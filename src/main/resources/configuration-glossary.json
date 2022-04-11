@@ -26,8 +26,10 @@
         "label.artefact": "name",
         "label.link": "none",
         
-        "size.artefacts.max": "30",
+        "size.artefacts.max": "70",
         "size.artefacts.min": "10",
         "size.links.max": "18",
-        "size.links.min": "5"    }
+        "size.links.min": "5",
+        "animation.duration": "4000"    
+    }
 }
