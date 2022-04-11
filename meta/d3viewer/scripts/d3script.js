@@ -558,22 +558,27 @@ var legendNodes
 var legendLinks
 
 function addlegend(legendNamesNodes, legendNamesLinks) {
-	legend = d3.select("#legendBox").append("div").attr("class", "boxContent");
-	
+	//legend = d3.select("#linksLegendBox").append("div").attr("class", "boxContent");
+	legendNodes = d3.select("#nodesLegendBox").append("div").attr("class", "boxContent");
+	legendLinks = d3.select("#linksLegendBox").append("div").attr("class", "boxContent");
+
+
 	//Make it draggable
-	dragBox(document.getElementById('legendBox'))
+	dragBox(document.getElementById('linksLegendBox'))
+	dragBox(document.getElementById('nodesLegendBox'))
 		
+	/*
 	legendSize = (nGroups + lGroups + 1) * 20
 	legend = legend.append("svg")
 		.attrs({
 			"width": 200,
 			"height": legendSize
-		})
+		})*/
 
 		
-	legendNodes = addlegendNodes(legend, legendNamesNodes);
-	legendLinks = addlegendLinks(legend, legendNamesLinks);
-	log.text("legend size : "+legendSize)
+	legendNodes = addlegendNodes(legendNodes, legendNamesNodes);
+	legendLinks = addlegendLinks(legendLinks, legendNamesLinks);
+	//log.text("legend size : "+legendSize)
 }
 
 function addlegendNodes(legend, legendNamesNodes){
@@ -582,7 +587,6 @@ function addlegendNodes(legend, legendNamesNodes){
 		.append("svg")
 		.attr("class", "legend")
 		.attr("id", "legendNodes")
-		.attr("width", 180)
 		.attr("height", (legendNamesNodes.length * 20))
 		.selectAll("g")
 		.data(colorNodes.domain())
@@ -619,11 +623,10 @@ function addlegendLinks(legend, legendNamesLinks){
 		.append("svg")
 		.attr("class", "legend")
 		.attr("id", "legendLinks")
-		.attr("width", 180)
-		.attr("height", (legendNamesLinks.length + 1) * 20 )
-		.attr("y", ((nGroups + 1) * 20) )
+		.attr("height", (legendNamesLinks.length) * 20 )
+		//.attr("y", ((nGroups + 1) * 20) )
 		//Offset to show link legend below node legend
-		.attr("transform", "translate(0," +((nGroups + 1) * 20) + ")")
+		//.attr("transform", "translate(0," +((nGroups + 1) * 20) + ")")
 		.selectAll("g")
 		.data(colorLinks.domain())
 		.enter()

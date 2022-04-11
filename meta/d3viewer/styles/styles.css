@@ -65,19 +65,20 @@ html {
   }
   
   #controlBox {  right: 0px;  top: 50px;  width: 200px; left: 10px;}
-  #searchBox  {  right: 10px;  top: 50px;  width: 200px;}
-  #sliderBox  {  right: 10px;  top: 102px;  width: 200px;}
-  #legendBox  {  right: 10px;  top: 160px;  width: 200px;}
-  #clusterBox  {  right: 10px;  top: 300px;  width: 200px; left: 10px;}
+  #searchBox  {  right: 0px;  top: 315px;  width: 200px; left: 10px;}
+  #sliderBox  {  right: 0px;  top: 366px;  width: 200px; left: 10px;}
+  #linksLegendBox  {  right: 215px;  top: 50px;  width: 200px;}
+  #nodesLegendBox  {  right: 10px;  top: 50px;  width: 200px;}
+  #clusterBox  {  right: 10px;  top: 72px;  width: 200px; left: 10px;}
   
 
-  #clusterBox {
+  #clusterBox, #linksLegendBox, #nodesLegendBox {
       max-height: 240px;
       overflow-x: hidden;
       overflow-y: auto;
   }
 
- #clusterBoxHeader, #sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader {
+ #clusterBoxHeader, #sliderBoxHeader, #legendBoxHeader, #controlBoxHeader, #searchBoxHeader, #colorBoxHeader, #linksLegendBoxHeader, #nodesLegendBoxHeader {
     background-color: rgb(205 190 205);
     cursor: move;
     font-weight: bold;
@@ -103,17 +104,17 @@ html {
   
   .legend {
     border-radius: 3px;
-    border: 1px rgb(54, 2, 2) solid;
+   
     padding: 2px;
-    margin: 2px 2px 2px 0px ;
+    margin: 0px 0px 0px 0px ;
     font-size: 60%;
   }
   
   input[type="range"]::-webkit-slider-thumb{
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
     background-color: #060;
     overflow: visible;
     cursor: pointer;
