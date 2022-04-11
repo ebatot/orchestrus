@@ -1,5 +1,6 @@
 package edu.uoc.som.orchestrus;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -29,7 +30,14 @@ public class Orchestrus {
  * builds references from source files, 
  * then builds artefacts as sources and targets of these references.		
  */
-		Config config = Config.getInstance("src/main/resources/configuration-references.json");
+		String configurationFile = "src/main/resources/configuration-sample.json";
+		if(args.length > 0) {
+			configurationFile = args[0];
+			if(new File("src/main/resources"+File.separator+configurationFile).exists())
+				configurationFile = "src/main/resources"+File.separator+configurationFile;
+		}
+		Config config = Config.getInstance(configurationFile);
+//		Config config = Config.getInstance("src/main/resources/configuration-references.json");
 //		Config config = Config.getInstance("src/main/resources/configuration-glossary.json");
 		StaticExplorer ppse = new StaticExplorer(config);
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
