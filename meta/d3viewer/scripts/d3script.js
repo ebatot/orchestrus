@@ -122,7 +122,9 @@ var dataPath = "data/input_trace_data.json"
 if (getUrlVars()['imf'] != null) 
 	dataPath = getUrlVars()['imf'];
 
-var colorSchemeCategory = "schemeCategory20"
+var colorSchemeCategory = setup.display['color.scheme']
+if(colorSchemeCategory == null)
+	colorSchemeCategory = "schemeCategory20"
 if ( getUrlVars()['colorScheme'] != null )
 	colorSchemeCategory = getUrlVars()['colorScheme'];
 
