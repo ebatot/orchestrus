@@ -105,7 +105,7 @@ console.log(projectName)
 
 var NODES_SIZE = [setup.display['size.artefacts.min'], setup.display['size.artefacts.max']];
 var EDGES_SIZE = [setup.display['size.links.min'], setup.display['size.links.max']];
-var SORT_LEGEND = false
+var SORT_LEGEND = true
 var moving = true;
 
 
