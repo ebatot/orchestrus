@@ -70,7 +70,7 @@ public class TraceGraph {
 		this.trace = t;
 		this.frag = fragmentation;
 		this.graph = buildGraph(t, false);
-		detectCycles(true);
+		//detectCycles(true);
 
 //		-4787022384348844445
 //		-2221988569368117268

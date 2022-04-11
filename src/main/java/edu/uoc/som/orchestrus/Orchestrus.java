@@ -29,8 +29,8 @@ public class Orchestrus {
  * builds references from source files, 
  * then builds artefacts as sources and targets of these references.		
  */
-//		Config config = Config.getInstance("src/main/resources/configuration-references.json");
-		Config config = Config.getInstance("src/main/resources/configuration-glossary.json");
+		Config config = Config.getInstance("src/main/resources/configuration-references.json");
+//		Config config = Config.getInstance("src/main/resources/configuration-glossary.json");
 		StaticExplorer ppse = new StaticExplorer(config);
 		String interArtDependencies_JSON = ppse.getInterArtefactReferences_Json();
 		Utils.storeDependencies_HC(interArtDependencies_JSON);
@@ -71,6 +71,7 @@ public class Orchestrus {
 		
 		System.out.println("Graph work...");
 		TraceGraph tg = new TraceGraph(tLinks, tFrag);
+//		TraceGraph gt = new TraceGraph(tFrag, tFrag);
 		
 		System.out.println("Clustering...");
 		Utils.storeAndDeployClustering(tg);
@@ -83,7 +84,7 @@ public class Orchestrus {
 //		show.createAndShowGui();
 		System.err.flush();
 		System.out.println("\n\n-- Safe Exit o·~ !¡");
-		
+		System.exit(0);
 	}
 
 	/*

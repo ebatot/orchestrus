@@ -16,14 +16,18 @@
         "frag": ""
     },
     "display": {
-        "label.artefact": "name",
-        "label.link": "none",
-        "show.elements": "false",
-        "size.nodes.min": "10",
-        "size.nodes.max": "100",
-        "size.links.min": "10",
+        "size.artefacts.max": "100",
+        "size.artefacts.min": "10",
         "size.links.max": "50",
-    
-        "matrix.adjacency.threshold": "0.0"
+        "size.links.min": "10",
+        "animation.duration": "4000",
+        "color.links": "12",
+        "color.artefacts": "7"
+    },
+    "generation": {
+        "matrix.adjacency.threshold": "0.0",
+        "show.elements": "false",
+        "label.artefacts": "name",
+        "label.links": "none"
     }
 }

@@ -225,8 +225,8 @@ public class ClusteringSetup {
 	 */
 	private static String printClusters(String clusterFolderPath, List<Cluster> traceClusters, ClusteringAlgo ca) {
 		int sClusters = traceClusters.size();
-		int minSizeCluster = ca.getParameterAsInt("minSizeCluster");
-		traceClusters = traceClusters.stream().filter(t -> t.getTrace().getTraceLinks().size() >= minSizeCluster)
+		int minSizeCluster = ca.getParameterAsInt("cluster.size.min");
+		traceClusters = traceClusters.stream().filter(t -> t.getTrace().getTraceLinks().size() >= minSizeCluster-1) //Counting links
 				.collect(Collectors.toList());
 		;
 		LOGGER.finer(sClusters + " clusters. " + traceClusters.size() + " with size >= " + minSizeCluster);

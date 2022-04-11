@@ -14,12 +14,21 @@
         "file": "src/main/resources/clustering-glossary.json"
     },
     "deploy": {
-        "location": "meta/d3viewer/data/",
-        "frag": ""
+        "location": "meta/d3viewer/data/"
     },
-    "display" : {
-        "label.artefact": "none",
-        "label.link": "none",
-        "show.elements": "true"
+    "display": {
+        "size.artefacts.max": "100",
+        "size.artefacts.min": "10",
+        "size.links.max": "50",
+        "size.links.min": "10",
+        "animation.duration": "4000",
+        "color.links": "12",
+        "color.artefacts": "7"
+    },
+    "generation": {
+        "matrix.adjacency.threshold": "0.0",
+        "show.elements": "false",
+        "label.artefacts": "name",
+        "label.links": "none"
     }
 }

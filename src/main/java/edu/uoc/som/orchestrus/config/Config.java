@@ -89,11 +89,11 @@ public class Config {
 				throw new IllegalArgumentException("Deployment location not found: '+"+clusteringSetupLocation+"'");
 			
 			
-			JSONObject display = (JSONObject) configJSon.get("display");
-			Artefact.D3_PRINT_LABEL_OPTION = Artefact.PrintLabelOptions.valueOf(display.getAsString("label.artefact").toUpperCase());
-			TraceLink.D3_PRINT_LABEL_OPTION = TraceLink.PrintLabelOptions.valueOf(display.getAsString("label.link").toUpperCase());
-			Trace.PRINT_ELEMENTS = display.getAsString("show.elements").toLowerCase().equals("true");
-			Trace.ADJACENCY_THRESHOLD = Double.parseDouble(display.getAsString("matrix.adjacency.threshold"));
+			JSONObject generation = (JSONObject) configJSon.get("generation");
+			Artefact.D3_PRINT_LABEL_OPTION = Artefact.PrintLabelOptions.valueOf(generation.getAsString("label.artefacts").toUpperCase());
+			TraceLink.D3_PRINT_LABEL_OPTION = TraceLink.PrintLabelOptions.valueOf(generation.getAsString("label.links").toUpperCase());
+			Trace.PRINT_ELEMENTS = generation.getAsString("show.elements").toLowerCase().equals("true");
+			Trace.ADJACENCY_THRESHOLD = Double.parseDouble(generation.getAsString("matrix.adjacency.threshold"));
 			
 			
 			LOGGER.info(""
@@ -165,7 +165,7 @@ public class Config {
 	static final String specificationModelsFolder = "specification-models";
 	static final String tabularEditorConfiguration = "tabular-editors-configurations";
 	static final String umlProfilesFolder = "uml-profiles";
-//	static final String rootFolder = ".";
+	static final String rootFolder = ".";
 	List<String> contentFolders = Arrays.asList(
 			architectureFramework, 
 			elementTypeConfiguration,
@@ -173,8 +173,8 @@ public class Config {
 			propertiesEditorConfiguration, 
 			specificationModelsFolder,
 			tabularEditorConfiguration, 
-			umlProfilesFolder
-//			rootFolder
+			umlProfilesFolder,
+			rootFolder
 		);
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";
