@@ -47,7 +47,7 @@ var onLoad = function() {
     // 1. HTML document title
     
     
-    var dataPath = "data/setup.json"
+    var dataPath = "data/tracing.tracea.json"
     if ( getUrlVars()['imf'] != null )
         dataPath = getUrlVars()['imf']; 
     
