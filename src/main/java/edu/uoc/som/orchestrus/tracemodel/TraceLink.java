@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactType;
+import edu.uoc.som.orchestrus.tracemodel.typing.ArtefactTypeFactory;
 import edu.uoc.som.orchestrus.tracemodel.typing.LinkType;
 import edu.uoc.som.orchestrus.tracemodel.typing.TypedLink;
 
@@ -260,6 +261,24 @@ public class TraceLink extends TypedLink implements Serializable{
 		else {
 			setType(LinkType.getType("Intern"));
 		}
+	}
+
+	public void computeTypesBasedOnEndTypes() {
+		ArtefactType atSource = sources.get(0).getType();
+		ArtefactType atTarget = targets.get(0).getType();
+		String source = atSource.getName();
+		String res = source + "-" + atTarget.getName();
+
+		if(atSource == atTarget)
+			res = atSource.getName();
+		if(atSource == ArtefactTypeFactory.LOCAL_ROOT_ARTEFACT)
+			res = "LocalRoot";
+		if(atSource == ArtefactTypeFactory.EXTERNAL_ROOT_ARTEFACT)
+			res = "ExternalRoot";
+		if(atSource == ArtefactTypeFactory.EXTERNAL_LOCATION_ARTEFACT)
+			res = "ExternalLocation";
+		
+		setType(LinkType.getType(res));
 	}
 
 

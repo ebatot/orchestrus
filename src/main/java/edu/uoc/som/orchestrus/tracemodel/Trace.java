@@ -42,6 +42,11 @@ public class Trace extends TracingElement {
 			tl.computeTypeBasedDualityLocalVsExternal();
 		}
 	}
+	public void computeLinksTypesBasedOnEndTypes() {
+		for (TraceLink tl : getTraceLinks()) {
+			tl.computeTypesBasedOnEndTypes();
+		}
+	}
 
 	public String printTraceaJSon() {
 		
