@@ -90,7 +90,7 @@ public class Artefact extends TypedArtefact  implements Serializable{
 		if(!this.isOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)) {
 			for (String cf : Config.getInstance().getContentFoldersName()) {
 				if(!cf.equals("."))
-					if(location.contains(cf)) {
+					if(location.contains(cf) || getName().equals(cf)) {
 						setType(ArtefactTypeFactory.getType(cf));
 					}
 			}
