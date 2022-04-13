@@ -158,6 +158,7 @@ public class Config {
 	/*
 	 * Hard coded folders names
 	 */
+	
 	static final String architectureFramework = "architecture-framework";
 	static final String elementTypeConfiguration = "element-type-configurations";
 	static final String paletteConfigurationsFolder = "palette-configurations";
@@ -176,6 +177,31 @@ public class Config {
 			umlProfilesFolder,
 			rootFolder
 		);
+	public static String getContentFoldersLifeCyclePhaseName(String cf) {
+		switch (cf) {
+		case Config.architectureFramework:
+			cf = "Architecture";
+			break;
+		case Config.elementTypeConfiguration:
+			cf = "ElementTypeConfiguration";
+			break;
+		case Config.paletteConfigurationsFolder:
+		case Config.propertiesEditorConfiguration:
+			cf = "Paletization";
+			break;
+		case Config.specificationModelsFolder:
+			cf = "Model";
+			break;
+		case Config.tabularEditorConfiguration:
+			cf = "Design";
+			break;
+		case Config.umlProfilesFolder:
+			cf = "Profile";
+		default:
+			break;
+		}
+		return cf;
+	}
 	
 	static String TOOL_REQ_MODEL_SUFFIX = "_ToolReqModel";
 	static String DOMAIN_MODEL_SUFFIX = ".domainmodel";

@@ -89,10 +89,12 @@ public class Artefact extends TypedArtefact  implements Serializable{
 	protected void computeTypeBasedOnSourceFolder() {
 		if(!this.isOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)) {
 			for (String cf : Config.getInstance().getContentFoldersName()) {
-				if(!cf.equals("."))
+				if(!cf.equals(".")) {
 					if(location.contains(cf) || getName().equals(cf)) {
+						cf = Config.getContentFoldersLifeCyclePhaseName(cf);
 						setType(ArtefactTypeFactory.getType(cf));
 					}
+				}
 			}
 			for (File cf : Config.getInstance().getJavaCustomFolders()) {
 				if(location.contains(cf.getName())) {
