@@ -98,8 +98,9 @@ var setup = (function () {
 })(); 
 setup = setup.setup;
 var projectName = setup.config['project.name'];
-console.log(projectName)
 
+
+d3.select("#headerSubTitle").text("Trace analysis of "+ projectName );
 
 
 
@@ -672,7 +673,7 @@ function buildLegendNames(nodes){
 		}
 	}
 	if(SORT_LEGEND)
-		legendNames.sort( function( a, b ) { return a.id - b.id });
+		legendNames.sort( function( a, b ) { return b.type - a.type; });
 	return legendNames;
 }
 
@@ -1147,7 +1148,7 @@ function emphasizeClusterName(cname) {
 	d3.select("#cluster"+cname).transition().delay(ANIMATIONS_TIMEOUT_DURATION * 1).style("color", "black");
 }
 
-///////////////// Force ancestry trace visualization /////////////////
+///////////////// Ancestry trace visualization /////////////////
 function checkFatOption() {
 	if (getUrlVars()['fat'] != null) {//force ascendency trace
 		forceAncestryTrace(getUrlVars()['fat'].indexOf("t") == 0);
@@ -1199,6 +1200,7 @@ function loadThresHolds() {
 
 
 function buildUrlArgs() {
+	// NOT IMPLEMENTED - do not use
 	fat = "fat='" + (FORCE_ANCESTRY_TRACE ? "t" : "f") + "'";
 	lColor = "lc='" + lColorSlice + "'"
 	nColor = "nc='" + nColorSlice + "'"
