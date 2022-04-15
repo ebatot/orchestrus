@@ -673,7 +673,7 @@ function buildLegendNames(nodes){
 		}
 	}
 	if(SORT_LEGEND)
-		legendNames.sort( function( a, b ) { return b.type - a.type; });
+		legendNames.sort( (a, b) => a.type.localeCompare(b.type));
 	return legendNames;
 }
 
