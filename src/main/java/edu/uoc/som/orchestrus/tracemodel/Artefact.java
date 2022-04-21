@@ -134,10 +134,15 @@ public class Artefact extends TypedArtefact  implements Serializable{
 		return res + "}";
 	}
 	
+	/**
+	 * 
+	 * @return a JSon interpretable by TraceaD3.
+	 */
 	public String renderD3JSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
-
+		res += "\"fanin\": \"" + getFragments().size() + "\",";
+		// TODO Labelize better - with a "label" attribute independent to "name" attribute.
 		switch (D3_PRINT_LABEL_OPTION) {
 		case FULL:
 			res += "\"name\": \"" + getProtocol() + "::"

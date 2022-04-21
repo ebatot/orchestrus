@@ -48,7 +48,7 @@ public class Trace extends TracingElement {
 		}
 	}
 
-	public String printTraceaJSon() {
+	public String renderTraceaJSon() {
 		
 		String trace = "";
 		for (TraceLink traceLink : traceLinks) 
@@ -408,7 +408,7 @@ public class Trace extends TracingElement {
 		String links = "" ;
 		for (TraceLink tl : getTraceLinks()) 
 				if(showElements || (!showElements && !tl.touchElementOfType(ArtefactTypeFactory.ELEMENT_ARTEFACT)))
-					links += tl.getD3Json()+",\n";
+					links += tl.renderD3Json()+",\n";
 			
 		if(!links.isBlank())
 			links = links.substring(0, links.length()-2);

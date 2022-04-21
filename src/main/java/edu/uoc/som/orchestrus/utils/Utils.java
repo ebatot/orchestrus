@@ -304,7 +304,7 @@ public class Utils {
 		
 		String links = "" ;
 		for (TraceLink tl : allFragment) 
-			links += tl.getD3Json()+",\n";
+			links += tl.renderD3Json()+",\n";
 		if(!links.isBlank())
 			links = links.substring(0, links.length()-2);
 		links = "\"links\": [" + links + "]";

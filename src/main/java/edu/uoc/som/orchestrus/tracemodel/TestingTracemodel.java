@@ -106,7 +106,7 @@ public class TestingTracemodel {
 //		System.out.println("Closure of l1: (" +  l1.getClosure().size() + "/3) " + l1.getClosure());
 		System.out.println("Closure of t: (" +  t.getTraceLinks().size() + "/8) " + t.getTraceLinks());
 		
-		System.out.println(t.printTraceaJSon());
+		System.out.println(t.renderTraceaJSon());
 		
 		
 		//TODO load from json and assert elements count.
@@ -137,7 +137,7 @@ public class TestingTracemodel {
 		tl1.addSource(afCode2_1);
 			tl1.addSource(afDesg1_1);
 		
-		System.out.println(t.printTraceaJSon());
+		System.out.println(t.renderTraceaJSon());
 
 	}
 

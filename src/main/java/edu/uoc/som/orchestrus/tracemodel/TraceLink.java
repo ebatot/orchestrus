@@ -203,10 +203,9 @@ public class TraceLink extends TypedLink implements Serializable{
 	 * ONLY MONO ENDED !! Only first source and first target considered ! WARNING !
 	 * 
 	 * Confidence is tweaked with the number of occurence found.
-	 * TODO Change "confidence" to "intensity"
 	 * @return
 	 */
-	public String getD3Json() {
+	public String renderD3Json() {
 		String label = "";
 		switch (D3_PRINT_LABEL_OPTION) {
 		case FULL:
@@ -236,18 +235,24 @@ public class TraceLink extends TypedLink implements Serializable{
 		res += "\"target_id\": \"" + targets.get(0).getID() + "\",";
 		res += "\"type\": \"" + getType().getName() + "\",";
 		res += "\"group\": " + getType().getNumber() + ",";
-		res += "\"confidence\": " + numberOfOccurences /*confidence*/ + ",";
+		res += "\"intensity\": " + numberOfOccurences + ",";
+		res += "\"confidence\": " + numberOfOccurences /*TODO restore "confidence"*/ + ",";
 		res += "\"energy\": 100";
 		return res + "}";
 	}
 	
-	public boolean touchElementOfType(ArtefactType elementArtefact) {
+	/**
+	 * 
+	 * @param type
+	 * @return <true> if the trace link has one end (source or target) that is of type, <false> otherwise.
+	 */
+	public boolean touchElementOfType(ArtefactType type) {
 		for (Artefact a : sources) {
-			if(a.isOfType(elementArtefact))
+			if(a.isOfType(type))
 				return true;
 		}
 		for (Artefact a : targets) {
-			if(a.isOfType(elementArtefact))
+			if(a.isOfType(type))
 				return true;
 		}
 		
