@@ -59,7 +59,7 @@ public class Trace extends TracingElement {
 		
 		String links = "" ;
 		for (TraceLink tl : getTraceLinks()) 
-			links += tl.getJSon()+",\n";
+			links += tl.renderJSon()+",\n";
 		if(!links.isBlank())
 			links = links.substring(0, links.length()-2);
 		links = "\"links\": [" + links + "]";

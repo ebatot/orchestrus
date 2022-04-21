@@ -162,13 +162,14 @@ public class TraceLink extends TypedLink implements Serializable{
 		return res;
 	}
 
-	public String getJSon() {
+	public String renderJSon() {
 		String res = "{";
 		res += "\"id\": \"" + getID() + "\",";
 		res += "\"name\": \"" + getName() + "\",";
 		res += "\"sources\": " + edu.uoc.som.orchestrus.tracemodel.TraceUtils.getElementsIDsAsJsonCollection(sources) + ",";
 		res += "\"targets\": " + edu.uoc.som.orchestrus.tracemodel.TraceUtils.getElementsIDsAsJsonCollection(targets) + ",";
 		res += "\"confidence\": "+confidence+",";
+		res += "\"intensity\": " + numberOfOccurences + ",";
 		res += "\"type\": \"" + getTypeUID() + "\"";
 		return res + "}";
 	}

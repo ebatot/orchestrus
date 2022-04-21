@@ -288,6 +288,7 @@ public class Artefact extends TypedArtefact  implements Serializable{
 				",\"id\": \""+getID()+"\""+
 				",\"type\": \""+getType().getName()+"\""+
 				",\"location\": \""+edu.uoc.som.orchestrus.utils.Utils.cleanUrlsForJson(getLocation())+"\""+
+				",\"numberofchildren\": \"" + getFragments().size() + "\""+
 				"";
 //				",\"references\": [\"Todo\"]";
 		if(recursive) {
