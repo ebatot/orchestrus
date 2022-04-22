@@ -15,12 +15,12 @@
         "location": "meta/d3viewer/data/"
     },
     "display": {
-        "size.artefacts.max": "100",
+        "size.artefacts.max": "50",
         "size.artefacts.min": "10",
-        "size.links.max": "50",
+        "size.links.max": "30",
         "size.links.min": "10",
         "animation.duration": "4000",
-        "color.links": "12",
+        "color.links": "2",
         "color.artefacts": "7"
     },
     "generation": {
