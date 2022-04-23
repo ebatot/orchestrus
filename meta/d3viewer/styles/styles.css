@@ -1,6 +1,12 @@
 html {
     width: 100%;
   }
+  #canvas {
+    width: 800px;
+    height: 500px;
+    border:1px black solid;
+    background-color: #ffffff;/*#fdffda*/
+  }
   
   html, body {
     font-family: 'Arial';
