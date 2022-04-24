@@ -18,7 +18,7 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 	public final static Logger LOGGER = Logger.getLogger(JavaFile.class.getName());
 
 	String REGX_FOR_HC_STRINGS = "\"(?:\\\\\"|[^\"])*?\"";
-
+	String REGX_FOR_REFERENCE = "\"(\\w+:\\/)?[\\w+\\.\\/\\\\\\-_]+(#)?[\\w+\\/\\\\@\\-_]*\"";
 	private String packagePath = null;
 	private ArrayList<String> importStrings = null;
 	private ArrayList<HardcodedString> hcStrings = null;
@@ -26,18 +26,18 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 	public enum ACCEPT_STRINGS {
 		ALL, NONE, REGEX, UX;
 	};
-	ACCEPT_STRINGS acceptsStringsMethod = ACCEPT_STRINGS.ALL;
+	ACCEPT_STRINGS acceptsStringsMethod = ACCEPT_STRINGS.REGEX;
 
 	private String name;
 
-	class HardcodedString {
+	public class HardcodedString {
 		public HardcodedString(String s, File sourceFile, int lineNumber, int iStart, int iEnd) {
 			this.string = s;
 			this.lineNumber = lineNumber;
 			this.iStart = iStart;
 			this.iEnd = iEnd;
 		}
-
+		
 		String string;
 		int lineNumber, iStart, iEnd;
 		
@@ -88,6 +88,13 @@ public class JavaFile extends SpecificFileReferenceExtractor {
 				case REGEX:
 					// TODO automate uri recognition ?
 					// TODO build a "known stack" for uris. parametered with Regex ???
+					boolean b1 = Pattern.matches(REGX_FOR_REFERENCE, hcString.getString());
+					if (b1) {
+						hcStrings.add(hcString);
+						LOGGER.finer(hcString.getString() + " matched !");
+					} else {
+						LOGGER.warning("'" + hcString.getString() + "' did not match as a reference.");
+					}
 					break;
 
 				case UX:
