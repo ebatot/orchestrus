@@ -13,8 +13,8 @@ public class ArtefactTypeFactory {
 	public static final ArtefactType LOCAL_FOLDER_ARTEFACT = getType("LocalFolder");
 	public static final ArtefactType LOCAL_ROOT_ARTEFACT = getType("LocalRoot");
 	public static final ArtefactType ELEMENT_ARTEFACT = getType("Element");
-	public static final ArtefactType CUSTOM_JAVA_FOLDER_ARTEFACT =  getType("JavaCustomFolder");
-	public static final ArtefactType CUSTOM_JAVA_FILE_ARTEFACT =  getType("JavaCustomFile");
+	public static final ArtefactType CUSTOM_JAVA_FOLDER_ARTEFACT =  getType("JavaFolder");
+	public static final ArtefactType CUSTOM_JAVA_FILE_ARTEFACT =  getType("JavaFile");
 	
 	public static final ArtefactType GHOST_TYPE_FOR_DEV =  getType("DEV_TYPE");
 

@@ -216,12 +216,13 @@ public class ArtefactFactory {
 			}
 
 			for (JavaFile f : jf.getJavaFiles()) {
-				Artefact a2 = getArtefact(folder);
+				Artefact a2 = getArtefact(f.getFile());
 				if (a2 == null) {
 					a2 = new Artefact(f.getFile().getName(), ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT,
 							f.getFile().getParent(), a, true);
+					a2.setType(ArtefactTypeFactory.CUSTOM_JAVA_FILE_ARTEFACT);
 					addArtefact(a2);
-
+					a.addFragment(a2);
 					// If the parent artefact exists, affects it.
 					affectsLocalParentIfExists(a2);
 				}
