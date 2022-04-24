@@ -53,7 +53,6 @@ public class JavaFolder extends SpecificFileReferenceExtractor {
 	public String getHRefJSon() {
 		String res = "";
 
-		System.out.println("JavaFolder.getHRefJSon()");
 		String resTmp = "";
 		for (JavaFile jf : javaFiles) {
 			resTmp += "\"" + jf.getPackagePath() + "." + jf.getName() + "\" : \n" + jf.getHRefJSon() + ",\n";
