@@ -36,6 +36,12 @@ public class Trace extends TracingElement {
 		for (Artefact a : getArtefacts()) {
 			a.computeTypeBasedOnSourceFolder();
 		}
+		for (Artefact a : ArtefactFactory.subsetsArtefactsByType(getArtefacts(), ArtefactTypeFactory.LOCAL_FILE_ARTEFACT)) {
+			if(a.isResolves() == false) {
+				a.setType(ArtefactTypeFactory.getType("UnresolvedArtefact"));
+			}
+			
+		}
 	}
 	public void computeLinksTypesBasedDualityLocalVsExternal() {
 		for (TraceLink tl : getTraceLinks()) {
