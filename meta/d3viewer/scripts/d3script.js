@@ -31,12 +31,12 @@ var forceProperties = {
     },
     forceX: {
 		enabled: false,
-        strength: .1,
+        strength: .0025,
         x: .5
     },
     forceY: {
         enabled: false,
-        strength: .1,
+        strength: .0025,
         y: .5
     },
     link: {

@@ -67,13 +67,13 @@
         <label title="Negative strength repels nodes. Positive strength attracts nodes.">
           strength
           <output id="charge_StrengthSliderOutput">-30</output>
-          <input  id="charge_StrengthSliderInput" type="range" class="sliderInput" min="-200" max="50" value="-30" step=".1"
+          <input  id="charge_StrengthSliderInput" type="range" class="sliderInput" min="-200" max="200" value="-30" step=".1"
             oninput="d3.select('#charge_StrengthSliderOutput').text(value); forceProperties.charge.strength=value; updateAll();">
         </label>
         <label title="Minimum distance where force is applied">
           distanceMin
           <output id="charge_distanceMinSliderOutput">1</output>
-          <input  id="charge_distanceMinSliderInput" type="range" class="sliderInput" min="0" max="50" value="1" step=".1"
+          <input  id="charge_distanceMinSliderInput" type="range" class="sliderInput" min="0" max="200" value="1" step=".1"
             oninput="d3.select('#charge_distanceMinSliderOutput').text(value); forceProperties.charge.distanceMin=value; updateAll();">
         </label>
         <label title="Maximum distance where force is applied">
@@ -113,7 +113,7 @@
         <label>
           strength
           <output id="forceX_StrengthSliderOutput">.1</output>
-          <input  id="forceX_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".1" step="0.01"
+          <input  id="forceX_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".025" step="0.005"
             oninput="d3.select('#forceX_StrengthSliderOutput').text(value); forceProperties.forceX.strength=value; updateAll();">
         </label>
         <label title="The X location that the force will push the nodes to (NOTE: This demo multiplies by the svg width)">
@@ -130,7 +130,7 @@
         <label>
           strength
           <output id="forceY_StrengthSliderOutput">.1</output>
-          <input  id="forceY_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".1" step="0.01"
+          <input  id="forceY_StrengthSliderInput" type="range" class="sliderInput" min="0" max="1" value=".025" step="0.005"
             oninput="d3.select('#forceY_StrengthSliderOutput').text(value); forceProperties.forceY.strength=value; updateAll();">
         </label>
         <label
